@@ -80,7 +80,7 @@ $app->singleton(
 
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
-
+$app->register(Appzcoder\LumenRoutesList\RoutesCommandServiceProvider::class);
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

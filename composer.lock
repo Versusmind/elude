@@ -4,8 +4,50 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4c732ef1961308c357785b0f98e2b581",
+    "hash": "75a4ecf2f7dde48a37d8cc626d151b4a",
     "packages": [
+        {
+            "name": "appzcoder/lumen-routes-list",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/appzcoder/lumen-route-list.git",
+                "reference": "39913307aeef6e8db5b0b448539d08de60555494"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/appzcoder/lumen-route-list/zipball/39913307aeef6e8db5b0b448539d08de60555494",
+                "reference": "39913307aeef6e8db5b0b448539d08de60555494",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Appzcoder\\LumenRoutesList\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sohel Amin",
+                    "email": "sohelamincse@gmail.com",
+                    "homepage": "http://www.appzcoder.com"
+                }
+            ],
+            "description": "Lumen Routes List Show",
+            "keywords": [
+                "lumen",
+                "route list"
+            ],
+            "time": "2015-07-01 19:22:58"
+        },
         {
             "name": "danielstjules/stringy",
             "version": "1.10.0",
@@ -3258,7 +3300,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "appzcoder/lumen-routes-list": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
