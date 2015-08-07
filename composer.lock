@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "75a4ecf2f7dde48a37d8cc626d151b4a",
+    "hash": "13f70ede217a05ababc1de46ad69721c",
     "packages": [
         {
             "name": "appzcoder/lumen-routes-list",
@@ -1355,6 +1355,53 @@
                 "lumen"
             ],
             "time": "2015-07-19 18:25:14"
+        },
+        {
+            "name": "league/pipeline",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/pipeline.git",
+                "reference": "c8145611b588ab20bb5dd7a12d0f741b40fc57bd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/pipeline/zipball/c8145611b588ab20bb5dd7a12d0f741b40fc57bd",
+                "reference": "c8145611b588ab20bb5dd7a12d0f741b40fc57bd",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "henrikbjorn/phpspec-code-coverage": "^1.0",
+                "phpspec/phpspec": "^2.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "League\\Pipeline\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frank de Jonge",
+                    "email": "info@frenky.net"
+                }
+            ],
+            "description": "A plug and play pipeline implementation.",
+            "keywords": [
+                "composition",
+                "design pattern",
+                "pattern",
+                "pipeline",
+                "sequential"
+            ],
+            "time": "2015-06-25 16:50:06"
         },
         {
             "name": "monolog/monolog",
