@@ -1,6 +1,8 @@
 <?php namespace App\Libraries\Assets\Tasks\Sass;
 
 use App\Libraries\Assets\Asset;
+use App\Libraries\Assets\Collection;
+use Leafo\ScssPhp\Compiler;
 use League\Pipeline\StageInterface;
 
 /**
@@ -14,18 +16,37 @@ use League\Pipeline\StageInterface;
 class Compile implements StageInterface
 {
 
-    public function process($payload)
+    protected $compiler;
+
+    function __construct ()
     {
-        echo "Sass compile <br/>";
-        /** @var Collection $collection */
-        $collection = $payload[0];
-        foreach($collection->getType(Asset::SASS) as $asset) {
+        $this->compiler = new Compiler();
+        $this->compiler->setImportPaths(base_path('resources/assets/Sass'));
+    }
 
+    /**
+     * @param Collection $collection
+     *
+     * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     * @return mixed
+     */
+    public function process ($collection)
+    {
+        \Log::info('Assets::Sass::Compile on collection ' . $collection->getCollectionId());
 
-            $collection->prependType(Asset::CSS, new Asset(Asset::CSS, $asset->getPath() . '.css'));
-            echo $asset->getPath() . '<br/>';
+        $newAssetsFiles = [];
+        foreach ($collection->getType(Asset::SASS) as $asset) {
+
+            $content    = $this->compiler->compile(file_get_contents($asset->getPath()));
+            $outputFile = $collection->getTmpDirectory() . DIRECTORY_SEPARATOR . str_replace(DIRECTORY_SEPARATOR, '-', str_replace(base_path('resources/assets/'), '', $asset->getPath())) . '.css';
+            file_put_contents($outputFile, $content);
+            $newAssetsFiles[] = new Asset(Asset::CSS, $outputFile);
         }
 
-        return $payload;
+        foreach(array_reverse($newAssetsFiles) as $asset) {
+            $collection->prependType(Asset::CSS, $asset);
+        }
+
+        return $collection;
     }
 }

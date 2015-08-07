@@ -9,13 +9,15 @@
 
 namespace App\Libraries\Assets;
 
-class Asset
+class Asset implements \JsonSerializable
 {
 
     const CSS = 'css';
     const JS = 'js';
     const SASS = 'sass';
     const LESS = 'less';
+    const IMG = 'img';
+    const FONT = 'font';
 
     protected $type;
 
@@ -31,7 +33,7 @@ class Asset
      * @param $type
      * @param $path
      */
-    public function __construct($type, $path)
+    public function __construct ($type, $path)
     {
         $this->type = $type;
         $this->path = $path;
@@ -40,7 +42,7 @@ class Asset
     /**
      * @return mixed
      */
-    public function getType()
+    public function getType ()
     {
         return $this->type;
     }
@@ -50,7 +52,7 @@ class Asset
      *
      * @return self
      */
-    public function setType($type)
+    public function setType ($type)
     {
         $this->type = $type;
 
@@ -60,7 +62,7 @@ class Asset
     /**
      * @return mixed
      */
-    public function getPath()
+    public function getPath ()
     {
         return $this->path;
     }
@@ -70,7 +72,7 @@ class Asset
      *
      * @return self
      */
-    public function setPath($path)
+    public function setPath ($path)
     {
         $this->path = $path;
 
@@ -80,7 +82,7 @@ class Asset
     /**
      * @return mixed
      */
-    public function getBuildPath()
+    public function getBuildPath ()
     {
         return $this->buildPath;
     }
@@ -90,7 +92,7 @@ class Asset
      *
      * @return self
      */
-    public function setBuildPath($buildPath)
+    public function setBuildPath ($buildPath)
     {
         $this->buildPath = $buildPath;
 
@@ -100,7 +102,7 @@ class Asset
     /**
      * @return mixed
      */
-    public function getUri()
+    public function getUri ()
     {
         return $this->uri;
     }
@@ -110,10 +112,26 @@ class Asset
      *
      * @return self
      */
-    public function setUri($uri)
+    public function setUri ($uri)
     {
         $this->uri = $uri;
 
         return $this;
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.4.0)<br/>
+     * Specify data which should be serialized to JSON
+     *
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     *       which is a value of any type other than a resource.
+     */
+    function jsonSerialize ()
+    {
+        return [
+            'type' => $this->type,
+            'path' => $this->path
+        ];
     }
 }

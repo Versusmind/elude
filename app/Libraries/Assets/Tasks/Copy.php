@@ -1,5 +1,6 @@
 <?php namespace App\Libraries\Assets\Tasks;
 
+use App\Libraries\Assets\Collection;
 use League\Pipeline\StageInterface;
 
 /**
@@ -12,10 +13,54 @@ use League\Pipeline\StageInterface;
 class Copy implements StageInterface
 {
 
-    public function process($payload)
-    {
-        echo "copy <br/>";
+    protected $type;
 
-        return $payload;
+    function __construct ($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @param Collection $collection
+     *
+     * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     * @return Collection|mixed
+     */
+    public function process ($collection)
+    {
+        \Log::info('Assets::Copy on collection ' . $collection->getCollectionId());
+
+        $outputDirectory = $collection->getOutputDirectory() . $this->type . DIRECTORY_SEPARATOR;
+        if (!is_dir($outputDirectory) && !mkdir($outputDirectory, 0777, TRUE)) {
+            throw new \RuntimeException('Fail to create ' . $outputDirectory);
+        }
+
+        $newAssetsFiles = [];
+        foreach ($collection->getType($this->type) as $asset) {
+            if (strpos($asset->getPath(), $collection->getTmpDirectory()) !== FALSE) {
+                $relativePath = str_replace($collection->getTmpDirectory(), '', $asset->getPath());
+            } else {
+                $relativePath = str_replace(base_path('resources/assets/' . $this->type . '/'), '', $asset->getPath());
+            }
+
+            if (strpos($relativePath, '/') !== FALSE) {
+                $subfolders = join('/', explode(DIRECTORY_SEPARATOR, $relativePath, -1));
+
+                if (!is_dir($outputDirectory . $subfolders)) {
+                    if (!mkdir($outputDirectory . $subfolders, 0777, TRUE)) {
+                        throw new \RuntimeException('Cannot create ' . $outputDirectory . $subfolders . ' directory');
+                    }
+                }
+            }
+
+            copy($asset->getPath(), $outputDirectory . $relativePath);
+            $asset->setPath($outputDirectory . $relativePath);
+
+            $newAssetsFiles[] = $asset;
+        }
+
+        $collection->setType($this->type, $newAssetsFiles);
+
+        return $collection;
     }
 }

@@ -1,20 +1,31 @@
 <?php namespace App\Libraries\Assets\Tasks\Css;
 
 use App\Libraries\Assets\Asset;
+use App\Libraries\Assets\Collection;
 use League\Pipeline\StageInterface;
 
 
 class Html implements StageInterface
 {
 
-    public function process($payload)
+    /**
+     * @param Collection $collection
+     *
+     * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     * @return string
+     */
+    public function process ($collection)
     {
-        echo "Css html <br/>";
+        \Log::info('Assets::Css::Html on collection ' . $collection->getCollectionId());
+        $result = '';
 
-        foreach($payload[0]->getType(Asset::CSS) as $asset) {
-            echo $asset->getPath() . '<br/>';
+        $outputDirectory = base_path('public') . DIRECTORY_SEPARATOR;
+
+        foreach ($collection->getType(Asset::CSS) as $asset) {
+
+            $result .= '<link rel="stylesheet" type="text/css" href="' . str_replace($outputDirectory, DIRECTORY_SEPARATOR, $asset->getPath()) . '">';
         }
 
-        return $payload;
+        return $result;
     }
 }

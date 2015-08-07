@@ -21,6 +21,8 @@ $app = new Laravel\Lumen\Application(
 
 $app->withFacades();
 
+class_alias('App\Facades\Assets', 'Assets');
+
 $app->withEloquent();
 
 /*
@@ -80,6 +82,7 @@ $app->singleton(
 
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
+$app->register(App\Providers\AssetsProvider::class);
 $app->register(Appzcoder\LumenRoutesList\RoutesCommandServiceProvider::class);
 /*
 |--------------------------------------------------------------------------

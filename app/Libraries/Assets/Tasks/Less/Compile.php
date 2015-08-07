@@ -15,18 +15,35 @@ use League\Pipeline\StageInterface;
 class Compile implements StageInterface
 {
 
-    public function process($payload)
+    protected $compiler;
+
+    function __construct ()
     {
-        echo "Less compile <br/>";
-        /** @var Collection $collection */
-        $collection = $payload[0];
-        foreach($collection->getType(Asset::LESS) as $asset) {
-            
-            $collection->prependType(Asset::CSS, new Asset(Asset::CSS, $asset->getPath() . '.css'));
-            echo $asset->getPath() . '<br/>';
+        $this->compiler = new \lessc();
+    }
+
+
+    /**
+     * @param Collection $collection
+     *
+     * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     * @return mixed
+     */
+    public function process ($collection)
+    {
+        \Log::info('Assets::Less::Compile on collection ' . $collection->getCollectionId());
+
+        $newAssetsFiles = [];
+        foreach ($collection->getType(Asset::LESS) as $asset) {
+            $outputFile = $collection->getTmpDirectory() . DIRECTORY_SEPARATOR . str_replace(DIRECTORY_SEPARATOR, '-', str_replace(base_path('resources/assets/'), '', $asset->getPath())) . '.css';
+            $this->compiler->checkedCompile($asset->getPath(), $outputFile);
+            $newAssetsFiles [] = new Asset(Asset::CSS, $outputFile);
         }
 
+        foreach(array_reverse($newAssetsFiles) as $asset) {
+            $collection->prependType(Asset::CSS, $asset);
+        }
 
-        return $payload;
+        return $collection;
     }
 }

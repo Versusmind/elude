@@ -1,5 +1,7 @@
 <?php namespace App\Libraries\Assets\Tasks\Css;
 
+use App\Libraries\Assets\Asset;
+use App\Libraries\Assets\Collection;
 use League\Pipeline\StageInterface;
 
 /**
@@ -13,14 +15,35 @@ use League\Pipeline\StageInterface;
 class Min implements StageInterface
 {
 
-    public function process($payload)
+    /**
+     * @param Collection $collection
+     *
+     * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     * @return mixed
+     */
+    public function process ($collection)
     {
-        echo "CSS MIN <br/>";
+        \Log::info('Assets::Css::Min on collection ' . $collection->getCollectionId());
 
-        foreach($payload[0]->getType(Asset::CSS) as $asset) {
-            echo $asset->getPath() . '<br/>';
+        $newAssets = [];
+        foreach ($collection->getType(Asset::CSS) as $asset) {
+            $outputFile = $collection->getTmpDirectory() . DIRECTORY_SEPARATOR . md5($asset->getPath()) . '.min.css';
+            $minified   = \CssMin::minify(file_get_contents($asset->getPath()), [
+                "ImportImports"                 => FALSE,
+                "RemoveComments"                => TRUE,
+                "RemoveEmptyRulesets"           => TRUE,
+                "RemoveEmptyAtBlocks"           => TRUE,
+                "ConvertLevel3AtKeyframes"      => FALSE,
+                "ConvertLevel3Properties"       => FALSE,
+                "Variables"                     => TRUE,
+                "RemoveLastDelarationSemiColon" => FALSE
+            ]);
+            file_put_contents($outputFile, $minified);
+            $newAssets[] = new Asset(Asset::CSS, $outputFile);
         }
 
-        return $payload;
+        $collection->setType(Asset::CSS, $newAssets);
+
+        return $collection;
     }
 }
