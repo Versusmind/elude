@@ -1,5 +1,6 @@
 <?php namespace App\Console;
 
+use App\Console\Commands\ApiDocGenerator;
 use App\Console\Commands\AssetsCleaner;
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
@@ -13,7 +14,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        AssetsCleaner::class
+        AssetsCleaner::class,
+        ApiDocGenerator::class,
     ];
 
     /**
