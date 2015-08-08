@@ -31,7 +31,7 @@ class AssetsUpdate extends Command
     public function handle()
     {
         \Log::info('Assets::Update Run bower update');
-
+        $this->info("Update bower assets");
         $process = new Process('bower update');
 
         $process->run(function ($type, $buffer) {

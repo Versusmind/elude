@@ -11,4 +11,4 @@ Myo2
 
     - composer install
     - cp .env.example .env
-
+    - php artisan assets:update
