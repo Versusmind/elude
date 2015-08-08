@@ -1,14 +1,11 @@
-<?php
+<?php namespace App\Libraries\Assets;
+
 /**
- * User: LAHAXE Arnaud <alahaxe@boursorama.fr>
- * Date: 07/08/2015
- * Time: 12:33
- * FileName : Group.php
- * Project : myo2
+ * Class Collection
+ *
+ * @author  LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+ * @package App\Libraries\Assets
  */
-
-namespace App\Libraries\Assets;
-
 class Collection
 {
 
@@ -25,6 +22,8 @@ class Collection
     protected $tmpDirectory;
 
     protected $collectionId;
+
+    protected $groupName;
 
     /**
      * Collection constructor.
@@ -45,11 +44,11 @@ class Collection
      *          ] ...
      *          ]
      */
-    public function __construct ($assets)
+    public function __construct ($assets, $groupName = false)
     {
         $this->config          = $assets;
         $this->outputDirectory = config('assets.outputDirectory');
-        $this->bowerDirectory = config('assets.bowerDirectory');
+        $this->bowerDirectory  = config('assets.bowerDirectory');
 
         $this->assets = [];
 
@@ -62,7 +61,20 @@ class Collection
                 $this->assets[$type][] = new Asset($type, base_path($path));
             }
         }
+
+        $this->groupName = $groupName;
     }
+
+    public static function createByGroup ($groupName)
+    {
+        $group = config('assets.groups.' . $groupName, FALSE);
+        if ($group === FALSE) {
+            throw new \RuntimeException('No assets group named ' . $groupName);
+        }
+
+        return new self($group, $groupName);
+    }
+
 
     /**
      * @param $type
@@ -248,5 +260,21 @@ class Collection
     public function setBowerDirectory ($bowerDirectory)
     {
         $this->bowerDirectory = $bowerDirectory;
+    }
+
+    /**
+     * @return boolean|string
+     */
+    public function getGroupName ()
+    {
+        return $this->groupName;
+    }
+
+    /**
+     * @param string $groupName
+     */
+    public function setGroupName ($groupName)
+    {
+        $this->groupName = $groupName;
     }
 }

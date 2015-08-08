@@ -20,11 +20,19 @@ class Html implements StageInterface
 
         $result = '';
 
+        if(!config('assets.concat') && $collection->getGroupName()) {
+            $result .=  "<!-- " . $collection->getGroupName() . "-->" . "\n";
+        }
+
         $outputDirectory = base_path('public') . DIRECTORY_SEPARATOR;
 
         foreach ($collection->getType(Asset::JS) as $asset) {
 
-            $result .= '<script src="' . str_replace($outputDirectory, DIRECTORY_SEPARATOR, $asset->getPath()) . '"></script>';
+            $result .= '<script src="' . str_replace($outputDirectory, DIRECTORY_SEPARATOR, $asset->getPath()) . '"></script>' . "\n";
+        }
+
+        if(!config('assets.concat') && $collection->getGroupName()) {
+            $result .=  "<!-- /" . $collection->getGroupName() . "-->" . "\n\n";
         }
 
         return $result;

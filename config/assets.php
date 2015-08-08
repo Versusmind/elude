@@ -31,4 +31,32 @@ return [
      * File directory, must be in public folder
      */
     'outputDirectory' => base_path('public/assets/'),
+
+    /**
+     * Group of assets
+     */
+    'groups' => [
+        'style' => [
+            \App\Libraries\Assets\Asset::CSS  => [
+                'resources/assets/css/folder/file.css',
+                'resources/assets/css/file.css',
+            ],
+            \App\Libraries\Assets\Asset::LESS => [
+                'resources/assets/less/file.less',
+                'resources/assets/less/folder/file2.less',
+            ]
+        ],
+
+        'javascript-core' => [
+            \App\Libraries\Assets\Asset::JS => [
+                'resources/assets/bower/angularjs/angular.js',
+            ]
+        ],
+
+        'javascript-app' => [
+            \App\Libraries\Assets\Asset::JS => [
+                'resources/assets/js/file.js',
+            ]
+        ]
+    ]
 ];

@@ -1,25 +1,12 @@
 <html>
 <head>
     <?php
-    echo Assets::style(new \App\Libraries\Assets\Collection([
-        \App\Libraries\Assets\Asset::CSS  => [
-            'resources/assets/css/folder/file.css',
-            'resources/assets/css/file.css',
-        ],
-        \App\Libraries\Assets\Asset::LESS => [
-            'resources/assets/less/file.less',
-            'resources/assets/less/folder/file2.less',
-        ]
-    ]));
+    echo Assets::style(\App\Libraries\Assets\Collection::createByGroup('style'));
     ?>
 
     <?php
-    echo Assets::javascript(new \App\Libraries\Assets\Collection([
-        \App\Libraries\Assets\Asset::JS => [
-            'resources/assets/bower/angularjs/angular.js',
-            'resources/assets/js/file.js',
-        ]
-    ]));
+    echo Assets::javascript(\App\Libraries\Assets\Collection::createByGroup('javascript-core'));
+    echo Assets::javascript(\App\Libraries\Assets\Collection::createByGroup('javascript-app'));
     ?>
 </head>
 <body ng-app>
