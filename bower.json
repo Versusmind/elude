@@ -1,0 +1,24 @@
+{
+  "name": "myo2",
+  "version": "0.1.0",
+  "authors": [
+    "arnaud.lahaxe@versusmind.eu"
+  ],
+  "description": "Myo 2 project.",
+  "keywords": [
+    "Versusmind",
+    "Myo2"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angularjs": "~1.4.3"
+  }
+}

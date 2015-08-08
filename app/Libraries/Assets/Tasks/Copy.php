@@ -39,6 +39,8 @@ class Copy implements StageInterface
         foreach ($collection->getType($this->type) as $asset) {
             if (strpos($asset->getPath(), $collection->getTmpDirectory()) !== FALSE) {
                 $relativePath = str_replace($collection->getTmpDirectory(), '', $asset->getPath());
+            } elseif (strpos($asset->getPath(), $collection->getBowerDirectory()) !== FALSE) {
+                $relativePath = str_replace($collection->getBowerDirectory(), '', $asset->getPath());
             } else {
                 $relativePath = str_replace(base_path('resources/assets/' . $this->type . '/'), '', $asset->getPath());
             }

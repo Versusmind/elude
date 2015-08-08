@@ -151,9 +151,12 @@ class Orchestrator
             }
         }
 
-        $this->reloadFromBuild($assets, $build);
+        if ($this->reloadFromBuild($assets, $build)) {
 
-        return FALSE;
+            return FALSE;
+        }
+
+        return TRUE;
     }
 
     /**
@@ -161,14 +164,23 @@ class Orchestrator
      * @param $build
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     * @return bool
      */
     protected function reloadFromBuild (Collection $assets, $build)
     {
         \Log::info('Assets::Reload reload build for collection ' . $assets->getCollectionId());
 
+        foreach ($build->build as $buildFile) {
+            if(!file_exists($buildFile->path)) {
+                return false;
+            }
+        }
+
         $assets->setAssets([]);
         foreach ($build->build as $buildFile) {
             $assets->appendType($buildFile->type, new Asset($buildFile->type, $buildFile->path));
         }
+
+        return true;
     }
 }

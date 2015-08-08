@@ -20,6 +20,8 @@ class Collection
 
     protected $outputDirectory;
 
+    protected $bowerDirectory;
+
     protected $tmpDirectory;
 
     protected $collectionId;
@@ -47,6 +49,7 @@ class Collection
     {
         $this->config          = $assets;
         $this->outputDirectory = base_path('public/assets/');
+        $this->bowerDirectory = base_path('resources/assets/bower');
 
         $this->assets = [];
 
@@ -229,5 +232,21 @@ class Collection
     public function setTmpDirectory ($tmpDirectory)
     {
         $this->tmpDirectory = $tmpDirectory;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBowerDirectory ()
+    {
+        return $this->bowerDirectory;
+    }
+
+    /**
+     * @param string $bowerDirectory
+     */
+    public function setBowerDirectory ($bowerDirectory)
+    {
+        $this->bowerDirectory = $bowerDirectory;
     }
 }

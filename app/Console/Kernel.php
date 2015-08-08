@@ -2,6 +2,7 @@
 
 use App\Console\Commands\ApiDocGenerator;
 use App\Console\Commands\AssetsCleaner;
+use App\Console\Commands\AssetsUpdate;
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
 
@@ -16,6 +17,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         AssetsCleaner::class,
         ApiDocGenerator::class,
+        AssetsUpdate::class,
     ];
 
     /**

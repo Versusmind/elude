@@ -2,3 +2,4 @@
 .env
 public/assets
 storage
+resources/assets/bower
