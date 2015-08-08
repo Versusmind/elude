@@ -37,12 +37,15 @@ class Copy implements StageInterface
 
         $newAssetsFiles = [];
         foreach ($collection->getType($this->type) as $asset) {
+            // file is in tmp folder
             if (strpos($asset->getPath(), $collection->getTmpDirectory()) !== FALSE) {
                 $relativePath = str_replace($collection->getTmpDirectory(), '', $asset->getPath());
+            // file is in bower folder
             } elseif (strpos($asset->getPath(), $collection->getBowerDirectory()) !== FALSE) {
                 $relativePath = str_replace($collection->getBowerDirectory(), '', $asset->getPath());
+            // file is resource/assets folder (no other case)
             } else {
-                $relativePath = str_replace(base_path('resources/assets/' . $this->type . '/'), '', $asset->getPath());
+                $relativePath = str_replace(config('assets.assetsDirectory') . DIRECTORY_SEPARATOR . $this->type . DIRECTORY_SEPARATOR, '', $asset->getPath());
             }
 
             if (strpos($relativePath, '/') !== FALSE) {

@@ -14,5 +14,7 @@ class AssetsProvider extends ServiceProvider
         $this->app->singleton('assets', function ($app) {
             return new \App\Libraries\Assets\Orchestrator;
         });
+
+        $this->app->configure('assets');
     }
 }

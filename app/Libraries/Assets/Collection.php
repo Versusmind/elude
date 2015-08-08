@@ -48,8 +48,8 @@ class Collection
     public function __construct ($assets)
     {
         $this->config          = $assets;
-        $this->outputDirectory = base_path('public/assets/');
-        $this->bowerDirectory = base_path('resources/assets/bower');
+        $this->outputDirectory = config('assets.outputDirectory');
+        $this->bowerDirectory = config('assets.bowerDirectory');
 
         $this->assets = [];
 

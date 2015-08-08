@@ -19,7 +19,7 @@ class Orchestrator
      */
     protected function initialize (Collection $assets)
     {
-        $assets->setTmpDirectory(storage_path('tmp' . DIRECTORY_SEPARATOR . $assets->getCollectionId()));
+        $assets->setTmpDirectory(config('assets.tmpDirectory') . DIRECTORY_SEPARATOR . $assets->getCollectionId());
         $assets->initializeFolder();
     }
 
@@ -68,7 +68,7 @@ class Orchestrator
             \Log::info('Assets::Build start javascript build for collection ' . $assets->getCollectionId());
 
             $this->initialize($assets);
-            if (!env('ASSETS_CONCAT')) {
+            if (!config('assets.concat')) {
                 $pipelineBuilder->add(new Tasks\Copy(Asset::JS));
             } else {
                 $pipelineBuilder->add(new Tasks\Concat(Asset::JS))
@@ -100,7 +100,7 @@ class Orchestrator
             $pipelineBuilder->add(new Tasks\Sass\Compile)
                 ->add(new Tasks\Less\Compile);
 
-            if (!env('ASSETS_CONCAT')) {
+            if (!config('assets.concat')) {
                 $pipelineBuilder->add(new Tasks\Copy(Asset::CSS));
             } else {
                 $pipelineBuilder
@@ -134,7 +134,7 @@ class Orchestrator
         }
 
         // change concat option
-        if ($build->concat !== env('ASSETS_CONCAT')) {
+        if ($build->concat !==  config('assets.concat')) {
             return TRUE;
         }
 

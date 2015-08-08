@@ -43,7 +43,7 @@ class Version implements StageInterface
 
         $collection->setType($this->type, $newAssetsFiles);
 
-        $collection->writeVersion($newAssetsFiles, env('ASSETS_CONCAT'));
+        $collection->writeVersion($newAssetsFiles, config('assets.concat'));
 
         return $collection;
     }
