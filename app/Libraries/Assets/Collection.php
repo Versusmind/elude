@@ -140,7 +140,7 @@ class Collection
     {
         foreach ([$this->outputDirectory, $this->tmpDirectory] as $path) {
             if (!is_dir($path)) {
-                if (!mkdir($path, 0660, TRUE)) {
+                if (!mkdir($path, 0777, TRUE)) {
                     throw new \RuntimeException('Can not create folder ' . $path);
                 }
             }
