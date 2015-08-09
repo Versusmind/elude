@@ -58,7 +58,16 @@ class Collection
             }
 
             foreach ($assets[$type] as $path) {
-                $this->assets[$type][] = new Asset($type, base_path($path));
+                $path =  base_path($path);
+                if(strpos($path, '*')) {
+                    foreach (glob($path) as $filename) {
+                        if(is_file($filename)) {
+                            $this->assets[$type][] = new Asset($type, $filename);
+                        }
+                    }
+                } else {
+                    $this->assets[$type][] = new Asset($type, $path);
+                }
             }
         }
 

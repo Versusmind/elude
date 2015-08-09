@@ -51,7 +51,7 @@ return [
      *   ],
      * 'javascript' => [
      *       \App\Libraries\Assets\Asset::JS  => [
-     *           'resources/assets/js/file.js',
+     *           'resources/assets/js/*.js',
      *       ]
      *   ],
      *
@@ -80,7 +80,8 @@ return [
 
         'javascript-app' => [
             \App\Libraries\Assets\Asset::JS => [
-                'resources/assets/js/file.js',
+                'resources/assets/js/*.js',
+                'resources/assets/js/*/*.js',
             ]
         ]
     ]
