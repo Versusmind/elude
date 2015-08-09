@@ -47,5 +47,6 @@ class ApiDocGenerator extends Command
         }
 
         $this->comment('Documentation generated in folder ' . base_path('../doc'));
+        $this->comment(\PHP_Timer::resourceUsage());
     }
 }

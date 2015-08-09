@@ -32,6 +32,7 @@ class AssetsBuilder extends Command
     {
         $this->info('Clean assets');
         \Artisan::call('assets:clean');
+
         \Log::info('Assets::Build all groups');
         $ocherstator = \App::make('App\Libraries\Assets\Orchestrator');
         foreach(config('assets.groups') as $groupname => $assets)
@@ -58,5 +59,7 @@ class AssetsBuilder extends Command
 
         $this->info("");
         $this->info('Build successful');
+
+        $this->comment(\PHP_Timer::resourceUsage());
     }
 }

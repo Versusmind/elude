@@ -31,6 +31,7 @@ class AssetsUpdate extends Command
     public function handle()
     {
         \Log::info('Assets::Update Run bower update');
+
         $this->info("Update bower assets");
         $process = new Process('bower update');
 
@@ -45,8 +46,8 @@ class AssetsUpdate extends Command
         if (!$process->isSuccessful()) {
             $this->error('Impossible to update bower');
             $this->error($process->getErrorOutput());
-
-            return;
         }
+
+        $this->comment(\PHP_Timer::resourceUsage());
     }
 }
