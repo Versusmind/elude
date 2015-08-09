@@ -22,6 +22,7 @@ $app = new Laravel\Lumen\Application(
 $app->withFacades();
 
 class_alias('App\Facades\Assets', 'Assets');
+class_alias('Illuminate\Support\Facades\Artisan', 'Artisan');
 
 $app->withEloquent();
 

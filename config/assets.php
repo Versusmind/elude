@@ -28,12 +28,37 @@ return [
     'tmpDirectory'    => storage_path('tmp'),
 
     /**
-     * File directory, must be in public folder
+     * File directory, must be a subfolder of public.
+     * If you put public/ the world may burn
      */
     'outputDirectory' => base_path('public/assets/'),
 
     /**
-     * Group of assets
+     * Group of assets you need separate style and javascript for the moment
+     * example:
+     * 'style' => [
+     *       \App\Libraries\Assets\Asset::CSS  => [
+     *           'resources/assets/css/folder/file.css',
+     *           'resources/assets/css/file.css',
+     *       ],
+     *       \App\Libraries\Assets\Asset::LESS => [
+     *           'resources/assets/less/file.less',
+     *           'resources/assets/less/folder/file2.less',
+     *       ],
+     *       \App\Libraries\Assets\Asset::SASS => [
+     *           'resources/assets/sass/file.scss',
+     *       ]
+     *   ],
+     * 'javascript' => [
+     *       \App\Libraries\Assets\Asset::JS  => [
+     *           'resources/assets/js/file.js',
+     *       ]
+     *   ],
+     *
+     * The order of assets is the same as the array.
+     * If in the same group you use CSS, LESS and SASS after compilation files will
+     * be included in this order: LESS, SASS then CSS
+     *
      */
     'groups' => [
         'style' => [

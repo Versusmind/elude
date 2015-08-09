@@ -1,6 +1,7 @@
 <?php namespace App\Console;
 
 use App\Console\Commands\ApiDocGenerator;
+use App\Console\Commands\AssetsBuilder;
 use App\Console\Commands\AssetsCleaner;
 use App\Console\Commands\AssetsUpdate;
 use Illuminate\Console\Scheduling\Schedule;
@@ -18,6 +19,7 @@ class Kernel extends ConsoleKernel
         AssetsCleaner::class,
         ApiDocGenerator::class,
         AssetsUpdate::class,
+        AssetsBuilder::class,
     ];
 
     /**

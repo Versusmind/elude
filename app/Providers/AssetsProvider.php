@@ -15,6 +15,7 @@ class AssetsProvider extends ServiceProvider
             return new \App\Libraries\Assets\Orchestrator;
         });
 
+
         $this->app->configure('assets');
     }
 }

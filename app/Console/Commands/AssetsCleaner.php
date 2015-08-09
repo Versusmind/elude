@@ -41,14 +41,11 @@ class AssetsCleaner extends Command
         $this->info('Delete storage/tmp');
         $this->deleteDir(storage_path('tmp'));
 
+        $this->info('Delete public/assets/img');
+        $this->deleteDir(base_path('public/assets/img'));
 
-        if($this->confirm('Delete public/assets/img folder ?', false)) {
-            $this->deleteDir(base_path('public/assets/img'));
-        }
-
-        if($this->confirm('Delete public/assets/font folder ?', false)) {
-            $this->deleteDir(base_path('public/assets/font'));
-        }
+        $this->info('Delete public/assets/font');
+        $this->deleteDir(base_path('public/assets/font'));
     }
 
     public function deleteDir ($dirPath)
