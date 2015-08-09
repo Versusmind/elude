@@ -33,6 +33,12 @@ class AssetsBuilder extends Command
         $this->info('Clean assets');
         \Artisan::call('assets:clean');
 
+        if(config('assets.concat')) {
+            $this->info('Build with concatenation');
+        } else {
+            $this->info('Build without concatenation');
+        }
+
         \Log::info('Assets::Build all groups');
         $ocherstator = \App::make('App\Libraries\Assets\Orchestrator');
         foreach(config('assets.groups') as $groupname => $assets)
