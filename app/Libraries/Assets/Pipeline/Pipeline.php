@@ -1,7 +1,6 @@
 <?php namespace App\Libraries\Assets\Pipeline;
 
 use App\Libraries\Assets\Asset;
-use App\Libraries\Assets\Tasks\Version;
 use App\Libraries\Assets\Tasks\Copy;
 use League\Pipeline\PipelineBuilder;
 
@@ -16,8 +15,7 @@ abstract class Pipeline
      */
     public function font ()
     {
-        return (new PipelineBuilder())->add(new Copy(Asset::IMG))
-            ->add(new Version(Asset::FONT))
+        return (new PipelineBuilder())->add(new Copy(Asset::FONT))
             ->build();
     }
 
@@ -27,7 +25,6 @@ abstract class Pipeline
     public function image ()
     {
         return (new PipelineBuilder)->add(new Copy(Asset::IMG))
-            ->add(new Version(Asset::IMG))
             ->build();
     }
 

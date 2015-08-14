@@ -5,3 +5,7 @@
 .baleine {
     color:blue;
 }
+
+body {
+    background-image: url(../../img/folder/lol.png) !important;
+}

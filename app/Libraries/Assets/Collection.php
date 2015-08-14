@@ -9,7 +9,7 @@
 class Collection
 {
 
-    private $types = [Asset::CSS, Asset::JS, Asset::SASS, Asset::LESS];
+    private $types = [Asset::CSS, Asset::JS, Asset::SASS, Asset::LESS, Asset::FONT, Asset::IMG];
 
     protected $config;
 
@@ -51,12 +51,11 @@ class Collection
         $this->bowerDirectory  = config('assets.bowerDirectory');
 
         $this->assets = [];
-
         foreach ($this->types as $type) {
+
             if (!isset($assets[$type])) {
                 continue;
             }
-
             foreach ($assets[$type] as $path) {
                 $path =  base_path($path);
                 if(strpos($path, '*')) {

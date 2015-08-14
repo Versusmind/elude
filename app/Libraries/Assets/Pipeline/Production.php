@@ -4,6 +4,7 @@
 use App\Libraries\Assets\Asset;
 use App\Libraries\Assets\Tasks\Cleaner;
 use App\Libraries\Assets\Tasks\Concat;
+use App\Libraries\Assets\Tasks\Css\Rewrite;
 use App\Libraries\Assets\Tasks\Javascript\Html as JsRenderer;
 use App\Libraries\Assets\Tasks\Javascript\Min as JsMin;
 use App\Libraries\Assets\Tasks\Less\Compile as LessCompiler;

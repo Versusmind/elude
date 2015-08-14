@@ -1,5 +1,6 @@
 <?php namespace App\Libraries\Assets\Tasks;
 
+use App\Libraries\Assets\Asset;
 use App\Libraries\Assets\Collection;
 use League\Pipeline\StageInterface;
 
@@ -43,6 +44,9 @@ class Copy implements StageInterface
             // file is in bower folder
             } elseif (strpos($asset->getPath(), $collection->getBowerDirectory()) !== FALSE) {
                 $relativePath = str_replace($collection->getBowerDirectory(), '', $asset->getPath());
+                if($asset->getType() === Asset::FONT) {
+                    $relativePath = last(explode('/', $relativePath));
+                }
             // file is resource/assets folder (no other case)
             } else {
                 $relativePath = str_replace(config('assets.assetsDirectory') . DIRECTORY_SEPARATOR . $this->type . DIRECTORY_SEPARATOR, '', $asset->getPath());

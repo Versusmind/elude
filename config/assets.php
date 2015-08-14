@@ -10,7 +10,7 @@ return [
     /**
      * If true enable minification and concatenation of js and (less + sass + css)
      */
-    'concat'          => env('ASSETS_CONCAT', true),
+    'concat' => env('ASSETS_CONCAT', true),
 
     /**
      * Initial assets folder
@@ -20,12 +20,12 @@ return [
     /**
      * Bower folders
      */
-    'bowerDirectory'  => base_path('resources/assets/bower'),
+    'bowerDirectory' => base_path('resources/assets/bower'),
 
     /**
      * Tmp folder, this folder contains only temporary files, clear on each build
      */
-    'tmpDirectory'    => storage_path('tmp'),
+    'tmpDirectory' => storage_path('tmp'),
 
     /**
      * File directory, must be a subfolder of public.
@@ -61,15 +61,26 @@ return [
      *
      */
     'groups' => [
+        'statics' => [
+            \App\Libraries\Assets\Asset::FONT => [
+                'resources/assets/bower/fontawesome/fonts/*'
+            ],
+            \App\Libraries\Assets\Asset::IMG => [
+                'resources/assets/img/folder/*'
+            ]
+        ],
+
         'style' => [
-            \App\Libraries\Assets\Asset::CSS  => [
+            \App\Libraries\Assets\Asset::CSS => [
                 'resources/assets/css/folder/file.css',
                 'resources/assets/css/file.css',
+                'resources/assets/bower/fontawesome/css/font-awesome.css'
             ],
             \App\Libraries\Assets\Asset::LESS => [
                 'resources/assets/less/file.less',
-                'resources/assets/less/folder/file2.less',
-            ]
+                'resources/assets/less/folder/file2.less'
+            ],
+
         ],
 
         'javascript-core' => [
@@ -84,5 +95,6 @@ return [
                 'resources/assets/js/*/*.js',
             ]
         ]
+
     ]
 ];

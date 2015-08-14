@@ -48,7 +48,7 @@ class AssetsBuilder extends Command
             if(array_key_exists(\App\Libraries\Assets\Asset::JS, $assets)) {
                 $buildType = 'javascript';
             } elseif(array_key_exists(\App\Libraries\Assets\Asset::IMG, $assets)) {
-                $buildType = 'img';
+                $buildType = 'image';
             } elseif(array_key_exists(\App\Libraries\Assets\Asset::FONT, $assets)) {
                 $buildType = 'font';
             }

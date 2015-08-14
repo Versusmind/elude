@@ -17,7 +17,7 @@ class Asset implements \JsonSerializable
     const SASS = 'sass';
     const LESS = 'less';
     const IMG = 'img';
-    const FONT = 'font';
+    const FONT = 'fonts';
 
     protected $type;
 
@@ -27,16 +27,18 @@ class Asset implements \JsonSerializable
 
     protected $uri;
 
+    protected $initialPath;
+
     /**
-     * Asset constructor.
-     *
      * @param $type
      * @param $path
+     * @param string $initialPath
      */
-    public function __construct ($type, $path)
+    public function __construct ($type, $path, $initialPath = '')
     {
         $this->type = $type;
         $this->path = $path;
+        $this->initialPath = $path;
     }
 
     /**
@@ -117,6 +119,22 @@ class Asset implements \JsonSerializable
         $this->uri = $uri;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInitialPath()
+    {
+        return $this->initialPath;
+    }
+
+    /**
+     * @param mixed $initialPath
+     */
+    public function setInitialPath($initialPath)
+    {
+        $this->initialPath = $initialPath;
     }
 
     /**

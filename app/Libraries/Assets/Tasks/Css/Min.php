@@ -36,7 +36,8 @@ class Min implements StageInterface
                 "ConvertLevel3AtKeyframes"      => FALSE,
                 "ConvertLevel3Properties"       => FALSE,
                 "Variables"                     => TRUE,
-                "RemoveLastDelarationSemiColon" => FALSE
+                "RemoveLastDelarationSemiColon" => FALSE,
+                'relativePath'                  => '/assets/css/'
             ]);
             file_put_contents($outputFile, $minified);
             $newAssets[] = new Asset(Asset::CSS, $outputFile);

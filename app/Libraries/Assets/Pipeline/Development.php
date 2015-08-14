@@ -4,6 +4,7 @@
 use App\Libraries\Assets\Asset;
 use App\Libraries\Assets\Tasks\Cleaner;
 use App\Libraries\Assets\Tasks\Copy;
+use App\Libraries\Assets\Tasks\Css\Rewrite;
 use App\Libraries\Assets\Tasks\Javascript\Html as JsRenderer;
 use League\Pipeline\PipelineBuilder;
 use App\Libraries\Assets\Tasks\Css\Html as CssRenderer;
@@ -51,6 +52,7 @@ class Development extends Pipeline
             $pipelineBuilder->add(new SassCompiler)
                 ->add(new LessCompiler())
                 ->add(new Copy(Asset::CSS))
+                ->add(new Rewrite())
                 ->add(new Cleaner());
         }
 

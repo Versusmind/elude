@@ -19,6 +19,7 @@
     "tests"
   ],
   "dependencies": {
-    "angularjs": "~1.4.3"
+    "angularjs": "~1.4.3",
+    "fontawesome": "~4.4.0"
   }
 }
