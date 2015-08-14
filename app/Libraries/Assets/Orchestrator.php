@@ -1,6 +1,8 @@
 <?php namespace App\Libraries\Assets;
 
-use League\Pipeline\PipelineBuilder;
+use App\Libraries\Assets\Pipeline\Development;
+use App\Libraries\Assets\Pipeline\Pipeline;
+use App\Libraries\Assets\Pipeline\Production;
 
 /**
  * Class Orchestrator
@@ -12,6 +14,24 @@ use League\Pipeline\PipelineBuilder;
  */
 class Orchestrator
 {
+    /**
+     * @var Pipeline
+     */
+    protected $pipeline;
+
+    /**
+     * Orchestrator constructor.
+     */
+    public function __construct()
+    {
+        if (!config('assets.concat')) {
+            $this->pipeline = new Development();
+        } else {
+            $this->pipeline = new Production();
+        }
+    }
+
+
     /**
      * @param Collection $assets
      *
@@ -33,10 +53,7 @@ class Orchestrator
     {
         \Log::info('Assets::Build start font build for collection ' . $assets->getCollectionId());
 
-        return (new PipelineBuilder)->add(new Tasks\Copy(Asset::IMG))
-            ->add(new Tasks\Version(Asset::FONT))
-            ->build()
-            ->process($assets);
+        return $this->pipeline->font()->process($assets);
     }
 
     /**
@@ -49,10 +66,7 @@ class Orchestrator
     {
         \Log::info('Assets::Build start image build for collection ' . $assets->getCollectionId());
 
-        return (new PipelineBuilder)->add(new Tasks\Copy(Asset::IMG))
-            ->add(new Tasks\Version(Asset::IMG))
-            ->build()
-            ->process($assets);
+        return $this->pipeline->image()->process($assets);
     }
 
     /**
@@ -63,23 +77,13 @@ class Orchestrator
      */
     public function javascript (Collection $assets)
     {
-        $pipelineBuilder = new PipelineBuilder;
-        if ($this->isBuildNeeded($assets)) {
-            \Log::info('Assets::Build start javascript build for collection ' . $assets->getCollectionId());
-
+        $buildNeeded = $this->isBuildNeeded($assets);
+        if($buildNeeded) {
             $this->initialize($assets);
-            if (!config('assets.concat')) {
-                $pipelineBuilder->add(new Tasks\Copy(Asset::JS));
-            } else {
-                $pipelineBuilder->add(new Tasks\Concat(Asset::JS))
-                    ->add(new Tasks\Javascript\Min)
-                    ->add(new Tasks\Version(Asset::JS));
-            }
-
-            $pipelineBuilder->add(new Tasks\Cleaner);
+            \Log::info('Assets::Build start javascript build for collection ' . $assets->getCollectionId());
         }
 
-        return $pipelineBuilder->add(new Tasks\Javascript\Html)->build()->process($assets);
+        return $this->pipeline->javascript(true, $buildNeeded)->process($assets);
     }
 
     /**
@@ -90,29 +94,13 @@ class Orchestrator
      */
     public function style (Collection $assets)
     {
-        $pipelineBuilder = new PipelineBuilder;
-
-        if ($this->isBuildNeeded($assets)) {
-            \Log::info('Assets::Build start style build for collection ' . $assets->getCollectionId());
-
+        $buildNeeded = $this->isBuildNeeded($assets);
+        if($buildNeeded) {
             $this->initialize($assets);
-
-            $pipelineBuilder->add(new Tasks\Sass\Compile)
-                ->add(new Tasks\Less\Compile);
-
-            if (!config('assets.concat')) {
-                $pipelineBuilder->add(new Tasks\Copy(Asset::CSS));
-            } else {
-                $pipelineBuilder
-                    ->add(new Tasks\Concat(Asset::CSS))
-                    ->add(new Tasks\Css\Min)
-                    ->add(new Tasks\Version(Asset::CSS));
-            }
-
-            $pipelineBuilder->add(new Tasks\Cleaner);
+            \Log::info('Assets::Build start style build for collection ' . $assets->getCollectionId());
         }
 
-        return $pipelineBuilder->add(new Tasks\Css\Html)->build()->process($assets);
+        return $this->pipeline->style(true, $buildNeeded)->process($assets);
     }
 
     /**

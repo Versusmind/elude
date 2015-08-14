@@ -1,4 +1,5 @@
-<?php
+<?php namespace App\Libraries\Assets;
+
 /**
  * User: LAHAXE Arnaud <alahaxe@boursorama.fr>
  * Date: 07/08/2015
@@ -7,7 +8,6 @@
  * Project : myo2
  */
 
-namespace App\Libraries\Assets;
 
 class Asset implements \JsonSerializable
 {

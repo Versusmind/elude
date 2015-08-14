@@ -138,7 +138,7 @@ class Collection
      */
     public function initializeFolder ()
     {
-        foreach ([$this->outputDirectory, $this->tmpDirectory] as $path) {
+        foreach ([$this->outputDirectory, $this->tmpDirectory, storage_path('versions')] as $path) {
             if (!is_dir($path)) {
                 if (!mkdir($path, 0777, TRUE)) {
                     throw new \RuntimeException('Can not create folder ' . $path);
@@ -153,7 +153,7 @@ class Collection
      */
     public function versionFilePath ()
     {
-        return storage_path($this->getCollectionId() . '.json');
+        return storage_path('versions/' . $this->getCollectionId() . '.json');
     }
 
     /**
@@ -175,7 +175,7 @@ class Collection
             'initialFiles' => $this->config,
             'concat'       => $isConcat,
             'time'         => time()
-        ]));
+        ], JSON_PRETTY_PRINT));
     }
 
     /**
