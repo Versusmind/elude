@@ -2,7 +2,6 @@
 
 use App\Libraries\Assets\Asset;
 use App\Libraries\Assets\Collection;
-use App\Libraries\Assets\Rewriter;
 use League\Pipeline\StageInterface;
 
 /**
@@ -27,8 +26,16 @@ class Rewrite implements StageInterface
         \Log::info('Assets::Css::Rewrite on collection ' . $collection->getCollectionId());
 
         foreach ($collection->getType(Asset::CSS) as $asset) {
-            $writer = new Rewriter(file_get_contents($asset->getPath()));
-            file_put_contents($asset->getPath(), $writer->process());
+
+            file_put_contents($asset->getPath(),preg_replace_callback('`url\((.*?)\)`s', function($matches) {
+                if (strpos($matches[0], '://') !== false) {
+                    return $matches[0];
+                }
+                $matches[1] = str_replace(['"', "'", '../'], '', $matches[1]);
+
+                return "url(/assets/" . $matches[1] . ")";
+
+            }, file_get_contents($asset->getPath())));
         }
 
         return $collection;
