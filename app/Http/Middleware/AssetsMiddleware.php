@@ -16,10 +16,6 @@ class AssetsMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (\App::environment() === 'production') {
-            return $next($request);
-        }
-
         /** @var Orchestrator $ocherstator */
         $ocherstator = \App::make('App\Libraries\Assets\Orchestrator');
 

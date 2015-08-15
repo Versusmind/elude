@@ -15,7 +15,14 @@ class AssetsProvider extends ServiceProvider
             return new \App\Libraries\Assets\Orchestrator;
         });
 
-
         $this->app->configure('assets');
+
+        if ($this->app->environment() !== 'production') {
+            $this->app->middleware([
+                \App\Http\Middleware\AssetsMiddleware::class
+            ]);
+        }
+
+        class_alias('App\Facades\Assets', 'Assets');
     }
 }

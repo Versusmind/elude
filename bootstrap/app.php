@@ -21,7 +21,6 @@ $app = new Laravel\Lumen\Application(
 
 $app->withFacades();
 
-class_alias('App\Facades\Assets', 'Assets');
 class_alias('Illuminate\Support\Facades\Artisan', 'Artisan');
 
 $app->withEloquent();
@@ -59,7 +58,6 @@ $app->singleton(
 */
 
  $app->middleware([
-     App\Http\Middleware\AssetsMiddleware::class
 //     // Illuminate\Cookie\Middleware\EncryptCookies::class,
 //     // Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
 //     // Illuminate\Session\Middleware\StartSession::class,
