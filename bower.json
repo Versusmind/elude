@@ -20,6 +20,7 @@
   ],
   "dependencies": {
     "angularjs": "~1.4.3",
-    "fontawesome": "~4.4.0"
+    "fontawesome": "~4.4.0",
+    "bootstrap": "~3.3.5"
   }
 }

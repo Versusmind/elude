@@ -2,6 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Libraries\Assets\Asset;
+use App\Libraries\Assets\Collection;
+use App\Libraries\Assets\Orchestrator;
 use App\Models\Service;
 use Illuminate\Console\Command;
 use Symfony\Component\Process\Process;
@@ -39,24 +42,29 @@ class AssetsBuilder extends Command
             $this->info('Build without concatenation');
         }
 
+        $this->info("");
+
         \Log::info('Assets::Build all groups');
+
+        /** @var Orchestrator $ocherstator */
         $ocherstator = \App::make('App\Libraries\Assets\Orchestrator');
+
         foreach(config('assets.groups') as $groupname => $assets)
         {
-            $this->info('Build ' . $groupname);
-            $buildType = 'style';
-            if(array_key_exists(\App\Libraries\Assets\Asset::JS, $assets)) {
-                $buildType = 'javascript';
-            } elseif(array_key_exists(\App\Libraries\Assets\Asset::IMG, $assets)) {
-                $buildType = 'image';
-            } elseif(array_key_exists(\App\Libraries\Assets\Asset::FONT, $assets)) {
-                $buildType = 'font';
-            }
+            $collection = \App\Libraries\Assets\Collection::createByGroup($groupname);
 
-            $this->comment("\t " . $buildType . " build");
+            $this->info("\t - Build " . $groupname);
 
             try {
-                $ocherstator->{$buildType}(\App\Libraries\Assets\Collection::createByGroup($groupname));
+                $buildTypes = $ocherstator->build($collection);
+
+                if(count($buildTypes) === 0) {
+                    $this->comment('No build');
+                } else {
+                    foreach ($buildTypes as $buildType) {
+                        $this->comment("\t\t - " . $buildType . " build");
+                    }
+                }
             } catch (\Exception $e) {
                 $this->error($e);
                 return;

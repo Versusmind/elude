@@ -14,6 +14,15 @@ use App\Libraries\Assets\Pipeline\Production;
  */
 class Orchestrator
 {
+    public static $buildType = [
+        Asset::JS => 'javascript',
+        Asset::CSS => 'style',
+        Asset::LESS => 'style',
+        Asset::SASS => 'style',
+        Asset::FONT => 'font',
+        Asset::IMG => 'image'
+    ];
+
     /**
      * @var Pipeline
      */
@@ -170,5 +179,52 @@ class Orchestrator
         }
 
         return true;
+    }
+
+    /**
+     * @param Collection $collection
+     * @param array $except
+     * @return array
+     */
+    public function getBuildNeeded(Collection $collection, array $except = array())
+    {
+        $buildNeeded = [];
+        foreach(Collection::$types as $type) {
+            if($collection->hasType($type) && !in_array($type, $except, true)) {
+                $buildNeeded[] = Orchestrator::$buildType[$type];
+            }
+        }
+
+        return array_unique($buildNeeded);
+    }
+
+    /**
+     * @param Collection $collection
+     * @param $buildType
+     * @return mixed
+     */
+    public function buildType(Collection $collection, $buildType)
+    {
+        return $this->{$buildType}($collection);
+    }
+
+    /**
+     * @param Collection $collection
+     * @param array $except
+     * @return array
+     */
+    public function build(Collection $collection, array $except = array())
+    {
+        $buildNeeded = $this->getBuildNeeded($collection, $except);
+
+        if(count($buildNeeded) === 0) {
+            return [];
+        }
+
+        foreach($buildNeeded as $buildType) {
+            $this->buildType($collection, $buildType);
+        }
+
+        return $buildNeeded;
     }
 }

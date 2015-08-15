@@ -61,26 +61,26 @@ return [
      *
      */
     'groups' => [
-        'statics' => [
-            \App\Libraries\Assets\Asset::FONT => [
-                'resources/assets/bower/fontawesome/fonts/*'
-            ],
-            \App\Libraries\Assets\Asset::IMG => [
-                'resources/assets/img/folder/*'
-            ]
-        ],
-
         'style' => [
             \App\Libraries\Assets\Asset::CSS => [
                 'resources/assets/css/folder/file.css',
-                'resources/assets/css/file.css',
+                'resources/assets/bower/bootstrap/dist/css/bootstrap.css',
                 'resources/assets/bower/fontawesome/css/font-awesome.css'
             ],
+
             \App\Libraries\Assets\Asset::LESS => [
                 'resources/assets/less/file.less',
                 'resources/assets/less/folder/file2.less'
             ],
 
+            \App\Libraries\Assets\Asset::FONT => [
+                'resources/assets/bower/fontawesome/fonts/*',
+                'resources/assets/bower/bootstrap/fonts/*',
+            ],
+
+            \App\Libraries\Assets\Asset::IMG => [
+                'resources/assets/img/folder/*'
+            ]
         ],
 
         'javascript-core' => [

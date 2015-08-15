@@ -9,7 +9,12 @@
 class Collection
 {
 
-    private $types = [Asset::CSS, Asset::JS, Asset::SASS, Asset::LESS, Asset::FONT, Asset::IMG];
+    public static  $types = [Asset::CSS, Asset::JS, Asset::SASS, Asset::LESS, Asset::FONT, Asset::IMG];
+
+    public static $staticType = [
+        Asset::IMG,
+        Asset::FONT
+    ];
 
     protected $config;
 
@@ -51,7 +56,7 @@ class Collection
         $this->bowerDirectory  = config('assets.bowerDirectory');
 
         $this->assets = [];
-        foreach ($this->types as $type) {
+        foreach (self::$types as $type) {
 
             if (!isset($assets[$type])) {
                 continue;
@@ -108,6 +113,11 @@ class Collection
     public function setType ($type, $data)
     {
         $this->assets[$type] = $data;
+    }
+
+    public function hasType($type)
+    {
+        return array_key_exists($type, $this->assets);
     }
 
     /**

@@ -45,6 +45,7 @@ class Copy implements StageInterface
             } elseif (strpos($asset->getPath(), $collection->getBowerDirectory()) !== FALSE) {
                 $relativePath = str_replace($collection->getBowerDirectory(), '', $asset->getPath());
                 if($asset->getType() === Asset::FONT) {
+
                     $relativePath = last(explode('/', $relativePath));
                 }
             // file is resource/assets folder (no other case)
