@@ -20,7 +20,8 @@ class Orchestrator
         Asset::LESS => 'style',
         Asset::SASS => 'style',
         Asset::FONT => 'font',
-        Asset::IMG => 'image'
+        Asset::IMG => 'image',
+        Asset::TEMPLATE => 'template'
     ];
 
     /**
@@ -63,6 +64,19 @@ class Orchestrator
         \Log::info('Assets::Build start font build for collection ' . $assets->getCollectionId());
 
         return $this->pipeline->font()->process($assets);
+    }
+
+    /**
+     * @param Collection $assets
+     *
+     * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     * @return mixed
+     */
+    public function template (Collection $assets)
+    {
+        \Log::info('Assets::Build start template build for collection ' . $assets->getCollectionId());
+
+        return $this->pipeline->template()->process($assets);
     }
 
     /**

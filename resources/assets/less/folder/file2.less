@@ -1,9 +1,0 @@
-/* Mixin */
-.reflect (@length: 50%, @opacity: 0.2){
-  -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(@length, transparent), to(rgba(255,255,255,@opacity)));
-}
-
-/* Implementation */
-#somediv {
-  .reflect(20%, 0.2);
-}

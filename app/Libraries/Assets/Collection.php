@@ -9,11 +9,12 @@
 class Collection
 {
 
-    public static  $types = [Asset::CSS, Asset::JS, Asset::SASS, Asset::LESS, Asset::FONT, Asset::IMG];
+    public static  $types = [Asset::CSS, Asset::JS, Asset::SASS, Asset::LESS, Asset::FONT, Asset::IMG, Asset::TEMPLATE];
 
     public static $staticType = [
         Asset::IMG,
-        Asset::FONT
+        Asset::FONT,
+        Asset::TEMPLATE
     ];
 
     protected $config;

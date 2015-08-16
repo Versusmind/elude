@@ -29,6 +29,15 @@ abstract class Pipeline
     }
 
     /**
+     * @return \League\Pipeline\Pipeline
+     */
+    public function template ()
+    {
+        return (new PipelineBuilder)->add(new Copy(Asset::TEMPLATE))
+            ->build();
+    }
+
+    /**
      * @param bool|true $renderer
      * @param bool|true $build
      * @return \League\Pipeline\Pipeline

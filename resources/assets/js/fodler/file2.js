@@ -1,1 +1,0 @@
-document.write('Ok pour file 2<br/>');

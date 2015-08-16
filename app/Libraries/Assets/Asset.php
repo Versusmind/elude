@@ -1,14 +1,5 @@
 <?php namespace App\Libraries\Assets;
 
-/**
- * User: LAHAXE Arnaud <alahaxe@boursorama.fr>
- * Date: 07/08/2015
- * Time: 12:31
- * FileName : Asset.php
- * Project : myo2
- */
-
-
 class Asset implements \JsonSerializable
 {
 
@@ -18,6 +9,7 @@ class Asset implements \JsonSerializable
     const LESS = 'less';
     const IMG = 'img';
     const FONT = 'fonts';
+    const TEMPLATE = 'templates';
 
     protected $type;
 
