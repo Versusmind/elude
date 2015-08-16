@@ -26,6 +26,5 @@ angular.module('myo.config.router', [])
             .state('error404', {
                 url: "/404",
                 templateUrl: "/assets/templates/errors/404.html"
-            })
-            ;
-    })
+            });
+    });

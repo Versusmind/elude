@@ -43,4 +43,4 @@ angular.module('myo.controllers.demo', [])
         $scope.closeAlert = function(index) {
             $scope.alerts.splice(index, 1);
         };
-    })
+    });

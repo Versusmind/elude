@@ -3,4 +3,4 @@ angular.module('myo', [
     'ui.bootstrap',
     'myo.config.router',
     'myo.controllers.demo'
-])
+]);
