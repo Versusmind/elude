@@ -89,6 +89,8 @@ return [
             \App\Libraries\Assets\Asset::TEMPLATE => [
                 'resources/assets/templates/*.html',
                 'resources/assets/templates/*/*.html',
+                'resources/assets/templates/*/*/*.html',
+                'resources/assets/templates/*/*/*/*.html',
             ]
         ],
 
