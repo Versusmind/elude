@@ -48,6 +48,10 @@ class AssetsUpdate extends Command
             $this->error($process->getErrorOutput());
         }
 
+        $this->info("Remove useless local bower package");
+        $process = new Process('bower prune');
+        $process->run();
+
         $this->comment(\PHP_Timer::resourceUsage());
     }
 }

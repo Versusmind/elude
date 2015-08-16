@@ -7,7 +7,6 @@ use App\Libraries\Assets\Collection;
 use App\Libraries\Assets\Orchestrator;
 use App\Models\Service;
 use Illuminate\Console\Command;
-use Symfony\Component\Process\Process;
 
 class AssetsBuilder extends Command
 {
@@ -17,7 +16,7 @@ class AssetsBuilder extends Command
      *
      * @var string
      */
-    protected $signature = 'assets:build';
+    protected $signature = 'assets:build {--group=all}';
 
     /**
      * The console command description.
@@ -33,8 +32,12 @@ class AssetsBuilder extends Command
      */
     public function handle()
     {
-        $this->info('Clean assets');
-        \Artisan::call('assets:clean');
+        $groupToBuild = $this->option('group');
+
+        if($groupToBuild === 'all') {
+            $this->info('Clean assets');
+            \Artisan::call('assets:clean');
+        }
 
         if(config('assets.concat')) {
             $this->info('Build with concatenation');
@@ -46,11 +49,16 @@ class AssetsBuilder extends Command
 
         \Log::info('Assets::Build all groups');
 
+
         /** @var Orchestrator $ocherstator */
         $ocherstator = \App::make('App\Libraries\Assets\Orchestrator');
 
         foreach(config('assets.groups') as $groupname => $assets)
         {
+            if($groupToBuild !== 'all' && $groupToBuild !== $groupname) {
+                continue;
+            }
+
             $collection = \App\Libraries\Assets\Collection::createByGroup($groupname);
 
             $this->info("\t - Build " . $groupname);
