@@ -169,4 +169,4 @@ Output:
 # Todo
 
 - Using symlink in in the copy task in dev
-- Simplify Html synthax intégration
+- Simplify call in view
