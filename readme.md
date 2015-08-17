@@ -3,7 +3,8 @@ Myo2
 
 # Get started
 
-## Requirement
+## Requirements
+
     - PHP >= 5.5.9
     - OpenSSL PHP Extension
     - Mbstring PHP Extension
@@ -25,30 +26,31 @@ Myo2
 
     resources
     ├── assets
-    │   ├── bower
-    │   │   └── All bower dependencies
-    │   ├── css
-    │   │   └── Application CSS files
-    │   ├── fonts
+    │   ├── bower
+    │   │   └── All bower dependencies
+    │   ├── css
+    │   │   └── Application CSS files
+    │   ├── fonts
     │   │   └── Application font files
-    │   ├── img
-    │   │   └── Application images
-    │   ├── js
-    │   │   └── Application javascript
-    │   ├── less
-    │   │   └── Application less files
-    │   └── sass
+    │   ├── img
+    │   │   └── Application images
+    │   ├── js
+    │   │   └── Application javascript
+    │   ├── less
+    │   │   └── Application less files
+    │   └── sass
     │       └── Application sass files
     .
 
-For a better readability and maintainability you need to respect this folder pattern. You can create as many subfolders you want.
-/!\ After building process all fonts wil be in the same folder. You need to pay attention to name conflict
+For a better readability and maintainability you need to respect this folder pattern. You can create as many subfolders as you want.
+/!\ After the building process all fonts will be in the same folder. You need to pay attention to name conflicts.
 
 ## Building assets
 
 ### Configuration
 
-In the `config/assets.php` file you can defined group of assets:
+In the `config/assets.php` file you can define groups of assets:
+
 
 
     'groups' => [
@@ -94,43 +96,43 @@ In the `config/assets.php` file you can defined group of assets:
     ]
 
 
-The best practice, for the moment, is to separate style and applicative (JS) files. You can create as many groups you want but it will be an impact on production.
+The best practice, for the moment, is to separate style and applicative (JS) files. You can create as many groups you want but it will have an impact on production.
 Each js or style group will generate a build file in production.
 
-For the previous configuration we have, after building 2 js files ans 1 css file.
+For the previous configuration, we have, after building, 2 js files ans 1 css file.
 
-For a group style files are build and concatenated in the order of the group with this priority: LESS then SASS then CSS
+For a group, style files are built and concatenated in the order of the group with this priority: LESS then SASS then CSS
 
-In the `.env` file you can change the mode of build you want by setting `ASSETS_CONCAT` to true or false;
+In the `.env` file you can change the mode of building you want by setting `ASSETS_CONCAT` to true or false;
 
-### Development build
+### Development building
 
 - less and sass are compiled to css
-- css (css, less and sass compiled) are rewrite to fix path (url)
+- css (css, less and sass compiled) are rewritten to fix path (url)
 - js, images, and fonts are copied (no modification)
 
-### Production build
+### Production building
 
 - less and sass are compiled to css
 - css (css, less and sass compiled) are concatenated and minified
 - js are concatenated and packed
 - images, and fonts are copied (no modification)
 
-Each style and js groups have a "versions" file in `storage/versions`. In this file you can see the detail of each build.
+Each style and js groups have a "version" file in `storage/versions`. In this file you can see the detail of each building.
 
 ### Command line
 
-If in you `.env` file you set `APP_ENV` to `local` assets build will be do on each request.
+If in your `.env` file you set `APP_ENV` to `local` assets building will be done on each request.
 
 #### Cleaning assets
 
-Remove all build, versions and temporary files.
+Remove all buildings, versions and temporary files.
 
 `php artisan assets:clean`
 
 #### Building assets
 
-Build all groups, this command run an assets:clean before the build
+Build all groups, this command runs an asset: clean before the building
 
 `php artisan assets:build`
 
@@ -168,5 +170,6 @@ Output:
 
 # Todo
 
-- Using symlink in in the copy task in dev
+- Using symlink in the copy task in dev
 - Simplify call in view
+- Integrate typescript compilator if needed
