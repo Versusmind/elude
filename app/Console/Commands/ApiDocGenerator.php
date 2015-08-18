@@ -31,7 +31,7 @@ class ApiDocGenerator extends Command
     public function handle()
     {
         if (\App::environment() === 'production') {
-            $this->error('This feature is no available on this server');
+            $this->error('This feature is not available on this server');
         }
 
         $process = new Process('apidoc -i ' . base_path('app/Http/Controllers') . ' -o ' . base_path('../doc'));
