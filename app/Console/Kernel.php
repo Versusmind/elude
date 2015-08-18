@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
 
-        \App\Console\Commands\QaPhpcpd::class
+        \App\Console\Commands\QaPhpcpd::class,
+        \App\Console\Commands\QaPhpmd::class
     ];
 
     /**
