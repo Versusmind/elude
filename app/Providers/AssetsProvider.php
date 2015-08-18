@@ -23,6 +23,8 @@ class AssetsProvider extends ServiceProvider
             ]);
         }
 
-        class_alias('App\Facades\Assets', 'Assets');
+        if(!class_exists('Assets')) {
+            class_alias('App\Facades\Assets', 'Assets');
+        }
     }
 }

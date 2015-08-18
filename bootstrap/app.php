@@ -21,7 +21,9 @@ $app = new Laravel\Lumen\Application(
 
 $app->withFacades();
 
-class_alias('Illuminate\Support\Facades\Artisan', 'Artisan');
+if(!class_exists('Artisan')) {
+    class_alias('Illuminate\Support\Facades\Artisan', 'Artisan');
+}
 
 $app->withEloquent();
 

@@ -9,7 +9,6 @@ class ExampleTest extends TestCase
      */
     public function testBasicExample()
     {
-        $this->visit('/')
-             ->see('Lumen.');
+        $this->visit('/');
     }
 }
