@@ -1,30 +1,27 @@
-angular.module('myo.config.router', [])
+angular.module('app.config.router', [])
     .config(function($stateProvider, $urlRouterProvider) {
 
         // For any unmatched url, redirect to /
         $urlRouterProvider.otherwise("/");
-        //
+
+        var templateDir = '/assets/templates/';
+
         // Now set up the states
         $stateProvider
             .state('home', {
                 url: "/",
-                templateUrl: "/assets/templates/home.html"
+                templateUrl: templateDir+"home.html"
             })
 
             .state('alerts', {
                 url: "/alerts",
-                templateUrl: "/assets/templates/alert.html",
+                templateUrl: templateDir+"alert.html",
                 controller: 'AlertDemoCtrl'
             })
 
             .state('accordion', {
                 url: "/accordion",
-                templateUrl: "/assets/templates/accordion.html",
+                templateUrl: templateDir+"accordion.html",
                 controller: 'AccordionDemoCtrl'
             })
-
-            .state('error404', {
-                url: "/404",
-                templateUrl: "/assets/templates/errors/404.html"
-            });
     });

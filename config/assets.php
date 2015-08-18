@@ -94,23 +94,23 @@ return [
 
         'javascript-app' => [
             \App\Libraries\Assets\Asset::JS => [
-                'resources/assets/js/*/*.js',
-                'resources/assets/js/app.js',
+                'resources/assets/app/*.js',
+                'resources/assets/app/*/*.js',
+                'resources/assets/app/*/*/*.js',
+                'resources/assets/app/*/*/*/*.js',
+                'resources/assets/app/*/*/*/*/*.js',
             ],
 
             \App\Libraries\Assets\Asset::TEMPLATE => [
-                'resources/assets/templates/*.html',
-                'resources/assets/templates/*/*.html',
-                'resources/assets/templates/*/*/*.html',
-                'resources/assets/templates/*/*/*/*.html',
+                'resources/assets/app/*.html',
+                'resources/assets/app/*/*.html',
+                'resources/assets/app/*/*/*.html',
+                'resources/assets/app/*/*/*/*.html',
+                'resources/assets/app/*/*/*/*/*.html',
             ]
         ],
 
         'statics' => [
-            \App\Libraries\Assets\Asset::TEMPLATE => [
-                'resources/assets/templates/*.html',
-                'resources/assets/templates/*/*.html',
-            ],
             \App\Libraries\Assets\Asset::FONT => [
                 'resources/assets/bower/bootstrap/fonts/*',
             ],
