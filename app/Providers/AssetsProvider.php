@@ -1,5 +1,22 @@
 <?php namespace App\Providers;
 
+/******************************************************************************
+ *
+ * @package Myo 2
+ * @copyright © 2015 by Versusmind.
+ * All rights reserved. No part of this document may be
+ * reproduced or transmitted in any form or by any means,
+ * electronic, mechanical, photocopying, recording, or
+ * otherwise, without prior written permission of Versusmind.
+ * @link http://www.versusmind.eu/
+ *
+ * @file AssetsProvider.php
+ * @author LAHAXE Arnaud
+ * @last-edited 18/08/15
+ * @description AssetsProvider
+ *
+ ******************************************************************************/
+
 use Illuminate\Support\ServiceProvider;
 
 class AssetsProvider extends ServiceProvider

@@ -1,11 +1,23 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * Author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
- * Date: 08/08/15
- * Time: 16:49
- */
+/******************************************************************************
+ *
+ * @package Myo 2
+ * @copyright © 2015 by Versusmind.
+ * All rights reserved. No part of this document may be
+ * reproduced or transmitted in any form or by any means,
+ * electronic, mechanical, photocopying, recording, or
+ * otherwise, without prior written permission of Versusmind.
+ * @link http://www.versusmind.eu/
+ *
+ * @file assets.php
+ * @author LAHAXE Arnaud
+ * @last-edited 18/08/15
+ * @description assets
+ *
+ ******************************************************************************/
+
+
 return [
     /**
      * If true enable minification and concatenation of js and (less + sass + css)
