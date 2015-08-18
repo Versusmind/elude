@@ -168,6 +168,11 @@ Output:
     <script src="/assets/js/e57c943abf8160da2fc80f14f16edd16.js"></script>
     <script src="/assets/js/5e2c8c8ffefc922db1b6e56004fcfb3b.js"></script>
 
+## Development guidelines: Javascript
+Please install the Javascript validation tool jscs : `npm i -g jscs`. The details of NDRX configuration is stored in the .jscsrc at the root of the project.
+
+Hint: use JSCSFormatter plugin for Sublime Text to auto-format your code
+
 # Todo
 
 - Using symlink in the copy task in dev
