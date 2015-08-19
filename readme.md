@@ -17,6 +17,7 @@ Myo2
     - cp .env.example .env
     - For a dev env you need to set `APP_ENV` to `local` and `ASSETS_CONCAT` to `false`
     - composer install
+    - php artisan migrate --seed
     - php artisan assets:update
     - php artisan assets:build
     - create a vhost to /public folder or type `php artisan serve` to run php build in server
