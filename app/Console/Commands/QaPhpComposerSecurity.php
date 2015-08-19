@@ -10,10 +10,10 @@
  * otherwise, without prior written permission of Versusmind.
  * @link http://www.versusmind.eu/
  *
- * @file QaPhpmd.php
+ * @file QaPhpComposerSecurity.php
  * @author LAHAXE Arnaud
  * @last-edited 18/08/15
- * @description QaPhpmd
+ * @description QaPhpComposerSecurity
  *
  ******************************************************************************/
 
