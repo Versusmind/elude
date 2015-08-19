@@ -20,6 +20,8 @@
 use App\Libraries\Assets\Asset;
 use App\Libraries\Assets\Tasks\Cleaner;
 use App\Libraries\Assets\Tasks\Concat;
+use App\Libraries\Assets\Tasks\Css\Html as CssRenderer;
+use App\Libraries\Assets\Tasks\Css\Min as CssMin;
 use App\Libraries\Assets\Tasks\Css\Rewrite;
 use App\Libraries\Assets\Tasks\Javascript\Html as JsRenderer;
 use App\Libraries\Assets\Tasks\Javascript\Min as JsMin;
@@ -27,19 +29,18 @@ use App\Libraries\Assets\Tasks\Less\Compile as LessCompiler;
 use App\Libraries\Assets\Tasks\Sass\Compile as SassCompiler;
 use App\Libraries\Assets\Tasks\Version;
 use League\Pipeline\PipelineBuilder;
-use App\Libraries\Assets\Tasks\Css\Html as CssRenderer;
-use App\Libraries\Assets\Tasks\Css\Min as CssMin;
 
 /**
  * Class Production
+ *
  * @package App\Libraries\Assets\Pipeline
  */
 class Production extends Pipeline
 {
-
     /**
      * @param bool|true $renderer
      * @param bool|true $build
+     *
      * @return \League\Pipeline\Pipeline
      */
     public function javascript($renderer = true, $build = true)
@@ -63,6 +64,7 @@ class Production extends Pipeline
     /**
      * @param bool|true $renderer
      * @param bool|true $build
+     *
      * @return \League\Pipeline\Pipeline
      */
     public function style($renderer = true, $build = true)

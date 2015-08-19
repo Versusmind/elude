@@ -23,6 +23,7 @@ use League\Pipeline\PipelineBuilder;
 
 /**
  * Class Pipeline
+ *
  * @package App\Libraries\Assets\Pipeline
  */
 abstract class Pipeline
@@ -30,7 +31,7 @@ abstract class Pipeline
     /**
      * @return \League\Pipeline\Pipeline
      */
-    public function font ()
+    public function font()
     {
         return (new PipelineBuilder())->add(new Copy(Asset::FONT))
             ->build();
@@ -39,7 +40,7 @@ abstract class Pipeline
     /**
      * @return \League\Pipeline\Pipeline
      */
-    public function image ()
+    public function image()
     {
         return (new PipelineBuilder)->add(new Copy(Asset::IMG))
             ->build();
@@ -48,7 +49,7 @@ abstract class Pipeline
     /**
      * @return \League\Pipeline\Pipeline
      */
-    public function template ()
+    public function template()
     {
         return (new PipelineBuilder)->add(new Copy(Asset::TEMPLATE))
             ->build();
@@ -57,16 +58,17 @@ abstract class Pipeline
     /**
      * @param bool|true $renderer
      * @param bool|true $build
+     *
      * @return \League\Pipeline\Pipeline
      */
-    public abstract function javascript ($renderer = true, $build = true);
+    abstract public function javascript($renderer = true, $build = true);
 
 
     /**
      * @param bool|true $renderer
      * @param bool|true $build
+     *
      * @return \League\Pipeline\Pipeline
      */
-    public abstract function style ($renderer = true, $build = true);
-
+    abstract public function style($renderer = true, $build = true);
 }

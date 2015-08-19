@@ -31,10 +31,9 @@ use League\Pipeline\StageInterface;
  */
 class Copy implements StageInterface
 {
-
     protected $type;
 
-    function __construct($type)
+    public function __construct($type)
     {
         $this->type = $type;
     }
@@ -43,6 +42,7 @@ class Copy implements StageInterface
      * @param Collection $collection
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     *
      * @return Collection|mixed
      */
     public function process($collection)
@@ -50,13 +50,12 @@ class Copy implements StageInterface
         \Log::info('Assets::Copy on collection ' . $collection->getCollectionId());
 
         $outputDirectory = $collection->getOutputDirectory() . $this->type . DIRECTORY_SEPARATOR;
-        if (!is_dir($outputDirectory) && !mkdir($outputDirectory, 0777, TRUE)) {
+        if (!is_dir($outputDirectory) && !mkdir($outputDirectory, 0777, true)) {
             throw new \RuntimeException('Fail to create ' . $outputDirectory);
         }
 
         $newAssetsFiles = [];
         foreach ($collection->getType($this->type) as $asset) {
-
             $relativePath = $this->getRelativeBuildFilePath($asset, $collection);
             $this->createSubFolders($relativePath, $outputDirectory);
 
@@ -74,18 +73,18 @@ class Copy implements StageInterface
     /**
      * @param Asset $asset
      * @param Collection $collection
+     *
      * @return mixed
      */
     protected function getRelativeBuildFilePath(Asset $asset, Collection $collection)
     {
         // file is in tmp folder
-        if (strpos($asset->getPath(), $collection->getTmpDirectory()) !== FALSE) {
+        if (strpos($asset->getPath(), $collection->getTmpDirectory()) !== false) {
             return str_replace($collection->getTmpDirectory(), '', $asset->getPath());
             // file is in bower folder
-        } elseif (strpos($asset->getPath(), $collection->getBowerDirectory()) !== FALSE) {
+        } elseif (strpos($asset->getPath(), $collection->getBowerDirectory()) !== false) {
             $relativePath = str_replace($collection->getBowerDirectory(), '', $asset->getPath());
             if ($asset->getType() === Asset::FONT) {
-
                 $relativePath = last(explode('/', $relativePath));
             }
 
@@ -101,11 +100,11 @@ class Copy implements StageInterface
      */
     protected function createSubFolders($relativePath, $directory)
     {
-        if (strpos($relativePath, '/') !== FALSE) {
-            $subfolders = join('/', explode(DIRECTORY_SEPARATOR, $relativePath, -1));
+        if (strpos($relativePath, '/') !== false) {
+            $subfolders = implode('/', explode(DIRECTORY_SEPARATOR, $relativePath, -1));
 
             if (!is_dir($directory . $subfolders)) {
-                if (!mkdir($directory . $subfolders, 0777, TRUE)) {
+                if (!mkdir($directory . $subfolders, 0777, true)) {
                     throw new \RuntimeException('Cannot create ' . $directory . $subfolders . ' directory');
                 }
             }

@@ -27,24 +27,24 @@ use League\Pipeline\StageInterface;
  *
  *
  * @package App\Libraries\Assets\Tasks\Css
+ *
  * @author  LAHAXE Arnaud
  */
 class Rewrite implements StageInterface
 {
-
     /**
      * @param Collection $collection
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     *
      * @return mixed
      */
-    public function process ($collection)
+    public function process($collection)
     {
         \Log::info('Assets::Css::Rewrite on collection ' . $collection->getCollectionId());
 
         foreach ($collection->getType(Asset::CSS) as $asset) {
-
-            file_put_contents($asset->getPath(),preg_replace_callback('`url\((.*?)\)`s', function($matches) {
+            file_put_contents($asset->getPath(), preg_replace_callback('`url\((.*?)\)`s', function ($matches) {
                 if (strpos($matches[0], '://') !== false) {
                     return $matches[0];
                 }

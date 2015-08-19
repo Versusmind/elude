@@ -24,7 +24,6 @@ use Symfony\Component\Process\Process;
 
 class AssetsCleaner extends Command
 {
-
     /**
      * The name and signature of the console command.
      *
@@ -69,10 +68,11 @@ class AssetsCleaner extends Command
         $this->comment(\PHP_Timer::resourceUsage());
     }
 
-    public function deleteDir ($dirPath)
+    public function deleteDir($dirPath)
     {
         if (!is_dir($dirPath)) {
             $this->error($dirPath . ' is not a folder');
+
             return;
         }
         if (substr($dirPath, strlen($dirPath) - 1, 1) != '/') {

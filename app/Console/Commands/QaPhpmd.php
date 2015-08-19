@@ -50,7 +50,7 @@ class QaPhpmd extends Command
 
         $process->run();
 
-        $outputXml = $process->getOutput();
+        $outputXml   = $process->getOutput();
         $violations  = [];
         $dom         = simplexml_load_string($outputXml);
         $nbViolation = 0;

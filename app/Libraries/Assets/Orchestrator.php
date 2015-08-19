@@ -28,18 +28,19 @@ use App\Libraries\Assets\Pipeline\Production;
  *
  *
  * @package App\Libraries\Assets
+ *
  * @author  LAHAXE Arnaud
  */
 class Orchestrator
 {
     public static $buildType = [
-        Asset::JS => 'javascript',
-        Asset::CSS => 'style',
-        Asset::LESS => 'style',
-        Asset::SASS => 'style',
-        Asset::FONT => 'font',
-        Asset::IMG => 'image',
-        Asset::TEMPLATE => 'template'
+        Asset::JS       => 'javascript',
+        Asset::CSS      => 'style',
+        Asset::LESS     => 'style',
+        Asset::SASS     => 'style',
+        Asset::FONT     => 'font',
+        Asset::IMG      => 'image',
+        Asset::TEMPLATE => 'template',
     ];
 
     /**
@@ -72,7 +73,7 @@ class Orchestrator
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      */
-    protected function initialize (Collection $assets)
+    protected function initialize(Collection $assets)
     {
         $assets->setTmpDirectory(config('assets.tmpDirectory') . DIRECTORY_SEPARATOR . $assets->getCollectionId());
         $assets->initializeFolder();
@@ -82,9 +83,10 @@ class Orchestrator
      * @param Collection $assets
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     *
      * @return mixed
      */
-    public function font (Collection $assets)
+    public function font(Collection $assets)
     {
         \Log::info('Assets::Build start font build for collection ' . $assets->getCollectionId());
 
@@ -95,9 +97,10 @@ class Orchestrator
      * @param Collection $assets
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     *
      * @return mixed
      */
-    public function template (Collection $assets)
+    public function template(Collection $assets)
     {
         \Log::info('Assets::Build start template build for collection ' . $assets->getCollectionId());
 
@@ -108,9 +111,10 @@ class Orchestrator
      * @param Collection $assets
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     *
      * @return mixed
      */
-    public function image (Collection $assets)
+    public function image(Collection $assets)
     {
         \Log::info('Assets::Build start image build for collection ' . $assets->getCollectionId());
 
@@ -121,12 +125,13 @@ class Orchestrator
      * @param Collection $assets
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     *
      * @return mixed
      */
-    public function javascript (Collection $assets)
+    public function javascript(Collection $assets)
     {
         $buildNeeded = $this->buildDetector->isBuildNeeded($assets);
-        if($buildNeeded) {
+        if ($buildNeeded) {
             $this->initialize($assets);
             \Log::info('Assets::Build start javascript build for collection ' . $assets->getCollectionId());
         }
@@ -138,12 +143,13 @@ class Orchestrator
      * @param Collection $assets
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     *
      * @return mixed
      */
-    public function style (Collection $assets)
+    public function style(Collection $assets)
     {
         $buildNeeded = $this->buildDetector->isBuildNeeded($assets);
-        if($buildNeeded) {
+        if ($buildNeeded) {
             $this->initialize($assets);
             \Log::info('Assets::Build start style build for collection ' . $assets->getCollectionId());
         }
@@ -154,6 +160,7 @@ class Orchestrator
     /**
      * @param Collection $collection
      * @param $buildType
+     *
      * @return mixed
      */
     public function buildType(Collection $collection, $buildType)
@@ -164,17 +171,18 @@ class Orchestrator
     /**
      * @param Collection $collection
      * @param array $except
+     *
      * @return array
      */
     public function build(Collection $collection, array $except = array())
     {
         $buildNeeded = $this->buildDetector->getBuildNeeded($collection, $except);
 
-        if(count($buildNeeded) === 0) {
+        if (count($buildNeeded) === 0) {
             return [];
         }
 
-        foreach($buildNeeded as $buildType) {
+        foreach ($buildNeeded as $buildType) {
             $this->buildType($collection, $buildType);
         }
 

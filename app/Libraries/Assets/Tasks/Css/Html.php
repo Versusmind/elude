@@ -24,11 +24,11 @@ use League\Pipeline\StageInterface;
 
 class Html implements StageInterface
 {
-
     /**
      * @param Collection $collection
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     *
      * @return string
      */
     public function process($collection)
@@ -50,7 +50,6 @@ class Html implements StageInterface
         }
 
         foreach ($collection->getType(Asset::CSS) as $asset) {
-
             $result .= '<link rel="stylesheet" type="text/css" href="' . $subfolder . str_replace($outputDirectory, DIRECTORY_SEPARATOR, $asset->getPath()) . '">' . "\n";
         }
 

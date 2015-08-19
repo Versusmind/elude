@@ -5,36 +5,34 @@
  * Date: 19/08/2015
  * Time: 21:25
  */
-
 namespace App\Libraries\Assets;
-
 
 class BuilderDetector
 {
-
     /**
      * @param Collection $assets
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     *
      * @return bool
      */
     public function isBuildNeeded(Collection $assets)
     {
         if (!is_file($assets->versionFilePath())) {
-            return TRUE;
+            return true;
         }
 
         // get version detail
         $build = json_decode(file_get_contents($assets->versionFilePath()));
 
         // not a valid js we rebuild
-        if ($build === FALSE) {
-            return TRUE;
+        if ($build === false) {
+            return true;
         }
 
         // does the change concat option change since this version ?
         if ($build->concat !== config('assets.concat')) {
-            return TRUE;
+            return true;
         }
 
         // no need to re-test in production, files must not change
@@ -44,7 +42,7 @@ class BuilderDetector
             foreach ($assets->getAssets() as $types) {
                 foreach ($types as $file) {
                     if (filemtime($file->getPath()) > $build->time) {
-                        return TRUE;
+                        return true;
                     }
                 }
             }
@@ -52,11 +50,10 @@ class BuilderDetector
 
         // try to reload the build version
         if ($this->reloadFromBuild($assets, $build)) {
-
-            return FALSE;
+            return false;
         }
 
-        return TRUE;
+        return true;
     }
 
     /**
@@ -64,6 +61,7 @@ class BuilderDetector
      * @param $build
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     *
      * @return bool
      */
     protected function reloadFromBuild(Collection $assets, $build)
@@ -89,6 +87,7 @@ class BuilderDetector
     /**
      * @param Collection $collection
      * @param array $except
+     *
      * @return array
      */
     public function getBuildNeeded(Collection $collection, array $except = array())
