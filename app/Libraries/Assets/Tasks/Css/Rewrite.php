@@ -50,7 +50,7 @@ class Rewrite implements StageInterface
                 }
                 $matches[1] = str_replace(['"', "'", '../'], '', $matches[1]);
 
-                return "url(/assets/" . $matches[1] . ")";
+                return "url(" . env('SUBFOLDER_INSTALLATION', '') . "/assets/" . $matches[1] . ")";
 
             }, file_get_contents($asset->getPath())));
         }

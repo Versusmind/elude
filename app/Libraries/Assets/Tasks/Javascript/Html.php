@@ -43,9 +43,16 @@ class Html implements StageInterface
 
         $outputDirectory = base_path('public') . DIRECTORY_SEPARATOR;
 
+        $subfolder = env('SUBFOLDER_INSTALLATION', false);
+        if($subfolder) {
+            $subfolder .= '/';
+        } else {
+            $subfolder = '';
+        }
+
         foreach ($collection->getType(Asset::JS) as $asset) {
 
-            $result .= '<script src="' . str_replace($outputDirectory, DIRECTORY_SEPARATOR, $asset->getPath()) . '"></script>' . "\n";
+            $result .= '<script src="' . $subfolder . str_replace($outputDirectory, DIRECTORY_SEPARATOR, $asset->getPath()) . '"></script>' . "\n";
         }
 
         if(!config('assets.concat') && $collection->getGroupName()) {

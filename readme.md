@@ -21,6 +21,17 @@ Myo2
     - php artisan assets:build
     - create a vhost to /public folder or type `php artisan serve` to run php build in server
 
+## Install in a subfolder
+
+If you can't install myo2 at the root of a domain or a subdomain:
+In the `env` file uncomment `SUBFOLDER_INSTALLATION` config and specify the right path. 
+
+Example: Myo2 is accessible via http://irlandais.ncy/<Myo2 root folder>, `SUBFOLDER_INSTALLATION` must be set a `/<Myo2 root folder>/public`
+Do not forget the initial `/
+
+
+You need to rebuild assets after changing `SUBFOLDER_INSTALLATION` config.
+
 # Assets management
 ## Folders
 
