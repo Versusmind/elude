@@ -12,7 +12,9 @@
         "phpunit/phpunit": "~4.0",
         "fzaninotto/faker": "~1.0",
         "sebastian/phpcpd": "*",
-        "phpmd/phpmd" : "@stable"
+        "phpmd/phpmd": "@stable",
+        "fabpot/php-cs-fixer": "@stable",
+        "sensiolabs/security-checker": "@stable"
     },
     "autoload": {
         "psr-4": {

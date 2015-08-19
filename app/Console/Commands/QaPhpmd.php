@@ -18,19 +18,16 @@
  ******************************************************************************/
 
 use Illuminate\Console\Command;
-use SebastianBergmann\FinderFacade\FinderFacade;
-use SebastianBergmann\PHPCPD\Log\Text;
 use Symfony\Component\Process\Process;
 
 class QaPhpmd extends Command
 {
-
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'qa:phpmd {--limit=5}';
+    protected $signature = 'qa:phpmd';
 
     /**
      * The console command description.
@@ -47,7 +44,7 @@ class QaPhpmd extends Command
         \Log::info('QA::PHPMD Run mess detector');
 
         $process = new Process('./vendor/bin/phpmd app xml phpmd.xml');
-        if($this->getOutput()->getVerbosity() > 1) {
+        if ($this->getOutput()->getVerbosity() > 1) {
             $this->comment('Run ' . $process->getCommandLine());
         }
 
@@ -55,40 +52,44 @@ class QaPhpmd extends Command
 
         $outputXml = $process->getOutput();
 
-        $violations = [];
-        $dom = simplexml_load_string($outputXml);
+        $violations  = [];
+        $dom         = simplexml_load_string($outputXml);
         $nbViolation = 0;
 
-        foreach($dom->xpath('//pmd/file') as $file ){
-            foreach($file->xpath('//violation') as $violation){
+        foreach ($dom->xpath('//pmd/file') as $file) {
+            foreach ($file->xpath('//violation') as $violation) {
                 $violations[(string)$violation['ruleset']][(string)$violation['rule']][] = [
-                    'file' => str_replace(base_path(), '', (string)$file['name']),
-                    'line' => ((string)$violation["beginline"]) . ' to ' . ((string)$violation['endline']),
-                    'message' => trim((string) $violation)
+                    'file'    => str_replace(base_path(), '', (string)$file['name']),
+                    'line'    => ((string)$violation["beginline"]) . ' to ' . ((string)$violation['endline']),
+                    'message' => trim((string) $violation),
                 ];
                 $nbViolation ++;
             }
         }
 
-        if($nbViolation == 0) {
+        if ($nbViolation == 0) {
             $this->comment('No violation detected ! kudos !');
 
             return;
         }
 
 
-        if($this->getOutput()->getVerbosity() > 1) {
+        if ($this->getOutput()->getVerbosity() > 1) {
             foreach ($violations as $name => $ruleset) {
                 $this->info($name);
                 foreach ($ruleset as $name => $ruleViolations) {
                     $this->info("\t" . $name);
                     $this->table(['file', 'lines', 'message'], $ruleViolations);
-
                 }
             }
         }
 
         $this->error($nbViolation . ' violations detected. Please fix your code');
+
+        if ($this->getOutput()->getVerbosity() == 1) {
+            $this->getOutput()->writeln('');
+            $this->info('Add -v to your commant to show details');
+        }
 
         throw new \Exception('Your code is bad, and you should feel bad');
     }

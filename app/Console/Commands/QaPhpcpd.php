@@ -19,17 +19,18 @@
 
 use Illuminate\Console\Command;
 use SebastianBergmann\FinderFacade\FinderFacade;
+use SebastianBergmann\PHPCPD\Detector\Detector;
+use SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy;
 use SebastianBergmann\PHPCPD\Log\Text;
 
 class QaPhpcpd extends Command
 {
-
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'qa:phpcpd {--limit=5}';
+    protected $signature = 'qa:phpcpd {--limit=5 : Percentage of copy past tolerate}';
 
     /**
      * The console command description.
@@ -45,22 +46,22 @@ class QaPhpcpd extends Command
     {
         \Log::info('QA::PHPCPD Run copy past detector');
 
-        $detector = new \SebastianBergmann\PHPCPD\Detector\Detector(new \SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy);
-        $finder = new FinderFacade(
+        $detector = new Detector(new DefaultStrategy);
+        $finder   = new FinderFacade(
             ['app'],
             [] // exclude
         );
-        $files = $finder->findFiles();
+        $files  = $finder->findFiles();
         $clones = $detector->copyPasteDetection($files, 10);
 
-        if($this->getOutput()->getVerbosity() > 1) {
+        if ($this->getOutput()->getVerbosity() > 1) {
             $printer = new Text();
             $printer->printResult($this->getOutput(), $clones);
             unset($printer);
         }
 
         $percentage = floatval($clones->getPercentage());
-        if($percentage > $this->option('limit')) {
+        if ($percentage > $this->option('limit')) {
             $this->error('[Shame] The copy/paste percentage is ' . $percentage);
 
             throw new \Exception('Your code is bad, and you should feel bad');

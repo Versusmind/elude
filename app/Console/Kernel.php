@@ -1,11 +1,11 @@
-<?php namespace App\Console;
+<?php
+namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
-
     /**
      * The Artisan commands provided by your application.
      *
@@ -14,13 +14,16 @@ class Kernel extends ConsoleKernel
     protected $commands = [
 
         \App\Console\Commands\QaPhpcpd::class,
-        \App\Console\Commands\QaPhpmd::class
+        \App\Console\Commands\QaPhpCsFixer::class,
+        \App\Console\Commands\QaPhpmd::class,
+        \App\Console\Commands\QaPhpComposerSecurity::class,
     ];
 
     /**
      * Define the application's command schedule.
      *
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     *
      * @return void
      */
     protected function schedule(Schedule $schedule)
