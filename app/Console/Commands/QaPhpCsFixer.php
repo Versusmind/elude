@@ -91,7 +91,7 @@ class QaPhpCsFixer extends Command
         if ($this->getOutput()->getVerbosity() == 1) {
             $this->info('To show more details you can use -v');
         }
-        }
+    }
 
     protected function writeChanges($changes, $action)
     {
