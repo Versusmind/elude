@@ -22,7 +22,7 @@ class Asset implements \JsonSerializable
 {
 
     const CSS = 'css';
-    const JS = 'js';
+    const JS = 'app';
     const SASS = 'sass';
     const LESS = 'less';
     const IMG = 'img';
@@ -145,6 +145,32 @@ class Asset implements \JsonSerializable
     public function setInitialPath($initialPath)
     {
         $this->initialPath = $initialPath;
+    }
+
+    /**
+     * @param $type
+     * @return string
+     */
+    public static function getExtensionFromType($type)
+    {
+        if($type === self::JS) {
+            return 'js';
+        }
+
+        return $type;
+    }
+
+    /**
+     * @param $type
+     * @return string
+     */
+    public static function getOutputFolder($type)
+    {
+        if($type === self::TEMPLATE) {
+            return self::JS;
+        }
+
+        return $type;
     }
 
     /**

@@ -1,4 +1,4 @@
-<html ng-app="myo">
+<html ng-app="app">
 <head>
     <?php
         echo Assets::style(\App\Libraries\Assets\Collection::createByGroup('style'));

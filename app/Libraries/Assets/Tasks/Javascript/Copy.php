@@ -1,4 +1,4 @@
-<?php namespace App\Libraries\Assets\Tasks;
+<?php namespace App\Libraries\Assets\Tasks\Javascript;
 
 /******************************************************************************
  *
@@ -34,7 +34,7 @@ class Copy implements StageInterface
 
     protected $type;
 
-    function __construct ($type)
+    function __construct($type)
     {
         $this->type = $type;
     }
@@ -45,37 +45,26 @@ class Copy implements StageInterface
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      * @return Collection|mixed
      */
-    public function process ($collection)
+    public function process($collection)
     {
         \Log::info('Assets::Copy on collection ' . $collection->getCollectionId());
 
-        if($this->type !== Asset::TEMPLATE) {
-            $outputDirectory = $collection->getOutputDirectory() . $this->type . DIRECTORY_SEPARATOR;
-        } else {
-            $outputDirectory = $collection->getOutputDirectory() . Asset::JS . DIRECTORY_SEPARATOR;
-        }
+
+        $outputDirectory = $collection->getOutputDirectory() . Asset::getOutputFolder($this->type) . DIRECTORY_SEPARATOR;
+
         if (!is_dir($outputDirectory) && !mkdir($outputDirectory, 0777, TRUE)) {
             throw new \RuntimeException('Fail to create ' . $outputDirectory);
         }
 
         $newAssetsFiles = [];
         foreach ($collection->getType($this->type) as $asset) {
-            // file is in tmp folder
-            if (strpos($asset->getPath(), $collection->getTmpDirectory()) !== FALSE) {
-                $relativePath = str_replace($collection->getTmpDirectory(), '', $asset->getPath());
-            // file is in bower folder
-            } elseif (strpos($asset->getPath(), $collection->getBowerDirectory()) !== FALSE) {
+            if (strpos($asset->getPath(), $collection->getBowerDirectory()) !== FALSE) {
                 $relativePath = str_replace($collection->getBowerDirectory(), '', $asset->getPath());
                 if ($asset->getType() === Asset::FONT) {
 
                     $relativePath = last(explode('/', $relativePath));
                 }
 
-            // templates files are not separated from js files
-            } elseif($this->type === Asset::TEMPLATE) {
-                $relativePath = str_replace(config('assets.assetsDirectory') . DIRECTORY_SEPARATOR . Asset::JS . DIRECTORY_SEPARATOR, '', $asset->getPath());
-
-            // file is resource/assets folder (no other case)
             } else {
                 $relativePath = str_replace(config('assets.assetsDirectory') . DIRECTORY_SEPARATOR . $this->type . DIRECTORY_SEPARATOR, '', $asset->getPath());
             }

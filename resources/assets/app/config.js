@@ -4,7 +4,7 @@ angular.module('app.config.router', [])
         // For any unmatched url, redirect to /
         $urlRouterProvider.otherwise("/");
 
-        var templateDir = '/assets/templates/';
+        var templateDir = '/assets/app/';
 
         // Now set up the states
         $stateProvider

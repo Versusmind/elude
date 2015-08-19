@@ -2,5 +2,5 @@
 
 angular.module('myo')
 .directive('navbar', function(templateDir){
-    templateUrl: templateDir+'navbar.html'
+    templateUrl: templateDir+'/myo/components/navbar/navbar.html'
 })

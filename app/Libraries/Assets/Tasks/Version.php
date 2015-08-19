@@ -55,8 +55,8 @@ class Version implements StageInterface
 
         $newAssetsFiles = [];
         foreach ($collection->getType($this->type) as $asset) {
-            copy($asset->getPath(), $outputDirectory . $collection->getCollectionId() . '.' . $this->type);
-            $newAssetsFiles[] = new Asset($this->type, $outputDirectory . $collection->getCollectionId() . '.' . $this->type);
+            copy($asset->getPath(), $outputDirectory . $collection->getCollectionId() . '.' . Asset::getExtensionFromType($this->type));
+            $newAssetsFiles[] = new Asset($this->type, $outputDirectory . $collection->getCollectionId() . '.' . Asset::getExtensionFromType($this->type));
         }
 
         $collection->setType($this->type, $newAssetsFiles);
