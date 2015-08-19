@@ -34,7 +34,7 @@ class Copy implements StageInterface
 
     protected $type;
 
-    function __construct ($type)
+    function __construct($type)
     {
         $this->type = $type;
     }
@@ -45,7 +45,7 @@ class Copy implements StageInterface
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      * @return Collection|mixed
      */
-    public function process ($collection)
+    public function process($collection)
     {
         \Log::info('Assets::Copy on collection ' . $collection->getCollectionId());
 
@@ -56,30 +56,9 @@ class Copy implements StageInterface
 
         $newAssetsFiles = [];
         foreach ($collection->getType($this->type) as $asset) {
-            // file is in tmp folder
-            if (strpos($asset->getPath(), $collection->getTmpDirectory()) !== FALSE) {
-                $relativePath = str_replace($collection->getTmpDirectory(), '', $asset->getPath());
-            // file is in bower folder
-            } elseif (strpos($asset->getPath(), $collection->getBowerDirectory()) !== FALSE) {
-                $relativePath = str_replace($collection->getBowerDirectory(), '', $asset->getPath());
-                if($asset->getType() === Asset::FONT) {
 
-                    $relativePath = last(explode('/', $relativePath));
-                }
-            // file is resource/assets folder (no other case)
-            } else {
-                $relativePath = str_replace(config('assets.assetsDirectory') . DIRECTORY_SEPARATOR . $this->type . DIRECTORY_SEPARATOR, '', $asset->getPath());
-            }
-
-            if (strpos($relativePath, '/') !== FALSE) {
-                $subfolders = join('/', explode(DIRECTORY_SEPARATOR, $relativePath, -1));
-
-                if (!is_dir($outputDirectory . $subfolders)) {
-                    if (!mkdir($outputDirectory . $subfolders, 0777, TRUE)) {
-                        throw new \RuntimeException('Cannot create ' . $outputDirectory . $subfolders . ' directory');
-                    }
-                }
-            }
+            $relativePath = $this->getRelativeBuildFilePath($asset, $collection);
+            $this->createSubFolders($relativePath, $outputDirectory);
 
             copy($asset->getPath(), $outputDirectory . $relativePath);
             $asset->setPath($outputDirectory . $relativePath);
@@ -90,5 +69,46 @@ class Copy implements StageInterface
         $collection->setType($this->type, $newAssetsFiles);
 
         return $collection;
+    }
+
+    /**
+     * @param Asset $asset
+     * @param Collection $collection
+     * @return mixed
+     */
+    protected function getRelativeBuildFilePath(Asset $asset, Collection $collection)
+    {
+        // file is in tmp folder
+        if (strpos($asset->getPath(), $collection->getTmpDirectory()) !== FALSE) {
+            return str_replace($collection->getTmpDirectory(), '', $asset->getPath());
+            // file is in bower folder
+        } elseif (strpos($asset->getPath(), $collection->getBowerDirectory()) !== FALSE) {
+            $relativePath = str_replace($collection->getBowerDirectory(), '', $asset->getPath());
+            if ($asset->getType() === Asset::FONT) {
+
+                $relativePath = last(explode('/', $relativePath));
+            }
+
+            return $relativePath;
+        }
+
+        return str_replace(config('assets.assetsDirectory') . DIRECTORY_SEPARATOR . $this->type . DIRECTORY_SEPARATOR, '', $asset->getPath());
+    }
+
+    /**
+     * @param $relativePath
+     * @param $directory
+     */
+    protected function createSubFolders($relativePath, $directory)
+    {
+        if (strpos($relativePath, '/') !== FALSE) {
+            $subfolders = join('/', explode(DIRECTORY_SEPARATOR, $relativePath, -1));
+
+            if (!is_dir($directory . $subfolders)) {
+                if (!mkdir($directory . $subfolders, 0777, TRUE)) {
+                    throw new \RuntimeException('Cannot create ' . $directory . $subfolders . ' directory');
+                }
+            }
+        }
     }
 }

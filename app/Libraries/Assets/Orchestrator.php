@@ -48,6 +48,11 @@ class Orchestrator
     protected $pipeline;
 
     /**
+     * @var BuilderDetector
+     */
+    protected $buildDetector;
+
+    /**
      * Orchestrator constructor.
      */
     public function __construct()
@@ -57,6 +62,8 @@ class Orchestrator
         } else {
             $this->pipeline = new Production();
         }
+
+        $this->buildDetector = new BuilderDetector();
     }
 
 
@@ -118,7 +125,7 @@ class Orchestrator
      */
     public function javascript (Collection $assets)
     {
-        $buildNeeded = $this->isBuildNeeded($assets);
+        $buildNeeded = $this->buildDetector->isBuildNeeded($assets);
         if($buildNeeded) {
             $this->initialize($assets);
             \Log::info('Assets::Build start javascript build for collection ' . $assets->getCollectionId());
@@ -135,99 +142,13 @@ class Orchestrator
      */
     public function style (Collection $assets)
     {
-        $buildNeeded = $this->isBuildNeeded($assets);
+        $buildNeeded = $this->buildDetector->isBuildNeeded($assets);
         if($buildNeeded) {
             $this->initialize($assets);
             \Log::info('Assets::Build start style build for collection ' . $assets->getCollectionId());
         }
 
         return $this->pipeline->style(true, $buildNeeded)->process($assets);
-    }
-
-    /**
-     * @param Collection $assets
-     *
-     * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
-     * @return bool
-     */
-    public function isBuildNeeded (Collection $assets)
-    {
-        if (!is_file($assets->versionFilePath())) {
-            return TRUE;
-        }
-
-        // get version detail
-        $build = json_decode(file_get_contents($assets->versionFilePath()));
-        if ($build === FALSE) {
-            return TRUE;
-        }
-
-        // change concat option
-        if ($build->concat !==  config('assets.concat')) {
-            return TRUE;
-        }
-
-        // no need to re-test in production, files must not change
-        if (\App::environment() !== 'production') {
-
-            // check if files change since last version
-            foreach ($assets->getAssets() as $types) {
-                foreach ($types as $file) {
-                    if (filemtime($file->getPath()) > $build->time) {
-                        return TRUE;
-                    }
-                }
-            }
-        }
-
-        if ($this->reloadFromBuild($assets, $build)) {
-
-            return FALSE;
-        }
-
-        return TRUE;
-    }
-
-    /**
-     * @param Collection $assets
-     * @param $build
-     *
-     * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
-     * @return bool
-     */
-    protected function reloadFromBuild (Collection $assets, $build)
-    {
-        \Log::info('Assets::Reload reload build for collection ' . $assets->getCollectionId());
-
-        foreach ($build->build as $buildFile) {
-            if(!file_exists($buildFile->path)) {
-                return false;
-            }
-        }
-
-        $assets->setAssets([]);
-        foreach ($build->build as $buildFile) {
-            $assets->appendType($buildFile->type, new Asset($buildFile->type, $buildFile->path));
-        }
-
-        return true;
-    }
-
-    /**
-     * @param Collection $collection
-     * @param array $except
-     * @return array
-     */
-    public function getBuildNeeded(Collection $collection, array $except = array())
-    {
-        $buildNeeded = [];
-        foreach(Collection::$types as $type) {
-            if($collection->hasType($type) && !in_array($type, $except, true)) {
-                $buildNeeded[] = Orchestrator::$buildType[$type];
-            }
-        }
-
-        return array_unique($buildNeeded);
     }
 
     /**
@@ -247,7 +168,7 @@ class Orchestrator
      */
     public function build(Collection $collection, array $except = array())
     {
-        $buildNeeded = $this->getBuildNeeded($collection, $except);
+        $buildNeeded = $this->buildDetector->getBuildNeeded($collection, $except);
 
         if(count($buildNeeded) === 0) {
             return [];

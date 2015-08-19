@@ -51,13 +51,12 @@ class QaPhpmd extends Command
         $process->run();
 
         $outputXml = $process->getOutput();
-
         $violations  = [];
         $dom         = simplexml_load_string($outputXml);
         $nbViolation = 0;
 
         foreach ($dom->xpath('//pmd/file') as $file) {
-            foreach ($file->xpath('//violation') as $violation) {
+            foreach ($file->children() as $violation) {
                 $violations[(string)$violation['ruleset']][(string)$violation['rule']][] = [
                     'file'    => str_replace(base_path(), '', (string)$file['name']),
                     'line'    => ((string)$violation["beginline"]) . ' to ' . ((string)$violation['endline']),
