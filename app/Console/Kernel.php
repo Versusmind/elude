@@ -1,6 +1,14 @@
 <?php
 namespace App\Console;
 
+use App\Console\Commands\ApiDocGenerator;
+use App\Console\Commands\AssetsBuilder;
+use App\Console\Commands\AssetsCleaner;
+use App\Console\Commands\AssetsUpdate;
+use App\Console\Commands\QaPhpComposerSecurity;
+use App\Console\Commands\QaPhpcpd;
+use App\Console\Commands\QaPhpCsFixer;
+use App\Console\Commands\QaPhpmd;
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
 
@@ -12,11 +20,14 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-
-        \App\Console\Commands\QaPhpcpd::class,
-        \App\Console\Commands\QaPhpCsFixer::class,
-        \App\Console\Commands\QaPhpmd::class,
-        \App\Console\Commands\QaPhpComposerSecurity::class,
+        QaPhpcpd::class,
+        QaPhpCsFixer::class,
+        QaPhpmd::class,
+        QaPhpComposerSecurity::class,
+        AssetsCleaner::class,
+        ApiDocGenerator::class,
+        AssetsUpdate::class,
+        AssetsBuilder::class,
     ];
 
     /**

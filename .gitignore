@@ -1,3 +1,6 @@
-/vendor
 .env
+/vendor
+/public/assets
+/storage
+/resources/assets/bower
 .idea

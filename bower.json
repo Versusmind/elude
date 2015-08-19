@@ -1,0 +1,27 @@
+{
+  "name": "myo2",
+  "version": "0.1.0",
+  "authors": [
+    "arnaud.lahaxe@versusmind.eu"
+  ],
+  "description": "Myo 2 project.",
+  "keywords": [
+    "Versusmind",
+    "Myo2"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angularjs": "~1.4.3",
+    "bootstrap": "~3.3.5",
+    "angular-bootstrap": "~0.13.3",
+    "angular-ui-router": "~0.2.15"
+  }
+}
