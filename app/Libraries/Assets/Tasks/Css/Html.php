@@ -31,24 +31,31 @@ class Html implements StageInterface
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      * @return string
      */
-    public function process ($collection)
+    public function process($collection)
     {
         \Log::info('Assets::Css::Html on collection ' . $collection->getCollectionId());
         $result = '';
 
-        if(!config('assets.concat') && $collection->getGroupName()) {
-            $result .=  "<!-- " . $collection->getGroupName() . "-->" . "\n";
+        if (!config('assets.concat') && $collection->getGroupName()) {
+            $result .= "<!-- " . $collection->getGroupName() . "-->" . "\n";
         }
 
         $outputDirectory = base_path('public') . DIRECTORY_SEPARATOR;
 
-        foreach ($collection->getType(Asset::CSS) as $asset) {
-
-            $result .= '<link rel="stylesheet" type="text/css" href="' . str_replace($outputDirectory, DIRECTORY_SEPARATOR, $asset->getPath()) . '">'  . "\n";
+        $subfolder = env('SUBFOLDER_INSTALLATION', false);
+        if ($subfolder) {
+            $subfolder .= '/';
+        } else {
+            $subfolder = '';
         }
 
-        if(!config('assets.concat') && $collection->getGroupName()) {
-            $result .=  "<!-- /" . $collection->getGroupName() . "-->" . "\n\n";
+        foreach ($collection->getType(Asset::CSS) as $asset) {
+
+            $result .= '<link rel="stylesheet" type="text/css" href="' . $subfolder . str_replace($outputDirectory, DIRECTORY_SEPARATOR, $asset->getPath()) . '">' . "\n";
+        }
+
+        if (!config('assets.concat') && $collection->getGroupName()) {
+            $result .= "<!-- /" . $collection->getGroupName() . "-->" . "\n\n";
         }
 
         return $result;
