@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2fcf82c746da68c342f9dd75b1d68c77",
+    "hash": "3b8c5f6f63f6193aefb7c7009560d0cb",
     "packages": [
         {
             "name": "appzcoder/lumen-routes-list",
@@ -2145,6 +2145,53 @@
                 "psr-3"
             ],
             "time": "2012-12-21 11:40:51"
+        },
+        {
+            "name": "signes/acl",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/signes-pl/laravel-acl.git",
+                "reference": "750a79651d26b8c22a8dda891bf412f4c74fd0e0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/signes-pl/laravel-acl/zipball/750a79651d26b8c22a8dda891bf412f4c74fd0e0",
+                "reference": "750a79651d26b8c22a8dda891bf412f4c74fd0e0",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/container": "^5.0.0",
+                "illuminate/database": "^5.0.0",
+                "illuminate/events": "^5.0.0",
+                "illuminate/support": "^5.0.0",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Signes\\Acl\\": "src/Acl/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Grzesiecki",
+                    "email": "pawel.grzesiecki@signes.pl"
+                }
+            ],
+            "description": "Advanced ACL for Laravel",
+            "homepage": "https://github.com/signes-pl/laravel-acl",
+            "keywords": [
+                "acl",
+                "groups",
+                "laravel",
+                "roles"
+            ],
+            "time": "2015-07-04 18:59:37"
         },
         {
             "name": "symfony/console",
