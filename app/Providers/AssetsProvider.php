@@ -36,11 +36,11 @@ class AssetsProvider extends ServiceProvider
 
         if ($this->app->environment() !== 'production') {
             $this->app->middleware([
-                \App\Http\Middleware\AssetsMiddleware::class
+                \App\Http\Middleware\AssetsMiddleware::class,
             ]);
         }
 
-        if(!class_exists('Assets')) {
+        if (!class_exists('Assets')) {
             class_alias('App\Facades\Assets', 'Assets');
         }
     }

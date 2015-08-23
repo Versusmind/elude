@@ -23,7 +23,6 @@ use Symfony\Component\Process\Process;
 
 class ApiDocGenerator extends Command
 {
-
     /**
      * The name and signature of the console command.
      *

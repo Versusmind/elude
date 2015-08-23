@@ -26,7 +26,6 @@ use Illuminate\Console\Command;
 
 class AssetsBuilder extends Command
 {
-
     /**
      * The name and signature of the console command.
      *
@@ -50,12 +49,12 @@ class AssetsBuilder extends Command
     {
         $groupToBuild = $this->option('group');
 
-        if($groupToBuild === 'all') {
+        if ($groupToBuild === 'all') {
             $this->info('Clean assets');
             \Artisan::call('assets:clean');
         }
 
-        if(config('assets.concat')) {
+        if (config('assets.concat')) {
             $this->info('Build with concatenation');
         } else {
             $this->info('Build without concatenation');
@@ -69,9 +68,8 @@ class AssetsBuilder extends Command
         /** @var Orchestrator $ocherstator */
         $ocherstator = \App::make('App\Libraries\Assets\Orchestrator');
 
-        foreach(config('assets.groups') as $groupname => $assets)
-        {
-            if($groupToBuild !== 'all' && $groupToBuild !== $groupname) {
+        foreach (config('assets.groups') as $groupname => $assets) {
+            if ($groupToBuild !== 'all' && $groupToBuild !== $groupname) {
                 continue;
             }
 
@@ -82,7 +80,7 @@ class AssetsBuilder extends Command
             try {
                 $buildTypes = $ocherstator->build($collection);
 
-                if(count($buildTypes) === 0) {
+                if (count($buildTypes) === 0) {
                     $this->comment('No build');
                 } else {
                     foreach ($buildTypes as $buildType) {
@@ -91,6 +89,7 @@ class AssetsBuilder extends Command
                 }
             } catch (\Exception $e) {
                 $this->error($e);
+
                 return;
             }
         }

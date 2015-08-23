@@ -22,17 +22,17 @@
  * Class Collection
  *
  * @author  LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+ *
  * @package App\Libraries\Assets
  */
 class Collection
 {
-
-    public static  $types = [Asset::CSS, Asset::JS, Asset::SASS, Asset::LESS, Asset::FONT, Asset::IMG, Asset::TEMPLATE];
+    public static $types = [Asset::CSS, Asset::JS, Asset::SASS, Asset::LESS, Asset::FONT, Asset::IMG, Asset::TEMPLATE];
 
     public static $staticType = [
         Asset::IMG,
         Asset::FONT,
-        Asset::TEMPLATE
+        Asset::TEMPLATE,
     ];
 
     protected $config;
@@ -68,7 +68,7 @@ class Collection
      *          ] ...
      *          ]
      */
-    public function __construct ($assets, $groupName = false)
+    public function __construct($assets, $groupName = false)
     {
         $this->config          = $assets;
         $this->outputDirectory = config('assets.outputDirectory');
@@ -76,15 +76,14 @@ class Collection
 
         $this->assets = [];
         foreach (self::$types as $type) {
-
             if (!isset($assets[$type])) {
                 continue;
             }
             foreach ($assets[$type] as $path) {
                 $path =  base_path($path);
-                if(strpos($path, '*')) {
+                if (strpos($path, '*')) {
                     foreach (glob($path) as $filename) {
-                        if(is_file($filename)) {
+                        if (is_file($filename)) {
                             $this->assets[$type][] = new Asset($type, $filename);
                         }
                     }
@@ -97,10 +96,10 @@ class Collection
         $this->groupName = $groupName;
     }
 
-    public static function createByGroup ($groupName)
+    public static function createByGroup($groupName)
     {
-        $group = config('assets.groups.' . $groupName, FALSE);
-        if ($group === FALSE) {
+        $group = config('assets.groups.' . $groupName, false);
+        if ($group === false) {
             throw new \RuntimeException('No assets group named ' . $groupName);
         }
 
@@ -112,9 +111,10 @@ class Collection
      * @param $type
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     *
      * @return array
      */
-    public function getType ($type)
+    public function getType($type)
     {
         if (isset($this->assets[$type]) && is_array($this->assets[$type])) {
             return $this->assets[$type];
@@ -129,7 +129,7 @@ class Collection
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      */
-    public function setType ($type, $data)
+    public function setType($type, $data)
     {
         $this->assets[$type] = $data;
     }
@@ -145,7 +145,7 @@ class Collection
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      */
-    public function prependType ($type, Asset $asset)
+    public function prependType($type, Asset $asset)
     {
         array_unshift($this->assets[$type], $asset);
     }
@@ -156,7 +156,7 @@ class Collection
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      */
-    public function appendType ($type, Asset $asset)
+    public function appendType($type, Asset $asset)
     {
         $this->assets[$type][] = $asset;
     }
@@ -164,11 +164,11 @@ class Collection
     /**
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      */
-    public function initializeFolder ()
+    public function initializeFolder()
     {
         foreach ([$this->outputDirectory, $this->tmpDirectory, storage_path('versions')] as $path) {
             if (!is_dir($path)) {
-                if (!mkdir($path, 0777, TRUE)) {
+                if (!mkdir($path, 0777, true)) {
                     throw new \RuntimeException('Can not create folder ' . $path);
                 }
             }
@@ -177,9 +177,10 @@ class Collection
 
     /**
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     *
      * @return string
      */
-    public function versionFilePath ()
+    public function versionFilePath()
     {
         return storage_path('versions/' . $this->getCollectionId() . '.json');
     }
@@ -188,11 +189,11 @@ class Collection
      * @param $build
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     *
      * @return int
      */
-    public function writeVersion ($build, $isConcat)
+    public function writeVersion($build, $isConcat)
     {
-
         if (!is_array($build)) {
             $build = [$build];
         }
@@ -202,15 +203,16 @@ class Collection
             'build'        => $build,
             'initialFiles' => $this->config,
             'concat'       => $isConcat,
-            'time'         => time()
+            'time'         => time(),
         ], JSON_PRETTY_PRINT));
     }
 
     /**
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     *
      * @return string
      */
-    public function getCollectionId ()
+    public function getCollectionId()
     {
         if (is_null($this->collectionId)) {
             $this->collectionId = md5(json_encode($this->config));
@@ -222,7 +224,7 @@ class Collection
     /**
      * @return mixed
      */
-    public function getConfig ()
+    public function getConfig()
     {
         return $this->config;
     }
@@ -230,7 +232,7 @@ class Collection
     /**
      * @param mixed $config
      */
-    public function setConfig ($config)
+    public function setConfig($config)
     {
         $this->config = $config;
     }
@@ -238,7 +240,7 @@ class Collection
     /**
      * @return array
      */
-    public function getAssets ()
+    public function getAssets()
     {
         return $this->assets;
     }
@@ -246,7 +248,7 @@ class Collection
     /**
      * @param array $assets
      */
-    public function setAssets ($assets)
+    public function setAssets($assets)
     {
         $this->assets = $assets;
     }
@@ -254,7 +256,7 @@ class Collection
     /**
      * @return string
      */
-    public function getOutputDirectory ()
+    public function getOutputDirectory()
     {
         return $this->outputDirectory;
     }
@@ -262,7 +264,7 @@ class Collection
     /**
      * @param string $outputDirectory
      */
-    public function setOutputDirectory ($outputDirectory)
+    public function setOutputDirectory($outputDirectory)
     {
         $this->outputDirectory = $outputDirectory;
     }
@@ -270,7 +272,7 @@ class Collection
     /**
      * @return string
      */
-    public function getTmpDirectory ()
+    public function getTmpDirectory()
     {
         return $this->tmpDirectory;
     }
@@ -278,7 +280,7 @@ class Collection
     /**
      * @param string $tmpDirectory
      */
-    public function setTmpDirectory ($tmpDirectory)
+    public function setTmpDirectory($tmpDirectory)
     {
         $this->tmpDirectory = $tmpDirectory;
     }
@@ -286,7 +288,7 @@ class Collection
     /**
      * @return string
      */
-    public function getBowerDirectory ()
+    public function getBowerDirectory()
     {
         return $this->bowerDirectory;
     }
@@ -294,15 +296,15 @@ class Collection
     /**
      * @param string $bowerDirectory
      */
-    public function setBowerDirectory ($bowerDirectory)
+    public function setBowerDirectory($bowerDirectory)
     {
         $this->bowerDirectory = $bowerDirectory;
     }
 
     /**
-     * @return boolean|string
+     * @return bool|string
      */
-    public function getGroupName ()
+    public function getGroupName()
     {
         return $this->groupName;
     }
@@ -310,7 +312,7 @@ class Collection
     /**
      * @param string $groupName
      */
-    public function setGroupName ($groupName)
+    public function setGroupName($groupName)
     {
         $this->groupName = $groupName;
     }

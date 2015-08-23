@@ -1,5 +1,6 @@
 <html ng-app="myo">
 <head>
+    <base href="<?php echo env('SUBFOLDER_INSTALLATION', '/') ?>">
     <?php
         echo Assets::style(\App\Libraries\Assets\Collection::createByGroup('style'));
     ?>

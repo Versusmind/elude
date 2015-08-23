@@ -20,13 +20,12 @@
 
 class Asset implements \JsonSerializable
 {
-
-    const CSS = 'css';
-    const JS = 'js';
-    const SASS = 'sass';
-    const LESS = 'less';
-    const IMG = 'img';
-    const FONT = 'fonts';
+    const CSS      = 'css';
+    const JS       = 'js';
+    const SASS     = 'sass';
+    const LESS     = 'less';
+    const IMG      = 'img';
+    const FONT     = 'fonts';
     const TEMPLATE = 'templates';
 
     protected $type;
@@ -44,17 +43,17 @@ class Asset implements \JsonSerializable
      * @param $path
      * @param string $initialPath
      */
-    public function __construct ($type, $path, $initialPath = '')
+    public function __construct($type, $path, $initialPath = '')
     {
-        $this->type = $type;
-        $this->path = $path;
+        $this->type        = $type;
+        $this->path        = $path;
         $this->initialPath = $path;
     }
 
     /**
      * @return mixed
      */
-    public function getType ()
+    public function getType()
     {
         return $this->type;
     }
@@ -64,7 +63,7 @@ class Asset implements \JsonSerializable
      *
      * @return self
      */
-    public function setType ($type)
+    public function setType($type)
     {
         $this->type = $type;
 
@@ -74,7 +73,7 @@ class Asset implements \JsonSerializable
     /**
      * @return mixed
      */
-    public function getPath ()
+    public function getPath()
     {
         return $this->path;
     }
@@ -84,7 +83,7 @@ class Asset implements \JsonSerializable
      *
      * @return self
      */
-    public function setPath ($path)
+    public function setPath($path)
     {
         $this->path = $path;
 
@@ -94,7 +93,7 @@ class Asset implements \JsonSerializable
     /**
      * @return mixed
      */
-    public function getBuildPath ()
+    public function getBuildPath()
     {
         return $this->buildPath;
     }
@@ -104,7 +103,7 @@ class Asset implements \JsonSerializable
      *
      * @return self
      */
-    public function setBuildPath ($buildPath)
+    public function setBuildPath($buildPath)
     {
         $this->buildPath = $buildPath;
 
@@ -114,7 +113,7 @@ class Asset implements \JsonSerializable
     /**
      * @return mixed
      */
-    public function getUri ()
+    public function getUri()
     {
         return $this->uri;
     }
@@ -124,7 +123,7 @@ class Asset implements \JsonSerializable
      *
      * @return self
      */
-    public function setUri ($uri)
+    public function setUri($uri)
     {
         $this->uri = $uri;
 
@@ -152,14 +151,15 @@ class Asset implements \JsonSerializable
      * Specify data which should be serialized to JSON
      *
      * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     *
      * @return mixed data which can be serialized by <b>json_encode</b>,
      *       which is a value of any type other than a resource.
      */
-    function jsonSerialize ()
+    public function jsonSerialize()
     {
         return [
             'type' => $this->type,
-            'path' => $this->path
+            'path' => $this->path,
         ];
     }
 }

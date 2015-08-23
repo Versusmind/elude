@@ -26,14 +26,14 @@ use League\Pipeline\StageInterface;
  * Class Concat
  *
  * @author  LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+ *
  * @package App\Libraries\Assets\Tasks
  */
 class Concat implements StageInterface
 {
-
     protected $type;
 
-    function __construct ($type)
+    public function __construct($type)
     {
         $this->type = $type;
     }
@@ -42,9 +42,10 @@ class Concat implements StageInterface
      * @param Collection $collection
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     *
      * @return Collection|mixed
      */
-    public function process ($collection)
+    public function process($collection)
     {
         \Log::info('Assets::Concat on collection ' . $collection->getCollectionId());
 
@@ -55,7 +56,7 @@ class Concat implements StageInterface
         }
 
         $collection->setType($this->type, [
-            new Asset($this->type, $outputFile)
+            new Asset($this->type, $outputFile),
         ]);
 
         return $collection;

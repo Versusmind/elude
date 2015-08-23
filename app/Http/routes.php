@@ -36,7 +36,6 @@ $app->group(['prefix' => 'api/v1', 'middleware' => 'cors'], function() use ($app
 
     $app->post('oauth/access_token', ['as' => 'oauth.login', 'uses' => '\App\Http\Controllers\Api\Auth@login']);
     $app->group(['middleware' => 'oauth'], function() use ($app) {
-
-
+    	// your api routes
     });
 });
