@@ -12,6 +12,15 @@ class TestCase extends Laravel\Lumen\Testing\TestCase
         self::FLOAT
     ];
 
+    public function __construct($name = null, array $data = array(), $dataName = '')
+    {
+
+        $this->baseUrl = env('BASE_URL_TESTING');
+
+        parent::__construct($name, $data, $dataName);
+    }
+
+
     /**
      * Creates the application.
      *

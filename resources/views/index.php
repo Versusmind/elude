@@ -3,9 +3,14 @@
     <?php
         echo Assets::style(\App\Libraries\Assets\Collection::createByGroup('style'));
     ?>
+
+    <meta name="access_token" content="<?php echo Session::get('oauth.access_token')?>">
+    <meta name="refresh_token" content="<?php echo Session::get('oauth.refresh_token')?>">
+    <meta name="token_type" content="<?php echo Session::get('oauth.token_type')?>">
 </head>
 
 <body>
+    <div>Welcome <?php echo Auth::user()->username ?></div>
 
     <div ui-view></div>
 

@@ -1,4 +1,7 @@
-<?php use Illuminate\Database\Seeder;
+<?php
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Config;
 
 class OAuthClientSeed extends Seeder
 {
@@ -9,7 +12,14 @@ class OAuthClientSeed extends Seeder
      */
     public function run()
     {
-        \App::make(\LucaDegasperi\OAuth2Server\Storage\FluentClient::class)
-            ->create('versusmind dev', 'versusmind', 'versusmind');
+        $repository = \App::make(\LucaDegasperi\OAuth2Server\Storage\FluentClient::class);
+
+        if (\App::environment() !== 'production') {
+            $repository->create('versusmind dev', 'versusmind', 'versusmind');
+        }
+
+
+        $repository->create('web client', Config::get('oauth2.web_client.client_id'), Config::get('oauth2.web_client.client_secret'));
+        $repository->create('app client', Config::get('oauth2.app_client.client_id'), Config::get('oauth2.app_client.client_secret'));
     }
 }

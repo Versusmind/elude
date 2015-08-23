@@ -5,7 +5,8 @@ class GrantPasswordTest extends TestCase
 {
     public function testLogin()
     {
-        $this->call('POST', '/oauth/access_token', [
+
+        $this->call('POST', '/api/v1/oauth/access_token', [
             'username' => 'user',
             'password' => 'user',
             'grant_type' => 'password',
@@ -15,16 +16,17 @@ class GrantPasswordTest extends TestCase
         $this->seeJson([]);
         $this->seeStatusCode(200);
         $this->assertMatchPattern([
-                "access_token" => self::STRING,
-                "token_type" => "Bearer",
-                "expires_in" => 3600
-            ]);
+            "access_token" => self::STRING,
+            "refresh_token" => self::STRING,
+            "token_type" => "Bearer",
+            "expires_in" => 3600
+        ]);
     }
 
 
     public function testLoginKo()
     {
-        $this->call('POST', '/oauth/access_token', [
+        $this->call('POST', '/api/v1/oauth/access_token', [
             'username' => 'jerry',
             'password' => 'khan',
             'grant_type' => 'password',

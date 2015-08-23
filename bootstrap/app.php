@@ -70,7 +70,8 @@ $app->middleware([
 
 $app->routeMiddleware([
     'check-authorization-params' => LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware::class,
-//    'csrf' => Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
+    'csrf' => Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
+    'auth' => \App\Http\Middleware\AuthMiddleware::class,
     'oauth' => LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware::class,
     'oauth-owner' => LucaDegasperi\OAuth2Server\Middleware\OAuthClientOwnerMiddleware::class
 ]);
@@ -92,9 +93,11 @@ $app->register(App\Providers\AssetsProvider::class);
 $app->register(Appzcoder\LumenRoutesList\RoutesCommandServiceProvider::class);
 $app->register(LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class);
 $app->register(LucaDegasperi\OAuth2Server\Lumen\OAuth2ServerServiceProvider::class);
+$app->register(Barryvdh\Cors\LumenServiceProvider::class);
 
 
 $app->configure('oauth2');
+$app->configure('cors');
 
 /*
 |--------------------------------------------------------------------------

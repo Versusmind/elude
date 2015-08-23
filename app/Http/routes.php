@@ -11,20 +11,32 @@
 |
 */
 
-$app->get('/', function() use ($app) {
+/*
+|--------------------------------------------------------------------------
+| WEB
+|--------------------------------------------------------------------------
+*/
+$app->get('auth/login', ['as' => 'auth.loginForm', 'uses' => 'Auth@loginForm']);
+$app->post('auth/login', ['as' => 'auth.login', 'uses' => 'Auth@login']);
 
-    return view('index');
+$app->group(['middleware' => ['auth', 'csrf']], function() use ($app) {
+    $app->get('/', function () use ($app) {
+
+        return view('index');
+    });
+
 });
 
-$app->get('protected', ['middleware' => 'oauth', function() {
-    dump('OK');
-}]);
+/*
+|--------------------------------------------------------------------------
+| API
+|--------------------------------------------------------------------------
+*/
+$app->group(['prefix' => 'api/v1', 'middleware' => 'cors'], function() use ($app) {
 
-$app->get('scope', ['middleware' => 'oauth:scope1',  function() {
-    dump('OK scope1');
-}]);
+    $app->post('oauth/access_token', ['as' => 'oauth.login', 'uses' => '\App\Http\Controllers\Api\Auth@login']);
+    $app->group(['middleware' => 'oauth'], function() use ($app) {
 
-$app->post('oauth/access_token', ['as' => 'oauth.login', function() {
 
-    return response()->json(Authorizer::issueAccessToken());
-}]);
+    });
+});

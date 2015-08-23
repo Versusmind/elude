@@ -9,6 +9,7 @@ class User extends Model implements AuthContract
 
     use Authenticatable;
 
+    protected $primaryKey = 'id';
     protected $table = 'users';
     protected $fillable = [
         'username',
@@ -16,15 +17,5 @@ class User extends Model implements AuthContract
         'password'
     ];
     protected $hidden = ['password'];
-
-    /**
-     * Get the unique identifier for the user.
-     *
-     * @return mixed
-     */
-    public function getAuthIdentifier()
-    {
-        return 'username';
-    }
 
 }
