@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-Dotenv::load(__DIR__.'/../');
+Dotenv::load(__DIR__ . '/../');
 
 /*
 |--------------------------------------------------------------------------
@@ -16,13 +16,13 @@ Dotenv::load(__DIR__.'/../');
 */
 
 $app = new Laravel\Lumen\Application(
-	realpath(__DIR__.'/../')
+    realpath(__DIR__ . '/../')
 );
 
 $app->withFacades();
 
-if(!class_exists('Artisan')) {
-    class_alias('Illuminate\Support\Facades\Artisan', 'Artisan');
+if (!class_exists('Artisan')) {
+    class_alias(Illuminate\Support\Facades\Artisan::class, 'Artisan');
 }
 
 $app->withEloquent();
@@ -59,17 +59,22 @@ $app->singleton(
 |
 */
 
- $app->middleware([
-//     // Illuminate\Cookie\Middleware\EncryptCookies::class,
-//     // Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-//     // Illuminate\Session\Middleware\StartSession::class,
-//     // Illuminate\View\Middleware\ShareErrorsFromSession::class,
-//     // Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
+$app->middleware([
+    Illuminate\Cookie\Middleware\EncryptCookies::class,
+    Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+    Illuminate\Session\Middleware\StartSession::class,
+    Illuminate\View\Middleware\ShareErrorsFromSession::class,
+    //Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
+    LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware::class
 ]);
 
-// $app->routeMiddleware([
-
-// ]);
+$app->routeMiddleware([
+    'check-authorization-params' => LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware::class,
+    'csrf' => Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
+    'auth' => \App\Http\Middleware\AuthMiddleware::class,
+    'oauth' => LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware::class,
+    'oauth-owner' => LucaDegasperi\OAuth2Server\Middleware\OAuthClientOwnerMiddleware::class
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -82,10 +87,18 @@ $app->singleton(
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
+$app->register(App\Providers\AppServiceProvider::class);
+$app->register(App\Providers\EventServiceProvider::class);
 $app->register(App\Providers\AssetsProvider::class);
 $app->register(Appzcoder\LumenRoutesList\RoutesCommandServiceProvider::class);
+$app->register(LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class);
+$app->register(LucaDegasperi\OAuth2Server\Lumen\OAuth2ServerServiceProvider::class);
+$app->register(Barryvdh\Cors\LumenServiceProvider::class);
+
+
+$app->configure('oauth2');
+$app->configure('cors');
+
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes
@@ -97,8 +110,12 @@ $app->register(Appzcoder\LumenRoutesList\RoutesCommandServiceProvider::class);
 |
 */
 
+if (!class_exists('Authorizer')) {
+    class_alias(\LucaDegasperi\OAuth2Server\Facades\Authorizer::class, 'Authorizer');
+}
+
 $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
-	require __DIR__.'/../app/Http/routes.php';
+    require __DIR__ . '/../app/Http/routes.php';
 });
 
 return $app;

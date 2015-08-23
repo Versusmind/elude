@@ -24,31 +24,37 @@ use League\Pipeline\StageInterface;
 
 class Html implements StageInterface
 {
-
     /**
      * @param Collection $collection
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     *
      * @return mixed
      */
-    public function process ($collection)
+    public function process($collection)
     {
         \Log::info('Assets::Javascript::Html on collection ' . $collection->getCollectionId());
 
         $result = '';
 
-        if(!config('assets.concat') && $collection->getGroupName()) {
+        if (!config('assets.concat') && $collection->getGroupName()) {
             $result .=  "<!-- " . $collection->getGroupName() . "-->" . "\n";
         }
 
         $outputDirectory = base_path('public') . DIRECTORY_SEPARATOR;
 
-        foreach ($collection->getType(Asset::JS) as $asset) {
-
-            $result .= '<script src="' . str_replace($outputDirectory, DIRECTORY_SEPARATOR, $asset->getPath()) . '"></script>' . "\n";
+        $subfolder = env('SUBFOLDER_INSTALLATION', false);
+        if ($subfolder) {
+            $subfolder .= '/';
+        } else {
+            $subfolder = '';
         }
 
-        if(!config('assets.concat') && $collection->getGroupName()) {
+        foreach ($collection->getType(Asset::JS) as $asset) {
+            $result .= '<script src="' . $subfolder . str_replace($outputDirectory, DIRECTORY_SEPARATOR, $asset->getPath()) . '"></script>' . "\n";
+        }
+
+        if (!config('assets.concat') && $collection->getGroupName()) {
             $result .=  "<!-- /" . $collection->getGroupName() . "-->" . "\n\n";
         }
 

@@ -4,7 +4,7 @@ angular.module('app.config.router', [])
         // For any unmatched url, redirect to /
         $urlRouterProvider.otherwise("/");
 
-        var templateDir = '/assets/app/';
+        var templateDir = 'assets/app/';
 
         // Now set up the states
         $stateProvider
@@ -24,4 +24,4 @@ angular.module('app.config.router', [])
                 templateUrl: templateDir+"accordion.html",
                 controller: 'AccordionDemoCtrl'
             })
-    });
+            });

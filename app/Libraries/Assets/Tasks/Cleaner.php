@@ -25,18 +25,19 @@ use League\Pipeline\StageInterface;
  * Class Version
  *
  * @author  LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+ *
  * @package App\Libraries\Assets\Tasks
  */
 class Cleaner implements StageInterface
 {
-
     /**
      * @param Collection $collection
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     *
      * @return Collection|mixed
      */
-    public function process ($collection)
+    public function process($collection)
     {
         \Log::info('Assets::Cleaner on collection ' . $collection->getCollectionId());
 
@@ -45,7 +46,7 @@ class Cleaner implements StageInterface
         return $collection;
     }
 
-    public static function deleteDir ($dirPath)
+    public static function deleteDir($dirPath)
     {
         if (!is_dir($dirPath)) {
             throw new \InvalidArgumentException("$dirPath must be a directory");

@@ -26,14 +26,14 @@ use League\Pipeline\StageInterface;
  * Class Version
  *
  * @author  LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+ *
  * @package App\Libraries\Assets\Tasks
  */
 class Version implements StageInterface
 {
-
     protected $type;
 
-    function __construct ($type)
+    public function __construct($type)
     {
         $this->type = $type;
     }
@@ -42,14 +42,15 @@ class Version implements StageInterface
      * @param Collection $collection
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+     *
      * @return mixed
      */
-    public function process ($collection)
+    public function process($collection)
     {
         \Log::info('Assets::Version on collection ' . $collection->getCollectionId());
 
         $outputDirectory = $collection->getOutputDirectory() . DIRECTORY_SEPARATOR . $this->type . DIRECTORY_SEPARATOR;
-        if (!is_dir($outputDirectory) && !mkdir($outputDirectory, 0777, TRUE)) {
+        if (!is_dir($outputDirectory) && !mkdir($outputDirectory, 0777, true)) {
             throw new \RuntimeException('Fail to create ' . $outputDirectory);
         }
 

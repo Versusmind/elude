@@ -1,5 +1,5 @@
+.env
 /vendor
-/.env
 /public/assets
 /storage
 /resources/assets/bower
