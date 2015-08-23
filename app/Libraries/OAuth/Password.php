@@ -21,10 +21,9 @@ class Password
 {
     public function verify($username, $password)
     {
-
         $credentials = [
             'username'    => $username,
-            'password' => $password,
+            'password'    => $password,
         ];
 
         if (\Auth::attempt($credentials)) {

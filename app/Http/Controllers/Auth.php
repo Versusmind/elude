@@ -6,10 +6,9 @@ use Illuminate\Support\Facades\Session;
 
 class Auth extends Controller
 {
-
     public function loginForm()
     {
-        if(!\Auth::guest()) {
+        if (!\Auth::guest()) {
             return redirect('/');
         }
 
@@ -33,8 +32,6 @@ class Auth extends Controller
 
             return redirect('/');
         } catch (\Exception $e) {
-
-
             return redirect(route('auth.loginForm', ['error' => true]));
         }
     }
