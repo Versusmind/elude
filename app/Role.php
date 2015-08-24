@@ -1,8 +1,8 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Signes\Acl\Exception\UnknownRoleFilter;
-use Signes\Acl\RoleInterface;
+use Libraries\Acl\Exceptions\UnknownRoleFilter;
+use Libraries\Acl\Interfaces\RoleInterface;
 
 /**
  * Class Role
@@ -11,6 +11,10 @@ use Signes\Acl\RoleInterface;
  */
 class Role extends Model implements RoleInterface
 {
+
+    const FILTER_ACCESS = 'A';
+    const FILTER_DENY   = 'D';
+    const FILTER_REVOKE = 'R';
 
     /**
      * Mass fillable columns
@@ -28,20 +32,19 @@ class Role extends Model implements RoleInterface
 
     /**
      * Available values:
-     *  A - allow access to everything
-     *  D - deny access to everything
-     *  R - revoke access to resource
-     *
+     *  A - allow access
+     *  D - deny access
+     *  R - revoke access
      * @var array
      */
-    protected $filters = ['A', 'D', 'R'];
+    protected $filters = [self::FILTER_ACCESS, self::FILTER_DENY, self::FILTER_REVOKE];
 
     /**
      * User role permissions
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function getPermissions()
+    public function permissions()
     {
         return $this->belongsToMany(
             Permission::class,
@@ -54,9 +57,9 @@ class Role extends Model implements RoleInterface
     /**
      * Set special filter.
      * Available values:
-     *  A - allow access to everything
-     *  D - deny access to everything
-     *  R - revoke access to resource
+     *  A - allow access
+     *  D - deny access
+     *  R - revoke access
      *
      * @param $filter
      * @throws UnknownRoleFilter
@@ -71,4 +74,8 @@ class Role extends Model implements RoleInterface
         $this->filter = $filter;
     }
 
+    public function getFilter()
+    {
+        return $this->filter;
+    }
 }

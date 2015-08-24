@@ -1,7 +1,7 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Signes\Acl\PermissionInterface;
+use Libraries\Acl\Interfaces\PermissionInterface;
 
 /**
  * Class Permission
@@ -16,7 +16,7 @@ class Permission extends Model implements PermissionInterface
      *
      * @var array
      */
-    protected $fillable = array('area', 'permission', 'actions', 'description');
+    protected $fillable = array('area', 'permission', 'action', 'description');
 
     /**
      * The database table used by the model.
@@ -24,4 +24,9 @@ class Permission extends Model implements PermissionInterface
      * @var string
      */
     protected $table = 'acl_permissions';
+
+    public function getAction()
+    {
+        return $this->action;
+    }
 }
