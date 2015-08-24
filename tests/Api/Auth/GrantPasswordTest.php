@@ -1,6 +1,13 @@
 <?php
 
-
+/**
+ * Class GrantPasswordTest
+ *
+ *
+ *
+ * @author LAHAXE Arnaud
+ * @group critical
+ */
 class GrantPasswordTest extends TestCase
 {
     public function testLogin()

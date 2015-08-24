@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Class LoginTest
+ *
+ *
+ *
+ * @author LAHAXE Arnaud
+ * @group critical
+ */
 class LoginTest extends TestCase
 {
 
