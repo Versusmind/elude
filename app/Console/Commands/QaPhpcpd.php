@@ -30,7 +30,7 @@ class QaPhpcpd extends Command
      *
      * @var string
      */
-    protected $signature = 'qa:phpcpd {--limit=5 : Percentage of copy past tolerate}';
+    protected $signature = 'qa:phpcpd {--limit=1 : Percentage of copy past tolerate}';
 
     /**
      * The console command description.
@@ -52,8 +52,14 @@ class QaPhpcpd extends Command
             [] // exclude
         );
         $files  = $finder->findFiles();
-        $clones = $detector->copyPasteDetection($files, 10);
 
+        foreach($files as $key => $value) {
+            if(!is_file($value)) {
+                unset($files[$key]);
+            }
+        }
+
+        $clones = $detector->copyPasteDetection($files);
         if ($this->getOutput()->getVerbosity() > 1) {
             $printer = new Text();
             $printer->printResult($this->getOutput(), $clones);
@@ -61,6 +67,7 @@ class QaPhpcpd extends Command
         }
 
         $percentage = floatval($clones->getPercentage());
+
         if ($percentage > $this->option('limit')) {
             $this->error('[Shame] The copy/paste percentage is ' . $percentage);
 
