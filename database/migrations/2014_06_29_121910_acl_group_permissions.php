@@ -20,10 +20,18 @@ class AclGroupPermissions extends Migration
         Schema::create('acl_group_permissions', function ($table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('group_id');
-            $table->integer('permission_id');
+            $table->integer('group_id')->unsigned();
+            $table->integer('permission_id')->unsigned();
             $table->text('actions');
             $table->unique(['group_id', 'permission_id']);
+
+            $table->foreign('group_id')
+                ->references('id')->on('acl_groups')
+                ->onDelete('cascade');
+
+            $table->foreign('permission_id')
+                ->references('id')->on('acl_permissions')
+                ->onDelete('cascade');
         });
     }
 

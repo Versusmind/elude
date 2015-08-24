@@ -20,10 +20,18 @@ class AclUserPermissions extends Migration
         Schema::create('acl_user_permissions', function ($table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('user_id');
-            $table->integer('permission_id');
+            $table->integer('user_id')->unsigned();
+            $table->integer('permission_id')->unsigned();
             $table->text('actions');
             $table->unique(['user_id', 'permission_id']);
+
+            $table->foreign('permission_id')
+                ->references('id')->on('acl_permissions')
+                ->onDelete('cascade');
+
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
         });
     }
 

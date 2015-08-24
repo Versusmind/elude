@@ -20,10 +20,18 @@ class AclRolePermissions extends Migration
         Schema::create('acl_role_permissions', function ($table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('role_id');
-            $table->integer('permission_id');
+            $table->integer('role_id')->unsigned();
+            $table->integer('permission_id')->unsigned();
             $table->text('actions');
             $table->unique(['role_id', 'permission_id']);
+
+            $table->foreign('role_id')
+                ->references('id')->on('acl_roles')
+                ->onDelete('cascade');
+
+            $table->foreign('permission_id')
+                ->references('id')->on('acl_permissions')
+                ->onDelete('cascade');
         });
     }
 

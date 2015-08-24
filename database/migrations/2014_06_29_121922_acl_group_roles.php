@@ -18,10 +18,18 @@ class AclGroupRoles extends Migration
     public function up()
     {
         Schema::create('acl_group_roles', function ($table) {
-            $table->integer('group_id');
-            $table->integer('role_id');
+            $table->integer('group_id')->unsigned();
+            $table->integer('role_id')->unsigned();
             $table->primary(['group_id', 'role_id']);
             $table->timestamps();
+
+            $table->foreign('role_id')
+                ->references('id')->on('acl_roles')
+                ->onDelete('cascade');
+
+            $table->foreign('group_id')
+                ->references('id')->on('acl_groups')
+                ->onDelete('cascade');
         });
     }
 

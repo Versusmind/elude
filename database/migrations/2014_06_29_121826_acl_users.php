@@ -20,7 +20,7 @@ class AclUsers extends Migration
             $table->string('username', 255)->unique();
             $table->string('email', 255);
             $table->string('password', 255);
-            $table->string('group_id', 255)->nullable();
+            $table->integer('group_id')->unsigned()->nullable();
             $table->string('remember_token', 150)->nullable();
 
             $table->timestamps();
