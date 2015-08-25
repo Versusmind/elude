@@ -1,8 +1,9 @@
-<?php
+<?php namespace Tests\Web\Auth;
+
+use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
-
 
     public function testValidLogin()
     {

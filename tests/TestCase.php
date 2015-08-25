@@ -1,7 +1,8 @@
-<?php
+<?php namespace Tests;
 
-class TestCase extends Laravel\Lumen\Testing\TestCase
+class TestCase extends \Laravel\Lumen\Testing\TestCase
 {
+
     const STRING = '#.*#';
     const NUMBER = '#[0-9]+#';
     const FLOAT = '#[0-9]+\.[0-9]+#';
@@ -19,7 +20,6 @@ class TestCase extends Laravel\Lumen\Testing\TestCase
 
         parent::__construct($name, $data, $dataName);
     }
-
 
     /**
      * Creates the application.
