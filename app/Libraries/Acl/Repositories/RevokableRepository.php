@@ -8,8 +8,6 @@
 
 namespace App\Libraries\Acl\Repositories;
 
-
-use Libraries\Acl\Interfaces\GrantableInterface;
 use Libraries\Acl\Interfaces\PermissionInterface;
 use Libraries\Acl\Interfaces\RevokableInterface;
 
@@ -25,7 +23,7 @@ abstract class RevokableRepository extends GrantableRepository
     }
 
     /**
-     * @param RevokableInterface $model
+     * @param RevokableInterface  $model
      * @param PermissionInterface $permission
      */
     public function revoke(RevokableInterface $model, PermissionInterface $permission)

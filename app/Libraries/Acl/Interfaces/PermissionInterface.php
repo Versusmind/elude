@@ -1,6 +1,5 @@
 <?php namespace Libraries\Acl\Interfaces;
 
-
 /**
  * Interface PermissionInterface
  *
@@ -8,5 +7,6 @@
  */
 interface PermissionInterface
 {
+
     public function getAction();
 }

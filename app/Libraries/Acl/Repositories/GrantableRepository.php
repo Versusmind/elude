@@ -8,7 +8,7 @@
 
 namespace App\Libraries\Acl\Repositories;
 
-
+use App\Permission;
 use Libraries\Acl\Interfaces\GrantableInterface;
 use Libraries\Acl\Interfaces\PermissionInterface;
 
@@ -24,8 +24,9 @@ abstract class GrantableRepository extends Repository
     }
 
     /**
-     * @param GrantableInterface $model
+     * @param GrantableInterface  $model
      * @param PermissionInterface $permission
+     *
      * @return GrantableRepository
      */
     public function grant(GrantableInterface $model, PermissionInterface $permission)
@@ -34,8 +35,9 @@ abstract class GrantableRepository extends Repository
     }
 
     /**
-     * @param GrantableInterface $model
+     * @param GrantableInterface  $model
      * @param PermissionInterface $permission
+     *
      * @return GrantableRepository
      */
     public function deny(GrantableInterface $model, PermissionInterface $permission)
@@ -45,7 +47,8 @@ abstract class GrantableRepository extends Repository
 
     /**
      * @param GrantableInterface $model
-     * @param Permission $permission
+     * @param Permission         $permission
+     *
      * @return $this
      */
     public function addPermission(GrantableInterface $model, Permission $permission)
@@ -57,7 +60,8 @@ abstract class GrantableRepository extends Repository
 
     /**
      * @param GrantableInterface $model
-     * @param Permission $permission
+     * @param Permission         $permission
+     *
      * @return $this
      */
     public function removePermission(GrantableInterface $model, Permission $permission)
@@ -65,5 +69,16 @@ abstract class GrantableRepository extends Repository
         $model->permissions()->detach($permission);
 
         return $this;
+    }
+
+    /**
+     * @param \Libraries\Acl\Interfaces\GrantableInterface $model
+     * @param \App\Permission                              $permission
+     *
+     * @return mixed
+     */
+    public function hasPermission(GrantableInterface $model, Permission $permission)
+    {
+        return $model->permissions->contains($permission->id);
     }
 }

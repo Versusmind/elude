@@ -1,6 +1,5 @@
 <?php namespace Libraries\Acl\Interfaces;
 
-
 /**
  * Interface RoleInterface
  *

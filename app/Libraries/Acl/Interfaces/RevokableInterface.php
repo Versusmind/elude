@@ -9,7 +9,6 @@
 
 namespace Libraries\Acl\Interfaces;
 
-
 interface RevokableInterface extends GrantableInterface
 {
 

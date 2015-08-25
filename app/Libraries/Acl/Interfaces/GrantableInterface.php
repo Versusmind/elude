@@ -9,8 +9,8 @@
 
 namespace Libraries\Acl\Interfaces;
 
-
 interface GrantableInterface
 {
+
     public function permissions();
 }

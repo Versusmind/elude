@@ -1,6 +1,5 @@
 <?php namespace App\Libraries\Acl\Repositories;
 
-
 class Role extends RevokableRepository
 {
 

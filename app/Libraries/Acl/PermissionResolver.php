@@ -4,7 +4,6 @@ use App\Role;
 use Illuminate\Support\Collection;
 use Libraries\Acl\Interfaces\PermissionInterface;
 use Libraries\Acl\Interfaces\RoleInterface;
-use Libraries\Acl\Interfaces\UserInterface;
 
 /**
  * Created by PhpStorm.
@@ -14,6 +13,7 @@ use Libraries\Acl\Interfaces\UserInterface;
  */
 class PermissionResolver
 {
+
     /**
      * @var \Illuminate\Support\Collection
      */
@@ -28,7 +28,6 @@ class PermissionResolver
      * @var \Libraries\Acl\Interfaces\GroupInterface
      */
     protected $group;
-
 
     /**
      * @return Collection
@@ -55,19 +54,19 @@ class PermissionResolver
     /**
      * @param Collection $permissions
      * @param Collection $permissionsList
-     * @param string $filter
+     * @param string     $filter
      */
     public function addPermissions(Collection $permissions, Collection $permissionsList, $filter = Role::FILTER_ACCESS)
     {
-        foreach($permissionsList as $permission) {
+        foreach ($permissionsList as $permission) {
             $this->addPermission($permissions, $permission, $filter);
         }
     }
 
     /**
-     * @param Collection $permissions
+     * @param Collection          $permissions
      * @param PermissionInterface $permission
-     * @param string $filter
+     * @param string              $filter
      */
     public function addPermission(Collection $permissions, PermissionInterface $permission, $filter = Role::FILTER_ACCESS)
     {
@@ -76,20 +75,6 @@ class PermissionResolver
         } elseif ($filter === Role::FILTER_REVOKE) {
             $permissions->put($permission->getAction(), false);
         }
-    }
-
-    /**
-     * @param UserInterface $user
-     */
-    public function loadFromUser(UserInterface $user)
-    {
-        if(is_null($user)) {
-            return;
-        }
-
-        $this->group = $user->group;
-        $this->permissions = $user->permissions;
-        $this->roles = $user->roles;
     }
 
     /**

@@ -1,7 +1,6 @@
 <?php namespace App\Libraries\Acl\Repositories;
 
-
-class Permission extends  Repository
+class Permission extends Repository
 {
 
     /**

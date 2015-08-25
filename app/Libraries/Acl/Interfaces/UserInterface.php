@@ -1,6 +1,5 @@
 <?php namespace Libraries\Acl\Interfaces;
 
-
 /**
  * Interface UserInterface
  *
@@ -8,6 +7,7 @@
  */
 interface UserInterface extends GrantableInterface
 {
+
     public function roles();
 
     public function group();
