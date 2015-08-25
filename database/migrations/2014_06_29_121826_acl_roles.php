@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 /**
@@ -20,7 +19,7 @@ class AclRoles extends Migration
         Schema::create('acl_roles', function ($table) {
             $table->increments('id');
             $table->string('name', 255);
-            $table->enum('filter', array('', 'A', 'D', 'R'));
+            $table->enum('filter', array('A', 'D', 'R'));
 
             $table->timestamps();
         });

@@ -6,14 +6,14 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
-use Signes\Acl\UserInterface as SignesAclUserInterface;
+use Libraries\Acl\Interfaces\UserInterface;
 
 /**
  * Class User
  *
  * @package    App\Models
  */
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract, SignesAclUserInterface
+class User extends Model implements AuthenticatableContract, CanResetPasswordContract, UserInterface
 {
 
     use Authenticatable, CanResetPassword;
@@ -37,7 +37,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function getPermissions()
+    public function permissions()
     {
         return $this->belongsToMany(
             Permission::class,
@@ -52,7 +52,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function getRoles()
+    public function roles()
     {
         return $this->belongsToMany(
             Role::class,
@@ -67,7 +67,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function getGroup()
+    public function group()
     {
         return $this->hasOne(Group::class, 'id', 'group_id');
     }

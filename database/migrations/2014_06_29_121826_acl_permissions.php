@@ -22,7 +22,7 @@ class AclPermissions extends Migration
             $table->timestamps();
             $table->string('area', 25);
             $table->string('permission', 25);
-            $table->text('actions');
+            $table->text('action');
             $table->string('description', 255);
             $table->unique(['area', 'permission']);
         });

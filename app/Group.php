@@ -1,7 +1,7 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Signes\Acl\GroupInterface;
+use Libraries\Acl\Interfaces\GroupInterface;
 
 /**
  * Class Group
@@ -29,7 +29,7 @@ class Group extends Model implements GroupInterface
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function getPermissions()
+    public function permissions()
     {
         return $this->belongsToMany(
             Permission::class,
@@ -44,7 +44,7 @@ class Group extends Model implements GroupInterface
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function getRoles()
+    public function roles()
     {
         return $this->belongsToMany(
             Role::class,
