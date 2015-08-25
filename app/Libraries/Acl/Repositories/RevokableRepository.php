@@ -8,8 +8,8 @@
 
 namespace App\Libraries\Acl\Repositories;
 
-use Libraries\Acl\Interfaces\PermissionInterface;
-use Libraries\Acl\Interfaces\RevokableInterface;
+use App\Libraries\Acl\Interfaces\PermissionInterface;
+use App\Libraries\Acl\Interfaces\RevokableInterface;
 
 abstract class RevokableRepository extends GrantableRepository
 {

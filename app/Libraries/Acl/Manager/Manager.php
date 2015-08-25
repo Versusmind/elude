@@ -3,8 +3,8 @@
 use App\Libraries\Acl\PermissionResolver;
 use App\Libraries\Acl\Repositories\GrantableRepository;
 use Illuminate\Support\Collection;
-use Libraries\Acl\Interfaces\GrantableInterface;
-use Libraries\Acl\Interfaces\PermissionInterface;
+use App\Libraries\Acl\Interfaces\GrantableInterface;
+use App\Libraries\Acl\Interfaces\PermissionInterface;
 
 abstract class Manager
 {
@@ -35,8 +35,7 @@ abstract class Manager
     }
 
     /**
-     * @param \Libraries\Acl\Interfaces\GrantableInterface $grantable
-     *
+     * @param GrantableInterface $grantable
      */
     public function initialize(GrantableInterface $grantable)
     {
@@ -45,8 +44,8 @@ abstract class Manager
     }
 
     /**
+     * @param GrantableInterface $grantable
      * @param $action
-     *
      * @return mixed
      */
     public function isAllow(GrantableInterface $grantable, $action)
@@ -59,6 +58,7 @@ abstract class Manager
     }
 
     /**
+     * @param GrantableInterface $grantable
      * @return array
      */
     public function getAllActions(GrantableInterface $grantable)
@@ -77,9 +77,8 @@ abstract class Manager
     }
 
     /**
-     * @param GrantableInterface  $grantable
+     * @param GrantableInterface $grantable
      * @param PermissionInterface $permission
-     *
      * @return GrantableRepository
      */
     public function grant(GrantableInterface $grantable, PermissionInterface $permission)

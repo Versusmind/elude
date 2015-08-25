@@ -1,4 +1,4 @@
-<?php namespace Libraries\Acl\Interfaces;
+<?php namespace App\Libraries\Acl\Interfaces;
 
 /**
  * Created by PhpStorm.
@@ -7,7 +7,6 @@
  * Time: 23:19
  */
 
-namespace Libraries\Acl\Interfaces;
 
 interface RevokableInterface extends GrantableInterface
 {

@@ -1,4 +1,4 @@
-<?php namespace Libraries\Acl\Interfaces;
+<?php namespace App\Libraries\Acl\Interfaces;
 
 /**
  * Interface GroupInterface

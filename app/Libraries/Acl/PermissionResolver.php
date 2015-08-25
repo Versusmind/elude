@@ -1,9 +1,10 @@
 <?php namespace App\Libraries\Acl;
 
+use App\Libraries\Acl\Interfaces\GroupInterface;
 use App\Role;
 use Illuminate\Support\Collection;
-use Libraries\Acl\Interfaces\PermissionInterface;
-use Libraries\Acl\Interfaces\RoleInterface;
+use App\Libraries\Acl\Interfaces\PermissionInterface;
+use App\Libraries\Acl\Interfaces\RoleInterface;
 
 /**
  * Created by PhpStorm.
@@ -25,7 +26,7 @@ class PermissionResolver
     protected $roles;
 
     /**
-     * @var \Libraries\Acl\Interfaces\GroupInterface
+     * @var GroupInterface
      */
     protected $group;
 
@@ -94,9 +95,9 @@ class PermissionResolver
     }
 
     /**
-     * @param \Libraries\Acl\Interfaces\GroupInterface $group
+     * @param GroupInterface $group
      */
-    public function setGroup($group)
+    public function setGroup(GroupInterface $group)
     {
         $this->group = $group;
     }

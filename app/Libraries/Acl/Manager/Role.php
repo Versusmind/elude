@@ -3,15 +3,15 @@
 use App\Libraries\Acl\PermissionResolver;
 use App\Libraries\Acl\Repositories\RevokableRepository;
 use App\Libraries\Acl\Repositories\Role as RoleRepository;
-use Libraries\Acl\Interfaces\PermissionInterface;
-use Libraries\Acl\Interfaces\RevokableInterface;
+use App\Libraries\Acl\Interfaces\PermissionInterface;
+use App\Libraries\Acl\Interfaces\RevokableInterface;
 
 class Role extends Manager
 {
 
     /**
-     * @param \App\Libraries\Acl\PermissionResolver $resolver
-     * @param \App\Libraries\Acl\Repositories\Role  $repository
+     * @param PermissionResolver $resolver
+     * @param RoleRepository $repository
      */
     public function __construct(PermissionResolver $resolver, RoleRepository $repository)
     {
@@ -20,10 +20,8 @@ class Role extends Manager
     }
 
     /**
-     * @param RevokableInterface  $revokable
+     * @param RevokableInterface $revokable
      * @param PermissionInterface $permission
-     *
-     * @return RevokableRepository
      */
     public function revoke(RevokableInterface $revokable, PermissionInterface $permission)
     {

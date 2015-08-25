@@ -1,8 +1,8 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Libraries\Acl\Exceptions\UnknownRoleFilter;
-use Libraries\Acl\Interfaces\RoleInterface;
+use App\Libraries\Acl\Exceptions\UnknownRoleFilter;
+use App\Libraries\Acl\Interfaces\RoleInterface;
 
 /**
  * Class Role

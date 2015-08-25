@@ -1,16 +1,10 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: arnaud
- * Date: 24/08/2015
- * Time: 23:21
- */
+<?php namespace App\Libraries\Acl\Repositories;
 
-namespace App\Libraries\Acl\Repositories;
 
+use App\Libraries\Repository;
 use App\Permission;
-use Libraries\Acl\Interfaces\GrantableInterface;
-use Libraries\Acl\Interfaces\PermissionInterface;
+use App\Libraries\Acl\Interfaces\GrantableInterface;
+use App\Libraries\Acl\Interfaces\PermissionInterface;
 
 abstract class GrantableRepository extends Repository
 {

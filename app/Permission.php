@@ -1,7 +1,7 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Libraries\Acl\Interfaces\PermissionInterface;
+use App\Libraries\Acl\Interfaces\PermissionInterface;
 
 /**
  * Class Permission

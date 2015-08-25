@@ -6,7 +6,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
-use Libraries\Acl\Interfaces\UserInterface;
+use App\Libraries\Acl\Interfaces\UserInterface;
 
 /**
  * Class User

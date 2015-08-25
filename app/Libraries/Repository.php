@@ -1,4 +1,4 @@
-<?php namespace App\Libraries\Acl\Repositories;
+<?php namespace App\Libraries;
 
 
 use Illuminate\Database\Eloquent\Collection;
@@ -18,7 +18,7 @@ abstract class Repository
      */
     public function __construct($modelClass)
     {
-        $this->modelClass = new $modelClass;;
+        $this->model = new $modelClass;
     }
 
 
@@ -28,7 +28,7 @@ abstract class Repository
      */
     public function create($attributes)
     {
-        return $this->create($attributes);
+        return $this->model->create($attributes);
     }
 
     /**
@@ -79,7 +79,7 @@ abstract class Repository
                 return $page;
             });
 
-            return $this->model->all()->paginate($nbItemsPerPage);
+            return $this->model->paginate($nbItemsPerPage);
         }
 
         return $this->model->all();

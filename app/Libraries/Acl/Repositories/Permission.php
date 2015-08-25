@@ -1,5 +1,7 @@
 <?php namespace App\Libraries\Acl\Repositories;
 
+use App\Libraries\Repository;
+
 class Permission extends Repository
 {
 

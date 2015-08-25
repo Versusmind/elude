@@ -1,16 +1,9 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: arnaud
- * Date: 24/08/2015
- * Time: 23:21
- */
+<?php namespace App\Libraries\Acl\Repositories;
 
-namespace App\Libraries\Acl\Repositories;
 
 use App\Role;
-use Libraries\Acl\Interfaces\GrantableInterface;
-use Libraries\Acl\Interfaces\RoleAwareInterface;
+use App\Libraries\Acl\Interfaces\GrantableInterface;
+use App\Libraries\Acl\Interfaces\RoleAwareInterface;
 
 abstract class RoleAwareRepository extends GrantableRepository implements RoleAwareInterface
 {
@@ -24,9 +17,8 @@ abstract class RoleAwareRepository extends GrantableRepository implements RoleAw
     }
 
     /**
-     * @param \Libraries\Acl\Interfaces\GrantableInterface $grantable
-     * @param \App\Role                                    $role
-     *
+     * @param GrantableInterface $grantable
+     * @param Role $role
      * @return $this
      */
     public function addRole(GrantableInterface $grantable, Role $role)
@@ -37,9 +29,8 @@ abstract class RoleAwareRepository extends GrantableRepository implements RoleAw
     }
 
     /**
-     * @param \Libraries\Acl\Interfaces\GrantableInterface $grantable
-     * @param \App\Role                                    $role
-     *
+     * @param GrantableInterface $grantable
+     * @param Role $role
      * @return $this
      */
     public function removeRole(GrantableInterface $grantable, Role $role)
@@ -50,9 +41,8 @@ abstract class RoleAwareRepository extends GrantableRepository implements RoleAw
     }
 
     /**
-     * @param \Libraries\Acl\Interfaces\GrantableInterface $grantable
-     * @param \App\Role                                    $role
-     *
+     * @param GrantableInterface $grantable
+     * @param Role $role
      * @return mixed
      */
     public function hasRole(GrantableInterface $grantable, Role $role)

@@ -1,6 +1,5 @@
 <?php namespace App\Libraries\Acl\Repositories;
 
-use App\Group;
 
 class User extends RoleAwareRepository
 {
@@ -15,11 +14,11 @@ class User extends RoleAwareRepository
 
     /**
      * @param \App\User $user
-     * @param Group     $role
+     * @param \App\Group     $role
      *
      * @return $this
      */
-    public function setGroup(\App\User $user, Group $role)
+    public function setGroup(\App\User $user, \App\Group $role)
     {
         $user->group()->save($role);
 

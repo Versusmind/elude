@@ -1,4 +1,4 @@
-<?php namespace Libraries\Acl\Exceptions;
+<?php namespace App\Libraries\Acl\Exceptions;
 
 /**
  * Class UnknownRoleFilter

@@ -1,48 +1,27 @@
 <?php namespace Tests\Unit\Acl\Repositories;
 
 use App\Libraries\Acl\Repositories\Group;
+use App\Libraries\Repository;
 use Tests\Unit\RepositoryTest;
 
 /**
- * User: LAHAXE Arnaud <alahaxe@boursorama.fr>
- * Date: 25/08/2015
- * Time: 14:15
- * FileName : GroupTest.php
- * Project : myo2
+ * Class GroupTest
+ * @package Tests\Unit\Acl\Repositories
  */
 class GroupTest extends RepositoryTest
 {
 
-    /**
-     * GroupTest constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct(new Group);
-    }
 
-    /**
-     * @return array
-     */
-    public function findOkProvider()
-    {
-        // TODO: Implement findOkProvider() method.
-    }
 
-    /**
-     * @return array
-     */
-    public function createKoProvider()
-    {
-        // TODO: Implement createKoProvider() method.
-    }
-
-    /**
-     * @return array
-     */
     public function createOkProvider()
     {
-        // TODO: Implement createOkProvider() method.
+        return [
+            [
+                [
+                    'name' => 'test'
+                ]
+            ]
+        ];
     }
 
     /**
@@ -50,7 +29,9 @@ class GroupTest extends RepositoryTest
      */
     public function findKoProvider()
     {
-        // TODO: Implement findKoProvider() method.
+        return [
+            [-1]
+        ];
     }
 
     /**
@@ -83,5 +64,29 @@ class GroupTest extends RepositoryTest
     public function updateKoProvider()
     {
         // TODO: Implement updateKoProvider() method.
+    }
+
+    /**
+     * @return Repository
+     */
+    public function getRepository()
+    {
+        return new Group();
+    }
+
+    /**
+     * @return array
+     */
+    public function findOkProvider()
+    {
+        // TODO: Implement findOkProvider() method.
+    }
+
+    /**
+     * @return array
+     */
+    public function createKoProvider()
+    {
+        // TODO: Implement createKoProvider() method.
     }
 }

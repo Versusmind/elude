@@ -1,7 +1,7 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Libraries\Acl\Interfaces\GroupInterface;
+use App\Libraries\Acl\Interfaces\GroupInterface;
 
 /**
  * Class Group

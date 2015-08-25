@@ -1,9 +1,9 @@
 <?php namespace Tests\Unit;
 
-use App\Libraries\Acl\Repositories\Repository;
+use App\Libraries\Repository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Tests\TestCase;
 
 /**
@@ -21,14 +21,17 @@ abstract class RepositoryTest extends TestCase
     protected $repository;
 
     /**
-     * RepositoryTest constructor.
-     *
-     * @param \App\Libraries\Acl\Repositories\Repository $repository
+     * @return Repository
      */
-    public function __construct(\App\Libraries\Acl\Repositories\Repository $repository)
+    public abstract function getRepository();
+
+    public function setUp()
     {
-        $this->repository = $repository;
+        $this->repository = $this->getRepository();
+
+        parent::setUp();
     }
+
 
     /**
      * @return array
@@ -176,12 +179,12 @@ abstract class RepositoryTest extends TestCase
 
     public function testAllPaginateOk()
     {
-        $this->assertInstanceOf(Paginator::class, $this->repository->all(true));
+        $this->assertInstanceOf(LengthAwarePaginator::class, $this->repository->all(true));
     }
 
     public function testAllKo()
     {
-        $this->assertInstanceOf(Paginator::class, $this->repository->all(true, -1));
+        $this->assertInstanceOf(LengthAwarePaginator::class, $this->repository->all(true, -1));
     }
 
     /**
@@ -201,7 +204,7 @@ abstract class RepositoryTest extends TestCase
      */
     public function testWherePaginateOk($where)
     {
-        $this->assertInstanceOf(Paginator::class, $this->repository->where($where, true));
+        $this->assertInstanceOf(LengthAwarePaginator::class, $this->repository->where($where, true));
     }
 
     public function testWhereKo()

@@ -3,14 +3,14 @@
 use App\Libraries\Acl\PermissionResolver;
 use App\Libraries\Acl\Repositories\Permission as PermissionRepository;
 use Illuminate\Support\Collection;
-use Libraries\Acl\Interfaces\GrantableInterface;
+use App\Libraries\Acl\Interfaces\GrantableInterface;
 
 class Permission extends Manager
 {
 
     /**
-     * @param \App\Libraries\Acl\PermissionResolver      $resolver
-     * @param \App\Libraries\Acl\Repositories\Permission $repository
+     * @param PermissionResolver $resolver
+     * @param PermissionRepository $repository
      */
     public function __construct(PermissionResolver $resolver, PermissionRepository $repository)
     {
@@ -19,8 +19,7 @@ class Permission extends Manager
     }
 
     /**
-     * @param \Libraries\Acl\Interfaces\GrantableInterface $grantable
-     *
+     * @param GrantableInterface $grantable
      */
     public function initialize(GrantableInterface $grantable)
     {

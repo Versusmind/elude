@@ -3,14 +3,14 @@
 use App\Libraries\Acl\PermissionResolver;
 use App\Libraries\Acl\Repositories\Group as GroupRepository;
 use App\Role;
-use Libraries\Acl\Interfaces\GrantableInterface;
+use App\Libraries\Acl\Interfaces\GrantableInterface;
 
 class Group extends Manager
 {
 
     /**
-     * @param \App\Libraries\Acl\PermissionResolver $resolver
-     * @param \App\Libraries\Acl\Repositories\Group $repository
+     * @param PermissionResolver $resolver
+     * @param GroupRepository $repository
      */
     public function __construct(PermissionResolver $resolver, GroupRepository $repository)
     {
@@ -20,8 +20,7 @@ class Group extends Manager
     }
 
     /**
-     * @param \Libraries\Acl\Interfaces\GrantableInterface $grantable
-     *
+     * @param GrantableInterface $grantable
      */
     public function initialize(GrantableInterface $grantable)
     {
@@ -32,7 +31,7 @@ class Group extends Manager
 
     /**
      * @param \App\Group $group
-     * @param \App\Role  $role
+     * @param Role $role
      */
     public function addRole(\App\Group $group, Role $role)
     {
@@ -41,7 +40,7 @@ class Group extends Manager
 
     /**
      * @param \App\Group $group
-     * @param \App\Role  $role
+     * @param Role $role
      */
     public function removeRole(\App\Group $group, Role $role)
     {

@@ -8,7 +8,7 @@ use Tests\Unit\ManagerTest;
  * FileName : GroupTest.php
  * Project : myo2
  */
-class GroupTest extends ManagerTest
+class PermissionTest extends ManagerTest
 {
 
 }

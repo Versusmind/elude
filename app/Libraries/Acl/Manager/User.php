@@ -4,14 +4,14 @@ use App\Group;
 use App\Libraries\Acl\PermissionResolver;
 use App\Libraries\Acl\Repositories\User as UserRepository;
 use App\Role;
-use Libraries\Acl\Interfaces\GrantableInterface;
+use App\Libraries\Acl\Interfaces\GrantableInterface;
 
 class User extends Manager
 {
 
     /**
-     * @param \App\Libraries\Acl\PermissionResolver $resolver
-     * @param \App\Libraries\Acl\Repositories\User  $repository
+     * @param PermissionResolver $resolver
+     * @param UserRepository $repository
      */
     public function __construct(PermissionResolver $resolver, UserRepository $repository)
     {
@@ -20,8 +20,7 @@ class User extends Manager
     }
 
     /**
-     * @param \Libraries\Acl\Interfaces\GrantableInterface $grantable
-     *
+     * @param GrantableInterface $grantable
      */
     public function initialize(GrantableInterface $grantable)
     {
