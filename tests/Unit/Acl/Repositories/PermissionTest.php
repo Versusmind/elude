@@ -1,5 +1,6 @@
 <?php namespace Tests\Unit\Acl\Repositories;
 
+use App\Libraries\Acl\Repositories\Permission;
 use Tests\Unit\RepositoryTest;
 
 /**
@@ -8,8 +9,16 @@ use Tests\Unit\RepositoryTest;
  * FileName : GroupTest.php
  * Project : myo2
  */
-class GroupTest extends RepositoryTest
+class PermissionTest extends RepositoryTest
 {
+
+    /**
+     * PermissionTest constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct(new Permission());
+    }
 
     /**
      * @return array

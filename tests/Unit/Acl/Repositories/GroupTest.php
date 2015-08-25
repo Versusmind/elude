@@ -1,5 +1,6 @@
 <?php namespace Tests\Unit\Acl\Repositories;
 
+use App\Libraries\Acl\Repositories\Group;
 use Tests\Unit\RepositoryTest;
 
 /**
@@ -11,6 +12,14 @@ use Tests\Unit\RepositoryTest;
  */
 class GroupTest extends RepositoryTest
 {
+
+    /**
+     * GroupTest constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct(new Group);
+    }
 
     /**
      * @return array

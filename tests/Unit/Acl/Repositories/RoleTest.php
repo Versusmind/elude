@@ -1,5 +1,6 @@
 <?php namespace Tests\Unit\Acl\Repositories;
 
+use App\Libraries\Acl\Repositories\Role;
 use Tests\Unit\RepositoryTest;
 
 /**
@@ -10,6 +11,14 @@ use Tests\Unit\RepositoryTest;
  */
 class RoleTest extends RepositoryTest
 {
+
+    /**
+     * RoleTest constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct(new Role());
+    }
 
     /**
      * @return array

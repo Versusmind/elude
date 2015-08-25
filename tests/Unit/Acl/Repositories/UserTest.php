@@ -1,5 +1,6 @@
 <?php namespace Tests\Unit\Acl\Repositories;
 
+use App\Libraries\Acl\Repositories\User;
 use Tests\Unit\RepositoryTest;
 
 /**
@@ -10,6 +11,14 @@ use Tests\Unit\RepositoryTest;
  */
 class UserTest extends RepositoryTest
 {
+
+    /**
+     * UserTest constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct(new User());
+    }
 
     /**
      * @return array
