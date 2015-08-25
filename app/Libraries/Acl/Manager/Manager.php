@@ -49,16 +49,24 @@ abstract class Manager
      *
      * @return mixed
      */
-    public function isAllow($action)
+    public function isAllow(GrantableInterface $grantable, $action)
     {
+        if(is_null($this->permissions)) {
+            $this->initialize($grantable);
+        }
+
         return $this->permissions->get($action, false);
     }
 
     /**
      * @return array
      */
-    public function getAllActions()
+    public function getAllActions(GrantableInterface $grantable)
     {
+        if(is_null($this->permissions)) {
+            $this->initialize($grantable);
+        }
+
         $result = $this->permissions->all();
 
         array_filter($result, function ($item) {

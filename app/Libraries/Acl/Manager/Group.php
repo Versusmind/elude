@@ -34,7 +34,7 @@ class Group extends Manager
      * @param \App\Group $group
      * @param \App\Role  $role
      */
-    public function addGroupRole(\App\Group $group, Role $role)
+    public function addRole(\App\Group $group, Role $role)
     {
         $this->repository->addRole($group, $role);
     }
@@ -43,7 +43,7 @@ class Group extends Manager
      * @param \App\Group $group
      * @param \App\Role  $role
      */
-    public function removeGroupRole(\App\Group $group, Role $role)
+    public function removeRole(\App\Group $group, Role $role)
     {
         $this->repository->removeRole($group, $role);
     }

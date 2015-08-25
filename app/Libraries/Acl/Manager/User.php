@@ -36,7 +36,7 @@ class User extends Manager
      * @param \App\Role $role
      *
      */
-    public function addUserRole(\App\User $user, Role $role)
+    public function addRole(\App\User $user, Role $role)
     {
         $this->repository->addRole($user, $role);
     }
@@ -46,7 +46,7 @@ class User extends Manager
      * @param \App\Role $role
      *
      */
-    public function removeUserRole(\App\User $user, Role $role)
+    public function removeRole(\App\User $user, Role $role)
     {
         $this->repository->removeRole($user, $role);
     }
@@ -56,7 +56,7 @@ class User extends Manager
      * @param \App\Group $group
      *
      */
-    public function changeUserGroup(\App\User $user, Group $group)
+    public function changeGroup(\App\User $user, Group $group)
     {
         $this->repository->setGroup($user, $group);
     }
