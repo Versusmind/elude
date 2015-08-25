@@ -1,7 +1,7 @@
 <?php namespace App\Libraries\Acl\Repositories;
 
 
-class Role extends GrantableRepository
+class Role extends RevokableRepository
 {
 
     /**

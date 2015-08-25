@@ -45,15 +45,6 @@ abstract class GrantableRepository extends Repository
 
     /**
      * @param GrantableInterface $model
-     * @param PermissionInterface $permission
-     */
-    public function revoke(GrantableInterface $model, PermissionInterface $permission)
-    {
-        throw new \RuntimeException('Not implemented yet');
-    }
-
-    /**
-     * @param GrantableInterface $model
      * @param Permission $permission
      * @return $this
      */

@@ -1,6 +1,7 @@
 <?php namespace App\Libraries\Acl;
 
 
+use App\Libraries\Acl\Repositories\GrantableRepository;
 use App\Libraries\Acl\Repositories\Group;
 use App\Libraries\Acl\Repositories\Role;
 use App\User;
@@ -8,6 +9,7 @@ use Illuminate\Support\Collection;
 use Libraries\Acl\Interfaces\GrantableInterface;
 use Libraries\Acl\Interfaces\GroupInterface;
 use Libraries\Acl\Interfaces\PermissionInterface;
+use Libraries\Acl\Interfaces\RevokableInterface;
 use Libraries\Acl\Interfaces\RoleInterface;
 use Libraries\Acl\Interfaces\UserInterface;
 
@@ -84,7 +86,44 @@ class Manager
         return array_keys($result);
     }
 
+    /**
+     * @param GrantableInterface $grantable
+     * @param PermissionInterface $permission
+     * @return GrantableRepository
+     */
     public function grant(GrantableInterface $grantable, PermissionInterface $permission)
+    {
+
+        return $this->getRepository($grantable)->grant($grantable, $permission);
+    }
+
+    /**
+     * @param GrantableInterface $grantable
+     * @param PermissionInterface $permission
+     * @return GrantableRepository
+     */
+    public function deny(GrantableInterface $grantable, PermissionInterface $permission)
+    {
+
+        return $this->getRepository($grantable)->deny($grantable, $permission);
+    }
+
+    /**
+     * @param RevokableInterface $grantable
+     * @param PermissionInterface $permission
+     * @return mixed
+     */
+    public function revoke(RevokableInterface $grantable, PermissionInterface $permission)
+    {
+
+        return $this->getRepository($grantable)->revoke($grantable, $permission);
+    }
+
+    /**
+     * @param GrantableInterface $grantable
+     * @return GrantableRepository
+     */
+    public function getRepository(GrantableInterface $grantable)
     {
         $repository = null;
         if ($grantable instanceof UserInterface) {
@@ -99,36 +138,6 @@ class Manager
             throw new \RuntimeException(get_class($grantable) . ' is not grantable');
         }
 
-        return $repository->grant($grantable, $permission);
-    }
-
-    public function grantUserPermission(PermissionInterface $permission)
-    {
-        $this->userRepository->grant($this->user, $permission);
-    }
-
-    public function denyUserPermission(PermissionInterface $permission)
-    {
-        $this->userRepository->deny($this->user, $permission);
-    }
-
-    public function grantRolePermission(RoleInterface $role, PermissionInterface $permission)
-    {
-        $this->roleRepository->grant($role, $permission);
-    }
-
-    public function denyRolePermission(RoleInterface $role, PermissionInterface $permission)
-    {
-        $this->roleRepository->deny($role, $permission);
-    }
-
-    public function grantGroupPermission(GroupInterface $group, PermissionInterface $permission)
-    {
-        $this->groupRepository->grant($group, $permission);
-    }
-
-    public function denyGroupPermission(GroupInterface $group, PermissionInterface $permission)
-    {
-        $this->groupRepository->deny($group, $permission);
+        return $repository;
     }
 }
