@@ -104,4 +104,12 @@ abstract class Repository
 
         return $this->model->where($where)->get();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getModelClass()
+    {
+        return $this->modelClass;
+    }
 }
