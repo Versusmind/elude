@@ -8,8 +8,11 @@ use App\Libraries\Acl\Interfaces\GroupInterface;
  *
  * @package    App\Models
  */
-class Group extends Model implements GroupInterface
+class Group extends Model implements GroupInterface, ValidationInterface
 {
+
+    use ValidationTrait;
+
     /**
      * Mass fillable columns
      *
@@ -23,6 +26,15 @@ class Group extends Model implements GroupInterface
      * @var string
      */
     protected $table = 'acl_groups';
+
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    protected static $rules = [
+        'name' => 'required|min:3'
+    ];
 
     /**
      * User group permissions

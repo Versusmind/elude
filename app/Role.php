@@ -9,9 +9,10 @@ use App\Libraries\Acl\Interfaces\RoleInterface;
  *
  * @package    App\Models
  */
-class Role extends Model implements RoleInterface
+class Role extends Model implements RoleInterface, ValidationInterface
 {
 
+    use ValidationTrait;
     const FILTER_ACCESS = 'A';
     const FILTER_DENY   = 'D';
     const FILTER_REVOKE = 'R';
@@ -22,6 +23,16 @@ class Role extends Model implements RoleInterface
      * @var array
      */
     protected $fillable = ['name', 'filter'];
+
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    protected static $rules = [
+        'name' => 'required|min:3',
+        'filter' => 'required|in:A,D,R',
+    ];
 
     /**
      * The database table used by the model.

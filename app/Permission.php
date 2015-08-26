@@ -8,8 +8,10 @@ use App\Libraries\Acl\Interfaces\PermissionInterface;
  *
  * @package Signes\Acl\Model
  */
-class Permission extends Model implements PermissionInterface
+class Permission extends Model implements PermissionInterface, ValidationInterface
 {
+
+    use ValidationTrait;
 
     /**
      * Mass fillable columns
@@ -24,6 +26,18 @@ class Permission extends Model implements PermissionInterface
      * @var string
      */
     protected $table = 'acl_permissions';
+
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    protected static $rules = [
+        'area' => 'required|min:3',
+        'permission' => 'required|min:3',
+        'action' => 'required|min:3',
+        'description' => 'min:3',
+    ];
 
     public function getAction()
     {

@@ -107,7 +107,7 @@ abstract class RepositoryTest extends TestCase
      * @param $attributes
      *
      * @dataProvider createKoProvider
-     * @expectedException \Illuminate\Database\QueryException
+     * @expectedException \App\Libraries\Acl\Exceptions\ModelNotValid
      *
      */
     public function testCreateKo($attributes)
@@ -161,7 +161,7 @@ abstract class RepositoryTest extends TestCase
      * @param $data
      *
      * @dataProvider updateKoProvider
-     * @expectedException \Illuminate\Database\QueryException
+     * @expectedException \App\Libraries\Acl\Exceptions\ModelNotValid
      */
     public function testUpdateKo($id, $data)
     {

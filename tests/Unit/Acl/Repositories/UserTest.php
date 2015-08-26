@@ -20,16 +20,11 @@ class UserTest extends RepositoryTest
      * UserTest constructor.
      *
      */
-    public function __construct()
+    public function __construct($name = null, array $data = array(), $dataName = '')
     {
         $this->faker = \Faker\Factory::create();
-        parent::__construct();
-    }
-   public function initiate()
-    {
-        \App\Group::create([
-            'name' => 'test'
-        ]);
+
+        parent::__construct($name, $data, $dataName);
     }
 
     /**
@@ -46,7 +41,7 @@ class UserTest extends RepositoryTest
             [
                 [
                     'username' => $this->faker->userName,
-                    'email' => $this->faker->email,
+                    'email' => $this->faker->safeEmail,
                     'password' => $this->faker->password(),
                     'group_id' => 1,
                 ]
@@ -107,7 +102,7 @@ class UserTest extends RepositoryTest
     {
         return [
             [
-                1, [uniqid() => $this->faker->email]
+                1, [uniqid() => $this->faker->safeEmail]
             ],
             [
                 1, ['email' => 'notavalidemail']
@@ -137,13 +132,7 @@ class UserTest extends RepositoryTest
             [
                 [
                     'username' => $this->faker->userName,
-                    'email' => $this->faker->email,
-                    'password' => $this->faker->password(),
-                    'group_id' => -1,
-                ],
-                [
-                    'username' => $this->faker->userName,
-                    'email' => $this->faker->email,
+                    'email' => $this->faker->safeEmail,
                     'password' => '',
                     'group_id' => 1,
                 ],
@@ -155,7 +144,7 @@ class UserTest extends RepositoryTest
                 ],
                 [
                     'username' => '',
-                    'email' => $this->faker->email,
+                    'email' => $this->faker->safeEmail,
                     'password' => $this->faker->password(),
                     'group_id' => 1,
                 ]
@@ -174,7 +163,7 @@ class UserTest extends RepositoryTest
     }
 
     /**
-     * @expectedException \Illuminate\Database\QueryException
+     * @expectedException \App\Libraries\Acl\Exceptions\ModelNotValid
      */
     public function testDuplicate()
     {
@@ -191,4 +180,20 @@ class UserTest extends RepositoryTest
         $model = $this->repository->create($attributes);
         $this->assertModel($model, false);
     }
+
+    /**
+     * @param $attributes
+     *
+     * @dataProvider createOkProvider
+     */
+    public function testCreateOk($attributes)
+    {
+        \App\Group::create([
+            'name' => 'test'
+        ]);
+
+        parent::testCreateKo($attributes);
+    }
+
+
 }
