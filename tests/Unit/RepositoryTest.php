@@ -71,6 +71,11 @@ abstract class RepositoryTest extends TestCase
     /**
      * @return array
      */
+    public abstract function deleteOkProvider();
+
+    /**
+     * @return array
+     */
     public abstract function updateKoProvider();
 
     protected function assertModel($actual, $saved = true)

@@ -11,7 +11,13 @@ use Tests\Unit\RepositoryTest;
 class GroupTest extends RepositoryTest
 {
 
-
+    /**
+     * @return Repository
+     */
+    public function getRepository()
+    {
+        return new Group();
+    }
 
     public function createOkProvider()
     {
@@ -39,7 +45,11 @@ class GroupTest extends RepositoryTest
      */
     public function updateOkProvider()
     {
-        // TODO: Implement updateOkProvider() method.
+        return [
+            [
+                1, ['name' => 'update']
+            ]
+        ];
     }
 
     /**
@@ -47,7 +57,13 @@ class GroupTest extends RepositoryTest
      */
     public function whereOkProvider()
     {
-        // TODO: Implement whereOkProvider() method.
+        return [
+            [
+                [
+                    'name' => 'test'
+                ]
+            ]
+        ];
     }
 
     /**
@@ -55,7 +71,9 @@ class GroupTest extends RepositoryTest
      */
     public function deleteKoProvider()
     {
-        // TODO: Implement deleteKoProvider() method.
+        return [
+            [-1]
+        ];
     }
 
     /**
@@ -63,15 +81,11 @@ class GroupTest extends RepositoryTest
      */
     public function updateKoProvider()
     {
-        // TODO: Implement updateKoProvider() method.
-    }
-
-    /**
-     * @return Repository
-     */
-    public function getRepository()
-    {
-        return new Group();
+        return [
+            [
+                -1, ['name' => 'update']
+            ]
+        ];
     }
 
     /**
@@ -79,7 +93,9 @@ class GroupTest extends RepositoryTest
      */
     public function findOkProvider()
     {
-        // TODO: Implement findOkProvider() method.
+       return [
+           [1]
+       ];
     }
 
     /**
@@ -87,6 +103,22 @@ class GroupTest extends RepositoryTest
      */
     public function createKoProvider()
     {
-        // TODO: Implement createKoProvider() method.
+        return [
+            [
+                [
+                    'name' => null
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function deleteOkProvider()
+    {
+        return [
+            [1]
+        ];
     }
 }

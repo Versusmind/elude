@@ -13,12 +13,18 @@ abstract class Repository
     protected $model;
 
     /**
+     * @var string
+     */
+    protected $modelClass;
+
+    /**
      * Repository constructor.
      * @param $modelClass
      */
     public function __construct($modelClass)
     {
         $this->model = new $modelClass;
+        $this->modelClass = $modelClass;
     }
 
 
