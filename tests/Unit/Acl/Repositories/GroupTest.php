@@ -82,7 +82,7 @@ class GroupTest extends RepositoryTest
     {
         return [
             [
-                -1, ['name' => 'update']
+                1, [uniqid() => 'update']
             ]
         ];
     }

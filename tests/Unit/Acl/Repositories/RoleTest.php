@@ -83,10 +83,7 @@ class RoleTest extends RepositoryTest
     {
         return [
             [
-                -1, ['name' => 'update']
-            ],
-            [
-                -1, ['filter' => 'DUMMY']
+                1, ['name' => null]
             ]
         ];
     }

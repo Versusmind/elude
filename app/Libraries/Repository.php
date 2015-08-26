@@ -1,12 +1,12 @@
 <?php namespace App\Libraries;
 
-
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
 
 abstract class Repository
 {
+
     /**
      * @var Model
      */
@@ -19,17 +19,18 @@ abstract class Repository
 
     /**
      * Repository constructor.
+     *
      * @param $modelClass
      */
     public function __construct($modelClass)
     {
-        $this->model = new $modelClass;
+        $this->model      = new $modelClass;
         $this->modelClass = $modelClass;
     }
 
-
     /**
      * @param $attributes
+     *
      * @return Model
      */
     public function create($attributes)
@@ -39,6 +40,7 @@ abstract class Repository
 
     /**
      * @param $id
+     *
      * @return Model | null
      */
     public function find($id)
@@ -49,12 +51,13 @@ abstract class Repository
 
     /**
      * @param Model $model
-     * @param $attributes
+     * @param       $attributes
+     *
      * @return Model
      */
     public function update(Model $model, $attributes)
     {
-        foreach($attributes as $key => $value) {
+        foreach ($attributes as $key => $value) {
             $model->$key = $value;
         }
 
@@ -65,6 +68,7 @@ abstract class Repository
 
     /**
      * @param Model $model
+     *
      * @return boolean
      */
     public function delete(Model $model)
@@ -74,14 +78,23 @@ abstract class Repository
 
     /**
      * @param bool|false $paginate
-     * @param int $nbItemsPerPage
-     * @param int $page
+     * @param int        $nbItemsPerPage
+     * @param int        $page
+     *
      * @return Collection | Paginator
      */
     public function all($paginate = false, $nbItemsPerPage = 15, $page = 1)
     {
-        if($paginate) {
-            Paginator::currentPageResolver(function() use ($page) {
+        if($nbItemsPerPage < 1 || $nbItemsPerPage > 100) {
+            $nbItemsPerPage = 15;
+        }
+
+        if($page < 1) {
+            $page = 1;
+        }
+
+        if ($paginate) {
+            Paginator::currentPageResolver(function () use ($page) {
                 return $page;
             });
 
@@ -92,16 +105,25 @@ abstract class Repository
     }
 
     /**
-     * @param array $where
+     * @param array      $where
      * @param bool|false $paginate
-     * @param int $nbItemsPerPage
-     * @param int $page
+     * @param int        $nbItemsPerPage
+     * @param int        $page
+     *
      * @return Collection | Paginator
      */
     public function where(array $where, $paginate = false, $nbItemsPerPage = 15, $page = 1)
     {
-        if($paginate) {
-            Paginator::currentPageResolver(function() use ($page) {
+        if($nbItemsPerPage < 1 || $nbItemsPerPage > 100) {
+            $nbItemsPerPage = 15;
+        }
+
+        if($page < 1) {
+            $page = 1;
+        }
+
+        if ($paginate) {
+            Paginator::currentPageResolver(function () use ($page) {
                 return $page;
             });
 

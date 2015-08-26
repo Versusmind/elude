@@ -16,15 +16,20 @@ class UserTest extends RepositoryTest
      */
     protected $faker;
 
-    public function setUp()
+    /**
+     * UserTest constructor.
+     *
+     */
+    public function __construct()
     {
-        $this->faker = \Faker\Factory::create();;
-
+        $this->faker = \Faker\Factory::create();
+        parent::__construct();
+    }
+   public function initiate()
+    {
         \App\Group::create([
             'name' => 'test'
         ]);
-
-        parent::setUp();
     }
 
     /**
@@ -102,7 +107,7 @@ class UserTest extends RepositoryTest
     {
         return [
             [
-                -1, ['email' => $this->faker->email]
+                1, [uniqid() => $this->faker->email]
             ],
             [
                 1, ['email' => 'notavalidemail']
@@ -168,6 +173,9 @@ class UserTest extends RepositoryTest
         ];
     }
 
+    /**
+     * @expectedException \Illuminate\Database\QueryException
+     */
     public function testDuplicate()
     {
         $attributes = [

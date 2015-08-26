@@ -27,6 +27,13 @@ abstract class RepositoryTest extends TestCase
         $this->repository = $this->getRepository();
 
         parent::setUp();
+
+        $this->initiate();
+    }
+
+    public function initiate()
+    {
+
     }
 
     /**
@@ -100,6 +107,8 @@ abstract class RepositoryTest extends TestCase
      * @param $attributes
      *
      * @dataProvider createKoProvider
+     * @expectedException \Illuminate\Database\QueryException
+     *
      */
     public function testCreateKo($attributes)
     {
@@ -112,6 +121,7 @@ abstract class RepositoryTest extends TestCase
      * @param $id
      *
      * @dataProvider findOkProvider
+     * @depends testCreateOk
      */
     public function testFindOk($id)
     {
@@ -137,6 +147,7 @@ abstract class RepositoryTest extends TestCase
      * @param $data
      *
      * @dataProvider updateOkProvider
+     * @depends testFindOk
      */
     public function testUpdateOk($id, $data)
     {
@@ -150,6 +161,7 @@ abstract class RepositoryTest extends TestCase
      * @param $data
      *
      * @dataProvider updateKoProvider
+     * @expectedException \Illuminate\Database\QueryException
      */
     public function testUpdateKo($id, $data)
     {
@@ -162,6 +174,7 @@ abstract class RepositoryTest extends TestCase
      * @param $id
      *
      * @dataProvider deleteOkProvider
+     * @depends testUpdateOk
      */
     public function testDeleteOk($id)
     {
@@ -207,6 +220,7 @@ abstract class RepositoryTest extends TestCase
     {
         $this->assertInstanceOf(LengthAwarePaginator::class, $this->repository->where($where, true));
     }
+
 
     public function testWhereKo()
     {

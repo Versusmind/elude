@@ -85,10 +85,7 @@ class PermissionTest extends RepositoryTest
     {
         return [
             [
-                -1, ['macdonald' => 'update']
-            ],
-            [
-                -1, ['description' => 'DUMMY']
+                1, [uniqid() => 'DUMMY']
             ]
         ];
     }
