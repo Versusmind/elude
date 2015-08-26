@@ -5,9 +5,8 @@ use App\Libraries\Repository;
 use Tests\Unit\RepositoryTest;
 
 /**
- * Class GroupTest
- * @package Tests\Unit\Acl\Repositories
- */
+ * @group unit
+ **/
 class GroupTest extends RepositoryTest
 {
 

@@ -7,11 +7,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Tests\TestCase;
 
 /**
- * Date: 25/08/2015
- * Time: 14:13
- * FileName : Repositories.php
- * Project : myo2
- */
+ * @group unit
+ **/
 abstract class RepositoryTest extends TestCase
 {
 
@@ -31,7 +28,6 @@ abstract class RepositoryTest extends TestCase
 
         parent::setUp();
     }
-
 
     /**
      * @return array

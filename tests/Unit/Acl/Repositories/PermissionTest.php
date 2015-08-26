@@ -1,47 +1,35 @@
 <?php namespace Tests\Unit\Acl\Repositories;
 
 use App\Libraries\Acl\Repositories\Permission;
+use App\Libraries\Repository;
 use Tests\Unit\RepositoryTest;
 
 /**
- * Date: 25/08/2015
- * Time: 14:15
- * FileName : GroupTest.php
- * Project : myo2
- */
+ * @group unit
+ **/
 class PermissionTest extends RepositoryTest
 {
 
     /**
-     * PermissionTest constructor.
+     * @return Repository
      */
-    public function __construct()
+    public function getRepository()
     {
-        parent::__construct(new Permission());
+        return new Permission();
     }
 
-    /**
-     * @return array
-     */
-    public function findOkProvider()
-    {
-        // TODO: Implement findOkProvider() method.
-    }
-
-    /**
-     * @return array
-     */
-    public function createKoProvider()
-    {
-        // TODO: Implement createKoProvider() method.
-    }
-
-    /**
-     * @return array
-     */
     public function createOkProvider()
     {
-        // TODO: Implement createOkProvider() method.
+        return [
+            [
+                [
+                    'area'        => 'macdonald',
+                    'permission'  => 'bigmac',
+                    'action'      => 'order',
+                    'description' => 'Order bigmac'
+                ]
+            ]
+        ];
     }
 
     /**
@@ -49,7 +37,9 @@ class PermissionTest extends RepositoryTest
      */
     public function findKoProvider()
     {
-        // TODO: Implement findKoProvider() method.
+        return [
+            [-1]
+        ];
     }
 
     /**
@@ -57,7 +47,11 @@ class PermissionTest extends RepositoryTest
      */
     public function updateOkProvider()
     {
-        // TODO: Implement updateOkProvider() method.
+        return [
+            [
+                1, ['action' => 'update']
+            ]
+        ];
     }
 
     /**
@@ -65,7 +59,13 @@ class PermissionTest extends RepositoryTest
      */
     public function whereOkProvider()
     {
-        // TODO: Implement whereOkProvider() method.
+        return [
+            [
+                [
+                    'area' => 'macdonald'
+                ]
+            ]
+        ];
     }
 
     /**
@@ -73,7 +73,9 @@ class PermissionTest extends RepositoryTest
      */
     public function deleteKoProvider()
     {
-        // TODO: Implement deleteKoProvider() method.
+        return [
+            [-1]
+        ];
     }
 
     /**
@@ -81,6 +83,50 @@ class PermissionTest extends RepositoryTest
      */
     public function updateKoProvider()
     {
-        // TODO: Implement updateKoProvider() method.
+        return [
+            [
+                -1, ['macdonald' => 'update']
+            ],
+            [
+                -1, ['description' => 'DUMMY']
+            ]
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function findOkProvider()
+    {
+        return [
+            [1]
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function createKoProvider()
+    {
+        return [
+            [
+                [
+                    'area'        => null,
+                    'permission'  => 'bigmac',
+                    'action'      => 'order',
+                    'description' => 'Order bigmac'
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function deleteOkProvider()
+    {
+        return [
+            [1]
+        ];
     }
 }

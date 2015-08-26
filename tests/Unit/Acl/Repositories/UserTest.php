@@ -1,47 +1,52 @@
 <?php namespace Tests\Unit\Acl\Repositories;
 
 use App\Libraries\Acl\Repositories\User;
+use App\Libraries\Repository;
+use Faker\Generator;
 use Tests\Unit\RepositoryTest;
 
 /**
- * Date: 25/08/2015
- * Time: 14:15
- * FileName : GroupTest.php
- * Project : myo2
- */
+ * @group unit
+ **/
 class UserTest extends RepositoryTest
 {
 
     /**
-     * UserTest constructor.
+     * @var Generator
      */
-    public function __construct()
+    protected $faker;
+
+    public function setUp()
     {
-        parent::__construct(new User());
+        $this->faker = \Faker\Factory::create();;
+
+        \App\Group::create([
+            'name' => 'test'
+        ]);
+
+        parent::setUp();
     }
 
     /**
-     * @return array
+     * @return Repository
      */
-    public function findOkProvider()
+    public function getRepository()
     {
-        // TODO: Implement findOkProvider() method.
+        return new User();
     }
 
-    /**
-     * @return array
-     */
-    public function createKoProvider()
-    {
-        // TODO: Implement createKoProvider() method.
-    }
-
-    /**
-     * @return array
-     */
     public function createOkProvider()
     {
-        // TODO: Implement createOkProvider() method.
+        return [
+            [
+                [
+                    'username' => $this->faker->userName,
+                    'email' => $this->faker->email,
+                    'password' => $this->faker->password(),
+                    'group_id' => 1,
+                ]
+            ]
+        ];
     }
 
     /**
@@ -49,7 +54,9 @@ class UserTest extends RepositoryTest
      */
     public function findKoProvider()
     {
-        // TODO: Implement findKoProvider() method.
+        return [
+            [-1]
+        ];
     }
 
     /**
@@ -57,7 +64,11 @@ class UserTest extends RepositoryTest
      */
     public function updateOkProvider()
     {
-        // TODO: Implement updateOkProvider() method.
+        return [
+            [
+                1, ['username' => $this->faker->userName]
+            ]
+        ];
     }
 
     /**
@@ -65,7 +76,13 @@ class UserTest extends RepositoryTest
      */
     public function whereOkProvider()
     {
-        // TODO: Implement whereOkProvider() method.
+        return [
+            [
+                [
+                    'group_id' => 1
+                ]
+            ]
+        ];
     }
 
     /**
@@ -73,7 +90,9 @@ class UserTest extends RepositoryTest
      */
     public function deleteKoProvider()
     {
-        // TODO: Implement deleteKoProvider() method.
+        return [
+            [-1]
+        ];
     }
 
     /**
@@ -81,6 +100,87 @@ class UserTest extends RepositoryTest
      */
     public function updateKoProvider()
     {
-        // TODO: Implement updateKoProvider() method.
+        return [
+            [
+                -1, ['email' => $this->faker->email]
+            ],
+            [
+                1, ['email' => 'notavalidemail']
+            ],
+            [
+                1, ['password' => '']
+            ]
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function findOkProvider()
+    {
+        return [
+            [1]
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function createKoProvider()
+    {
+        return [
+            [
+                [
+                    'username' => $this->faker->userName,
+                    'email' => $this->faker->email,
+                    'password' => $this->faker->password(),
+                    'group_id' => -1,
+                ],
+                [
+                    'username' => $this->faker->userName,
+                    'email' => $this->faker->email,
+                    'password' => '',
+                    'group_id' => 1,
+                ],
+                [
+                    'username' => $this->faker->userName,
+                    'email' => 'notemail',
+                    'password' => $this->faker->password(),
+                    'group_id' => 1,
+                ],
+                [
+                    'username' => '',
+                    'email' => $this->faker->email,
+                    'password' => $this->faker->password(),
+                    'group_id' => 1,
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function deleteOkProvider()
+    {
+        return [
+            [1]
+        ];
+    }
+
+    public function testDuplicate()
+    {
+        $attributes = [
+            'username' => $this->faker->userName,
+            'email' => $this->faker->email,
+            'password' => $this->faker->password(),
+            'group_id' => 1,
+        ];
+
+        $model = $this->repository->create($attributes);
+        $this->assertModel($model);
+
+        $model = $this->repository->create($attributes);
+        $this->assertModel($model, false);
     }
 }
