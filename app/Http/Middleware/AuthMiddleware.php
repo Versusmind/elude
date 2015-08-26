@@ -21,6 +21,7 @@
 use App\Libraries\Assets\Collection;
 use App\Libraries\Assets\Orchestrator;
 use Closure;
+use Illuminate\Support\Facades\Session;
 
 class AuthMiddleware
 {

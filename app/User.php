@@ -38,6 +38,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     protected $fillable = ['email', 'username', 'email', 'password'];
 
+    protected $primaryKey = 'id';
+
 
     /**
      * Validation rules
@@ -98,7 +100,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function getAuthIdentifier()
     {
-        // TODO: Implement getAuthIdentifier() method.
+        return $this->getKey();
     }
 
     /**
@@ -108,7 +110,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function getAuthPassword()
     {
-        // TODO: Implement getAuthPassword() method.
+        return $this->password;
     }
 
     /**
@@ -171,4 +173,5 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         return $this->hidden;
     }
+
 }

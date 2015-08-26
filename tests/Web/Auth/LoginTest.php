@@ -9,7 +9,7 @@ class LoginTest extends TestCase
     {
         $this->visit('/')
             ->seePageIs('/auth/login')
-            ->type('user', 'login')
+            ->type('user', 'username')
             ->type('user', 'password')
             ->press('Sign In')
             ->seePageIs('/')
@@ -21,7 +21,7 @@ class LoginTest extends TestCase
     {
         $this->visit('/')
             ->seePageIs('/auth/login')
-            ->type('dummy', 'login')
+            ->type('dummy', 'username')
             ->type('dummy', 'password')
             ->press('Sign In')
             ->seePageIs('/auth/login?' . http_build_query(['error' => 1]))
