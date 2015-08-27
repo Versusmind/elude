@@ -3,10 +3,10 @@
 use App\Libraries\Acl\Manager\Group;
 use App\Libraries\Acl\Manager\Role;
 use App\Libraries\Acl\Manager\User;
-use Libraries\Acl\Interfaces\GroupInterface;
-use Libraries\Acl\Interfaces\PermissionInterface;
-use Libraries\Acl\Interfaces\RoleInterface;
-use Libraries\Acl\Interfaces\UserInterface;
+use App\Libraries\Acl\Interfaces\GroupInterface;
+use App\Libraries\Acl\Interfaces\PermissionInterface;
+use App\Libraries\Acl\Interfaces\RoleInterface;
+use App\Libraries\Acl\Interfaces\UserInterface;
 
 class Acl
 {
@@ -41,8 +41,8 @@ class Acl
     }
 
     /**
-     * @param \Libraries\Acl\Interfaces\UserInterface       $userInterface
-     * @param \Libraries\Acl\Interfaces\PermissionInterface $permissionInterface
+     * @param \App\Libraries\Acl\Interfaces\UserInterface       $userInterface
+     * @param \App\Libraries\Acl\Interfaces\PermissionInterface $permissionInterface
      *
      */
     public function grantUserPermission(UserInterface $userInterface, PermissionInterface $permissionInterface)
@@ -51,8 +51,8 @@ class Acl
     }
 
     /**
-     * @param \Libraries\Acl\Interfaces\UserInterface       $userInterface
-     * @param \Libraries\Acl\Interfaces\PermissionInterface $permissionInterface
+     * @param \App\Libraries\Acl\Interfaces\UserInterface       $userInterface
+     * @param \App\Libraries\Acl\Interfaces\PermissionInterface $permissionInterface
      *
      */
     public function denyUserPermission(UserInterface $userInterface, PermissionInterface $permissionInterface)
@@ -61,8 +61,8 @@ class Acl
     }
 
     /**
-     * @param \Libraries\Acl\Interfaces\RoleInterface       $roleInterface
-     * @param \Libraries\Acl\Interfaces\PermissionInterface $permissionInterface
+     * @param \App\Libraries\Acl\Interfaces\RoleInterface       $roleInterface
+     * @param \App\Libraries\Acl\Interfaces\PermissionInterface $permissionInterface
      *
      */
     public function grantRolePermission(RoleInterface $roleInterface, PermissionInterface $permissionInterface)
@@ -71,8 +71,8 @@ class Acl
     }
 
     /**
-     * @param \Libraries\Acl\Interfaces\RoleInterface       $roleInterface
-     * @param \Libraries\Acl\Interfaces\PermissionInterface $permissionInterface
+     * @param \App\Libraries\Acl\Interfaces\RoleInterface       $roleInterface
+     * @param \App\Libraries\Acl\Interfaces\PermissionInterface $permissionInterface
      *
      */
     public function denyRolePermission(RoleInterface $roleInterface, PermissionInterface $permissionInterface)
@@ -81,8 +81,8 @@ class Acl
     }
 
     /**
-     * @param \Libraries\Acl\Interfaces\GroupInterface      $groupInterface
-     * @param \Libraries\Acl\Interfaces\PermissionInterface $permissionInterface
+     * @param \App\Libraries\Acl\Interfaces\GroupInterface      $groupInterface
+     * @param \App\Libraries\Acl\Interfaces\PermissionInterface $permissionInterface
      *
      */
     public function grantGroupPermission(GroupInterface $groupInterface, PermissionInterface $permissionInterface)
@@ -91,8 +91,8 @@ class Acl
     }
 
     /**
-     * @param \Libraries\Acl\Interfaces\GroupInterface      $groupInterface
-     * @param \Libraries\Acl\Interfaces\PermissionInterface $permissionInterface
+     * @param \App\Libraries\Acl\Interfaces\GroupInterface      $groupInterface
+     * @param \App\Libraries\Acl\Interfaces\PermissionInterface $permissionInterface
      *
      */
     public function denyGroupPermission(GroupInterface $groupInterface, PermissionInterface $permissionInterface)
@@ -101,60 +101,61 @@ class Acl
     }
 
     /**
-     * @param \Libraries\Acl\Interfaces\UserInterface $userInterface
-     * @param \Libraries\Acl\Interfaces\RoleInterface $roleInterface
+     * @param \App\Libraries\Acl\Interfaces\UserInterface $userInterface
+     * @param \App\Libraries\Acl\Interfaces\RoleInterface $roleInterface
      *
      */
     public function grantUserRole(UserInterface $userInterface, RoleInterface $roleInterface)
     {
-        $this->userManager->addRole($userInterface, $roleInterface);
+        $this->userManager->getRepository()->addRole($userInterface, $roleInterface);
     }
 
     /**
-     * @param \Libraries\Acl\Interfaces\UserInterface $userInterface
-     * @param \Libraries\Acl\Interfaces\RoleInterface $roleInterface
+
+     * @param \App\Libraries\Acl\Interfaces\UserInterface $userInterface
+     * @param \App\Libraries\Acl\Interfaces\RoleInterface $roleInterface
      *
      */
     public function denyUserRole(UserInterface $userInterface, RoleInterface $roleInterface)
     {
-        $this->userManager->removeRole($userInterface, $roleInterface);
+        $this->userManager->getRepository()->removeRole($userInterface, $roleInterface);
     }
 
     /**
-     * @param \Libraries\Acl\Interfaces\GroupInterface $groupInterface
-     * @param \Libraries\Acl\Interfaces\RoleInterface  $roleInterface
+     * @param \App\Libraries\Acl\Interfaces\GroupInterface $groupInterface
+     * @param \App\Libraries\Acl\Interfaces\RoleInterface  $roleInterface
      *
      */
     public function grantGroupRole(GroupInterface $groupInterface, RoleInterface $roleInterface)
     {
-        $this->groupManager->addRole($groupInterface, $roleInterface);
+        $this->groupManager->getRepository()->addRole($groupInterface, $roleInterface);
     }
 
     /**
-     * @param \Libraries\Acl\Interfaces\GroupInterface $groupInterface
-     * @param \Libraries\Acl\Interfaces\RoleInterface  $roleInterface
+     * @param \App\Libraries\Acl\Interfaces\GroupInterface $groupInterface
+     * @param \App\Libraries\Acl\Interfaces\RoleInterface  $roleInterface
      *
      */
     public function denyGroupRole(GroupInterface $groupInterface, RoleInterface $roleInterface)
     {
-        $this->groupManager->removeRole($groupInterface, $roleInterface);
+        $this->groupManager->getRepository()->removeRole($groupInterface, $roleInterface);
     }
 
     /**
-     * @param \Libraries\Acl\Interfaces\UserInterface  $userInterface
-     * @param \Libraries\Acl\Interfaces\GroupInterface $groupInterface
+     * @param \App\Libraries\Acl\Interfaces\GroupInterface $groupInterface
+     * @param \App\Libraries\Acl\Interfaces\RoleInterface  $roleInterface
      *
      */
     public function grantUserGroup(UserInterface $userInterface, GroupInterface $groupInterface)
     {
-        $this->userManager->changeGroup($userInterface, $groupInterface);
+        $this->userManager->getRepository()->setGroup($userInterface, $groupInterface);
     }
 
     /**
-     * @param \Libraries\Acl\Interfaces\UserInterface $userInterface
-     * @param                                         $action
+     * @param \App\Libraries\Acl\Interfaces\UserInterface $userInterface
+     * @param                                             $action
      *
-     * @return boolean
+     * @return mixed
      */
     public function isUserAllow(UserInterface $userInterface, $action)
     {
@@ -162,7 +163,7 @@ class Acl
     }
 
     /**
-     * @param \Libraries\Acl\Interfaces\UserInterface $userInterface
+     * @param \App\Libraries\Acl\Interfaces\UserInterface $userInterface
      *
      * @return array
      */

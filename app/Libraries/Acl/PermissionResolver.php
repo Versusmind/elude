@@ -37,17 +37,25 @@ class PermissionResolver
     {
         $result = new Collection();
 
-        /** @var RoleInterface $role */
-        foreach ($this->group->roles() as $role) {
-            $this->addPermission($result, $role->permissions, $role->getFilter());
+        if(!is_null($this->group)) {
+            /** @var RoleInterface $role */
+            foreach ($this->group->roles as $role) {
+                $this->addPermissions($result, $role->permissions, $role->getFilter());
+            }
+
+            $this->addPermissions($result, $this->group->permissions);
         }
 
-        /** @var RoleInterface $role */
-        foreach ($this->roles as $role) {
-            $this->addPermission($result, $role->permissions, $role->getFilter());
+        if(!is_null($this->roles)) {
+            /** @var RoleInterface $role */
+            foreach ($this->roles as $role) {
+                $this->addPermissions($result, $role->permissions, $role->getFilter());
+            }
         }
 
-        $this->addPermission($result, $role->permissions);
+        if(!is_null($this->permissions)) {
+            $this->addPermissions($result, $this->permissions);
+        }
 
         return $result;
     }

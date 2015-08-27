@@ -1,10 +1,10 @@
 <?php namespace App\Libraries\Acl\Manager;
 
+use App\Libraries\Acl\Interfaces\GrantableInterface;
+use App\Libraries\Acl\Interfaces\PermissionInterface;
 use App\Libraries\Acl\PermissionResolver;
 use App\Libraries\Acl\Repositories\GrantableRepository;
 use Illuminate\Support\Collection;
-use App\Libraries\Acl\Interfaces\GrantableInterface;
-use App\Libraries\Acl\Interfaces\PermissionInterface;
 
 abstract class Manager
 {
@@ -45,12 +45,13 @@ abstract class Manager
 
     /**
      * @param GrantableInterface $grantable
-     * @param $action
+     * @param                    $action
+     *
      * @return mixed
      */
     public function isAllow(GrantableInterface $grantable, $action)
     {
-        if(is_null($this->permissions)) {
+        if (is_null($this->permissions)) {
             $this->initialize($grantable);
         }
 
@@ -59,11 +60,12 @@ abstract class Manager
 
     /**
      * @param GrantableInterface $grantable
+     *
      * @return array
      */
-    public function getAllActions(GrantableInterface $grantable)
+    public function getAllPermissions(GrantableInterface $grantable)
     {
-        if(is_null($this->permissions)) {
+        if (is_null($this->permissions)) {
             $this->initialize($grantable);
         }
 
@@ -77,8 +79,9 @@ abstract class Manager
     }
 
     /**
-     * @param GrantableInterface $grantable
+     * @param GrantableInterface  $grantable
      * @param PermissionInterface $permission
+     *
      * @return GrantableRepository
      */
     public function grant(GrantableInterface $grantable, PermissionInterface $permission)
@@ -97,5 +100,13 @@ abstract class Manager
     {
 
         return $this->repository->removePermission($grantable, $permission);
+    }
+
+    /**
+     * @return GrantableRepository
+     */
+    public function getRepository()
+    {
+        return $this->repository;
     }
 }

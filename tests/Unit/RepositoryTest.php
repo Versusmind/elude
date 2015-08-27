@@ -31,9 +31,15 @@ abstract class RepositoryTest extends TestCase
         $this->initiate();
     }
 
+    /**
+     * You can use this method to seed the db
+     * after database refresh
+     *
+     * @return bool
+     */
     public function initiate()
     {
-
+        return true;
     }
 
     /**
@@ -87,7 +93,7 @@ abstract class RepositoryTest extends TestCase
 
         if ($saved) {
             /** @var Model $actual */
-            $this->assertFalse($actual->isDirty());
+            $this->assertTrue($actual->exists);
         }
     }
 

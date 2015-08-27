@@ -43,7 +43,6 @@ class UserTest extends RepositoryTest
                     'username' => $this->faker->userName,
                     'email' => $this->faker->safeEmail,
                     'password' => $this->faker->password(),
-                    'group_id' => 1,
                 ]
             ]
         ];

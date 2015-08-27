@@ -48,7 +48,7 @@ class Group extends Model implements GroupInterface, ValidationInterface
             'acl_group_permissions',
             'group_id',
             'permission_id'
-        )->withPivot('actions')->withTimestamps();
+        )->withTimestamps();
     }
 
     /**

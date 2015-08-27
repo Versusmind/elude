@@ -22,7 +22,6 @@ class AclRolePermissions extends Migration
             $table->timestamps();
             $table->integer('role_id')->unsigned();
             $table->integer('permission_id')->unsigned();
-            $table->text('actions');
             $table->unique(['role_id', 'permission_id']);
 
             $table->foreign('role_id')

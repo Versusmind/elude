@@ -62,7 +62,7 @@ class Role extends Model implements RoleInterface, ValidationInterface
             'acl_role_permissions',
             'role_id',
             'permission_id'
-        )->withPivot('actions')->withTimestamps();
+        )->withTimestamps();
     }
 
     /**

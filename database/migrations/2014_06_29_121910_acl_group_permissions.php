@@ -22,7 +22,6 @@ class AclGroupPermissions extends Migration
             $table->timestamps();
             $table->integer('group_id')->unsigned();
             $table->integer('permission_id')->unsigned();
-            $table->text('actions');
             $table->unique(['group_id', 'permission_id']);
 
             $table->foreign('group_id')
