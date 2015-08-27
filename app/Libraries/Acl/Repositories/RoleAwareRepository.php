@@ -23,7 +23,12 @@ abstract class RoleAwareRepository extends GrantableRepository implements RoleAw
      */
     public function addRole(GrantableInterface $grantable, Role $role)
     {
+        if($this->hasRole($grantable, $role)) {
+            return $this;
+        }
+
         $grantable->roles()->attach($role);
+        $grantable->load('roles');
 
         return $this;
     }
@@ -35,7 +40,12 @@ abstract class RoleAwareRepository extends GrantableRepository implements RoleAw
      */
     public function removeRole(GrantableInterface $grantable, Role $role)
     {
+        if(!$this->hasRole($grantable, $role)) {
+            return $this;
+        }
+
         $grantable->roles()->detach($role);
+        $grantable->load('roles');
 
         return $this;
     }

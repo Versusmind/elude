@@ -65,7 +65,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             'acl_user_permissions',
             'user_id',
             'permission_id'
-        )->withPivot('actions')->withTimestamps();
+        )->withTimestamps();
     }
 
     /**

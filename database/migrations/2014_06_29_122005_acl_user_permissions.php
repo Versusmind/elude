@@ -22,7 +22,6 @@ class AclUserPermissions extends Migration
             $table->timestamps();
             $table->integer('user_id')->unsigned();
             $table->integer('permission_id')->unsigned();
-            $table->text('actions');
             $table->unique(['user_id', 'permission_id']);
 
             $table->foreign('permission_id')

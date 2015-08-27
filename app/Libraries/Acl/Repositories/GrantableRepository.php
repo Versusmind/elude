@@ -1,10 +1,10 @@
 <?php namespace App\Libraries\Acl\Repositories;
 
 
+use App\Libraries\Acl\Interfaces\PermissionInterface;
 use App\Libraries\Repository;
 use App\Permission;
 use App\Libraries\Acl\Interfaces\GrantableInterface;
-use App\Libraries\Acl\Interfaces\PermissionInterface;
 
 abstract class GrantableRepository extends Repository
 {
@@ -17,58 +17,44 @@ abstract class GrantableRepository extends Repository
         parent::__construct($className);
     }
 
-    /**
-     * @param GrantableInterface  $model
-     * @param PermissionInterface $permission
-     *
-     * @return GrantableRepository
-     */
-    public function grant(GrantableInterface $model, PermissionInterface $permission)
-    {
-        return $this->addPermission($model, $permission);
-    }
-
-    /**
-     * @param GrantableInterface  $model
-     * @param PermissionInterface $permission
-     *
-     * @return GrantableRepository
-     */
-    public function deny(GrantableInterface $model, PermissionInterface $permission)
-    {
-        return $this->removePermission($model, $permission);
-    }
 
     /**
      * @param GrantableInterface $model
-     * @param Permission         $permission
-     *
+     * @param PermissionInterface $permission
      * @return $this
      */
-    public function addPermission(GrantableInterface $model, Permission $permission)
+    public function addPermission(GrantableInterface $model, PermissionInterface $permission)
     {
+        if($this->hasPermission($model, $permission)) {
+            return $this;
+        }
+
         $model->permissions()->attach($permission);
+        $model->load('permissions');
 
         return $this;
     }
 
     /**
      * @param GrantableInterface $model
-     * @param Permission         $permission
-     *
+     * @param PermissionInterface $permission
      * @return $this
      */
-    public function removePermission(GrantableInterface $model, Permission $permission)
+    public function removePermission(GrantableInterface $model, PermissionInterface $permission)
     {
+        if(!$this->hasPermission($model, $permission)) {
+            return $this;
+        }
+
         $model->permissions()->detach($permission);
+        $model->load('permissions');
 
         return $this;
     }
 
     /**
-     * @param \Libraries\Acl\Interfaces\GrantableInterface $model
-     * @param \App\Permission                              $permission
-     *
+     * @param GrantableInterface $model
+     * @param Permission $permission
      * @return mixed
      */
     public function hasPermission(GrantableInterface $model, Permission $permission)

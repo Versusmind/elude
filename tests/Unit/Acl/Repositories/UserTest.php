@@ -195,5 +195,95 @@ class UserTest extends RepositoryTest
         parent::testCreateKo($attributes);
     }
 
+    public function testAssociateGroup()
+    {
+        $group = \App\Group::find(1);
 
+        $user = $this->repository->create([
+            'username' => $this->faker->userName,
+            'email' => $this->faker->safeEmail,
+            'password' => $this->faker->password(),
+            'group_id' => 1,
+        ]);
+
+        $this->assertModel($user, true);
+
+        $this->repository->setGroup($user, $group);
+
+        $this->assertEquals($group->id, $user->group_id);
+    }
+
+    public function testAddRole()
+    {
+        $role = \App\Role::create([
+            'name'        => uniqid(),
+            'filter'      => 'A'
+        ]);
+
+        $user = $this->repository->create([
+            'username' => $this->faker->userName,
+            'email' => $this->faker->safeEmail,
+            'password' => $this->faker->password(),
+            'group_id' => 1,
+        ]);
+
+        $this->assertModel($user, true);
+
+        $this->repository->addRole($user, $role);
+
+        $this->assertTrue($this->repository->hasRole($user, $role));
+
+        $this->repository->removeRole($user, $role);
+
+        $this->assertFalse($this->repository->hasRole($user, $role));
+    }
+
+    public function testAddPermission()
+    {
+        $permission = \App\Permission::create([
+            'area'        => uniqid(),
+            'permission'  => uniqid(),
+            'action'      => uniqid(),
+            'description' => uniqid()
+        ]);
+
+        $user = $this->repository->create([
+            'username' => $this->faker->userName,
+            'email' => $this->faker->safeEmail,
+            'password' => $this->faker->password(),
+            'group_id' => 1,
+        ]);
+
+        $this->assertModel($user, true);
+
+        $this->repository->addPermission($user, $permission);
+
+        $this->assertTrue($this->repository->hasPermission($user, $permission));
+
+        $this->repository->removePermission($user, $permission);
+
+        $this->assertFalse($this->repository->hasPermission($user, $permission));
+    }
+
+    public function testAddPermissionTwice()
+    {
+        $permission = \App\Permission::create([
+            'area'        => uniqid(),
+            'permission'  => uniqid(),
+            'action'      => uniqid(),
+            'description' => uniqid()
+        ]);
+
+        $user = $this->repository->create([
+            'username' => $this->faker->userName,
+            'email' => $this->faker->safeEmail,
+            'password' => $this->faker->password(),
+            'group_id' => 1,
+        ]);
+
+        $this->assertModel($user, true);
+
+        $this->repository->addPermission($user, $permission);
+        $this->repository->addPermission($user, $permission);
+    }
 }
