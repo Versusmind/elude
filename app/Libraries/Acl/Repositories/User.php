@@ -14,13 +14,13 @@ class User extends RoleAwareRepository
 
     /**
      * @param \App\User $user
-     * @param \App\Group     $role
-     *
+     * @param \App\Group $group
      * @return $this
      */
-    public function setGroup(\App\User $user, \App\Group $role)
+    public function setGroup(\App\User $user, \App\Group $group)
     {
-        $user->group()->save($role);
+        $user->group()->associate($group);
+        $user->load('group');
 
         return $this;
     }

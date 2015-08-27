@@ -158,7 +158,6 @@ class PermissionResolverTest extends TestCase
         $this->assertTrue($this->permissionFirst->exists);
         $this->assertTrue($this->permissionSecond->exists);
 
-        $this->groupRepository->addPermission($this->group, $this->permissionFirst);
         $this->roleRepository->addPermission($this->role, $this->permissionSecond);
         $this->groupRepository->addRole($this->group, $this->role);
 

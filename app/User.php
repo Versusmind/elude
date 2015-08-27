@@ -84,13 +84,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * Get user group
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function group()
     {
-        return $this->hasOne(Group::class, 'id', 'group_id');
+        return $this->belongsTo(Group::class, 'group_id', 'id');
     }
 
     /**
