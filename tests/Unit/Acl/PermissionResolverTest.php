@@ -5,6 +5,7 @@ use App\Libraries\Acl\Repositories\Group;
 use App\Libraries\Acl\Repositories\Permission;
 use App\Libraries\Acl\Repositories\Role;
 use App\Libraries\Acl\Repositories\User;
+use Illuminate\Support\Collection;
 use Tests\TestCase;
 
 /**
@@ -19,16 +20,25 @@ class PermissionResolverTest extends TestCase
     protected $resolver;
 
     protected $userRepository;
+
     protected $permissionRepository;
+
     protected $roleRepository;
+
     protected $groupRepository;
+
     protected $faker;
 
     protected $user;
+
     protected $group;
+
     protected $role;
+
     protected $roleRevoke;
+
     protected $permissionFirst;
+
     protected $permissionSecond;
 
     /**
@@ -37,11 +47,11 @@ class PermissionResolverTest extends TestCase
     public function __construct($name = null, array $data = array(), $dataName = '')
     {
 
-        $this->userRepository = new User();
+        $this->userRepository       = new User();
         $this->permissionRepository = new Permission();
-        $this->roleRepository = new Role();
-        $this->groupRepository = new Group();
-        $this->faker = \Faker\Factory::create();
+        $this->roleRepository       = new Role();
+        $this->groupRepository      = new Group();
+        $this->faker                = \Faker\Factory::create();
 
         parent::__construct($name, $data, $dataName);
     }
@@ -52,7 +62,7 @@ class PermissionResolverTest extends TestCase
 
         $this->user = $this->userRepository->create([
             'username' => $this->faker->userName,
-            'email' => $this->faker->safeEmail,
+            'email'    => $this->faker->safeEmail,
             'password' => $this->faker->password(),
         ]);
 
@@ -61,12 +71,12 @@ class PermissionResolverTest extends TestCase
         ]);
 
         $this->role = $this->roleRepository->create([
-            'name' => uniqid(),
+            'name'   => uniqid(),
             'filter' => 'A'
         ]);
 
         $this->roleRevoke = $this->roleRepository->create([
-            'name' => uniqid(),
+            'name'   => uniqid(),
             'filter' => 'R'
         ]);
 
@@ -103,7 +113,17 @@ class PermissionResolverTest extends TestCase
         $this->assertEquals(1, $permissions->count());
         $this->assertTrue($permissions->get($this->permissionFirst->getAction()), json_encode($permissions));
         $this->assertFalse($permissions->get($this->permissionSecond->getAction(), false), json_encode($permissions));
+    }
 
+    public function testResolveGroupAndRole()
+    {
+        $this->assertTrue($this->role->exists);
+        $this->assertTrue($this->group->exists);
+        $this->assertTrue($this->permissionFirst->exists);
+        $this->assertTrue($this->permissionSecond->exists);
+
+        $this->groupRepository->addPermission($this->group, $this->permissionFirst);
+        $this->roleRepository->addPermission($this->role, $this->permissionSecond);
         $this->groupRepository->addRole($this->group, $this->role);
 
         $this->resolver->setGroup($this->group);
@@ -116,16 +136,68 @@ class PermissionResolverTest extends TestCase
 
     public function testResolveRole()
     {
-        $this->assertTrue(false);
+        $this->assertTrue($this->role->exists);
+        $this->assertTrue($this->group->exists);
+        $this->assertTrue($this->permissionFirst->exists);
+        $this->assertTrue($this->permissionSecond->exists);
+
+        $this->roleRepository->addPermission($this->role, $this->permissionFirst);
+        $this->resolver->setRoles(new Collection([$this->role]));
+
+        $permissions = $this->resolver->resolve();
+        $this->assertEquals(1, $permissions->count());
+        $this->assertTrue($permissions->get($this->permissionFirst->getAction(), false), json_encode($permissions));
+        $this->assertFalse($permissions->get($this->permissionSecond->getAction(), false), json_encode($permissions));
     }
 
     public function testResolveUser()
     {
-        $this->assertTrue(false);
+        $this->assertTrue($this->role->exists);
+        $this->assertTrue($this->user->exists);
+        $this->assertTrue($this->group->exists);
+        $this->assertTrue($this->permissionFirst->exists);
+        $this->assertTrue($this->permissionSecond->exists);
+
+        $this->groupRepository->addPermission($this->group, $this->permissionFirst);
+        $this->roleRepository->addPermission($this->role, $this->permissionSecond);
+        $this->groupRepository->addRole($this->group, $this->role);
+
+        $this->userRepository->setGroup($this->user, $this->group);
+
+        $this->resolver->setGroup($this->user->group);
+        $this->resolver->setRoles($this->user->roles);
+        $this->resolver->setPermissions($this->user->permissions);
+
+        $permissions = $this->resolver->resolve();
+
+        $this->assertEquals(1, $permissions->count());
+        $this->assertTrue($permissions->get($this->permissionSecond->getAction()), json_encode($permissions));
+        $this->assertFalse($permissions->get($this->permissionFirst->getAction(), false), json_encode($permissions));
     }
 
-    public function testResolveOrder()
+    public function testResolveUserGroupAndUser()
     {
-        $this->assertTrue(false);
+        $this->assertTrue($this->role->exists);
+        $this->assertTrue($this->user->exists);
+        $this->assertTrue($this->group->exists);
+        $this->assertTrue($this->permissionFirst->exists);
+        $this->assertTrue($this->permissionSecond->exists);
+
+        $this->groupRepository->addPermission($this->group, $this->permissionFirst);
+        $this->roleRepository->addPermission($this->role, $this->permissionSecond);
+        $this->groupRepository->addRole($this->group, $this->role);
+
+        $this->userRepository->setGroup($this->user, $this->group);
+
+        $this->userRepository->addPermission($this->user, $this->permissionFirst);
+
+        $this->resolver->setGroup($this->user->group);
+        $this->resolver->setRoles($this->user->roles);
+        $this->resolver->setPermissions($this->user->permissions);
+        $permissions = $this->resolver->resolve();
+
+        $this->assertEquals(2, $permissions->count());
+        $this->assertTrue($permissions->get($this->permissionFirst->getAction()), json_encode($permissions));
+        $this->assertTrue($permissions->get($this->permissionSecond->getAction()), json_encode($permissions));
     }
 }

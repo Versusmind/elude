@@ -26,8 +26,8 @@ class TestCase extends \Laravel\Lumen\Testing\TestCase
     {
         parent::setUp();
 
-        if(!isset(self::$dbRefresh[get_class($this)])) {
-            fwrite(STDOUT, "\n# Refresh database for class " . get_class($this) . " \n");
+        if (!isset(self::$dbRefresh[get_class($this)])) {
+            $this->debug("\n# Refresh database for class " . get_class($this));
             $this->artisan('migrate:refresh');
             $this->seed();
             self::$dbRefresh[get_class($this)] = true;
@@ -52,6 +52,11 @@ class TestCase extends \Laravel\Lumen\Testing\TestCase
         return $this;
     }
 
+    /**
+     * @param array $pattern
+     * @param       $data
+     *
+     */
     public function assertArrayMatchPattern(array $pattern, $data)
     {
         foreach ($pattern as $key => $element) {
@@ -68,5 +73,14 @@ class TestCase extends \Laravel\Lumen\Testing\TestCase
                 }
             }
         }
+    }
+
+    /**
+     * @param $text
+     *
+     */
+    public function debug($text)
+    {
+        fwrite(STDOUT, $text . " \n");
     }
 }
