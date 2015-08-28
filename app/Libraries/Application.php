@@ -4,6 +4,14 @@ class Application extends \Laravel\Lumen\Application
 {
 
     /**
+     * Application constructor.
+     */
+    public function __construct($basePath = null)
+    {
+        parent::__construct($basePath);
+    }
+
+    /**
      * @author LAHAXE Arnaud
      *
      * @param string       $resource        uri resources names
@@ -32,24 +40,24 @@ class Application extends \Laravel\Lumen\Application
         $resourceName = str_replace('/', '.', $resource);
 
         if (!in_array('index', $except, true)) {
-            $this->get($resource, ['as' => $resourceName . '.index', 'uses' => $controller . '@index', 'middleware' => in_array('index', $middlewares) ? $middlewares['index'] : '']);
+            $this->get($resource, ['as' => $resourceName . '.index', 'uses' => $controller . '@index', 'middleware' => in_array('index', $middlewares) ? $middlewares['index'] : null]);
         }
 
         if (!in_array('store', $except, true)) {
-            $this->post($resource, ['as' => $resourceName . '.store', 'uses' => $controller . '@store', 'middleware' => in_array('store', $middlewares) ? $middlewares['store'] : '']);
+            $this->post($resource, ['as' => $resourceName . '.store', 'uses' => $controller . '@store', 'middleware' => in_array('store', $middlewares) ? $middlewares['store'] : null]);
         }
 
         if (!in_array('show', $except, true)) {
-            $this->get($resource . '/{id}', ['as' => $resourceName . '.show', 'uses' => $controller . '@show', 'middleware' => in_array('show', $middlewares) ? $middlewares['show'] : '']);
+            $this->get($resource . '/{id}', ['as' => $resourceName . '.show', 'uses' => $controller . '@show', 'middleware' => in_array('show', $middlewares) ? $middlewares['show'] : null]);
         }
 
         if (!in_array('update', $except, true)) {
-            $this->put($resource . '/{id}', ['as' => $resourceName . '.update', 'uses' => $controller . '@update', 'middleware' => in_array('update', $middlewares) ? $middlewares['update'] : '']);
-            $this->patch($resource . '/{id}', ['as' => $resourceName . '.update', 'uses' => $controller . '@update', 'middleware' => in_array('update', $middlewares) ? $middlewares['update'] : '']);
+            $this->put($resource . '/{id}', ['as' => $resourceName . '.update', 'uses' => $controller . '@update', 'middleware' => in_array('update', $middlewares) ? $middlewares['update'] : null]);
+            $this->patch($resource . '/{id}', ['as' => $resourceName . '.update', 'uses' => $controller . '@update', 'middleware' => in_array('update', $middlewares) ? $middlewares['update'] : null]);
         }
 
         if (!in_array('destroy', $except, true)) {
-            $this->delete($resource . '/{id}', ['as' => $resourceName . '.destroy', 'uses' => $controller . '@destroy', 'middleware' => in_array('destroy', $middlewares) ? $middlewares['destroy'] : '']);
+            $this->delete($resource . '/{id}', ['as' => $resourceName . '.destroy', 'uses' => $controller . '@destroy', 'middleware' => in_array('destroy', $middlewares) ? $middlewares['destroy'] : null]);
         }
     }
 }

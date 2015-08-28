@@ -5,9 +5,12 @@ use Tests\TestCase;
 /**
  * @group api
  */
-abstract class ResourcesControllerTest  extends TestCase
+abstract class ResourcesControllerTest extends TestCase
 {
+
     protected $resourceName;
+
+    protected $apiPath = '/api/v1/';
 
     public function setUp()
     {
@@ -16,18 +19,49 @@ abstract class ResourcesControllerTest  extends TestCase
         parent::setUp();
     }
 
+    /**
+     * @return array
+     */
     abstract function getResourceName();
 
+    /**
+     * @return array
+     */
     abstract function createOkProvider();
+
+    /**
+     * @return array
+     */
     abstract function createKoProvider();
 
+    /**
+     * @return array
+     */
     abstract function updateOkProvider();
+
+    /**
+     * @return array
+     */
     abstract function updateKoProvider();
 
+    /**
+     * @return array
+     */
     abstract function findOkProvider();
+
+    /**
+     * @return array
+     */
     abstract function findKoProvider();
 
+    /**
+     * @return array
+     */
     abstract function deleteOkProvider();
+
+    /**
+     * @return array
+     */
     abstract function deleteKoProvider();
 
     /**
@@ -57,12 +91,14 @@ abstract class ResourcesControllerTest  extends TestCase
      * @param $id
      *
      * @dataProvider findOkProvider
-     * @depends testCreateOk
+     * @depends      testCreateOk
      */
     public function testFindOk($id, $pattern)
     {
-
-        $this->assertTrue(false);
+        $this->call('GET', $this->apiPath . $this->resourceName . '/' . $id);
+        $this->seeJson([]);
+        $this->seeStatusCode(200);
+        $this->assertMatchPattern($pattern);
     }
 
     /**
@@ -72,8 +108,9 @@ abstract class ResourcesControllerTest  extends TestCase
      */
     public function testFindKo($id)
     {
-
-        $this->assertTrue(false);
+        $this->call('GET', $this->apiPath . $this->resourceName . '/' . $id);
+        $this->seeJson([]);
+        $this->seeStatusCode(404);
     }
 
     /**
@@ -81,12 +118,14 @@ abstract class ResourcesControllerTest  extends TestCase
      * @param $data
      *
      * @dataProvider updateOkProvider
-     * @depends testFindOk
+     * @depends      testFindOk
      */
     public function testUpdateOk($id, $data, $pattern)
     {
-
-        $this->assertTrue(false);
+        $this->call('PUT', $this->apiPath . $this->resourceName . '/' . $id, $data);
+        $this->seeJson([]);
+        $this->seeStatusCode(204);
+        $this->assertMatchPattern($pattern);
     }
 
     /**
@@ -95,32 +134,40 @@ abstract class ResourcesControllerTest  extends TestCase
      *
      * @dataProvider updateKoProvider
      */
-    public function testUpdateKo($id, $data)
+    public function testUpdateKo($id, $data, $status)
     {
-
-        $this->assertTrue(false);
+        $this->call('PUT', $this->apiPath . $this->resourceName . '/' . $id, $data);
+        $this->seeJson([]);
+        $this->seeStatusCode($status);
     }
 
     /**
      * @param $id
      *
      * @dataProvider deleteOkProvider
-     * @depends testUpdateOk
+     * @depends      testUpdateOk
      */
     public function testDeleteOk($id)
     {
-
-        $this->assertTrue(false);
+        $this->call('DELETE', $this->apiPath . $this->resourceName . '/' . $id);
+        $this->seeJson([]);
+        $this->seeStatusCode(204);
     }
 
     public function testAllOk()
     {
-        $this->assertTrue(false);
+        $this->call('GET', $this->apiPath . $this->resourceName);
+        $this->seeJson([]);
+        $this->seeStatusCode(200);
     }
 
     public function testAllPaginateOk()
     {
-        $this->assertTrue(false);
+        $this->call('GET', $this->apiPath . $this->resourceName, [
+            'paginate' => 1
+        ]);
+        $this->seeJson([]);
+        $this->seeStatusCode(200);
     }
 
     public function testAllKo()
