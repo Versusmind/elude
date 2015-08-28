@@ -25,7 +25,6 @@ class PermissionTest extends RepositoryTest
                 [
                     'area'        => 'macdonald',
                     'permission'  => 'bigmac',
-                    'action'      => 'order',
                     'description' => 'Order bigmac'
                 ]
             ]
@@ -49,7 +48,7 @@ class PermissionTest extends RepositoryTest
     {
         return [
             [
-                1, ['action' => 'update']
+                1, ['description' => 'update']
             ]
         ];
     }
@@ -110,7 +109,6 @@ class PermissionTest extends RepositoryTest
                 [
                     'area'        => null,
                     'permission'  => 'bigmac',
-                    'action'      => 'order',
                     'description' => 'Order bigmac'
                 ]
             ]

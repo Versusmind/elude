@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3b8c5f6f63f6193aefb7c7009560d0cb",
+    "hash": "34c4470b7c9e73d41d92f0028332f5d5",
     "packages": [
         {
             "name": "appzcoder/lumen-routes-list",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/appzcoder/lumen-route-list.git",
-                "reference": "39913307aeef6e8db5b0b448539d08de60555494"
+                "reference": "8949506c3f6e75a6e4bbfd6e1f74aea58c2f82b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/appzcoder/lumen-route-list/zipball/39913307aeef6e8db5b0b448539d08de60555494",
-                "reference": "39913307aeef6e8db5b0b448539d08de60555494",
+                "url": "https://api.github.com/repos/appzcoder/lumen-route-list/zipball/8949506c3f6e75a6e4bbfd6e1f74aea58c2f82b1",
+                "reference": "8949506c3f6e75a6e4bbfd6e1f74aea58c2f82b1",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
                 "lumen",
                 "route list"
             ],
-            "time": "2015-07-01 19:22:58"
+            "time": "2015-08-25 14:03:42"
         },
         {
             "name": "asm89/stack-cors",
@@ -1491,16 +1491,16 @@
         },
         {
             "name": "leafo/scssphp",
-            "version": "v0.1.9",
+            "version": "v0.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/leafo/scssphp.git",
-                "reference": "609c08586d583fc7d1db78b7edd8b4ac57fa5137"
+                "reference": "9e945cc64ccb6126123dd45cc2d219a4fbc99582"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/leafo/scssphp/zipball/609c08586d583fc7d1db78b7edd8b4ac57fa5137",
-                "reference": "609c08586d583fc7d1db78b7edd8b4ac57fa5137",
+                "url": "https://api.github.com/repos/leafo/scssphp/zipball/9e945cc64ccb6126123dd45cc2d219a4fbc99582",
+                "reference": "9e945cc64ccb6126123dd45cc2d219a4fbc99582",
                 "shasum": ""
             },
             "require": {
@@ -1543,7 +1543,7 @@
                 "scss",
                 "stylesheet"
             ],
-            "time": "2015-08-01 16:04:21"
+            "time": "2015-08-23 16:12:31"
         },
         {
             "name": "league/event",
@@ -3454,16 +3454,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.8.5",
+            "version": "4.8.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "9b7417edaf28059ea63d86be941e6004dbfcc0cc"
+                "reference": "2246830f4a1a551c67933e4171bf2126dc29d357"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9b7417edaf28059ea63d86be941e6004dbfcc0cc",
-                "reference": "9b7417edaf28059ea63d86be941e6004dbfcc0cc",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2246830f4a1a551c67933e4171bf2126dc29d357",
+                "reference": "2246830f4a1a551c67933e4171bf2126dc29d357",
                 "shasum": ""
             },
             "require": {
@@ -3522,7 +3522,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-08-19 09:20:57"
+            "time": "2015-08-24 04:09:38"
         },
         {
             "name": "phpunit/phpunit-mock-objects",

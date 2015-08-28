@@ -242,7 +242,6 @@ class UserTest extends RepositoryTest
         $permission = \App\Permission::create([
             'area'        => uniqid(),
             'permission'  => uniqid(),
-            'action'      => uniqid(),
             'description' => uniqid()
         ]);
 
@@ -269,7 +268,6 @@ class UserTest extends RepositoryTest
         $permission = \App\Permission::create([
             'area'        => uniqid(),
             'permission'  => uniqid(),
-            'action'      => uniqid(),
             'description' => uniqid()
         ]);
 

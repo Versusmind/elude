@@ -22,7 +22,10 @@ class User extends Manager
      */
     public function initialize(GrantableInterface $grantable)
     {
-        $this->resolver->setGroup($grantable->group);
+        if(!is_null($grantable->group)) {
+            $this->resolver->setGroup($grantable->group);
+        }
+
         $this->resolver->setRoles($grantable->roles);
 
         parent::initialize($grantable);
