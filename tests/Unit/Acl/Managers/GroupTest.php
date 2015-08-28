@@ -21,7 +21,9 @@ class GroupTest extends ManagerTest
 
     public function testIsAllowOk()
     {
-        $this->assertTrue(false);
+        $this->groupRepository->addPermission($this->group, $this->permissionFirst);
+        $this->assertTrue($this->manager->isAllow($this->group, $this->permissionFirst->getAction()));
+        $this->assertFalse($this->manager->isAllow($this->group, $this->permissionSecond->getAction()));
     }
 
     public function testIsAllowKo()

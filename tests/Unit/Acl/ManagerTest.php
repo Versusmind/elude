@@ -15,28 +15,61 @@ abstract class ManagerTest extends TestCase
     /**
      * @var Manager
      */
-    protected $repository;
+    protected $manager;
 
+    /**
+     * @var User
+     */
     protected $userRepository;
 
+    /**
+     * @var Permission
+     */
     protected $permissionRepository;
 
+    /**
+     * @var Role
+     */
     protected $roleRepository;
 
+    /**
+     * @var Group
+     */
     protected $groupRepository;
 
+    /**
+     * @var \Faker\Generator
+     */
     protected $faker;
 
+    /**
+     * @var \App\User
+     */
     protected $user;
 
+    /**
+     * @var \App\Group
+     */
     protected $group;
 
+    /**
+     * @var \App\Role
+     */
     protected $role;
 
+    /**
+     * @var \App\Role
+     */
     protected $roleRevoke;
 
+    /**
+     * @var \App\Permission
+     */
     protected $permissionFirst;
 
+    /**
+     * @var \App\Permission
+     */
     protected $permissionSecond;
 
     /**
@@ -61,7 +94,7 @@ abstract class ManagerTest extends TestCase
 
     public function setUp()
     {
-        $this->repository = $this->getManager();
+        $this->manager = $this->getManager();
 
         parent::setUp();
 
