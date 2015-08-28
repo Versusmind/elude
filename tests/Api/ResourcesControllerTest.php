@@ -1,11 +1,9 @@
 <?php namespace Tests\Api;
 
-use Tests\TestCase;
-
 /**
  * @group api
  */
-abstract class ResourcesControllerTest extends TestCase
+abstract class ResourcesControllerTest extends ApiCase
 {
 
     protected $resourceName;
@@ -44,25 +42,34 @@ abstract class ResourcesControllerTest extends TestCase
      */
     abstract function updateKoProvider();
 
-    /**
-     * @return array
-     */
-    abstract function findOkProvider();
 
-    /**
-     * @return array
-     */
-    abstract function findKoProvider();
+    function findOkProvider()
+    {
+        return [
+            [1]
+        ];
+    }
 
-    /**
-     * @return array
-     */
-    abstract function deleteOkProvider();
+    function findKoProvider()
+    {
+        return [
+            [0]
+        ];
+    }
 
-    /**
-     * @return array
-     */
-    abstract function deleteKoProvider();
+    function deleteOkProvider()
+    {
+        return [
+            [1]
+        ];
+    }
+
+    function deleteKoProvider()
+    {
+        return [
+            [0]
+        ];
+    }
 
     /**
      * @param $attributes
@@ -72,7 +79,10 @@ abstract class ResourcesControllerTest extends TestCase
     public function testCreateOk($attributes, $pattern)
     {
 
-        $this->assertTrue(false);
+        $this->call('POST', $this->apiPath . $this->resourceName . '/', $attributes);
+        $this->seeJson([]);
+        $this->seeStatusCode(201);
+        $this->assertMatchPattern($pattern);
     }
 
     /**
@@ -84,7 +94,9 @@ abstract class ResourcesControllerTest extends TestCase
     public function testCreateKo($attributes)
     {
 
-        $this->assertTrue(false);
+        $this->call('POST', $this->apiPath . $this->resourceName . '/', $attributes);
+        $this->seeJson([]);
+        $this->seeStatusCode(400);
     }
 
     /**
@@ -168,10 +180,5 @@ abstract class ResourcesControllerTest extends TestCase
         ]);
         $this->seeJson([]);
         $this->seeStatusCode(200);
-    }
-
-    public function testAllKo()
-    {
-        $this->assertTrue(false);
     }
 }

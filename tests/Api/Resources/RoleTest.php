@@ -14,41 +14,43 @@ class RoleTest extends ResourcesControllerTest
 
     function createOkProvider()
     {
-        // TODO: Implement createOkProvider() method.
+        return [
+            [
+                ['name' => uniqid(), 'filter' => 'A'],
+                ['id' => self::NUMBER, 'name' => self::STRING, 'filter' => self::STRING]
+            ]
+        ];
     }
 
     function createKoProvider()
     {
-        // TODO: Implement createKoProvider() method.
+        return [
+            [
+                ['name' => null],
+                ['name' => uniqid(), 'filter' => 'DUMMY'],
+            ]
+        ];
     }
 
     function updateOkProvider()
     {
-        // TODO: Implement updateOkProvider() method.
+        return [
+            [1, ['name' => uniqid()], ['id' => self::NUMBER, 'name' => self::STRING, 'filter' => self::STRING]]
+        ];
     }
 
     function updateKoProvider()
     {
-        // TODO: Implement updateKoProvider() method.
+        return [
+            [1, ['name' => null], 400],
+            [1, ['filter' => 'DUMMY'], 400],
+        ];
     }
 
     function findOkProvider()
     {
-        // TODO: Implement findOkProvider() method.
-    }
-
-    function findKoProvider()
-    {
-        // TODO: Implement findKoProvider() method.
-    }
-
-    function deleteOkProvider()
-    {
-        // TODO: Implement deleteOkProvider() method.
-    }
-
-    function deleteKoProvider()
-    {
-        // TODO: Implement deleteKoProvider() method.
+        return [
+            [1, ['id' => self::NUMBER, 'name' => self::STRING, 'filter' => self::STRING]]
+        ];
     }
 }

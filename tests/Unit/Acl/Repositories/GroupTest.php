@@ -22,9 +22,7 @@ class GroupTest extends RepositoryTest
     {
         return [
             [
-                [
-                    'name' => 'test'
-                ]
+                ['name' => 'test']
             ]
         ];
     }

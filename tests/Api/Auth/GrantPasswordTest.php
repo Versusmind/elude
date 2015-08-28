@@ -1,6 +1,6 @@
 <?php namespace Tests\Api\Auth;
 
-use Tests\TestCase;
+use Tests\Api\ApiCase;
 
 /**
  * Class GrantPasswordTest
@@ -11,7 +11,7 @@ use Tests\TestCase;
  * @author  LAHAXE Arnaud
  * @group api
  */
-class GrantPasswordTest extends TestCase
+class GrantPasswordTest extends ApiCase
 {
 
     public function testLogin()
