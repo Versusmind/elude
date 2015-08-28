@@ -1,4 +1,4 @@
-<?php namespace Tests\Unit;
+<?php namespace Tests\Unit\Acl;
 
 use App\Libraries\Acl\Manager\Manager;
 use App\Libraries\Acl\Repositories\Group;
@@ -121,14 +121,12 @@ abstract class ManagerTest extends TestCase
         $this->permissionFirst = $this->permissionRepository->create([
             'area'        => uniqid(),
             'permission'  => uniqid(),
-            'action'      => uniqid(),
             'description' => 'test'
         ]);
 
         $this->permissionSecond = $this->permissionRepository->create([
             'area'        => uniqid(),
             'permission'  => uniqid(),
-            'action'      => uniqid(),
             'description' => 'test'
         ]);
 
@@ -136,13 +134,10 @@ abstract class ManagerTest extends TestCase
     }
 
     public abstract function testIsAllowOk();
-    public abstract function testIsAllowKo();
 
     public abstract function testGrantOk();
-    public abstract function testGrantKo();
 
     public abstract function testDenyOk();
-    public abstract function testDenyKo();
 
     public abstract function testAll();
 

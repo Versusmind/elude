@@ -3,7 +3,7 @@
 use App\Libraries\Acl\Manager\Manager;
 use App\Libraries\Acl\Manager\User;
 use App\Libraries\Acl\PermissionResolver;
-use Tests\Unit\ManagerTest;
+use Tests\Unit\Acl\ManagerTest;
 
 /**
  * @group unit
@@ -20,36 +20,39 @@ class UserTest extends ManagerTest
 
     public function testIsAllowOk()
     {
-        $this->assertTrue(false);
-    }
-
-    public function testIsAllowKo()
-    {
-        $this->assertTrue(false);
+        $this->groupRepository->addPermission($this->user, $this->permissionFirst);
+        $this->assertTrue($this->manager->isAllow($this->user, $this->permissionFirst->getAction()));
+        $this->assertFalse($this->manager->isAllow($this->user, $this->permissionSecond->getAction()));
     }
 
     public function testGrantOk()
     {
-        $this->assertTrue(false);
+        $this->assertFalse($this->manager->isAllow($this->user, $this->permissionSecond->getAction()));
+        $this->manager->grant($this->user, $this->permissionSecond);
+        $this->assertTrue($this->manager->isAllow($this->user, $this->permissionSecond->getAction()));
     }
 
     public function testGrantKo()
     {
-        $this->assertTrue(false);
+        $this->assertFalse($this->manager->isAllow($this->user, $this->permissionSecond->getAction()));
+        $this->manager->grant($this->user, $this->permissionSecond);
+        $this->manager->grant($this->user, $this->permissionSecond); // double add
+        $this->assertTrue($this->manager->isAllow($this->user, $this->permissionSecond->getAction()));
     }
 
     public function testDenyOk()
     {
-        $this->assertTrue(false);
-    }
-
-    public function testDenyKo()
-    {
-        $this->assertTrue(false);
+        $this->manager->grant($this->user, $this->permissionSecond);
+        $this->assertTrue($this->manager->isAllow($this->user, $this->permissionSecond->getAction()));
+        $this->manager->deny($this->user, $this->permissionSecond);
+        $this->assertFalse($this->manager->isAllow($this->user, $this->permissionSecond->getAction()));
     }
 
     public function testAll()
     {
-        $this->assertTrue(false);
+        $this->manager->grant($this->user, $this->permissionSecond);
+        $permissions = $this->manager->getAllPermissions($this->user);
+        $this->assertEquals(1, count($permissions));
+        $this->assertContains($this->permissionSecond->getAction(), $permissions);
     }
 }

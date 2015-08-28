@@ -142,8 +142,8 @@ class Acl
     }
 
     /**
+     * @param \App\Libraries\Acl\Interfaces\UserInterface  $userInterface
      * @param \App\Libraries\Acl\Interfaces\GroupInterface $groupInterface
-     * @param \App\Libraries\Acl\Interfaces\RoleInterface  $roleInterface
      *
      */
     public function grantUserGroup(UserInterface $userInterface, GroupInterface $groupInterface)

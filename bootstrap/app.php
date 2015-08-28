@@ -15,7 +15,7 @@ Dotenv::load(__DIR__ . '/../');
 |
 */
 
-$app = new Laravel\Lumen\Application(
+$app = new \App\Libraries\Application(
     realpath(__DIR__ . '/../')
 );
 
@@ -72,6 +72,7 @@ $app->routeMiddleware([
     'check-authorization-params' => LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware::class,
     'csrf' => Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
     'auth' => \App\Http\Middleware\AuthMiddleware::class,
+    'acl' => \App\Http\Middleware\AclMiddleware::class,
     'oauth' => LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware::class,
     'oauth-owner' => LucaDegasperi\OAuth2Server\Middleware\OAuthClientOwnerMiddleware::class
 ]);

@@ -2,6 +2,15 @@
 
 use Tests\TestCase;
 
+/**
+ * Class GrantPasswordTest
+ *
+ *
+ *
+ * @package Tests\Api\Auth
+ * @author  LAHAXE Arnaud
+ * @group api
+ */
 class GrantPasswordTest extends TestCase
 {
 

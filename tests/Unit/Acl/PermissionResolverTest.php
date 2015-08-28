@@ -83,14 +83,12 @@ class PermissionResolverTest extends TestCase
         $this->permissionFirst = $this->permissionRepository->create([
             'area'        => uniqid(),
             'permission'  => uniqid(),
-            'action'      => uniqid(),
             'description' => 'test'
         ]);
 
         $this->permissionSecond = $this->permissionRepository->create([
             'area'        => uniqid(),
             'permission'  => uniqid(),
-            'action'      => uniqid(),
             'description' => 'test'
         ]);
 

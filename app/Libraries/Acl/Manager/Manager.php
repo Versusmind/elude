@@ -86,7 +86,7 @@ abstract class Manager
      */
     public function grant(GrantableInterface $grantable, PermissionInterface $permission)
     {
-
+        $this->permissions = null;
         return $this->repository->addPermission($grantable, $permission);
     }
 
@@ -98,7 +98,7 @@ abstract class Manager
      */
     public function deny(GrantableInterface $grantable, PermissionInterface $permission)
     {
-
+        $this->permissions = null;
         return $this->repository->removePermission($grantable, $permission);
     }
 

@@ -18,7 +18,7 @@ class Permission extends Model implements PermissionInterface, ValidationInterfa
      *
      * @var array
      */
-    protected $fillable = array('area', 'permission', 'action', 'description');
+    protected $fillable = array('area', 'permission', 'description');
 
     /**
      * The database table used by the model.
@@ -35,12 +35,11 @@ class Permission extends Model implements PermissionInterface, ValidationInterfa
     protected static $rules = [
         'area' => 'required|min:3',
         'permission' => 'required|min:3',
-        'action' => 'required|min:3',
         'description' => 'min:3',
     ];
 
     public function getAction()
     {
-        return $this->action;
+        return $this->area . '.' . $this->permission;
     }
 }
