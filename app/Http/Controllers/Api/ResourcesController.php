@@ -54,7 +54,7 @@ abstract class ResourcesController extends Controller
         try {
             $model = $this->repository->create(Input::all());
         } catch (ModelNotValid $e) {
-            return response()->json($e->getErrors()->toJson(), 400);
+            return response()->json($e->getErrors(), 400);
         }
 
         return response()->json($model, 201);
@@ -105,7 +105,7 @@ abstract class ResourcesController extends Controller
         try {
             $model = $this->repository->update($model, Input::all());
         } catch (ModelNotValid $e) {
-            return response()->json($e->getErrors()->toJson(), 400);
+            return response()->json($e->getErrors(), 400);
         }
 
         return response()->json($model, 204);
