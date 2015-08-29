@@ -182,6 +182,7 @@ abstract class Repository
 
         $validator = Validator::make($modelArray, $model->getRules());
         if($validator->fails()) {
+            \Log::error($validator->errors()->toJson());
             throw new ModelNotValid($validator->errors());
         }
     }

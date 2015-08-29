@@ -78,8 +78,10 @@ abstract class ResourcesControllerTest extends ApiCase
      */
     public function testCreateOk($attributes, $pattern)
     {
-
+$this->debug(json_encode($attributes));
         $this->call('POST', $this->apiPath . $this->resourceName . '/', $attributes);
+        $this->debug($this->response->getContent());
+
         $this->seeJson([]);
         $this->seeStatusCode(201);
         $this->assertMatchPattern($pattern);

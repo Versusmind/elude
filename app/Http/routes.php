@@ -52,7 +52,6 @@ $app->group(['prefix' => 'api/v1', 'middleware' => 'cors'], function () use ($ap
         $app->delete('users/{id}/permissions/{idPermission}', ['as' => 'users.permissions.destroy', 'uses' => \App\Http\Controllers\Api\User::class . '@permissionDestroy']);
         $app->post('users/{id}/roles/{idRole}', ['as' => 'users.roles.store', 'uses' => \App\Http\Controllers\Api\User::class . '@roleStore']);
         $app->delete('users/{id}/roles/{idRole}', ['as' => 'users.roles.destroy', 'uses' => \App\Http\Controllers\Api\User::class . '@roleDestroy']);
-
         $app->put('users/{id}/group/{idGroup}', ['as' => 'users.group.update', 'uses' => \App\Http\Controllers\Api\User::class . '@groupUpdate']);
         $app->patch('users/{id}/group/{idGroup}', ['as' => 'users.group.update', 'uses' => \App\Http\Controllers\Api\User::class . '@groupUpdate']);
 

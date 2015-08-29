@@ -35,16 +35,6 @@ abstract class ResourcesController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        return response()->json([], 200);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @return Response
@@ -52,6 +42,7 @@ abstract class ResourcesController extends Controller
     public function store()
     {
         try {
+            \Log::error(json_encode(Input::all()));
             $model = $this->repository->create(Input::all());
         } catch (ModelNotValid $e) {
             return response()->json($e->getErrors(), 400);
@@ -75,17 +66,6 @@ abstract class ResourcesController extends Controller
         }
 
         return response()->json($model, 200);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        return $this->show($id);
     }
 
     /**
