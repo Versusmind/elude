@@ -3,7 +3,6 @@
 
 use App\Libraries\Acl\Interfaces\PermissionInterface;
 use App\Libraries\Repository;
-use App\Permission;
 use App\Libraries\Acl\Interfaces\GrantableInterface;
 
 abstract class GrantableRepository extends Repository
@@ -54,10 +53,10 @@ abstract class GrantableRepository extends Repository
 
     /**
      * @param GrantableInterface $model
-     * @param Permission $permission
+     * @param PermissionInterface $permission
      * @return mixed
      */
-    public function hasPermission(GrantableInterface $model, Permission $permission)
+    public function hasPermission(GrantableInterface $model, PermissionInterface $permission)
     {
         return $model->permissions->contains($permission->id);
     }

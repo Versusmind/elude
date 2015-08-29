@@ -22,7 +22,7 @@ class ApiCase extends TestCase
         if (!isset(self::$dbRefresh[get_class($this)])) {
             self::$oAuthCredentials = null;
         }
-        
+
         parent::setUp();
     }
 

@@ -1,13 +1,14 @@
 <?php namespace App\Http\Controllers\Api;
 
-class Role extends ResourcesController
+
+class Role extends PermissionAware
 {
 
     /**
-     * Group constructor.
+     * Role constructor.
      */
-    public function __construct(\App\Libraries\Acl\Repositories\Role $repository)
+    public function __construct(\App\Libraries\Acl\Repositories\Role $repository, \App\Libraries\Acl\Repositories\Permission $permissionRepository)
     {
-        parent::__construct($repository);
+        parent::__construct($repository, $permissionRepository);
     }
 }

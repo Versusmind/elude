@@ -1,21 +1,16 @@
-<?php
-/**
- * Date: 28/08/2015
- * Time: 12:31
- * FileName : Group.php
- * Project : myo2
- */
+<?php  namespace App\Http\Controllers\Api;
 
-namespace App\Http\Controllers\Api;
+use App\Libraries\Acl\Repositories\Permission;
+use App\Libraries\Acl\Repositories\Role;
 
-class Group extends ResourcesController
+class Group extends RoleAware
 {
-
     /**
      * Group constructor.
      */
-    public function __construct(\App\Libraries\Acl\Repositories\Group $repository)
+    public function __construct(\App\Libraries\Acl\Repositories\Group $repository, Role $roleRepository, Permission $permissionRepository)
     {
-        parent::__construct($repository);
+        parent::__construct($repository, $permissionRepository, $roleRepository);
     }
+
 }

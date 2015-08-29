@@ -4,7 +4,7 @@ class Permission extends ResourcesController
 {
 
     /**
-     * Group constructor.
+     * Permission constructor.
      */
     public function __construct(\App\Libraries\Acl\Repositories\Permission $repository)
     {

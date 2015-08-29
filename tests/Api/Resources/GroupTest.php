@@ -1,11 +1,10 @@
 <?php namespace Tests\Api\Resources;
-
-use Tests\Api\ResourcesControllerTest;
+use App\Libraries\Acl\Repositories\Group;
 
 /**
  * @group api
  */
-class GroupTest extends ResourcesControllerTest
+class GroupTest extends RoleAware
 {
     function getResourceName()
     {
@@ -50,5 +49,43 @@ class GroupTest extends ResourcesControllerTest
         return [
             [1, ['id' => self::NUMBER, 'name' => self::STRING]]
         ];
+    }
+
+    public function testAddPermission()
+    {
+        $group = (new Group())->create([
+            'name' => uniqid()
+        ]);
+
+        $this->addPermission($group->id, $this->permission->id);
+    }
+
+    public function testRemovePermission()
+    {
+        $group = (new Group())->create([
+            'name' => uniqid()
+        ]);
+        $this->addPermission($group->id, $this->permission->id);
+        $this->removePermission($group->id, $this->permission->id);
+    }
+
+    public function testAddRole()
+    {
+        $group = (new Group())->create([
+            'name' => uniqid()
+        ]);
+
+        $this->addRole($group->id, $this->role->id);
+    }
+
+    public function testRemoveRole()
+    {
+        $group = (new Group())->create([
+            'name' => uniqid()
+        ]);
+
+        $this->addRole($group->id, $this->role->id);
+        $this->removeRole($group->id, $this->role->id);
+
     }
 }

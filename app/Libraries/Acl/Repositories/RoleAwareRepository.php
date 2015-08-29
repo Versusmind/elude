@@ -1,7 +1,6 @@
 <?php namespace App\Libraries\Acl\Repositories;
 
 
-use App\Role;
 use App\Libraries\Acl\Interfaces\GrantableInterface;
 use App\Libraries\Acl\Interfaces\RoleAwareInterface;
 
@@ -18,10 +17,10 @@ abstract class RoleAwareRepository extends GrantableRepository implements RoleAw
 
     /**
      * @param GrantableInterface $grantable
-     * @param Role $role
+     * @param \App\Role $role
      * @return $this
      */
-    public function addRole(GrantableInterface $grantable, Role $role)
+    public function addRole(GrantableInterface $grantable, \App\Role $role)
     {
         if($this->hasRole($grantable, $role)) {
             return $this;
@@ -35,10 +34,10 @@ abstract class RoleAwareRepository extends GrantableRepository implements RoleAw
 
     /**
      * @param GrantableInterface $grantable
-     * @param Role $role
+     * @param \App\Role $role
      * @return $this
      */
-    public function removeRole(GrantableInterface $grantable, Role $role)
+    public function removeRole(GrantableInterface $grantable, \App\Role $role)
     {
         if(!$this->hasRole($grantable, $role)) {
             return $this;
@@ -52,10 +51,10 @@ abstract class RoleAwareRepository extends GrantableRepository implements RoleAw
 
     /**
      * @param GrantableInterface $grantable
-     * @param Role $role
+     * @param \App\Role $role
      * @return mixed
      */
-    public function hasRole(GrantableInterface $grantable, Role $role)
+    public function hasRole(GrantableInterface $grantable, \App\Role $role)
     {
         return $grantable->roles->contains($role->id);
     }

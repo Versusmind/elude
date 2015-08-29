@@ -1,11 +1,11 @@
 <?php namespace Tests\Api\Resources;
 
-use Tests\Api\ResourcesControllerTest;
+use App\Libraries\Acl\Repositories\Role;
 
 /**
  * @group api
  */
-class RoleTest extends ResourcesControllerTest
+class RoleTest extends PermissionAware
 {
     function getResourceName()
     {
@@ -52,5 +52,26 @@ class RoleTest extends ResourcesControllerTest
         return [
             [1, ['id' => self::NUMBER, 'name' => self::STRING, 'filter' => self::STRING]]
         ];
+    }
+
+    public function testAddPermission()
+    {
+        $role = (new Role())->create([
+            'name' => uniqid(),
+            'filter' => 'A'
+        ]);
+
+        $this->addPermission($role->id, $this->permission->id);
+    }
+
+    public function testRemovePermission()
+    {
+        $role = (new Role())->create([
+            'name' => uniqid(),
+            'filter' => 'A'
+        ]);
+
+        $this->addPermission($role->id, $this->permission->id);
+        $this->removePermission($role->id, $this->permission->id);
     }
 }
