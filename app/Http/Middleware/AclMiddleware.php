@@ -18,7 +18,9 @@
  ******************************************************************************/
 
 
+use App\Facades\Acl;
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class AclMiddleware
 {
@@ -45,9 +47,9 @@ class AclMiddleware
         }
 
         foreach($permissions as $permission) {
-            if(!\Acl::isUserAllow(\Auth::user(), $permission)) {
+            if(!Acl::isUserAllow(Auth::user(), $permission)) {
                 // @todo redirect to a specific page
-                return redirect('/', 401);
+                return redirect('/bite');
             }
         }
 

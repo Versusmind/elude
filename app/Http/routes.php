@@ -19,11 +19,15 @@
 $app->get('auth/login', ['as' => 'auth.loginForm', 'uses' => 'Auth@loginForm']);
 $app->post('auth/login', ['as' => 'auth.login', 'uses' => 'Auth@login']);
 
-$app->group(['middleware' => ['auth', 'csrf']], function () use ($app) {
+$app->group(['middleware' => 'auth|csrf'], function () use ($app) {
     $app->get('/', function () use ($app) {
 
         return view('index');
     });
+
+    $app->get('/acl', ['middleware' => 'acl:test.test', 'as' => 'acl.test', function() {
+        dd('OK');
+    }]);
 
 });
 
@@ -36,7 +40,7 @@ $app->group(['prefix' => 'api/v1', 'middleware' => 'cors'], function () use ($ap
 
     $app->post('oauth/access_token', ['as' => 'oauth.login', 'uses' => App\Http\Controllers\Api\Auth::class . '@login']);
 
-    $app->group(['middleware' => 'oauth', 'prefix' => 'api/v1'], function () use ($app) {
+    $app->group(['middleware' => 'cors|oauth', 'prefix' => 'api/v1'], function () use ($app) {
         $app->resource('groups', \App\Http\Controllers\Api\Group::class);
         $app->post('groups/{id}/permissions/{idPermission}', ['as' => 'groups.permissions.store', 'uses' => \App\Http\Controllers\Api\Group::class . '@permissionStore']);
         $app->delete('groups/{id}/permissions/{idPermission}', ['as' => 'groups.permissions.destroy', 'uses' => \App\Http\Controllers\Api\Group::class . '@permissionDestroy']);
