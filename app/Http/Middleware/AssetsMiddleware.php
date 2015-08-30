@@ -34,10 +34,6 @@ class AssetsMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(\Request::is('api*')) {
-            return $next($request);
-        }
-
         /** @var Orchestrator $ocherstator */
         $ocherstator = \App::make('App\Libraries\Assets\Orchestrator');
 
