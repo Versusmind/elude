@@ -1,6 +1,7 @@
 <?php namespace App;
 
 
+use App\Libraries\Acl\Interfaces\UserRestrictionInterface;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Log;
  *
  * @package    App\Models
  */
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract, UserInterface, ValidationInterface
+class User extends Model implements AuthenticatableContract, CanResetPasswordContract, UserInterface, ValidationInterface, UserRestrictionInterface
 {
 
     use Authenticatable, CanResetPassword;
@@ -172,4 +173,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->hidden;
     }
 
+    /**
+     * @param \App\User $testedUser
+     * @param array     $parameters
+     *
+     * @return bool
+     */
+    public function isUserAllow(User $testedUser, array $parameters = [])
+    {
+        return $testedUser->id == $this->id;
+    }
 }

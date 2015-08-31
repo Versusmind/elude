@@ -14,10 +14,15 @@ class UserTest extends RoleAware
      */
     protected $faker;
 
+    protected static $password;
+
     public function __construct($name = null, array $data = array(), $dataName = '')
     {
         $this->faker = \Faker\Factory::create();
 
+        if(is_null(self::$password)) {
+            self::$password = $this->faker->password();
+        }
         parent::__construct($name, $data, $dataName);
     }
 
@@ -34,7 +39,7 @@ class UserTest extends RoleAware
                 [
                     'username' => $this->faker->userName,
                     'email' => $this->faker->safeEmail,
-                    'password' => $this->faker->password(),
+                    'password' => \Hash::make(self::$password),
                 ],
                 [
                     'id' => self::NUMBER,
@@ -60,7 +65,7 @@ class UserTest extends RoleAware
             [1, [
                 'username' => $this->faker->userName,
                 'email' => $this->faker->safeEmail,
-                'password' => $this->faker->password(),
+                'password' => \Hash::make(self::$password),
             ], [
                 'id' => self::NUMBER,
                 'username' => self::STRING,
@@ -85,22 +90,14 @@ class UserTest extends RoleAware
 
     public function testAddPermission()
     {
-        $user = (new User())->create([
-            'username' => $this->faker->userName,
-            'email' => $this->faker->safeEmail,
-            'password' => $this->faker->password(),
-        ]);
+        $user = $this->createUserAndLogin();
 
         $this->addPermission($user->id, $this->permission->id);
     }
 
     public function testRemovePermission()
     {
-        $user = (new User())->create([
-            'username' => $this->faker->userName,
-            'email' => $this->faker->safeEmail,
-            'password' => $this->faker->password(),
-        ]);
+        $user = $this->createUserAndLogin();
 
         $this->addPermission($user->id, $this->permission->id);
         $this->removePermission($user->id, $this->permission->id);
@@ -108,22 +105,14 @@ class UserTest extends RoleAware
 
     public function testAddRole()
     {
-        $user = (new User())->create([
-            'username' => $this->faker->userName,
-            'email' => $this->faker->safeEmail,
-            'password' => $this->faker->password(),
-        ]);
+        $user = $this->createUserAndLogin();
 
         $this->addRole($user->id, $this->role->id);
     }
 
     public function testRemoveRole()
     {
-        $user = (new User())->create([
-            'username' => $this->faker->userName,
-            'email' => $this->faker->safeEmail,
-            'password' => $this->faker->password(),
-        ]);
+        $user = $this->createUserAndLogin();
 
         $this->addRole($user->id, $this->role->id);
         $this->removeRole($user->id, $this->role->id);
@@ -131,21 +120,95 @@ class UserTest extends RoleAware
 
     public function testChangeGroup()
     {
-        $user = (new User())->create([
-            'username' => $this->faker->userName,
-            'email' => $this->faker->safeEmail,
-            'password' => $this->faker->password(),
-        ]);
+        $user = $this->createUserAndLogin();
 
         $group = (new Group())->create([
             'name' => uniqid()
         ]);
-
 
         $this->call('PUT', $this->apiPath . $this->resourceName . '/' . $user->id . '/group/' . $group->id);
         $this->seeJson([]);
         $this->seeStatusCode(204);
         $model = json_decode($this->response->getContent());
         $this->assertEquals($group->id, $model->group->id);
+    }
+
+
+    /**
+     * @param $attributes
+     *
+     * @dataProvider createOkProvider
+     */
+    public function testCreateOk($attributes, $pattern)
+    {
+        parent::testCreateOk($attributes, $pattern);
+    }
+
+    /**
+     * @param $id
+     *
+     * @dataProvider findOkProvider
+     * @depends      testCreateOk
+     */
+    public function testFindOk($id, $pattern)
+    {
+        $this->login();
+
+        parent::testFindOk($id, $pattern);
+    }
+
+    /**
+     * @param $id
+     * @param $data
+     *
+     * @dataProvider updateOkProvider
+     * @depends      testFindOk
+     */
+    public function testUpdateOk($id, $data, $pattern)
+    {
+        $this->login();
+
+        parent::testUpdateOk($id, $data, $pattern);
+    }
+
+    /**
+     * @param $id
+     * @param $data
+     *
+     * @dataProvider updateKoProvider
+     */
+    public function testUpdateKo($id, $data, $status)
+    {
+        $user = $this->createUserAndLogin();
+
+        parent::testUpdateKo($user->id, $data, $status);
+    }
+
+    /**
+     * @param $id
+     *
+     * @dataProvider deleteOkProvider
+     * @depends      testUpdateOk
+     */
+    public function testDeleteOk($id)
+    {
+        $user = (new User())->find($id);
+        $this->login($user->username, self::$password);
+
+        parent::testDeleteOk($id);
+    }
+
+
+    protected function createUserAndLogin()
+    {
+        $username = $this->faker->userName;
+        $user = (new User())->create([
+            'username' => $username,
+            'email' => $this->faker->safeEmail,
+            'password' => \Hash::make(self::$password),
+        ]);
+        $this->login($username, self::$password);
+
+        return $user;
     }
 }

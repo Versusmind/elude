@@ -31,6 +31,10 @@ abstract class PermissionAware extends ResourcesController
             return response()->json([], 404);
         }
 
+        if(!$this->isAllowModel($model)) {
+            return response()->json([], 403);
+        }
+
         $this->repository->addPermission($model, $permission);
 
         return response()->json($model, 204);
@@ -43,6 +47,10 @@ abstract class PermissionAware extends ResourcesController
 
         if(is_null($model) || is_null($permission)) {
             return response()->json([], 404);
+        }
+
+        if(!$this->isAllowModel($model)) {
+            return response()->json([], 403);
         }
 
         $this->repository->removePermission($model, $permission);

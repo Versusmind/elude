@@ -69,6 +69,9 @@ class ApiCase extends TestCase
      */
     public function login($login = 'user', $password = 'user', $status = 200)
     {
+        $this->logout();
+
+        $this->debug("username=" . $login . " password=" . $password);
         parent::call('POST', '/api/v1/oauth/access_token', [
             'username'      => $login,
             'password'      => $password,
@@ -76,9 +79,10 @@ class ApiCase extends TestCase
             'client_id'     => 'versusmind',
             'client_secret' => 'versusmind'
         ]);
+        $this->debug($this->response->getContent());
+
         $this->seeJson([]);
         $this->seeStatusCode($status);
-
         if($this->response->getStatusCode() == 200) {
             self::$oAuthCredentials = json_decode($this->response->getContent());
         }

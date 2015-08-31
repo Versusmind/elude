@@ -38,6 +38,10 @@ abstract class RoleAware extends PermissionAware
             return response()->json([], 404);
         }
 
+        if(!$this->isAllowModel($model)) {
+            return response()->json([], 403);
+        }
+
         $this->repository->addRole($model, $role);
 
         return response()->json($model, 204);
@@ -50,6 +54,10 @@ abstract class RoleAware extends PermissionAware
 
         if(is_null($model) || is_null($role)) {
             return response()->json([], 404);
+        }
+
+        if(!$this->isAllowModel($model)) {
+            return response()->json([], 403);
         }
 
         $this->repository->removeRole($model, $role);

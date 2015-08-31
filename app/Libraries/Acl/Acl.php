@@ -1,12 +1,14 @@
 <?php namespace App\Libraries\Acl;
 
-use App\Libraries\Acl\Manager\Group;
-use App\Libraries\Acl\Manager\Role;
-use App\Libraries\Acl\Manager\User;
 use App\Libraries\Acl\Interfaces\GroupInterface;
 use App\Libraries\Acl\Interfaces\PermissionInterface;
 use App\Libraries\Acl\Interfaces\RoleInterface;
 use App\Libraries\Acl\Interfaces\UserInterface;
+use App\Libraries\Acl\Interfaces\UserRestrictionInterface;
+use App\Libraries\Acl\Manager\Group;
+use App\Libraries\Acl\Manager\Role;
+use App\Libraries\Acl\Manager\User;
+use Illuminate\Support\Facades\Auth;
 
 class Acl
 {
@@ -111,7 +113,6 @@ class Acl
     }
 
     /**
-
      * @param \App\Libraries\Acl\Interfaces\UserInterface $userInterface
      * @param \App\Libraries\Acl\Interfaces\RoleInterface $roleInterface
      *
@@ -170,5 +171,30 @@ class Acl
     public function allUserPermissions(UserInterface $userInterface)
     {
         return $this->userManager->getAllActions($userInterface);
+    }
+
+    /**
+     * @param \App\Libraries\Acl\Interfaces\UserRestrictionInterface $model
+     * @param \App\User|null                                         $user
+     * @param array                                                  $parameters
+     * @param bool|false                                             $isAdmin
+     *
+     * @return bool
+     */
+    public function isUserAllowModel(UserRestrictionInterface $model, \App\User $user = null, array $parameters = [], $isAdmin = false)
+    {
+        // no user is given, we take the current user
+        if (is_null($user)) {
+
+            $user = Auth::user();
+        }
+
+        // no current user and no user given, no access
+        if (is_null($user)) {
+
+            return false;
+        }
+
+        return $model->isUserAllow($user, $parameters) || $isAdmin;
     }
 }

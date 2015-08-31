@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\Api;
 
 use App\Libraries\Acl\Exceptions\ModelNotValid;
+use App\Libraries\Acl\Interfaces\UserRestrictionInterface;
 use App\Libraries\Repository;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Input;
@@ -42,7 +43,6 @@ abstract class ResourcesController extends Controller
     public function store()
     {
         try {
-            \Log::error(json_encode(Input::all()));
             $model = $this->repository->create(Input::all());
         } catch (ModelNotValid $e) {
             return response()->json($e->getErrors(), 400);
@@ -59,10 +59,15 @@ abstract class ResourcesController extends Controller
      */
     public function show($id)
     {
+
         $model = $this->repository->find($id);
 
         if(is_null($model)) {
             return response()->json([], 404);
+        }
+
+        if(!$this->isAllowModel($model)) {
+            return response()->json([], 403);
         }
 
         return response()->json($model, 200);
@@ -80,6 +85,10 @@ abstract class ResourcesController extends Controller
 
         if(is_null($model)) {
             return response()->json([], 404);
+        }
+
+        if(!$this->isAllowModel($model)) {
+            return response()->json([], 403);
         }
 
         try {
@@ -105,8 +114,27 @@ abstract class ResourcesController extends Controller
             return response()->json([], 404);
         }
 
+        if(!$this->isAllowModel($model)) {
+            return response()->json([], 403);
+        }
+
         $this->repository->delete($model);
 
         return response()->json([], 204);
+    }
+
+    /**
+     * Check if the current user can edit this model
+     * @param $model
+     *
+     * @return bool
+     */
+    protected function isAllowModel($model)
+    {
+        if(!$model instanceof UserRestrictionInterface) {
+            return true;
+        }
+
+        return \Acl::isUserAllowModel($model, \Auth::user());
     }
 }

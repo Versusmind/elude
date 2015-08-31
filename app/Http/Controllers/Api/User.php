@@ -24,6 +24,10 @@ class User extends RoleAware
             return response()->json([], 404);
         }
 
+        if(!$this->isAllowModel($model)) {
+            return response()->json([], 403);
+        }
+
         $this->repository->setGroup($model, $group);
 
         return response()->json($model, 204);
