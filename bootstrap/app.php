@@ -60,6 +60,7 @@ $app->singleton(
 */
 
 $app->middleware([
+    App\Http\Middleware\DebugMiddleware::class,
     Illuminate\Cookie\Middleware\EncryptCookies::class,
     Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
     Illuminate\Session\Middleware\StartSession::class,
@@ -72,6 +73,7 @@ $app->routeMiddleware([
     'check-authorization-params' => LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware::class,
     'csrf' => Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
     'auth' => \App\Http\Middleware\AuthMiddleware::class,
+    'acl' => \App\Http\Middleware\AclMiddleware::class,
     'acl' => \App\Http\Middleware\AclMiddleware::class,
     'oauth' => LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware::class,
     'oauth-owner' => LucaDegasperi\OAuth2Server\Middleware\OAuthClientOwnerMiddleware::class
@@ -119,5 +121,6 @@ if (!class_exists('Authorizer')) {
 $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
     require __DIR__ . '/../app/Http/routes.php';
 });
+
 
 return $app;
