@@ -28,8 +28,10 @@ class UserTest extends ManagerTest
     public function testGrantOk()
     {
         $this->assertFalse($this->manager->isAllow($this->user, $this->permissionSecond->getAction()));
+        $this->assertTrue($this->user->cannot($this->permissionSecond->getAction()));
         $this->manager->grant($this->user, $this->permissionSecond);
         $this->assertTrue($this->manager->isAllow($this->user, $this->permissionSecond->getAction()));
+        $this->assertTrue($this->user->can($this->permissionSecond->getAction()));
     }
 
     public function testGrantKo()

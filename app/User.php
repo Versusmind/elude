@@ -1,24 +1,23 @@
 <?php namespace App;
 
-
-use App\Libraries\Acl\Interfaces\UserRestrictionInterface;
+use App\Libraries\Acl\Interfaces\UserInterface;
+use App\Libraries\Acl\Interfaces\UserRestrictionCapabilitiesInterface;
+use App\Libraries\Acl\Traits\UserRestrictionCapabilities;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
-use App\Libraries\Acl\Interfaces\UserInterface;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class User
  *
  * @package    App\Models
  */
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract, UserInterface, ValidationInterface, UserRestrictionInterface
+class User extends Model implements AuthenticatableContract, CanResetPasswordContract, UserInterface, ValidationInterface, UserRestrictionCapabilitiesInterface
 {
 
-    use Authenticatable, CanResetPassword;
+    use Authenticatable, CanResetPassword, UserRestrictionCapabilities;
 
     /**
      * The database table used by the model.
@@ -41,7 +40,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     protected $primaryKey = 'id';
 
-
     /**
      * Validation rules
      *
@@ -52,7 +50,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         'username' => 'required|min:3|unique:users,username',
         'password' => 'required|min:6',
     ];
-
 
     /**
      * User personal permissions
@@ -112,51 +109,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->password;
     }
 
-    /**
-     * Get the token value for the "remember me" session.
-     *
-     * @return string
-     */
-    public function getRememberToken()
-    {
-        // TODO: Implement getRememberToken() method.
-    }
-
-    /**
-     * Set the token value for the "remember me" session.
-     *
-     * @param  string $value
-     * @return void
-     */
-    public function setRememberToken($value)
-    {
-        // TODO: Implement setRememberToken() method.
-    }
-
-    /**
-     * Get the column name for the "remember me" token.
-     *
-     * @return string
-     */
-    public function getRememberTokenName()
-    {
-        // TODO: Implement getRememberTokenName() method.
-    }
-
-    /**
-     * Get the e-mail address where password reset links are sent.
-     *
-     * @return string
-     */
-    public function getEmailForPasswordReset()
-    {
-        // TODO: Implement getEmailForPasswordReset() method.
-    }
-
     public function getRules()
     {
 
-        if(!$this->exists) {
+        if (!$this->exists) {
 
             return self::$rules;
         }
@@ -168,11 +124,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $rules;
     }
 
-    public function getHiddens()
-    {
-        return $this->hidden;
-    }
-
     /**
      * @param \App\User $testedUser
      * @param array     $parameters
@@ -181,6 +132,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function isUserAllow(User $testedUser, array $parameters = [])
     {
-        return $testedUser->id == $this->id;
+        return $testedUser->id === $this->id;
     }
 }

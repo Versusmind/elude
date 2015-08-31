@@ -24,6 +24,7 @@ abstract class Manager
      */
     protected $permissions;
 
+
     /**
      * Manager constructor.
      *
@@ -51,7 +52,7 @@ abstract class Manager
      */
     public function isAllow(GrantableInterface $grantable, $action)
     {
-        if (is_null($this->permissions)) {
+        if(is_null($this->permissions) || $this->permissions->isEmpty()) {
             $this->initialize($grantable);
         }
 
@@ -65,7 +66,7 @@ abstract class Manager
      */
     public function getAllPermissions(GrantableInterface $grantable)
     {
-        if (is_null($this->permissions)) {
+        if(is_null($this->permissions) || $this->permissions->isEmpty()) {
             $this->initialize($grantable);
         }
 
@@ -87,6 +88,7 @@ abstract class Manager
     public function grant(GrantableInterface $grantable, PermissionInterface $permission)
     {
         $this->permissions = null;
+
         return $this->repository->addPermission($grantable, $permission);
     }
 
@@ -99,6 +101,7 @@ abstract class Manager
     public function deny(GrantableInterface $grantable, PermissionInterface $permission)
     {
         $this->permissions = null;
+
         return $this->repository->removePermission($grantable, $permission);
     }
 

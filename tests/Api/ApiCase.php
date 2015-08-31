@@ -71,7 +71,6 @@ class ApiCase extends TestCase
     {
         $this->logout();
 
-        $this->debug("username=" . $login . " password=" . $password);
         parent::call('POST', '/api/v1/oauth/access_token', [
             'username'      => $login,
             'password'      => $password,
@@ -79,7 +78,6 @@ class ApiCase extends TestCase
             'client_id'     => 'versusmind',
             'client_secret' => 'versusmind'
         ]);
-        $this->debug($this->response->getContent());
 
         $this->seeJson([]);
         $this->seeStatusCode($status);
