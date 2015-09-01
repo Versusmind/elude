@@ -1,4 +1,6 @@
-<?php
+<?php namespace Tests\Qa;
+
+use Tests\TestCase;
 
 /**
  * Class PhpSyntaxDetectorTest
