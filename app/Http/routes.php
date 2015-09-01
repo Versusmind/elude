@@ -25,7 +25,7 @@ $app->group(['middleware' => 'auth|csrf'], function () use ($app) {
         return view('index');
     });
 
-    $app->get('/acl', ['middleware' => 'acl:test.test', 'as' => 'acl.test', function() {
+    $app->get('/acl', ['middleware' => 'acl:test.test', 'as' => 'acl.test', function () {
         dd('OK');
     }]);
 
@@ -62,3 +62,18 @@ $app->group(['prefix' => 'api/v1', 'middleware' => 'cors'], function () use ($ap
         $app->resource('permissions', \App\Http\Controllers\Api\Permission::class);
     });
 });
+
+/*
+|--------------------------------------------------------------------------
+| Debug
+|--------------------------------------------------------------------------
+*/
+
+if (env('APP_DEBUG', false)) {
+    $app->group(['middleware' => 'cors'], function () use ($app) {
+        $app->get('/__clockwork/{id}',  Clockwork\Support\Lumen\Controller::class . '@getData');
+        $app->get('api/__profiler/profiles/', \App\Http\Controllers\Api\Profiler::class . '@index');
+        $app->get('api/__profiler/profiles/last', \App\Http\Controllers\Api\Profiler::class . '@last');
+        $app->get('api/__profiler/profiles/{id}', \App\Http\Controllers\Api\Profiler::class . '@show');
+    });
+}
