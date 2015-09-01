@@ -28,6 +28,7 @@ class Kernel extends ConsoleKernel
         ApiDocGenerator::class,
         AssetsUpdate::class,
         AssetsBuilder::class,
+        \Clockwork\Cli\Laravel\Command::class
     ];
 
     /**

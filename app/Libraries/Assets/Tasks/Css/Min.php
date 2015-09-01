@@ -41,8 +41,6 @@ class Min implements StageInterface
      */
     public function process($collection)
     {
-        \Log::info('Assets::Css::Min on collection ' . $collection->getCollectionId());
-
         $newAssets = [];
         foreach ($collection->getType(Asset::CSS) as $asset) {
             $outputFile = $collection->getTmpDirectory() . DIRECTORY_SEPARATOR . md5($asset->getPath()) . '.min.css';

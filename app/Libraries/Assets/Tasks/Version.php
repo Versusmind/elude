@@ -47,7 +47,6 @@ class Version implements StageInterface
      */
     public function process($collection)
     {
-        \Log::info('Assets::Version on collection ' . $collection->getCollectionId());
 
         $outputDirectory = $collection->getOutputDirectory() . DIRECTORY_SEPARATOR . $this->type . DIRECTORY_SEPARATOR;
         if (!is_dir($outputDirectory) && !mkdir($outputDirectory, 0777, true)) {

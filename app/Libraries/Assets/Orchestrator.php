@@ -21,6 +21,8 @@
 use App\Libraries\Assets\Pipeline\Development;
 use App\Libraries\Assets\Pipeline\Pipeline;
 use App\Libraries\Assets\Pipeline\Production;
+use Clockwork\Support\Lumen\Facade as Clockwork;
+
 
 /**
  * Class Orchestrator
@@ -88,9 +90,12 @@ class Orchestrator
      */
     public function font(Collection $assets)
     {
-        \Log::info('Assets::Build start font build for collection ' . $assets->getCollectionId());
+        Clockwork::startEvent('assets.font', 'Assets build fonts.');
 
-        return $this->pipeline->font()->process($assets);
+        $result = $this->pipeline->font()->process($assets);
+        Clockwork::endEvent('assets.font');
+
+        return $result;
     }
 
     /**
@@ -102,9 +107,14 @@ class Orchestrator
      */
     public function template(Collection $assets)
     {
-        \Log::info('Assets::Build start template build for collection ' . $assets->getCollectionId());
 
-        return $this->pipeline->template()->process($assets);
+        Clockwork::startEvent('assets.template', 'Assets build template.');
+
+        $result =  $this->pipeline->template()->process($assets);
+
+        Clockwork::endEvent('assets.template');
+
+        return $result;
     }
 
     /**
@@ -116,9 +126,14 @@ class Orchestrator
      */
     public function image(Collection $assets)
     {
-        \Log::info('Assets::Build start image build for collection ' . $assets->getCollectionId());
 
-        return $this->pipeline->image()->process($assets);
+        Clockwork::startEvent('assets.image', 'Assets build images.');
+
+        $result =   $this->pipeline->image()->process($assets);
+
+        Clockwork::endEvent('assets.image');
+
+        return $result;
     }
 
     /**
@@ -130,13 +145,18 @@ class Orchestrator
      */
     public function javascript(Collection $assets)
     {
+        Clockwork::startEvent('assets.javascript', 'Assets build javascripts.');
+
         $buildNeeded = $this->buildDetector->isBuildNeeded($assets);
         if ($buildNeeded) {
             $this->initialize($assets);
-            \Log::info('Assets::Build start javascript build for collection ' . $assets->getCollectionId());
         }
 
-        return $this->pipeline->javascript(true, $buildNeeded)->process($assets);
+        $result =   $this->pipeline->javascript(true, $buildNeeded)->process($assets);
+
+        Clockwork::endEvent('assets.javascript');
+
+        return $result;
     }
 
     /**
@@ -148,13 +168,18 @@ class Orchestrator
      */
     public function style(Collection $assets)
     {
+        Clockwork::startEvent('assets.style', 'Assets build styles.');
+
         $buildNeeded = $this->buildDetector->isBuildNeeded($assets);
         if ($buildNeeded) {
             $this->initialize($assets);
-            \Log::info('Assets::Build start style build for collection ' . $assets->getCollectionId());
         }
 
-        return $this->pipeline->style(true, $buildNeeded)->process($assets);
+        $result =   $this->pipeline->style(true, $buildNeeded)->process($assets);
+
+        Clockwork::endEvent('assets.style');
+
+        return $result;
     }
 
     /**
@@ -179,6 +204,7 @@ class Orchestrator
         $buildNeeded = $this->buildDetector->getBuildNeeded($collection, $except);
 
         if (count($buildNeeded) === 0) {
+
             return [];
         }
 

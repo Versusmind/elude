@@ -51,8 +51,6 @@ class Compile implements StageInterface
      */
     public function process($collection)
     {
-        \Log::info('Assets::Sass::Compile on collection ' . $collection->getCollectionId());
-
         $newAssetsFiles = [];
         foreach ($collection->getType(Asset::SASS) as $asset) {
             $content    = $this->compiler->compile(file_get_contents($asset->getPath()));

@@ -48,6 +48,7 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
+
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -65,7 +66,8 @@ $app->middleware([
     Illuminate\Session\Middleware\StartSession::class,
     Illuminate\View\Middleware\ShareErrorsFromSession::class,
     //Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
-    LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware::class
+    LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware::class,
+    Clockwork\Support\Lumen\ClockworkMiddleware::class
 ]);
 
 $app->routeMiddleware([
@@ -90,14 +92,20 @@ $app->routeMiddleware([
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 $app->register(App\Providers\AssetsProvider::class);
+$app->register(Clockwork\Support\Lumen\ClockworkServiceProvider::class);
 $app->register(Appzcoder\LumenRoutesList\RoutesCommandServiceProvider::class);
 $app->register(LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class);
 $app->register(LucaDegasperi\OAuth2Server\Lumen\OAuth2ServerServiceProvider::class);
 $app->register(Barryvdh\Cors\LumenServiceProvider::class);
 
 
+
 $app->configure('oauth2');
 $app->configure('cors');
+
+
+
+
 
 /*
 |--------------------------------------------------------------------------
