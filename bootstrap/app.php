@@ -15,7 +15,7 @@ Dotenv::load(__DIR__ . '/../');
 |
 */
 
-$app = new Laravel\Lumen\Application(
+$app = new \App\Libraries\Application(
     realpath(__DIR__ . '/../')
 );
 
@@ -70,10 +70,19 @@ $app->middleware([
     Clockwork\Support\Lumen\ClockworkMiddleware::class
 ]);
 
+
+if ($app->environment() !== 'production') {
+    $app->middleware([
+        App\Http\Middleware\DebugMiddleware::class,
+    ]);
+}
+
 $app->routeMiddleware([
     'check-authorization-params' => LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware::class,
     'csrf' => Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
     'auth' => \App\Http\Middleware\AuthMiddleware::class,
+    'acl' => \App\Http\Middleware\AclMiddleware::class,
+    'acl' => \App\Http\Middleware\AclMiddleware::class,
     'oauth' => LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware::class,
     'oauth-owner' => LucaDegasperi\OAuth2Server\Middleware\OAuthClientOwnerMiddleware::class
 ]);
@@ -93,6 +102,7 @@ $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 $app->register(App\Providers\AssetsProvider::class);
 $app->register(Clockwork\Support\Lumen\ClockworkServiceProvider::class);
+$app->register(App\Providers\AclProvider::class);
 $app->register(Appzcoder\LumenRoutesList\RoutesCommandServiceProvider::class);
 $app->register(LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class);
 $app->register(LucaDegasperi\OAuth2Server\Lumen\OAuth2ServerServiceProvider::class);
@@ -125,5 +135,6 @@ if (!class_exists('Authorizer')) {
 $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
     require __DIR__ . '/../app/Http/routes.php';
 });
+
 
 return $app;

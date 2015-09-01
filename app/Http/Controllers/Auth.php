@@ -25,6 +25,7 @@ class Auth extends Controller
         Input::merge(['grant_type' => 'password']);
 
         try {
+
             $oauth = \Authorizer::issueAccessToken();
 
             // save oauth token and access token in session
@@ -32,6 +33,7 @@ class Auth extends Controller
 
             return redirect('/');
         } catch (\Exception $e) {
+
             return redirect(route('auth.loginForm', ['error' => true]));
         }
     }

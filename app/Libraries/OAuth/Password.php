@@ -27,6 +27,7 @@ class Password
         ];
 
         if (\Auth::attempt($credentials)) {
+
             return \Auth::user()->id;
         }
 

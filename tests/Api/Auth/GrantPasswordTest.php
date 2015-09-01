@@ -1,46 +1,28 @@
-<?php
+<?php namespace Tests\Api\Auth;
 
-/**
- * Class GrantPasswordTest
- *
- *
- *
- * @author LAHAXE Arnaud
- * @group critical
+use Tests\Api\ApiCase;
+
+/*
+ * @package Tests\Api\Auth
+ * @author  LAHAXE Arnaud
+ * @group api
  */
-class GrantPasswordTest extends TestCase
+class GrantPasswordTest extends ApiCase
 {
+
     public function testLogin()
     {
-
-        $this->call('POST', '/api/v1/oauth/access_token', [
-            'username' => 'user',
-            'password' => 'user',
-            'grant_type' => 'password',
-            'client_id' => 'versusmind',
-            'client_secret' => 'versusmind'
-        ]);
-        $this->seeJson([]);
-        $this->seeStatusCode(200);
+        $this->login();
         $this->assertMatchPattern([
-            "access_token" => self::STRING,
+            "access_token"  => self::STRING,
             "refresh_token" => self::STRING,
-            "token_type" => "Bearer",
-            "expires_in" => 3600
+            "token_type"    => "Bearer",
+            "expires_in"    => 3600
         ]);
     }
 
-
     public function testLoginKo()
     {
-        $this->call('POST', '/api/v1/oauth/access_token', [
-            'username' => 'jerry',
-            'password' => 'khan',
-            'grant_type' => 'password',
-            'client_id' => 'versusmind',
-            'client_secret' => 'versusmind'
-        ]);
-        $this->seeJson([]);
-        $this->seeStatusCode(401);
+        $this->login('jerry', 'khan', 401);
     }
 }
