@@ -60,7 +60,6 @@ $app->singleton(
 */
 
 $app->middleware([
-    App\Http\Middleware\DebugMiddleware::class,
     Illuminate\Cookie\Middleware\EncryptCookies::class,
     Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
     Illuminate\Session\Middleware\StartSession::class,
@@ -68,6 +67,13 @@ $app->middleware([
     //Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
     LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware::class
 ]);
+
+
+if ($app->environment() !== 'production') {
+    $app->middleware([
+        App\Http\Middleware\DebugMiddleware::class,
+    ]);
+}
 
 $app->routeMiddleware([
     'check-authorization-params' => LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware::class,

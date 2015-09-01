@@ -39,6 +39,7 @@ class DebugMiddleware
 
         \DB::listen(function($sql, $bindings, $time)  {
 
+            // more than 50ms for an sql request
             if($time >50) {
                 \Log::warning('Log query Query=' . $sql . ' data= ' . json_encode($bindings) . ' time=' . $time . 'ms');
             }
@@ -47,9 +48,11 @@ class DebugMiddleware
 
         $response = $next($request);
 
+        // more than 10 sql request in a controller
         if($this->nbSqlQueries > 10) {
             \Log::error('Nb sql queries: ' . $this->nbSqlQueries);
         }
+
 
         return $response;
     }
