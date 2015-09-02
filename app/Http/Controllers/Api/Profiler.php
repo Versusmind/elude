@@ -1,6 +1,5 @@
 <?php namespace App\Http\Controllers\Api;
 
-
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Symfony\Component\Finder\Finder;
@@ -9,6 +8,12 @@ use Symfony\Component\HttpFoundation\File\File;
 class Profiler extends Controller
 {
 
+    /**
+     * @author LAHAXE Arnaud
+     *
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function index()
     {
 
@@ -73,6 +78,44 @@ class Profiler extends Controller
 
 
         return response()->json($profile);
+    }
+
+    /**
+     * @author LAHAXE Arnaud
+     *
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function stats()
+    {
+        $profils = $this->getDataFromJson();
+
+        $result = [
+            'nbSqlQueries' => 0,
+            'duration' => 0,
+            'nbError' => 0,
+            'databaseDuration' => 0,
+            'nbProfile' => count($profils)
+        ];
+
+        if($result['nbProfile'] === 0) {
+            return response()->json($result);
+        }
+
+        foreach ($profils as $profil) {
+            $result['nbSqlQueries'] += count($profil->databaseQueries);
+            $result['duration'] += $profil->responseDuration;
+            $result['databaseDuration'] += $profil->databaseDuration;
+            if($profil->responseStatus >= 400 && $profil->responseStatus != 401) {
+                $result['nbError'] ++;
+            }
+        }
+
+        $result['nbSqlQueries'] = round($result['nbSqlQueries'] / $result['nbProfile']);
+        $result['duration'] = round($result['duration'] / $result['nbProfile']);
+        $result['databaseDuration'] = round($result['databaseDuration'] / $result['nbProfile']);
+
+        return response()->json($result);
     }
 
     /**
