@@ -1,6 +1,7 @@
 <?php namespace App\Providers;
 
 use Clockwork\Clockwork;
+use Clockwork\DataSource\MonologDataSource;
 use Clockwork\DataSource\PhpDataSource;
 use Clockwork\DataSource\LumenDataSource;
 use Clockwork\DataSource\EloquentDataSource;
@@ -9,7 +10,7 @@ use Clockwork\DataSource\SwiftDataSource;
 use Clockwork\Support\Lumen\ClockworkCleanCommand;
 use Clockwork\Support\Lumen\ClockworkSupport;
 use Illuminate\Support\Facades\Facade;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
 class ClockworkServiceProvider extends ServiceProvider
@@ -20,9 +21,7 @@ class ClockworkServiceProvider extends ServiceProvider
             class_alias('Clockwork\Support\Lumen\Facade', 'Clockwork');
         }
 
-        if(Request::is('*__profiler*')) {
-            return; // don't register profiler itself
-        }
+
 
         if (!$this->app['clockwork.support']->isCollectingData()) {
             return; // Don't bother registering event listeners as we are not collecting data
@@ -73,6 +72,7 @@ class ClockworkServiceProvider extends ServiceProvider
 
             $clockwork
                 ->addDataSource(new PhpDataSource())
+                ->addDataSource(new MonologDataSource($app['log']))
                 ->addDataSource($app['clockwork.lumen']);
 
             if ($app['clockwork.support']->isCollectingDatabaseQueries()) {

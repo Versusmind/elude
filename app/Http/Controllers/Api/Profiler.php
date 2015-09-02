@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use Monolog\Logger;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -74,6 +75,17 @@ class Profiler extends Controller
             $profile->timelineData->{$key}->start = floor(($item->start - $start) * 1000);
             $profile->timelineData->{$key}->end = floor(($item->end - $start) * 1000);
             $profile->timelineData->{$key}->duration = floor($item->duration);
+        }
+
+
+        foreach($profile->log as $key => $item) {
+            $profile->log[$key]->time = floor($profile->log[$key]->time - $start) * 1000;
+            // log from monolog use number instread of string
+            if(is_numeric($profile->log[$key]->level)) {
+                $profile->log[$key]->level = Logger::getLevelName($profile->log[$key]->level);
+            }
+
+            $profile->log[$key]->level = strtoupper($profile->log[$key]->level);
         }
 
 
