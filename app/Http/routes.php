@@ -21,14 +21,13 @@ $app->post('auth/login', ['as' => 'auth.login', 'uses' => 'Auth@login']);
 
 $app->group(['middleware' => 'auth|csrf'], function () use ($app) {
     $app->get('/', function () use ($app) {
-        Clockwork::startEvent('event_name', 'Event description.'); // event called 'Event description.' appears in Clockwork timeline tab
 
         Clockwork::info('Message text.'); // 'Message text.' appears in Clockwork log tab
-        Log::info('Message text.'); // 'Message text.' appears in Clockwork log tab as well as application log file
+        Log::info('bite.'); // 'Message text.' appears in Clockwork log tab as well as application log file
 
         Clockwork::info(array('hello' => 'world')); // logs json representation of the array
 
-        Clockwork::endEvent('event_name');
+
         return view('index');
     });
 
@@ -78,9 +77,9 @@ $app->group(['prefix' => 'api/v1', 'middleware' => 'cors'], function () use ($ap
 
 if (env('APP_DEBUG', false)) {
     $app->group(['middleware' => 'cors'], function () use ($app) {
-        $app->get('/__clockwork/{id}',  Clockwork\Support\Lumen\Controller::class . '@getData');
-        $app->get('api/__profiler/profiles/', \App\Http\Controllers\Api\Profiler::class . '@index');
-        $app->get('api/__profiler/profiles/last', \App\Http\Controllers\Api\Profiler::class . '@last');
-        $app->get('api/__profiler/profiles/{id}', \App\Http\Controllers\Api\Profiler::class . '@show');
+        $app->get('/__clockwork/{id}',  ['as' => 'profiler.native', 'uses' => Clockwork\Support\Lumen\Controller::class . '@getData']);
+        $app->get('api/__profiler/profiles/', ['as' => 'profiler.list', 'uses' => \App\Http\Controllers\Api\Profiler::class . '@index']);
+        $app->get('api/__profiler/profiles/last', ['as' => 'profiler.last', 'uses' => \App\Http\Controllers\Api\Profiler::class . '@last']);
+        $app->get('api/__profiler/profiles/{id}', ['as' => 'profiler.show', 'uses' => \App\Http\Controllers\Api\Profiler::class . '@show']);
     });
 }

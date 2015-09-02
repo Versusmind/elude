@@ -9,8 +9,9 @@ use Clockwork\DataSource\SwiftDataSource;
 
 use Clockwork\Support\Lumen\ClockworkCleanCommand;
 use Clockwork\Support\Lumen\ClockworkSupport;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Facade;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 
 class ClockworkServiceProvider extends ServiceProvider
@@ -20,8 +21,6 @@ class ClockworkServiceProvider extends ServiceProvider
         if ($this->isRunningWithFacades() && !class_exists('Clockwork')) {
             class_alias('Clockwork\Support\Lumen\Facade', 'Clockwork');
         }
-
-
 
         if (!$this->app['clockwork.support']->isCollectingData()) {
             return; // Don't bother registering event listeners as we are not collecting data

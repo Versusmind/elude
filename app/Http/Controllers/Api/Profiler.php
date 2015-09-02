@@ -162,6 +162,6 @@ class Profiler extends Controller
             unset($tmp);
         }
 
-        return $results;
+        return array_reverse($results);
     }
 }

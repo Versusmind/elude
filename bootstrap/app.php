@@ -48,6 +48,19 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
+/*
+|--------------------------------------------------------------------------
+| Override env configuration
+|--------------------------------------------------------------------------
+|
+| Disable profiler for profiler request
+|
+*/
+$pathInfo = \Illuminate\Support\Facades\Request::getPathInfo();
+if(strpos($pathInfo, 'api/__profiler') > 0) {
+    putenv("CLOCKWORK_COLLECT_DATA_ALWAYS=false");
+    putenv("CLOCKWORK_ENABLE=false");
+}
 
 /*
 |--------------------------------------------------------------------------
