@@ -21,7 +21,14 @@ $app->post('auth/login', ['as' => 'auth.login', 'uses' => 'Auth@login']);
 
 $app->group(['middleware' => 'auth|csrf'], function () use ($app) {
     $app->get('/', function () use ($app) {
+        Clockwork::startEvent('event_name', 'Event description.'); // event called 'Event description.' appears in Clockwork timeline tab
 
+        Clockwork::info('Message text.'); // 'Message text.' appears in Clockwork log tab
+        Log::info('Message text.'); // 'Message text.' appears in Clockwork log tab as well as application log file
+
+        Clockwork::info(array('hello' => 'world')); // logs json representation of the array
+
+        Clockwork::endEvent('event_name');
         return view('index');
     });
 

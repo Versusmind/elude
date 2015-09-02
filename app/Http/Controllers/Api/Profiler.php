@@ -15,6 +15,12 @@ class Profiler extends Controller
         return response()->json($this->getDataFromJson());
     }
 
+    /**
+     * @author LAHAXE Arnaud
+     *
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function last()
     {
         $profils = $this->getDataFromJson();
@@ -31,6 +37,13 @@ class Profiler extends Controller
         return response()->json($last);
     }
 
+    /**
+     * @author LAHAXE Arnaud
+     *
+     * @param $id
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function show($id)
     {
         $filename = storage_path('clockwork/' . $id . '.json');
@@ -62,11 +75,17 @@ class Profiler extends Controller
         return response()->json($profile);
     }
 
+    /**
+     * @author LAHAXE Arnaud
+     *
+     *
+     * @return array
+     */
     protected function getDataFromJson()
     {
         $results = [];
         $finder = Finder::create();
-        $finder->name('*.json')->date('since 1 day ago');
+        $finder->name('*.json')->date('since 3 hours ago')->depth('== 0')->size('<= 30K')->sortByModifiedTime();
         /** @var File $file */
         foreach ($finder->in(storage_path('clockwork')) as $file) {
             $tmp = json_decode($file->getContents());
