@@ -79,7 +79,7 @@ class Profiler extends Controller
 
 
         foreach($profile->log as $key => $item) {
-            $profile->log[$key]->time = floor($profile->log[$key]->time - $start) * 1000;
+            $profile->log[$key]->time = floor(($profile->log[$key]->time - $start) * 1000);
             // log from monolog use number instread of string
             if(is_numeric($profile->log[$key]->level)) {
                 $profile->log[$key]->level = Logger::getLevelName($profile->log[$key]->level);
