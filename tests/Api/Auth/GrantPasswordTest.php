@@ -2,11 +2,8 @@
 
 use Tests\Api\ApiCase;
 
+
 /**
- * Class GrantPasswordTest
- *
- *
- *
  * @package Tests\Api\Auth
  * @author  LAHAXE Arnaud
  * @group api

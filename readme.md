@@ -11,6 +11,7 @@ Myo2
     - Tokenizer PHP Extension
     - Composer
     - node / npm / bower
+    - phpunit (dev)
 
 ## Install
 
@@ -32,6 +33,23 @@ Do not forget the initial `/
 
 
 You need to rebuild assets after changing `SUBFOLDER_INSTALLATION` config.
+
+# Tests
+## Run tests
+    
+Open a terminal at the root of myo2 and run phpunit. 
+
+## Tests groups
+
+Some group of tests are defined:
+    - critical : critical feature as login, register...
+    - quality : all code quality tools
+
+Example:
+
+    phpunit --groups=critical
+
+Previous command wil only run critical tests.
 
 # Assets management
 ## Folders

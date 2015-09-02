@@ -63,6 +63,7 @@ class QaPhpCsFixer extends Command
      */
     public function handle()
     {
+
         \Log::info('QA::PHPCS Run php code synthax fixer');
 
         $action = $this->getAction();
