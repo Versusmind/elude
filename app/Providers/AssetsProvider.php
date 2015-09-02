@@ -29,7 +29,7 @@ class AssetsProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('assets', function ($app) {
-            return new \App\Libraries\Assets\Orchestrator;
+            return $app->make(\App\Libraries\Assets\Orchestrator::class);
         });
 
         $this->app->configure('assets');

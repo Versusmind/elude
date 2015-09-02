@@ -36,6 +36,11 @@ class QaPhpmd extends Command
      */
     protected $description = 'PHP mess detector';
 
+    public static $excludedFiles = [
+        'Application.php',
+        'Kernel.php',
+    ];
+
     /**
      * @throws \Exception
      */
@@ -43,7 +48,7 @@ class QaPhpmd extends Command
     {
         \Log::info('QA::PHPMD Run mess detector');
 
-        $process = new Process('.' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'phpmd app xml phpmd.xml');
+        $process = new Process('.' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'phpmd app xml phpmd.xml  --exclude ' . implode(',', self::$excludedFiles));
         if ($this->getOutput()->getVerbosity() > 1) {
             $this->comment('Run ' . $process->getCommandLine());
         }
@@ -51,7 +56,6 @@ class QaPhpmd extends Command
         $process->run();
 
         $outputXml   = $process->getOutput();
-        $this->info($outputXml);
 
         $violations  = [];
         $dom         = simplexml_load_string($outputXml);

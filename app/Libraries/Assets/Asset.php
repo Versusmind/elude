@@ -47,7 +47,7 @@ class Asset implements \JsonSerializable
     {
         $this->type        = $type;
         $this->path        = $path;
-        $this->initialPath = $path;
+        $this->initialPath = $initialPath;
     }
 
     /**

@@ -7,11 +7,11 @@
 
     <description>PHPMD ruleset</description>
 
-    <rule ref="rulesets/codesize.xml" />
-
     <rule ref="rulesets/design.xml"/>
 
-    <rule ref="rulesets/unusedcode.xml"/>
+    <rule ref="rulesets/unusedcode.xml">
+        <exclude name="UnusedFormalParameter" />
+    </rule>
 
     <rule ref="rulesets/naming.xml">
         <exclude name="ShortMethodName" />
@@ -24,6 +24,10 @@
             <property name="exceptions" value="id,i,j,e,t" />
             <property name="minimum" value="3" />
         </properties>
+    </rule>
+
+    <rule ref="rulesets/codesize.xml" >
+        <exclude name="TooManyMethods" />
     </rule>
 
     <rule ref="rulesets/codesize.xml/TooManyMethods">
