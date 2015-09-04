@@ -49,8 +49,6 @@ class Compile implements StageInterface
      */
     public function process($collection)
     {
-        \Log::info('Assets::Less::Compile on collection ' . $collection->getCollectionId());
-
         $newAssetsFiles = [];
         foreach ($collection->getType(Asset::LESS) as $asset) {
             $outputFile = $collection->getTmpDirectory() . DIRECTORY_SEPARATOR . str_replace(DIRECTORY_SEPARATOR, '-', str_replace(base_path('resources/assets/'), '', $asset->getPath())) . '.css';

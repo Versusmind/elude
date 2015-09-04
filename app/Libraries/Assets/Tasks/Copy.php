@@ -46,8 +46,6 @@ class Copy implements StageInterface
      */
     public function process($collection)
     {
-        \Log::info('Assets::Copy on collection ' . $collection->getCollectionId());
-
         $outputDirectory = $collection->getOutputDirectory() . $this->type . DIRECTORY_SEPARATOR;
         if (!is_dir($outputDirectory) && !mkdir($outputDirectory, 0777, true)) {
             throw new \RuntimeException('Fail to create ' . $outputDirectory);

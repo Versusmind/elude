@@ -33,7 +33,6 @@ class Html implements StageInterface
      */
     public function process($collection)
     {
-        \Log::info('Assets::Css::Html on collection ' . $collection->getCollectionId());
         $result = '';
 
         if (!config('assets.concat') && $collection->getGroupName()) {

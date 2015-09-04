@@ -50,6 +50,20 @@ $app->singleton(
 
 /*
 |--------------------------------------------------------------------------
+| Override env configuration
+|--------------------------------------------------------------------------
+|
+| Disable profiler for profiler request
+|
+*/
+$pathInfo = \Illuminate\Support\Facades\Request::getPathInfo();
+if(strpos($pathInfo, 'api/__profiler') > 0) {
+    putenv("CLOCKWORK_COLLECT_DATA_ALWAYS=false");
+    putenv("CLOCKWORK_ENABLE=false");
+}
+
+/*
+|--------------------------------------------------------------------------
 | Register Middleware
 |--------------------------------------------------------------------------
 |
@@ -65,7 +79,8 @@ $app->middleware([
     Illuminate\Session\Middleware\StartSession::class,
     Illuminate\View\Middleware\ShareErrorsFromSession::class,
     //Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
-    LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware::class
+    LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware::class,
+    Clockwork\Support\Lumen\ClockworkMiddleware::class
 ]);
 
 
@@ -99,6 +114,7 @@ $app->routeMiddleware([
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 $app->register(App\Providers\AssetsProvider::class);
+$app->register(App\Providers\ClockworkServiceProvider::class);
 $app->register(App\Providers\AclProvider::class);
 $app->register(Appzcoder\LumenRoutesList\RoutesCommandServiceProvider::class);
 $app->register(LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class);
@@ -106,8 +122,10 @@ $app->register(LucaDegasperi\OAuth2Server\Lumen\OAuth2ServerServiceProvider::cla
 $app->register(Barryvdh\Cors\LumenServiceProvider::class);
 
 
+
 $app->configure('oauth2');
 $app->configure('cors');
+
 
 /*
 |--------------------------------------------------------------------------

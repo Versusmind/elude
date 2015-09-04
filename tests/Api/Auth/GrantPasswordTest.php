@@ -2,7 +2,6 @@
 
 use Tests\Api\ApiCase;
 
-
 /**
  * @package Tests\Api\Auth
  * @author  LAHAXE Arnaud

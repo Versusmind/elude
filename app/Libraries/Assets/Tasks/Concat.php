@@ -47,8 +47,6 @@ class Concat implements StageInterface
      */
     public function process($collection)
     {
-        \Log::info('Assets::Concat on collection ' . $collection->getCollectionId());
-
         $outputFile = $collection->getTmpDirectory() . DIRECTORY_SEPARATOR . $collection->getCollectionId() . '.' . $this->type;
 
         foreach ($collection->getType($this->type) as $asset) {

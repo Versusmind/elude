@@ -1,5 +1,7 @@
 <?php namespace Tests;
 
+use Illuminate\Support\Facades\Config;
+
 class TestCase extends \Laravel\Lumen\Testing\TestCase
 {
 
@@ -7,6 +9,7 @@ class TestCase extends \Laravel\Lumen\Testing\TestCase
 
     public function __construct($name = null, array $data = array(), $dataName = '')
     {
+        Config::set('APP_ENV', 'testing');
         $this->baseUrl = env('BASE_URL_TESTING');
 
         parent::__construct($name, $data, $dataName);

@@ -39,8 +39,6 @@ class Cleaner implements StageInterface
      */
     public function process($collection)
     {
-        \Log::info('Assets::Cleaner on collection ' . $collection->getCollectionId());
-
         self::deleteDir($collection->getTmpDirectory());
 
         return $collection;
