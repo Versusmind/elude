@@ -9,7 +9,9 @@ class TestCase extends \Laravel\Lumen\Testing\TestCase
 
     public function __construct($name = null, array $data = array(), $dataName = '')
     {
-        Config::set('APP_ENV', 'testing');
+        putenv("APP_ENV=testing");
+        putenv("CLOCKWORK_COLLECT_DATA_ALWAYS=false");
+        putenv("CLOCKWORK_ENABLE=false");
         $this->baseUrl = env('BASE_URL_TESTING');
 
         parent::__construct($name, $data, $dataName);
