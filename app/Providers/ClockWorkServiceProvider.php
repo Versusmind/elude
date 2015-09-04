@@ -7,11 +7,8 @@ use Clockwork\DataSource\LumenDataSource;
 use Clockwork\DataSource\EloquentDataSource;
 use Clockwork\DataSource\SwiftDataSource;
 
-use Clockwork\Support\Lumen\ClockworkCleanCommand;
 use Clockwork\Support\Lumen\ClockworkSupport;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Facade;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 
 class ClockworkServiceProvider extends ServiceProvider
@@ -110,7 +107,7 @@ class ClockworkServiceProvider extends ServiceProvider
     {
         // Clean command
         $this->app['command.clockwork.clean'] = $this->app->share(function($app){
-            return new ClockworkCleanCommand();
+            return $app->make(\Clockwork\Support\Lumen\ClockworkCleanCommand::class);
         });
 
         $this->commands(
