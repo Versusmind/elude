@@ -79,6 +79,7 @@ if (env('APP_DEBUG', false)) {
     $app->group(['middleware' => 'cors'], function () use ($app) {
         $app->get('/__clockwork/{id}',  ['as' => 'profiler.native', 'uses' => Clockwork\Support\Lumen\Controller::class . '@getData']);
         $app->get('api/__profiler/profiles/', ['as' => 'profiler.list', 'uses' => \App\Http\Controllers\Api\Profiler::class . '@index']);
+        $app->get('api/__profiler/profiles/stats', ['as' => 'profiler.stats', 'uses' => \App\Http\Controllers\Api\Profiler::class . '@stats']);
         $app->get('api/__profiler/profiles/last', ['as' => 'profiler.last', 'uses' => \App\Http\Controllers\Api\Profiler::class . '@last']);
         $app->get('api/__profiler/profiles/{id}', ['as' => 'profiler.show', 'uses' => \App\Http\Controllers\Api\Profiler::class . '@show']);
     });

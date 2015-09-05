@@ -100,32 +100,35 @@ class Profiler extends Controller
      */
     public function stats()
     {
-        $profils = $this->getDataFromJson();
+        $profiles = $this->getDataFromJson();
 
         $result = [
+            'nbProfile' => count($profiles),
             'nbSqlQueries' => 0,
             'duration' => 0,
             'nbError' => 0,
             'databaseDuration' => 0,
-            'nbProfile' => count($profils)
+            'nbLogs' => 0
         ];
 
         if($result['nbProfile'] === 0) {
             return response()->json($result);
         }
 
-        foreach ($profils as $profil) {
-            $result['nbSqlQueries'] += count($profil->databaseQueries);
-            $result['duration'] += $profil->responseDuration;
-            $result['databaseDuration'] += $profil->databaseDuration;
-            if($profil->responseStatus >= 400 && $profil->responseStatus != 401) {
+        foreach ($profiles as $profile) {
+            $result['nbSqlQueries'] += $profile['nbSqlQueries'];
+            $result['duration'] += $profile['duration'];
+            $result['databaseDuration'] += $profile['databaseDuration'];
+            $result['nbLogs'] += $profile['nbLogs'];
+            if($profile['responseStatus'] >= 400 && $profile['responseStatus']!= 401) {
                 $result['nbError'] ++;
             }
         }
 
-        $result['nbSqlQueries'] = round($result['nbSqlQueries'] / $result['nbProfile']);
-        $result['duration'] = round($result['duration'] / $result['nbProfile']);
-        $result['databaseDuration'] = round($result['databaseDuration'] / $result['nbProfile']);
+        $result['nbSqlQueries'] = $result['nbSqlQueries'] / $result['nbProfile'];
+        $result['duration'] = $result['duration'] / $result['nbProfile'];
+        $result['databaseDuration'] = $result['databaseDuration'] / $result['nbProfile'];
+        $result['nbLogs'] = $result['nbLogs'] / $result['nbProfile'];
 
         return response()->json($result);
     }
@@ -156,7 +159,9 @@ class Profiler extends Controller
                 'timestamp' => Carbon::createFromTimestamp($tmp->time)->timestamp,
                 'uri' => $tmp->uri,
                 'duration' => floor($tmp->responseDuration),
-                'nbSqlQueries' => count($tmp->databaseQueries)
+                'databaseDuration' => floor($tmp->databaseDuration),
+                'nbSqlQueries' => count($tmp->databaseQueries),
+                'nbLogs' => count($tmp->log),
             ];
 
             unset($tmp);
