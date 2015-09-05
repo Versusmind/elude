@@ -21,6 +21,7 @@
 use App\Facades\Acl;
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 
 class AclMiddleware
 {
@@ -36,7 +37,6 @@ class AclMiddleware
      */
     public function handle($request, Closure $next, $permissions = [])
     {
-
         if(!is_array($permissions)) {
             $permissions = [$permissions];
         }
@@ -48,8 +48,11 @@ class AclMiddleware
 
         foreach($permissions as $permission) {
             if(!Acl::isUserAllow(Auth::user(), $permission)) {
-                // @todo redirect to a specific page
-                return redirect('/bite');
+                if(Request::is('api*')) {
+                    return response('Not authorized', 403);
+                } else {
+                    return view('auth.notAuthorized');
+                }
             }
         }
 

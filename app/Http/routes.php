@@ -1,5 +1,22 @@
 <?php
 
+/******************************************************************************
+ *
+ * @package Myo 2
+ * @copyright © 2015 by Versusmind.
+ * All rights reserved. No part of this document may be
+ * reproduced or transmitted in any form or by any means,
+ * electronic, mechanical, photocopying, recording, or
+ * otherwise, without prior written permission of Versusmind.
+ * @link http://www.versusmind.eu/
+ *
+ * @file routes.php
+ * @author LAHAXE Arnaud
+ * @last-edited 05/09/2015
+ * @description routes
+ *
+ ******************************************************************************/
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -23,7 +40,7 @@ $app->group(['middleware' => 'auth|csrf'], function () use ($app) {
     $app->get('/', function () use ($app) {
 
         Clockwork::info('Message text.'); // 'Message text.' appears in Clockwork log tab
-        Log::info('bite.'); // 'Message text.' appears in Clockwork log tab as well as application log file
+        Log::info('Lumen logger interface.'); // 'Message text.' appears in Clockwork log tab as well as application log file
 
         Clockwork::info(array('hello' => 'world')); // logs json representation of the array
 
@@ -43,7 +60,6 @@ $app->group(['middleware' => 'auth|csrf'], function () use ($app) {
 |--------------------------------------------------------------------------
 */
 $app->group(['prefix' => 'api/v1', 'middleware' => 'cors'], function () use ($app) {
-
     $app->post('oauth/access_token', ['as' => 'oauth.login', 'uses' => App\Http\Controllers\Api\Auth::class . '@login']);
 
     $app->group(['middleware' => 'cors|oauth', 'prefix' => 'api/v1'], function () use ($app) {

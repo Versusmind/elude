@@ -1,5 +1,23 @@
 <?php namespace App\Libraries;
 
+/******************************************************************************
+ *
+ * @package Myo 2
+ * @copyright © 2015 by Versusmind.
+ * All rights reserved. No part of this document may be
+ * reproduced or transmitted in any form or by any means,
+ * electronic, mechanical, photocopying, recording, or
+ * otherwise, without prior written permission of Versusmind.
+ * @link http://www.versusmind.eu/
+ *
+ * @file Repository.php
+ * @author LAHAXE Arnaud
+ * @last-edited 05/09/2015
+ * @description Repository
+ *
+ ******************************************************************************/
+
+
 use App\Libraries\Acl\Exceptions\AttributeNotExist;
 use App\Libraries\Acl\Exceptions\ModelNotValid;
 use App\ValidationInterface;
@@ -176,13 +194,14 @@ abstract class Repository
     protected function validate(ValidationInterface $model)
     {
         $modelArray = $model->toArray();
+        // add hiddens fields to the array for validation
         foreach($model->getHidden() as $hidden) {
             $modelArray[$hidden] = $model->{$hidden};
         }
 
         $validator = Validator::make($modelArray, $model->getRules());
         if($validator->fails()) {
-            \Log::error($validator->errors()->toJson());
+
             throw new ModelNotValid($validator->errors());
         }
     }

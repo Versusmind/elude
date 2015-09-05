@@ -134,4 +134,51 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         return $testedUser->id === $this->id;
     }
+
+    /**
+     * Get the token value for the "remember me" session.
+     *
+     * @return string
+     */
+    public function getRememberToken()
+    {
+        // TODO: Implement getRememberToken() method.
+    }
+
+    /**
+     * Set the token value for the "remember me" session.
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function setRememberToken($value)
+    {
+        // TODO: Implement setRememberToken() method.
+    }
+
+    /**
+     * Get the column name for the "remember me" token.
+     *
+     * @return string
+     */
+    public function getRememberTokenName()
+    {
+        // TODO: Implement getRememberTokenName() method.
+    }
+
+    /**
+     * Get the e-mail address where password reset links are sent.
+     *
+     * @return string
+     */
+    public function getEmailForPasswordReset()
+    {
+        // TODO: Implement getEmailForPasswordReset() method.
+    }
+
+
+    public function isSuperAdmin()
+    {
+        return false;
+    }
 }
