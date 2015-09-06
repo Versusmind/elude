@@ -263,11 +263,11 @@ Managing access levels  include:
 
 ## Simple ACL permissions/groups/roles
 
-![alt text](/diagrams/acl-api.png "Api")
+![alt text](diagrams/acl-api.png "Api")
 
 ### Database
 
-![alt text](/diagrams/acl-database.png "Database")
+![alt text](diagrams/acl-database.png "Database")
 
 ### Middleware
 
@@ -285,7 +285,7 @@ If you want to check more than one permission, use comma to separate.
 
 ### API
 
-A restfull api is available to manage ACL. With HTTP resources; groups, roles, users, permissions
+A REST api is available to manage ACL. With HTTP resources; groups, roles, users, permissions
 
 Actions:
 
@@ -342,7 +342,7 @@ If you model can only be list/edit/show/delete by the creator it need to impleme
 
 ## Super Admin
 
-The `App\User` class implement `serRestrictionCapabilitiesInterface` interface. 
+The `App\User` class implement `UserRestrictionCapabilitiesInterface` interface. 
 The method `isSuperAdmin` check if the user can bypass all acl and owner permission. 
 
 # Todo
