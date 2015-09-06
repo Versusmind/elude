@@ -226,12 +226,4 @@ abstract class RepositoryTest extends TestCase
     {
         $this->assertInstanceOf(LengthAwarePaginator::class, $this->repository->where($where, true));
     }
-
-
-    public function testWhereKo()
-    {
-        $this->repository->where([
-            uniqid() => uniqid()
-        ]);
-    }
 }

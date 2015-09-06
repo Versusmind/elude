@@ -195,11 +195,10 @@ class Acl
      * @param \App\Libraries\Acl\Interfaces\UserRestrictionInterface $model
      * @param \App\User|null                                         $user
      * @param array                                                  $parameters
-     * @param bool|false                                             $isAdmin
      *
      * @return bool
      */
-    public function isUserAllowModel(UserRestrictionInterface $model, \App\User $user = null, array $parameters = [], $isAdmin = false)
+    public function isUserAllowModel(UserRestrictionInterface $model, \App\User $user = null, array $parameters = [])
     {
         // no user is given, we take the current user
         if (is_null($user)) {
@@ -213,6 +212,11 @@ class Acl
             return false;
         }
 
-        return $model->isUserAllow($user, $parameters) || $isAdmin;
+        if($user->isSuperAdmin()) {
+
+            return true;
+        }
+
+        return $model->isUserAllow($user, $parameters);
     }
 }

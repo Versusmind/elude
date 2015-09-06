@@ -2,6 +2,7 @@
 
 use Exception;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
+use League\OAuth2\Server\Exception\AccessDeniedException;
 
 class Handler extends ExceptionHandler
 {
@@ -25,7 +26,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        return parent::report($exception);
+        parent::report($exception);
     }
 
     /**
@@ -38,6 +39,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if($exception instanceof AccessDeniedException) {
+            return response()->json([], 401);
+        }
+
         return parent::render($request, $exception);
     }
 }

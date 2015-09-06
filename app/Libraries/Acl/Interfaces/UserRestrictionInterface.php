@@ -31,4 +31,9 @@ interface UserRestrictionInterface
      * @return mixed
      */
     public function isUserAllow(User $user, array $parameters = []);
+
+    /**
+     * @return string
+     */
+    public function getUserIdFields();
 }

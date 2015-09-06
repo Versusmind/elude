@@ -181,4 +181,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         return false;
     }
+    
+    /**
+     * @return string
+     */
+    public function getUserIdFields()
+    {
+        return $this->getKeyName();
+    }
 }

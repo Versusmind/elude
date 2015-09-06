@@ -205,4 +205,12 @@ abstract class Repository
             throw new ModelNotValid($validator->errors());
         }
     }
+
+    /**
+     * @return Model
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
 }

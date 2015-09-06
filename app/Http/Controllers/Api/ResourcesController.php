@@ -50,9 +50,16 @@ abstract class ResourcesController extends Controller
      */
     public function index()
     {
-        return response()->json($this->repository->all(Input::get('paginate', false), Input::get('nbByPage', 15), Input::get('page', 1)));
+        $model = $this->repository->getModel();
+        if (!$model instanceof UserRestrictionInterface) {
+            return response()->json($this->repository->all(Input::get('paginate', false), Input::get('nbByPage', 15), Input::get('page', 1)));
+        } else {
+            \Log::info(\Auth::guest());
+            return response()->json($this->repository->where([
+                $model->getUserIdFields() => \Auth::user()->id
+            ], Input::get('paginate', false), Input::get('nbByPage', 15), Input::get('page', 1)));
+        }
     }
-
     /**
      * Store a newly created resource in storage.
      *

@@ -198,6 +198,153 @@ Output:
     <script src="/assets/js/e57c943abf8160da2fc80f14f16edd16.js"></script>
     <script src="/assets/js/5e2c8c8ffefc922db1b6e56004fcfb3b.js"></script>
 
+# OAuth
+
+User authentication is based on OAuth 2 for web and api. 
+For the moment only oauth2 password with refresh token token is implemented.
+
+If you need more information about OAuth please rtfm: https://tools.ietf.org/html/rfc6749
+
+## Authentication
+
+## Middleware
+
+Before using middleware please rtfm: http://lumen.laravel.com/docs/middleware
+
+### Web
+    
+If you want to protect a route/group from visitor you need to add the middleware `auth` to your route.
+  
+        Route::get('protected-resource', ['middleware' => 'auth', function() {
+            // return the protected resource
+        }]);
+    
+### Api
+
+If you want to protect a route/group from visitor you need to add the middleware `oauth` to your route.
+
+    Route::get('protected-resource', ['middleware' => 'oauth', function() {
+        // return the protected resource
+    }]);
+
+## Clients
+
+The application come with 2 production oauth clients; one for the web and one for the api.
+Please check the file app/config/oauth2.php to get client_id and client_secret.
+
+PS: those tokens must be changes in production
+
+If you seed your database `php artisan db:seed` in a non production environnement a third client is added with those tokens:
+
+    - client_id versusmind
+    - client_secret versusmind
+
+## Scopes
+
+If you want to protect a route/group with a/many scope(s) you need to use this synthax: `oauth:scope1+scope2`
+
+    Route::get('protected-resource', ['middleware' => 'oauth:scope1+scope2', function() {
+        // return the protected resource
+    }]);
+
+
+# Acl
+
+Managing access levels  include:
+
+- Every User may have one Group,
+- Every User may have many Roles,
+- Every User may have many Permissions,
+- Every Group may have many Roles
+- Every Group may have many Permissions
+- Every Role may have many Permissions
+- Every Role may have special permission filter, which grant global access to everything (A), deny access to everything (D) or deny to previous granted access (R),
+- Every permission may consists of area and action
+
+## Simple ACL permissions/groups/roles
+
+![alt text](/diagrams/acl-api.png "Api")
+
+### Database
+
+![alt text](/diagrams/acl-database.png "Database")
+
+### Middleware
+
+If you want to protect a route with a permission you only need to specify middleware:
+
+    $app->get('/posts/create', ['middleware' => 'acl:posts.create', 'as' => 'post.create', function () {
+        dd('OK');
+    }]);
+
+If you want to check more than one permission, use comma to separate.
+
+    $app->get('/posts/create', ['middleware' => 'acl:posts.create,admin.posts', 'as' => 'post.create', function () {
+        dd('OK');
+    }]);
+
+### API
+
+A restfull api is available to manage ACL. With HTTP resources; groups, roles, users, permissions
+
+Actions:
+
+- index : list of models
+- store : create a new model
+- show :  get a model
+- update : update a model
+- destroy : delete a model
+
+| Verb   | Path                                           | NamedRoute                 | Controller                          | Action            |
+|:------:|:-----------------------------------------------|:---------------------------|:------------------------------------|:------------------|
+| GET    | /api/v1/groups                                 | groups.index               | App\Http\Controllers\Api\Group      | index             |
+| POST   | /api/v1/groups                                 | groups.store               | App\Http\Controllers\Api\Group      | store             |
+| GET    | /api/v1/groups/{id}                            | groups.show                | App\Http\Controllers\Api\Group      | show              |
+| PUT    | /api/v1/groups/{id}                            | groups.update              | App\Http\Controllers\Api\Group      | update            |
+| PATCH  | /api/v1/groups/{id}                            | groups.update              | App\Http\Controllers\Api\Group      | update            |
+| DELETE | /api/v1/groups/{id}                            | groups.destroy             | App\Http\Controllers\Api\Group      | destroy           |
+| POST   | /api/v1/groups/{id}/permissions/{idPermission} | groups.permissions.store   | App\Http\Controllers\Api\Group      | permissionStore   |
+| DELETE | /api/v1/groups/{id}/permissions/{idPermission} | groups.permissions.destroy | App\Http\Controllers\Api\Group      | permissionDestroy |
+| POST   | /api/v1/groups/{id}/roles/{idRole}             | groups.roles.store         | App\Http\Controllers\Api\Group      | roleStore         |
+| DELETE | /api/v1/groups/{id}/roles/{idRole}             | groups.roles.destroy       | App\Http\Controllers\Api\Group      | roleDestroy       |
+| GET    | /api/v1/roles                                  | roles.index                | App\Http\Controllers\Api\Role       | index             |
+| POST   | /api/v1/roles                                  | roles.store                | App\Http\Controllers\Api\Role       | store             |
+| GET    | /api/v1/roles/{id}                             | roles.show                 | App\Http\Controllers\Api\Role       | show              |
+| PUT    | /api/v1/roles/{id}                             | roles.update               | App\Http\Controllers\Api\Role       | update            |
+| PATCH  | /api/v1/roles/{id}                             | roles.update               | App\Http\Controllers\Api\Role       | update            |
+| DELETE | /api/v1/roles/{id}                             | roles.destroy              | App\Http\Controllers\Api\Role       | destroy           |
+| POST   | /api/v1/roles/{id}/permissions/{idPermission}  | roles.permissions.store    | App\Http\Controllers\Api\Role       | permissionStore   |
+| DELETE | /api/v1/roles/{id}/permissions/{idPermission}  | roles.permissions.destroy  | App\Http\Controllers\Api\Role       | permissionDestroy |
+| GET    | /api/v1/users                                  | users.index                | App\Http\Controllers\Api\User       | index             |
+| POST   | /api/v1/users                                  | users.store                | App\Http\Controllers\Api\User       | store             |
+| GET    | /api/v1/users/{id}                             | users.show                 | App\Http\Controllers\Api\User       | show              |
+| PUT    | /api/v1/users/{id}                             | users.update               | App\Http\Controllers\Api\User       | update            |
+| PATCH  | /api/v1/users/{id}                             | users.update               | App\Http\Controllers\Api\User       | update            |
+| DELETE | /api/v1/users/{id}                             | users.destroy              | App\Http\Controllers\Api\User       | destroy           |
+| POST   | /api/v1/users/{id}/permissions/{idPermission}  | users.permissions.store    | App\Http\Controllers\Api\User       | permissionStore   |
+| DELETE | /api/v1/users/{id}/permissions/{idPermission}  | users.permissions.destroy  | App\Http\Controllers\Api\User       | permissionDestroy |
+| POST   | /api/v1/users/{id}/roles/{idRole}              | users.roles.store          | App\Http\Controllers\Api\User       | roleStore         |
+| DELETE | /api/v1/users/{id}/roles/{idRole}              | users.roles.destroy        | App\Http\Controllers\Api\User       | roleDestroy       |
+| PUT    | /api/v1/users/{id}/group/{idGroup}             | users.group.update         | App\Http\Controllers\Api\User       | groupUpdate       |
+| PATCH  | /api/v1/users/{id}/group/{idGroup}             | users.group.update         | App\Http\Controllers\Api\User       | groupUpdate       |
+| GET    | /api/v1/permissions                            | permissions.index          | App\Http\Controllers\Api\Permission | index             |
+| POST   | /api/v1/permissions                            | permissions.store          | App\Http\Controllers\Api\Permission | store             |
+| GET    | /api/v1/permissions/{id}                       | permissions.show           | App\Http\Controllers\Api\Permission | show              |
+| PUT    | /api/v1/permissions/{id}                       | permissions.update         | App\Http\Controllers\Api\Permission | update            |
+| PATCH  | /api/v1/permissions/{id}                       | permissions.update         | App\Http\Controllers\Api\Permission | update            |
+| DELETE | /api/v1/permissions/{id}                       | permissions.destroy        | App\Http\Controllers\Api\Permission | destroy           |
+
+/!\ Need to add ACL + OAuth scope on all those routes
+
+## Owner permissions
+
+If you model can only be list/edit/show/delete by the creator it need to implement the `UserRestrictionInterface`.
+
+## Super Admin
+
+The `App\User` class implement `serRestrictionCapabilitiesInterface` interface. 
+The method `isSuperAdmin` check if the user can bypass all acl and owner permission. 
+
 # Todo
 
 - Using symlink in the copy task in dev

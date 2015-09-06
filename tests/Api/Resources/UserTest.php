@@ -211,4 +211,22 @@ class UserTest extends RoleAware
 
         return $user;
     }
+
+    public function testAllOk()
+    {
+        $this->createUserAndLogin();
+        $this->call('GET', $this->apiPath . $this->resourceName);
+        $this->seeJson([]);
+        $this->seeStatusCode(200);
+    }
+
+    public function testAllPaginateOk()
+    {
+        $this->createUserAndLogin();
+        $this->call('GET', $this->apiPath . $this->resourceName, [
+            'paginate' => 1
+        ]);
+        $this->seeJson([]);
+        $this->seeStatusCode(200);
+    }
 }
