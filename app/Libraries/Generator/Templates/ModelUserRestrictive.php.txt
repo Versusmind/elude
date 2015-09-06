@@ -1,0 +1,67 @@
+<?php namespace App;
+
+/******************************************************************************
+ *
+ * @package Myo 2
+ * @copyright © 2015 by Versusmind.
+ * All rights reserved. No part of this document may be
+ * reproduced or transmitted in any form or by any means,
+ * electronic, mechanical, photocopying, recording, or
+ * otherwise, without prior written permission of Versusmind.
+ * @link http://www.versusmind.eu/
+ *
+ * @file $$MODEL_NAME$$.php
+ * @author $$AUTHOR_NAME$$
+ * @last-edited $$DATE$$
+ * @description $$MODEL_NAME$$
+ *
+ ******************************************************************************/
+
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * Class $$MODEL_NAME$$
+ *
+ */
+class $$MODEL_NAME$$ extends Model implements ValidationInterface, UserRestrictionCapabilitiesInterface
+{
+
+    use ValidationTrait, UserRestrictionCapabilities;
+
+    /**
+     * Mass fillable columns
+     *
+     * @var array
+     */
+    protected $fillable = array(); // <- add your fillable fields here
+
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = '$$MODEL_NAME_TABLE$$';
+
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    protected static $rules = []; // <- add your validation rules here
+
+    /**
+     * @return string
+     */
+    public function getUserIdFields()
+    {
+        return 'user_id';
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+}

@@ -1,0 +1,32 @@
+<?php namespace App\Libraries\Acl\Repositories;
+
+/******************************************************************************
+ *
+ * @package Myo 2
+ * @copyright © 2015 by Versusmind.
+ * All rights reserved. No part of this document may be
+ * reproduced or transmitted in any form or by any means,
+ * electronic, mechanical, photocopying, recording, or
+ * otherwise, without prior written permission of Versusmind.
+ * @link http://www.versusmind.eu/
+ *
+ * @file $$MODEL_NAME$$.php
+ * @author $$AUTHOR_NAME$$
+ * @last-edited $$DATE$$
+ * @description $$MODEL_NAME$$
+ *
+ ******************************************************************************/
+
+use App\Libraries\Repository;
+
+class $$MODEL_NAME$$ extends Repository
+{
+
+    /**
+     * Permission constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct(\App\$$MODEL_NAME$$::class);
+    }
+}

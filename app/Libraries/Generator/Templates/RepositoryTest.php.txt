@@ -1,0 +1,89 @@
+<?php namespace Tests\Unit\Acl\Repositories;
+
+use App\Libraries\Repositories\$$MODEL_NAME$$;
+use App\Libraries\Repository;
+use Tests\Unit\RepositoryTest;
+
+/**
+ * @group unit
+ **/
+class $$MODEL_NAME$$Test extends RepositoryTest
+{
+
+    /**
+     * @return Repository
+     */
+    public function getRepository()
+    {
+        return new $$MODEL_NAME$$();
+    }
+
+    public function createOkProvider()
+    {
+        return [];
+    }
+
+    /**
+     * @return array
+     */
+    public function findKoProvider()
+    {
+        return [];
+    }
+
+    /**
+     * @return array
+     */
+    public function updateOkProvider()
+    {
+        return [];
+    }
+
+    /**
+     * @return array
+     */
+    public function whereOkProvider()
+    {
+        return [];
+    }
+
+    /**
+     * @return array
+     */
+    public function deleteKoProvider()
+    {
+        return [];
+    }
+
+    /**
+     * @return array
+     */
+    public function updateKoProvider()
+    {
+        return [];
+    }
+
+    /**
+     * @return array
+     */
+    public function findOkProvider()
+    {
+        return [];
+    }
+
+    /**
+     * @return array
+     */
+    public function createKoProvider()
+    {
+        return [];
+    }
+
+    /**
+     * @return array
+     */
+    public function deleteOkProvider()
+    {
+        return [];
+    }
+}
