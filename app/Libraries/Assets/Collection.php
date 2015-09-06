@@ -166,7 +166,7 @@ class Collection
      */
     public function initializeFolder()
     {
-        foreach ([$this->outputDirectory, $this->tmpDirectory, storage_path('versions')] as $path) {
+        foreach ([$this->getOutputDirectory(), $this->getTmpDirectory(), $this->getVersionDirectory()] as $path) {
             if (!is_dir($path)) {
                 if (!mkdir($path, 0777, true)) {
                     throw new \RuntimeException('Can not create folder ' . $path);
@@ -182,7 +182,7 @@ class Collection
      */
     public function versionFilePath()
     {
-        return storage_path('versions/' . $this->getCollectionId() . '.json');
+        return $this->getVersionDirectory() . DIRECTORY_SEPARATOR . $this->getCollectionId() . '.json';
     }
 
     /**
@@ -258,7 +258,7 @@ class Collection
      */
     public function getOutputDirectory()
     {
-        return $this->outputDirectory;
+        return str_replace('/', DIRECTORY_SEPARATOR, $this->outputDirectory);
     }
 
     /**
@@ -274,7 +274,7 @@ class Collection
      */
     public function getTmpDirectory()
     {
-        return $this->tmpDirectory;
+        return str_replace('/', DIRECTORY_SEPARATOR, $this->tmpDirectory);
     }
 
     /**
@@ -290,7 +290,7 @@ class Collection
      */
     public function getBowerDirectory()
     {
-        return $this->bowerDirectory;
+        return str_replace('/', DIRECTORY_SEPARATOR, $this->bowerDirectory);
     }
 
     /**
@@ -315,5 +315,10 @@ class Collection
     public function setGroupName($groupName)
     {
         $this->groupName = $groupName;
+    }
+
+    public function getVersionDirectory()
+    {
+       return  str_replace('/', DIRECTORY_SEPARATOR, storage_path('versions')); 
     }
 }

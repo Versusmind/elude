@@ -91,7 +91,6 @@ class Orchestrator
     public function font(Collection $assets)
     {
         Clockwork::startEvent('assets.font', 'Assets build fonts.');
-
         $result = $this->pipeline->font()->process($assets);
         Clockwork::endEvent('assets.font');
 

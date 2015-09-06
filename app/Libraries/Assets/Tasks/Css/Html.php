@@ -39,8 +39,6 @@ class Html implements StageInterface
             $result .= "<!-- " . $collection->getGroupName() . "-->" . "\n";
         }
 
-        $outputDirectory = base_path('public') . DIRECTORY_SEPARATOR;
-
         $subfolder = env('SUBFOLDER_INSTALLATION', false);
         if ($subfolder) {
             $subfolder .= '/';
@@ -49,7 +47,9 @@ class Html implements StageInterface
         }
 
         foreach ($collection->getType(Asset::CSS) as $asset) {
-            $result .= '<link rel="stylesheet" type="text/css" href="' . $subfolder . str_replace($outputDirectory, DIRECTORY_SEPARATOR, $asset->getPath()) . '">' . "\n";
+            $path = $subfolder . str_replace($collection->getOutputDirectory(), DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR, $asset->getPath());
+            $htmlLink = str_replace(DIRECTORY_SEPARATOR, '/', $path);
+            $result .= '<link rel="stylesheet" type="text/css" href="' . $htmlLink . '">' . "\n";
         }
 
         if (!config('assets.concat') && $collection->getGroupName()) {

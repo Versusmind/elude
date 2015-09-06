@@ -46,7 +46,8 @@ class Asset implements \JsonSerializable
     public function __construct($type, $path, $initialPath = '')
     {
         $this->type        = $type;
-        $this->path        = $path;
+        // change path to system path
+        $this->path        = str_replace('/', DIRECTORY_SEPARATOR, $path);
         $this->initialPath = $initialPath;
     }
 
@@ -75,7 +76,7 @@ class Asset implements \JsonSerializable
      */
     public function getPath()
     {
-        return $this->path;
+        return str_replace('/', DIRECTORY_SEPARATOR, $this->path);
     }
 
     /**
@@ -95,7 +96,7 @@ class Asset implements \JsonSerializable
      */
     public function getBuildPath()
     {
-        return $this->buildPath;
+        return str_replace('/', DIRECTORY_SEPARATOR, $this->buildPath);
     }
 
     /**
@@ -135,7 +136,7 @@ class Asset implements \JsonSerializable
      */
     public function getInitialPath()
     {
-        return $this->initialPath;
+        return str_replace('/', DIRECTORY_SEPARATOR, $this->initialPath);
     }
 
     /**
@@ -159,7 +160,7 @@ class Asset implements \JsonSerializable
     {
         return [
             'type' => $this->type,
-            'path' => $this->path,
+            'path' => str_replace('/', DIRECTORY_SEPARATOR, $this->path),
         ];
     }
 }
