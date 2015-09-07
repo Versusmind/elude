@@ -52,7 +52,7 @@ class Generator
     }
 
     /**
-     * 
+     *
      */
     public function generate()
     {
