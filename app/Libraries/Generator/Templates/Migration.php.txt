@@ -22,7 +22,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 
-class Create$$MODEL_NAME$$Table extends Migration
+class Create$$MODEL_NAME_PLURAL_CAPITALIZED$$Table extends Migration
 {
     /**
      * Run the migrations.

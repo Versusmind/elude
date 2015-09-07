@@ -10,17 +10,16 @@
  * otherwise, without prior written permission of Versusmind.
  * @link http://www.versusmind.eu/
  *
- * @file QaPhpmd.php
+ * @file ApiGenerator.php
  * @author LAHAXE Arnaud
  * @last-edited 18/08/15
- * @description QaPhpmd
+ * @description ApiGenerator
  *
  ******************************************************************************/
 
 use App\Libraries\Generator\Generator;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
-use Symfony\Component\Process\Process;
 
 class ApiGenerator extends Command
 {
@@ -54,6 +53,7 @@ class ApiGenerator extends Command
 
         $generator = new Generator($name, $isUserRestrict, $author);
         $templateData = $generator->getTemplateData();
+        $files = $generator->getFiles();
 
         $this->info('Data:');
         $this->info("\t Model name:" . $templateData['modelName']);
@@ -63,7 +63,13 @@ class ApiGenerator extends Command
 
         if($this->confirm('Generate migration/model/repository/controller ?', true)) {
             $generator->generate();
-            $this->comment('All files generated');
+            $this->info("Generated files:");
+            foreach($files as $file) {
+                $this->info("\t " . $file);
+            }
+            $this->info("Updated files:");
+            $this->info("\t app". DIRECTORY_SEPARATOR . "Http". DIRECTORY_SEPARATOR . "routes.php");
+
         } else {
             if($this->confirm('Generate migration ?', true)) {
                 $generator->migration();
@@ -91,16 +97,14 @@ class ApiGenerator extends Command
             }
         }
 
-        $files = $generator->getFiles();
-
         $this->info("");
-        $this->info("What you need to do now:");
+        $this->info("What you need to do now ?");
         $this->info("\t [] Edit " . $files['migration'] . " to add your fields");
         $this->info("\t [] Edit " . $files['model'] . " to fill the fillable attribute");
         $this->info("\t [] Edit " . $files['model'] . " to fill the rules attribute");
         $this->info("\t [] Add Acl/Scope to your route in routes.php");
         $this->info("\t [] Fill data provider for " . $files['controllerTest']);
         $this->info("\t [] Fill data provider for " . $files['repositoryTest']);
-
+        $this->info("\t [] php artisan migrate");
     }
 }

@@ -345,6 +345,36 @@ If you model can only be list/edit/show/delete by the creator it need to impleme
 The `App\User` class implement `UserRestrictionCapabilitiesInterface` interface. 
 The method `isSuperAdmin` check if the user can bypass all acl and owner permission. 
 
+# Api generator
+
+Myo2 comes with a api generator. For each new model please use the generator to create all classes you need.
+
+    php artisan api:generate {name}
+    
+name: The model in singular no matter of the case ex: post
+
+
+    User restricted ? (yes/no) [no]:
+
+Answer yes if you want that only owner / or admin can edit/show/delete/list the model
+
+
+    Your username []:
+
+You name for the header doc block
+
+
+    Generate migration/model/repository/controller ? (yes/no) [yes]:
+
+Yes if you want to generate all classes needed, if you say no the tool will ask confirmation for each type.
+
+The command line gives you all files created/ edited. 
+
+Please follow the command instruction given
+
+Before committing please run phpunit. 
+
+
 # Todo
 
 - Using symlink in the copy task in dev

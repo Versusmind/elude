@@ -25,11 +25,12 @@ class Generator
     public static $varSeparator = '$$';
 
     private static $templateDataMapping = [
-        'AUTHOR_NAME'       => 'author',
-        'MODEL_NAME'        => 'modelName',
-        'DATE'              => 'date',
-        'MODEL_NAME_TABLE'  => 'tableName',
-        'MODEL_NAME_PLURAL' => 'tableName'
+        'AUTHOR_NAME' => 'author',
+        'MODEL_NAME' => 'modelName',
+        'DATE' => 'date',
+        'MODEL_NAME_TABLE' => 'tableName',
+        'MODEL_NAME_PLURAL' => 'tableName',
+        'MODEL_NAME_PLURAL_CAPITALIZED' => 'tableNameCapitalizes',
     ];
 
     protected $templatesDirectory;
@@ -42,7 +43,7 @@ class Generator
 
     protected $files = [
         'migration' => '',
-        'model'     => '',
+        'model' => '',
         'repository' => '',
         'controller' => '',
         'repositoryTest' => '',
@@ -56,17 +57,18 @@ class Generator
      */
     public function __construct($modelName, $userRestrictive = true, $author = '')
     {
-        $this->modelName                 = $modelName;
-        $this->userRestrictive           = $userRestrictive;
-        $this->templateData['author']    = $author;
+        $this->modelName = $modelName;
+        $this->userRestrictive = $userRestrictive;
+        $this->templateData['author'] = $author;
         $this->templateData['modelName'] = ucfirst(camel_case($modelName));
-        $this->templatesDirectory        = __DIR__ . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR;
-        $this->templateData['date']      = Carbon::now()->toDateTimeString();
+        $this->templatesDirectory = __DIR__ . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR;
+        $this->templateData['date'] = Carbon::now()->toDateTimeString();
         $this->templateData['tableName'] = strtolower(str_plural($this->modelName));
+        $this->templateData['tableNameCapitalizes'] = ucfirst($this->templateData['tableName']);
 
         $this->files = [
             'migration' => 'database' . DIRECTORY_SEPARATOR . 'migrations' . DIRECTORY_SEPARATOR . date('Y_m_d_His') . "_" . "create_" . $this->templateData['tableName'] . "_table.php",
-            'model'     => 'app' . DIRECTORY_SEPARATOR . $this->templateData['modelName'] . '.php',
+            'model' => 'app' . DIRECTORY_SEPARATOR . $this->templateData['modelName'] . '.php',
             'repository' => 'app' . DIRECTORY_SEPARATOR . 'Libraries' . DIRECTORY_SEPARATOR . 'Repositories' . DIRECTORY_SEPARATOR . $this->templateData['modelName'] . '.php',
             'controller' => 'app' . DIRECTORY_SEPARATOR . 'Http' . DIRECTORY_SEPARATOR . 'Controllers' . DIRECTORY_SEPARATOR . 'Api' . DIRECTORY_SEPARATOR . $this->templateData['modelName'] . '.php',
             'repositoryTest' => 'tests' . DIRECTORY_SEPARATOR . 'Unit' . DIRECTORY_SEPARATOR . $this->templateData['modelName'] . '.php',
@@ -150,7 +152,7 @@ class Generator
             $template = 'ModelUserRestrictive.php.txt';
         }
 
-        $this->template($template, base_path($this->files['controllerTest']));
+        $this->template($template, base_path($this->files['model']));
 
         return $this;
     }
