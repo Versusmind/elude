@@ -1,4 +1,4 @@
-<?php namespace App\Libraries\Acl\Repositories;
+<?php namespace App\Libraries\Repositories;
 
 /******************************************************************************
  *

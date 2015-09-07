@@ -19,6 +19,7 @@
 
 use App\Libraries\Generator\Generator;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\Process\Process;
 
 class ApiGenerator extends Command
@@ -47,11 +48,59 @@ class ApiGenerator extends Command
 
         $isUserRestrict = $this->confirm('User restricted ?', false);
 
-        $author = $this->ask("Your username", '');
+        $author = $this->ask("Your username", Cache::get('developer.username', ''));
+
+        Cache::forever('developer.username', $author);
 
         $generator = new Generator($name, $isUserRestrict, $author);
+        $templateData = $generator->getTemplateData();
 
-        $generator->generate();
-        // info
+        $this->info('Data:');
+        $this->info("\t Model name:" . $templateData['modelName']);
+        $this->info("\t Table name:" . $templateData['tableName']);
+        $this->info("\t Date:"       . $templateData['date']);
+        $this->info("\t Author:"     . $templateData['author']);
+
+        if($this->confirm('Generate migration/model/repository/controller ?', true)) {
+            $generator->generate();
+            $this->comment('All files generated');
+        } else {
+            if($this->confirm('Generate migration ?', true)) {
+                $generator->migration();
+                $this->comment('Migration generated');
+            }
+
+            if($this->confirm('Generate model ?', true)) {
+                $generator->model();
+                $this->comment('Model generated');
+            }
+
+            if($this->confirm('Generate repository + tests ?', true)) {
+                $generator->repository();
+                $this->comment('Repository generated');
+            }
+
+            if($this->confirm('Generate controller + tests ?', true)) {
+                $generator->controller();
+                $this->comment('Controller generated');
+            }
+
+            if($this->confirm('Update routes.php file ?', true)) {
+                $generator->route();
+                $this->comment('Route added');
+            }
+        }
+
+        $files = $generator->getFiles();
+
+        $this->info("");
+        $this->info("What you need to do now:");
+        $this->info("\t [] Edit " . $files['migration'] . " to add your fields");
+        $this->info("\t [] Edit " . $files['model'] . " to fill the fillable attribute");
+        $this->info("\t [] Edit " . $files['model'] . " to fill the rules attribute");
+        $this->info("\t [] Add Acl/Scope to your route in routes.php");
+        $this->info("\t [] Fill data provider for " . $files['controllerTest']);
+        $this->info("\t [] Fill data provider for " . $files['repositoryTest']);
+
     }
 }

@@ -18,15 +18,16 @@
  ******************************************************************************/
 
 use Illuminate\Database\Eloquent\Model;
+use App\Libraries\Acl\Interfaces\UserRestrictionInterface;
 
 /**
  * Class $$MODEL_NAME$$
  *
  */
-class $$MODEL_NAME$$ extends Model implements ValidationInterface, UserRestrictionCapabilitiesInterface
+class $$MODEL_NAME$$ extends Model implements ValidationInterface, UserRestrictionInterface
 {
 
-    use ValidationTrait, UserRestrictionCapabilities;
+    use ValidationTrait;
 
     /**
      * Mass fillable columns
@@ -63,5 +64,23 @@ class $$MODEL_NAME$$ extends Model implements ValidationInterface, UserRestricti
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    /**
+     * Test if the user given can edit the model
+     *
+     * @param \App\User $user
+     * @param array     $parameters
+     *
+     * @return mixed
+     */
+    public function isUserAllow(User $user, array $parameters = [])
+    {
+        return $this->{$this->getUserIdFields()} === $user->id;
+    }
+
+    public function getRules()
+    {
+        return self::$rules;
     }
 }
