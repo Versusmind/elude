@@ -20,6 +20,8 @@
 use App\Libraries\Generator\Generator;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
+use Symfony\Component\Process\Process;
 
 class ApiGenerator extends Command
 {
@@ -38,6 +40,8 @@ class ApiGenerator extends Command
     protected $description = 'Generate api resources';
 
 
+    public static $defaultComposerPath = '/usr/local/bin/composer';
+
     /**
      * @throws \Exception
      */
@@ -54,6 +58,8 @@ class ApiGenerator extends Command
         $generator = new Generator($name, $isUserRestrict, $author);
         $templateData = $generator->getTemplateData();
         $files = $generator->getFiles();
+
+
 
         $this->info('Data:');
         $this->info("\t Model name:" . $templateData['modelName']);
@@ -97,6 +103,10 @@ class ApiGenerator extends Command
             }
         }
 
+        $this->info('');
+        $this->comment("Run composer dump-autoload");
+        $this->runComposerDumpAutoload();
+
         $this->info("");
         $this->info("What you need to do now ?");
         $this->info("\t [] Edit " . $files['migration'] . " to add your fields");
@@ -106,5 +116,28 @@ class ApiGenerator extends Command
         $this->info("\t [] Fill data provider for " . $files['controllerTest']);
         $this->info("\t [] Fill data provider for " . $files['repositoryTest']);
         $this->info("\t [] php artisan migrate");
+    }
+
+    public function runComposerDumpAutoload()
+    {
+        $path = self::$defaultComposerPath;
+        $composerInstalled = is_file($path);
+        if(!$composerInstalled) {
+            $path = base_path('composer.phar');
+            $composerInstalled = is_file($path);
+        }
+
+        if(!$composerInstalled) {
+            $this->error("No composer installation found, please run composer dump-autoload");
+
+            return;
+        }
+
+        $process = new Process('php ' . $path . ' dump-autoload');
+        $process->run();
+
+        if(!$process->isSuccessful()) {
+            $this->error('Composer error: ' . $process->getOutput());
+        }
     }
 }
