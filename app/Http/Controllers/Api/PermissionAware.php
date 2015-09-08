@@ -19,7 +19,6 @@
 
 
 use App\Libraries\Acl\Repositories\Permission;
-use App\Libraries\Acl\Repositories\Role;
 
 abstract class PermissionAware extends ResourcesController
 {
@@ -42,15 +41,12 @@ abstract class PermissionAware extends ResourcesController
 
     public function permissionStore($id, $idPermission)
     {
+        $this->addUserCriteria();
         $model = $this->repository->find($id);
         $permission = $this->permissionRepository->find($idPermission);
 
         if(is_null($model) || is_null($permission)) {
             return response()->json([], 404);
-        }
-
-        if(!$this->isAllowModel($model)) {
-            return response()->json([], 403);
         }
 
         $this->repository->addPermission($model, $permission);
@@ -60,15 +56,12 @@ abstract class PermissionAware extends ResourcesController
 
     public function permissionDestroy($id, $idPermission)
     {
+        $this->addUserCriteria();
         $model = $this->repository->find($id);
         $permission = $this->permissionRepository->find($idPermission);
 
         if(is_null($model) || is_null($permission)) {
             return response()->json([], 404);
-        }
-
-        if(!$this->isAllowModel($model)) {
-            return response()->json([], 403);
         }
 
         $this->repository->removePermission($model, $permission);

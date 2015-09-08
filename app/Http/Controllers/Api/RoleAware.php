@@ -40,15 +40,12 @@ abstract class RoleAware extends PermissionAware
 
     public function roleStore($id, $idRole)
     {
+        $this->addUserCriteria();
         $model = $this->repository->find($id);
         $role = $this->roleRepository->find($idRole);
 
         if(is_null($model) || is_null($role)) {
             return response()->json([], 404);
-        }
-
-        if(!$this->isAllowModel($model)) {
-            return response()->json([], 403);
         }
 
         $this->repository->addRole($model, $role);
@@ -58,17 +55,13 @@ abstract class RoleAware extends PermissionAware
 
     public function roleDestroy($id, $idRole)
     {
+        $this->addUserCriteria();
         $model = $this->repository->find($id);
         $role = $this->roleRepository->find($idRole);
 
         if(is_null($model) || is_null($role)) {
             return response()->json([], 404);
         }
-
-        if(!$this->isAllowModel($model)) {
-            return response()->json([], 403);
-        }
-
         $this->repository->removeRole($model, $role);
 
         return response()->json($model, 204);

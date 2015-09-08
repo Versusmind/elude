@@ -34,15 +34,12 @@ class User extends RoleAware
 
     public function groupUpdate($id, $idGroup)
     {
+        $this->addUserCriteria();
         $model = $this->repository->find($id);
         $group = $this->groupRepository->find($idGroup);
 
         if (is_null($model) || is_null($group)) {
             return response()->json([], 404);
-        }
-
-        if(!$this->isAllowModel($model)) {
-            return response()->json([], 403);
         }
 
         $this->repository->setGroup($model, $group);

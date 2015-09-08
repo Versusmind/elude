@@ -2,24 +2,24 @@
 
 /******************************************************************************
  *
- * @package Myo 2
- * @copyright © 2015 by Versusmind.
+ * @package     Myo 2
+ * @copyright   © 2015 by Versusmind.
  * All rights reserved. No part of this document may be
  * reproduced or transmitted in any form or by any means,
  * electronic, mechanical, photocopying, recording, or
  * otherwise, without prior written permission of Versusmind.
- * @link http://www.versusmind.eu/
+ * @link        http://www.versusmind.eu/
  *
- * @file ResourcesController.php
- * @author LAHAXE Arnaud
+ * @file        ResourcesController.php
+ * @author      LAHAXE Arnaud
  * @last-edited 05/09/2015
  * @description ResourcesController
  *
  ******************************************************************************/
 
-
 use App\Libraries\Acl\Exceptions\ModelNotValid;
 use App\Libraries\Acl\Interfaces\UserRestrictionInterface;
+use App\Libraries\Criterias\User;
 use App\Libraries\Repository;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Input;
@@ -50,16 +50,11 @@ abstract class ResourcesController extends Controller
      */
     public function index()
     {
-        $model = $this->repository->getModel();
-        if (!$model instanceof UserRestrictionInterface) {
-            return response()->json($this->repository->all(Input::get('paginate', false), Input::get('nbByPage', 15), Input::get('page', 1)));
-        } else {
-            \Log::info(\Auth::guest());
-            return response()->json($this->repository->where([
-                $model->getUserIdFields() => \Auth::user()->id
-            ], Input::get('paginate', false), Input::get('nbByPage', 15), Input::get('page', 1)));
-        }
+        $this->addUserCriteria();
+
+        return response()->json($this->repository->all(Input::get('paginate', false), Input::get('nbByPage', 15), Input::get('page', 1)));
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -79,20 +74,17 @@ abstract class ResourcesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
     public function show($id)
     {
-
+        $this->addUserCriteria();
         $model = $this->repository->find($id);
 
-        if(is_null($model)) {
+        if (is_null($model)) {
             return response()->json([], 404);
-        }
-
-        if(!$this->isAllowModel($model)) {
-            return response()->json([], 403);
         }
 
         return response()->json($model, 200);
@@ -101,19 +93,17 @@ abstract class ResourcesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
     public function update($id)
     {
+        $this->addUserCriteria();
         $model = $this->repository->find($id);
 
-        if(is_null($model)) {
+        if (is_null($model)) {
             return response()->json([], 404);
-        }
-
-        if(!$this->isAllowModel($model)) {
-            return response()->json([], 403);
         }
 
         try {
@@ -128,19 +118,17 @@ abstract class ResourcesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
     public function destroy($id)
     {
+        $this->addUserCriteria();
         $model = $this->repository->find($id);
 
-        if(is_null($model)) {
+        if (is_null($model)) {
             return response()->json([], 404);
-        }
-
-        if(!$this->isAllowModel($model)) {
-            return response()->json([], 403);
         }
 
         $this->repository->delete($model);
@@ -149,17 +137,34 @@ abstract class ResourcesController extends Controller
     }
 
     /**
-     * Check if the current user can edit this model
-     * @param $model
+     * @author LAHAXE Arnaud
+     *
+     *  Add a criteria on repository if the user is not admin and
+     *         the model is implementing UserRestrictionInterface
      *
      * @return bool
      */
-    protected function isAllowModel($model)
+    protected function addUserCriteria()
     {
-        if(!$model instanceof UserRestrictionInterface) {
+        $model = $this->repository->getModel();
+        if (!$model instanceof UserRestrictionInterface) {
             return true;
         }
 
-        return \Acl::isUserAllowModel($model, \Auth::user());
+        /** @var \App\User $user */
+        $user = \Auth::user();
+
+        // no current user and no user given, no access
+        if (is_null($user)) {
+
+            return false;
+        }
+
+        if ($user->isSuperAdmin()) {
+
+            return true;
+        }
+
+        $this->repository->addCriteria(new User($user));
     }
 }
