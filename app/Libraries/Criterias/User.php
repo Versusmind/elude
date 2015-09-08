@@ -1,6 +1,7 @@
 <?php namespace App\Libraries\Criterias;
 
 use App\Libraries\Repository;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class User extends Criteria
@@ -27,8 +28,9 @@ class User extends Criteria
      *
      * @return mixed
      */
-    public function apply(Model $model, Repository $repository)
+    public function apply(Builder $query, Model $model, Repository $repository)
     {
-        return $model->where($model->getUserIdFields(), $this->user->getKey());
+
+        return $query->where($model->getUserIdFields(), $this->user->getKey());
     }
 }

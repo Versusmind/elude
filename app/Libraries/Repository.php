@@ -22,6 +22,7 @@ use App\Libraries\Acl\Exceptions\ModelNotValid;
 use App\Libraries\Criterias\Criteria;
 use App\Libraries\Criterias\Interfaces\CriteriaInterface;
 use App\ValidationInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
@@ -87,9 +88,9 @@ abstract class Repository implements CriteriaInterface
      */
     public function find($id)
     {
-        $this->applyCriterias();
+        $query = $this->applyCriterias($this->makeQuery());
 
-        return $this->model->find($id);
+        return $query->find($id);
     }
 
     /**
@@ -149,17 +150,18 @@ abstract class Repository implements CriteriaInterface
             $page = 1;
         }
 
-        $this->applyCriterias();
+        $query = $this->makeQuery();
+
+        $this->applyCriterias($query);
         if ($paginate) {
             Paginator::currentPageResolver(function () use ($page) {
                 return $page;
             });
 
-            return $this->model->paginate($nbItemsPerPage);
+            return $query->paginate($nbItemsPerPage);
         }
 
-
-        return $this->model->where([])->get();
+        return $query->where([])->get();
     }
 
     /**
@@ -180,17 +182,18 @@ abstract class Repository implements CriteriaInterface
             $page = 1;
         }
 
+        $query = $this->applyCriterias($this->makeQuery());
+
         if ($paginate) {
             Paginator::currentPageResolver(function () use ($page) {
                 return $page;
             });
 
-            return $this->model->where($where)->paginate($nbItemsPerPage);
+            return $query->where($where)->paginate($nbItemsPerPage);
         }
 
-        $this->applyCriterias();
 
-        return $this->model->where($where)->get();
+        return $query->where($where)->get();
     }
 
     /**
@@ -224,15 +227,31 @@ abstract class Repository implements CriteriaInterface
     /**
      * @author LAHAXE Arnaud
      *
+     * @param \Illuminate\Database\Eloquent\Builder $query
      *
+     * @return \Illuminate\Database\Eloquent\Builder|mixed
      */
-    public function  applyCriterias()
+    public function  applyCriterias(Builder $query)
     {
 
         foreach ($this->criterias as $criteria) {
-            if ($criteria instanceof Criteria)
-                $criteria->apply($this->model, $this);
+            if ($criteria instanceof Criteria) {
+                $query = $criteria->apply($query, $this->model, $this);
+            }
         }
+
+        return $query;
+    }
+
+    /**
+     * @author LAHAXE Arnaud
+     *
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function makeQuery()
+    {
+        return $this->model->query();
     }
 
     /**

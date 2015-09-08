@@ -1,6 +1,7 @@
 <?php namespace App\Libraries\Criterias\Interfaces;
 
 use App\Libraries\Criterias\Criteria;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Interface CriteriaInterface
@@ -21,9 +22,11 @@ interface CriteriaInterface {
     /**
      * @author LAHAXE Arnaud
      *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
      * @return mixed
      */
-    public function applyCriterias();
+    public function applyCriterias(Builder $query);
 
     /**
      * @author LAHAXE Arnaud
