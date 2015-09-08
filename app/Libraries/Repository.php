@@ -59,26 +59,23 @@ abstract class Repository implements CriteriaInterface
     }
 
     /**
-     * @param           $attributes
+     * @param Model $model
      * @param bool|true $validate
-     *
-     * @return mixed
+     * @return Model
      * @throws ModelNotValid
      */
-    public function create($attributes, $validate = true)
+    public function create(Model $model, $validate = true)
     {
-        $class    = $this->modelClass;
-        $instance = new $class($attributes);
 
-        if ($instance instanceof ValidationInterface) {
+        if ($model instanceof ValidationInterface) {
             if ($validate) {
-                $this->validate($instance);
+                $this->validate($model);
             }
         }
 
-        $instance->save();
+        $model->save();
 
-        return $instance;
+        return $model;
     }
 
     /**

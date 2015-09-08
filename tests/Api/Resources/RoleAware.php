@@ -1,5 +1,7 @@
 <?php namespace Tests\Api\Resources;
 
+use App\Role;
+
 abstract class RoleAware extends PermissionAware
 {
     /**
@@ -12,10 +14,10 @@ abstract class RoleAware extends PermissionAware
     {
         parent::setUp();
 
-        $this->role = (new \App\Libraries\Acl\Repositories\Role())->create([
+        $this->role = (new \App\Libraries\Acl\Repositories\Role())->create(new Role([
             'name' => uniqid(),
             'filter' => 'A',
-        ]);
+        ]));
     }
 
     public function addRole($modelId, $roleId)

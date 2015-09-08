@@ -15,11 +15,11 @@ abstract class PermissionAware extends ResourcesControllerTest
     {
         parent::setUp();
 
-        $this->permission = (new \App\Libraries\Acl\Repositories\Permission())->create([
+        $this->permission = (new \App\Libraries\Acl\Repositories\Permission())->create(new \App\Permission([
             'area'        => uniqid(),
             'permission'  => uniqid(),
             'description' => 'test'
-        ]);
+        ]));
     }
 
     public function addPermission($modelId, $permissionId)

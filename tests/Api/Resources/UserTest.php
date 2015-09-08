@@ -122,9 +122,9 @@ class UserTest extends RoleAware
     {
         $user = $this->createUserAndLogin();
 
-        $group = (new Group())->create([
+        $group = (new Group())->create(new \App\Group([
             'name' => uniqid()
-        ]);
+        ]));
 
         $this->call('PUT', $this->apiPath . $this->resourceName . '/' . $user->id . '/group/' . $group->id);
         $this->seeJson([]);
@@ -202,11 +202,11 @@ class UserTest extends RoleAware
     protected function createUserAndLogin()
     {
         $username = $this->faker->userName;
-        $user = (new User())->create([
+        $user = (new User())->create(new \App\User([
             'username' => $username,
             'email' => $this->faker->safeEmail,
             'password' => \Hash::make(self::$password),
-        ]);
+        ]));
         $this->login($username, self::$password);
 
         return $user;

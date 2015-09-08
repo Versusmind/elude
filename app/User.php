@@ -189,4 +189,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         return $this->getKeyName();
     }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this;
+    }
 }

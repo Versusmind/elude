@@ -104,7 +104,8 @@ abstract class RepositoryTest extends TestCase
      */
     public function testCreateOk($attributes)
     {
-        $model = $this->repository->create($attributes);
+        $class = $this->repository->getModelClass();
+        $model = $this->repository->create(new $class($attributes));
 
         $this->assertModel($model);
     }
@@ -118,7 +119,8 @@ abstract class RepositoryTest extends TestCase
      */
     public function testCreateKo($attributes)
     {
-        $model = $this->repository->create($attributes);
+        $class = $this->repository->getModelClass();
+        $model = $this->repository->create(new $class($attributes));
 
         $this->assertModel($model, false);
     }

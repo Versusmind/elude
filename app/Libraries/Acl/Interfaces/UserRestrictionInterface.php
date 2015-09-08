@@ -36,4 +36,10 @@ interface UserRestrictionInterface
      * @return string
      */
     public function getUserIdFields();
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user();
 }

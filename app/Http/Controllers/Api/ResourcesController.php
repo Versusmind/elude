@@ -63,7 +63,14 @@ abstract class ResourcesController extends Controller
     public function store()
     {
         try {
-            $model = $this->repository->create(Input::all());
+            $class = $this->repository->getModelClass();
+            $model = new $class(Input::all());
+
+            if ($model instanceof UserRestrictionInterface) {
+                $model->user()->associate(\Auth::user());
+            }
+
+            $model = $this->repository->create($model);
         } catch (ModelNotValid $e) {
             return response()->json($e->getErrors(), 400);
         }

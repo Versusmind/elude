@@ -56,20 +56,20 @@ class RoleTest extends PermissionAware
 
     public function testAddPermission()
     {
-        $role = (new Role())->create([
+        $role = (new Role())->create(new \App\Role([
             'name' => uniqid(),
             'filter' => 'A'
-        ]);
+        ]));
 
         $this->addPermission($role->id, $this->permission->id);
     }
 
     public function testRemovePermission()
     {
-        $role = (new Role())->create([
+        $role = (new Role())->create(new \App\Role([
             'name' => uniqid(),
             'filter' => 'A'
-        ]);
+        ]));
 
         $this->addPermission($role->id, $this->permission->id);
         $this->removePermission($role->id, $this->permission->id);

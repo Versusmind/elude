@@ -53,36 +53,36 @@ class GroupTest extends RoleAware
 
     public function testAddPermission()
     {
-        $group = (new Group())->create([
+        $group = (new Group())->create(new \App\Group([
             'name' => uniqid()
-        ]);
+        ]));
 
         $this->addPermission($group->id, $this->permission->id);
     }
 
     public function testRemovePermission()
     {
-        $group = (new Group())->create([
+        $group = (new Group())->create(new \App\Group([
             'name' => uniqid()
-        ]);
+        ]));
         $this->addPermission($group->id, $this->permission->id);
         $this->removePermission($group->id, $this->permission->id);
     }
 
     public function testAddRole()
     {
-        $group = (new Group())->create([
+        $group = (new Group())->create(new \App\Group([
             'name' => uniqid()
-        ]);
+        ]));
 
         $this->addRole($group->id, $this->role->id);
     }
 
     public function testRemoveRole()
     {
-        $group = (new Group())->create([
+        $group = (new Group())->create(new \App\Group([
             'name' => uniqid()
-        ]);
+        ]));
 
         $this->addRole($group->id, $this->role->id);
         $this->removeRole($group->id, $this->role->id);

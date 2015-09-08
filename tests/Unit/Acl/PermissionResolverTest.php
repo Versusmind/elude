@@ -60,37 +60,37 @@ class PermissionResolverTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = $this->userRepository->create([
+        $this->user = $this->userRepository->create(new \App\User([
             'username' => $this->faker->userName,
             'email'    => $this->faker->safeEmail,
             'password' => $this->faker->password(),
-        ]);
+        ]));
 
-        $this->group = $this->groupRepository->create([
+        $this->group = $this->groupRepository->create(new \App\Group([
             'name' => uniqid()
-        ]);
+        ]));
 
-        $this->role = $this->roleRepository->create([
+        $this->role = $this->roleRepository->create(new \App\Role([
             'name'   => uniqid(),
             'filter' => 'A'
-        ]);
+        ]));
 
-        $this->roleRevoke = $this->roleRepository->create([
+        $this->roleRevoke = $this->roleRepository->create(new \App\Role([
             'name'   => uniqid(),
             'filter' => 'R'
-        ]);
+        ]));
 
-        $this->permissionFirst = $this->permissionRepository->create([
+        $this->permissionFirst = $this->permissionRepository->create(new \App\Permission([
             'area'        => uniqid(),
             'permission'  => uniqid(),
             'description' => 'test'
-        ]);
+        ]));
 
-        $this->permissionSecond = $this->permissionRepository->create([
+        $this->permissionSecond = $this->permissionRepository->create(new \App\Permission([
             'area'        => uniqid(),
             'permission'  => uniqid(),
             'description' => 'test'
-        ]);
+        ]));
 
         $this->resolver = new PermissionResolver();
     }

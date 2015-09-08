@@ -169,10 +169,10 @@ class UserTest extends RepositoryTest
             'password' => $this->faker->password(),
         ];
 
-        $model = $this->repository->create($attributes);
+        $model = $this->repository->create(new \App\User($attributes));
         $this->assertModel($model);
 
-        $model = $this->repository->create($attributes);
+        $model = $this->repository->create(new \App\User($attributes));
         $this->assertModel($model, false);
     }
 
@@ -194,11 +194,11 @@ class UserTest extends RepositoryTest
     {
         $group = \App\Group::find(1);
 
-        $user = $this->repository->create([
+        $user = $this->repository->create(new \App\User([
             'username' => $this->faker->userName,
             'email' => $this->faker->safeEmail,
             'password' => $this->faker->password(),
-        ]);
+        ]));
 
         $this->assertModel($user, true);
 
@@ -214,11 +214,11 @@ class UserTest extends RepositoryTest
             'filter'      => 'A'
         ]);
 
-        $user = $this->repository->create([
+        $user = $this->repository->create(new \App\User([
             'username' => $this->faker->userName,
             'email' => $this->faker->safeEmail,
             'password' => $this->faker->password(),
-        ]);
+        ]));
 
         $this->assertModel($user, true);
 
@@ -239,11 +239,11 @@ class UserTest extends RepositoryTest
             'description' => uniqid()
         ]);
 
-        $user = $this->repository->create([
+        $user = $this->repository->create(new \App\User([
             'username' => $this->faker->userName,
             'email' => $this->faker->safeEmail,
             'password' => $this->faker->password(),
-        ]);
+        ]));
 
         $this->assertModel($user, true);
 
@@ -264,11 +264,11 @@ class UserTest extends RepositoryTest
             'description' => uniqid()
         ]);
 
-        $user = $this->repository->create([
+        $user = $this->repository->create(new \App\User([
             'username' => $this->faker->userName,
             'email' => $this->faker->safeEmail,
             'password' => $this->faker->password(),
-        ]);
+        ]));
 
         $this->assertModel($user, true);
 

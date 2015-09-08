@@ -1,4 +1,7 @@
 <?php namespace App\Http\Controllers\Api;
+use App\Libraries\Acl\Exceptions\ModelNotValid;
+use Illuminate\Support\Facades\Input;
+use Symfony\Component\HttpFoundation\Response;
 
 /******************************************************************************
  *
@@ -45,5 +48,24 @@ class User extends RoleAware
         $this->repository->setGroup($model, $group);
 
         return response()->json($model, 204);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
+    public function store()
+    {
+        try {
+            $class = $this->repository->getModelClass();
+            $model = new $class(Input::all());
+
+            $model = $this->repository->create($model);
+        } catch (ModelNotValid $e) {
+            return response()->json($e->getErrors(), 400);
+        }
+
+        return response()->json($model, 201);
     }
 }
