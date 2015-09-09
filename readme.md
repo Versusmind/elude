@@ -3,7 +3,7 @@ Myo2
 
 
 
-Please read the wiki [wiki](/ndrx/myo2/wikis/pages) (aka RTFM)
+Please read the wiki [wiki](https://gitlab.mind-lab.eu/ndrx/myo2/wikis/pages) (aka RTFM)
 
 
 
