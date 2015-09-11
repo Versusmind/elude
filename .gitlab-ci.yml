@@ -1,8 +1,8 @@
 job1:
-script:
-    - "cp .env.example .env"
-    - "composer.phar install --prefer-source --no-interaction"
-    - "php artisan migrate --seed"
-    - "php artisan assets:update"
-    - "php artisan assets:build"
-    - "phpunit"
+    script:
+        - "cp .env.example .env"
+        - "composer.phar install --prefer-source --no-interaction"
+        - "php artisan migrate --seed"
+        - "php artisan assets:update"
+        - "php artisan assets:build"
+        - "phpunit"
