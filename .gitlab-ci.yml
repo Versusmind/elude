@@ -2,6 +2,7 @@ job1:
     script:
         - "cp .env.example .env"
         - "composer.phar install --prefer-source --no-interaction"
+        - "/etc/init.d/mysql start"
         - "php artisan migrate --seed"
         - "php artisan assets:update"
         - "php artisan assets:build"
