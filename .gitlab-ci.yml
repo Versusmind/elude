@@ -6,4 +6,4 @@ job1:
         - "php artisan migrate --seed"
         - "php artisan assets:update"
         - "php artisan assets:build"
-        - "phpunit"
+        - "phpunit -vvv --debug"
