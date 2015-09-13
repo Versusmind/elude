@@ -3,6 +3,7 @@
 use App\Libraries\Acl\Interfaces\UserInterface;
 use App\Libraries\Acl\Interfaces\UserRestrictionCapabilitiesInterface;
 use App\Libraries\Acl\Traits\UserRestrictionCapabilities;
+use App\Libraries\Validation\ValidationInterface;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;

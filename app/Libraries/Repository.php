@@ -21,7 +21,7 @@ use App\Libraries\Acl\Exceptions\AttributeNotExist;
 use App\Libraries\Acl\Exceptions\ModelNotValid;
 use App\Libraries\Criterias\Criteria;
 use App\Libraries\Criterias\Interfaces\CriteriaInterface;
-use App\ValidationInterface;
+use App\Libraries\Validation\ValidationInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;

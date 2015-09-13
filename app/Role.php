@@ -17,6 +17,8 @@
  *
  ******************************************************************************/
 
+use App\Libraries\Validation\ValidationInterface;
+use App\Libraries\Validation\ValidationTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Libraries\Acl\Exceptions\UnknownRoleFilter;
 use App\Libraries\Acl\Interfaces\RoleInterface;
@@ -30,6 +32,7 @@ class Role extends Model implements RoleInterface, ValidationInterface
 {
 
     use ValidationTrait;
+
     const FILTER_ACCESS = 'A';
     const FILTER_DENY   = 'D';
     const FILTER_REVOKE = 'R';
