@@ -2,7 +2,7 @@
 <head>
     <base href="<?php echo env('SUBFOLDER_INSTALLATION', '/') ?>">
     <?php
-        echo Assets::style(\App\Libraries\Assets\Collection::createByGroup('style'));
+        echo Assets::style('style');
     ?>
 
     <meta name="access_token" content="<?php echo Session::get('oauth.access_token')?>">
@@ -18,8 +18,8 @@
     <a href="https://angular-ui.github.io/bootstrap/">More widgets here</a>
 
     <?php
-        echo Assets::javascript(\App\Libraries\Assets\Collection::createByGroup('javascript-core'));
-        echo Assets::javascript(\App\Libraries\Assets\Collection::createByGroup('javascript-app'));
+        echo Assets::javascript('javascript-core');
+        echo Assets::javascript('javascript-app');
     ?>
 </body>
 </html>

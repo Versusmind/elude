@@ -136,14 +136,18 @@ class Orchestrator
     }
 
     /**
-     * @param Collection $assets
+     * @param Collection|string $assets
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      *
      * @return mixed
      */
-    public function javascript(Collection $assets)
+    public function javascript($assets)
     {
+        if(is_string($assets)) {
+            $assets = $this->getCollectionByName($assets);
+        }
+
         Clockwork::startEvent('assets.javascript', 'Assets build javascripts.');
 
         $buildNeeded = $this->buildDetector->isBuildNeeded($assets);
@@ -159,14 +163,18 @@ class Orchestrator
     }
 
     /**
-     * @param Collection $assets
+     * @param Collection|string $assets
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      *
      * @return mixed
      */
-    public function style(Collection $assets)
+    public function style($assets)
     {
+        if(is_string($assets)) {
+            $assets = $this->getCollectionByName($assets);
+        }
+
         Clockwork::startEvent('assets.style', 'Assets build styles.');
 
         $buildNeeded = $this->buildDetector->isBuildNeeded($assets);
@@ -212,5 +220,10 @@ class Orchestrator
         }
 
         return $buildNeeded;
+    }
+
+    protected function getCollectionByName($name)
+    {
+        return Collection::createByGroup($name);
     }
 }
