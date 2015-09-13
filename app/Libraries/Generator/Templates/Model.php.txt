@@ -18,6 +18,8 @@
  ******************************************************************************/
 
 use Illuminate\Database\Eloquent\Model;
+use App\Libraries\Validation\ValidationInterface;
+use App\Libraries\Validation\ValidationTrait;
 
 /**
  * Class $$MODEL_NAME$$

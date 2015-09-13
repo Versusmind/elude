@@ -17,6 +17,8 @@
  *
  ******************************************************************************/
 
+use App\Libraries\Validation\ValidationInterface;
+use App\Libraries\Validation\ValidationTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Libraries\Acl\Interfaces\PermissionInterface;
 
