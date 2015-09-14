@@ -6,6 +6,7 @@ use App\Console\Commands\ApiGenerator;
 use App\Console\Commands\AssetsBuilder;
 use App\Console\Commands\AssetsCleaner;
 use App\Console\Commands\AssetsUpdate;
+use App\Console\Commands\PhpDocGenerator;
 use App\Console\Commands\QaPhpComposerSecurity;
 use App\Console\Commands\QaPhpcpd;
 use App\Console\Commands\QaPhpCsFixer;
@@ -27,6 +28,7 @@ class Kernel extends ConsoleKernel
         QaPhpComposerSecurity::class,
         AssetsCleaner::class,
         ApiDocGenerator::class,
+        PhpDocGenerator::class,
         AssetsUpdate::class,
         AssetsBuilder::class,
         ApiGenerator::class,

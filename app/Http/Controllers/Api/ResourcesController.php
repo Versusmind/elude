@@ -25,6 +25,11 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Input;
 use Laravel\Lumen\Routing\Controller;
 
+/**
+ * Class ResourcesController
+ * @package App\Http\Controllers\Api
+ *
+ */
 abstract class ResourcesController extends Controller
 {
 
@@ -34,6 +39,7 @@ abstract class ResourcesController extends Controller
     protected $repository;
 
     /**
+     *
      * ResourcesController constructor.
      *
      * @param \App\Libraries\Repository $repository
