@@ -38,6 +38,28 @@ abstract class RoleAware extends PermissionAware
         parent::__construct($repository, $permissionRepository);
     }
 
+    /**
+     * @author LAHAXE Arnaud
+     *
+     * @param $id
+     * @param $idRole
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @apiDefine postRole
+     * @apiName createRole
+     * @apiErrorExample {json} Error-Response:
+     *     HTTP/1.1 404 Not Found
+     *     {}
+     *
+     * @apiErrorExample {json} Error-Response:
+     *     HTTP/1.1 401 Not Authorized
+     *     {}
+     *
+     * @apiName show
+     * @apiParam {Number} id Model unique ID.
+     * @apiParam {Number} idRole Role unique ID.
+     */
     public function roleStore($id, $idRole)
     {
         $this->addUserCriteria();
@@ -53,6 +75,29 @@ abstract class RoleAware extends PermissionAware
         return response()->json($model, 202);
     }
 
+    /**
+     * @author LAHAXE Arnaud
+     *
+     * @param $id
+     * @param $idRole
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     *
+     * @apiDefine deleteRole
+     * @apiName destroyRole
+     * @apiErrorExample {json} Error-Response:
+     *     HTTP/1.1 404 Not Found
+     *     {}
+     *
+     * @apiErrorExample {json} Error-Response:
+     *     HTTP/1.1 401 Not Authorized
+     *     {}
+     *
+     * @apiName show
+     * @apiParam {Number} id Model unique ID.
+     * @apiParam {Number} idRole Role unique ID.
+     */
     public function roleDestroy($id, $idRole)
     {
         $this->addUserCriteria();

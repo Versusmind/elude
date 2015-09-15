@@ -26,10 +26,16 @@ class Profiler extends ApiController
 {
 
     /**
-     * @author LAHAXE Arnaud
+     * @author   LAHAXE Arnaud
      *
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @apiGroup Profiler
+     * @apiName  index
+     * @api      {post} /api/__profiler/profiles List of profiles
+     *
+     * @apiSuccess (200) {Array} profiles List of profiles.
      */
     public function index()
     {
@@ -38,10 +44,24 @@ class Profiler extends ApiController
     }
 
     /**
-     * @author LAHAXE Arnaud
+     * @author   LAHAXE Arnaud
      *
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @apiGroup Profiler
+     * @apiName  last
+     * @api      {post} /api/__profiler/profiles/last Last profile
+     *
+     * @apiSuccess (200) {String} id Profile id.
+     * @apiSuccess (200) {String} method Http method.
+     * @apiSuccess (200) {Number} responseStatus Http status.
+     * @apiSuccess (200) {Number} datetime Start request datetime.
+     * @apiSuccess (200) {Number} timestamp Start request timestamp.
+     * @apiSuccess (200) {String} uri Request uri.
+     * @apiSuccess (200) {Number} duration Request duration.
+     * @apiSuccess (200) {Number} databaseDuration Database queries duration.
+     * @apiSuccess (200) {Number} nbSqlQueries Number of sql queries.
      */
     public function last()
     {
@@ -111,6 +131,17 @@ class Profiler extends ApiController
      *
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @apiGroup Profiler
+     * @apiName  stats
+     * @api      {post} /api/__profiler/profiles/stats Session stats
+     *
+     * @apiSuccess (200) {Number} nbProfile Number of profiles.
+     * @apiSuccess (200) {Number} nbSqlQueries Number of sql queries.
+     * @apiSuccess (200) {Number} duration Average duration.
+     * @apiSuccess (200) {Number} nbError Number of errors.
+     * @apiSuccess (200) {Number} databaseDuration Average database duration.
+     * @apiSuccess (200) {Number} nbLogs Average number of log.
      */
     public function stats()
     {

@@ -39,6 +39,29 @@ abstract class PermissionAware extends ResourcesController
         parent::__construct($repository);
     }
 
+    /**
+     * @author LAHAXE Arnaud
+     *
+     * @param $id
+     * @param $idPermission
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     *
+     * @apiDefine postPermission
+     * @apiName createPermission
+     * @apiErrorExample {json} Error-Response:
+     *     HTTP/1.1 404 Not Found
+     *     {}
+     *
+     * @apiErrorExample {json} Error-Response:
+     *     HTTP/1.1 401 Not Authorized
+     *     {}
+     *
+     * @apiName show
+     * @apiParam {Number} id Model unique ID.
+     * @apiParam {Number} idPermission Permission unique ID.
+     */
     public function permissionStore($id, $idPermission)
     {
         $this->addUserCriteria();
@@ -54,6 +77,28 @@ abstract class PermissionAware extends ResourcesController
         return response()->json($model, 202);
     }
 
+    /**
+     * @author LAHAXE Arnaud
+     *
+     * @param $id
+     * @param $idPermission
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @apiDefine deletePermission
+     * @apiName destroyPermission
+     * @apiErrorExample {json} Error-Response:
+     *     HTTP/1.1 404 Not Found
+     *     {}
+     *
+     * @apiErrorExample {json} Error-Response:
+     *     HTTP/1.1 401 Not Authorized
+     *     {}
+     *
+     * @apiName show
+     * @apiParam {Number} id Model unique ID.
+     * @apiParam {Number} idPermission Permission unique ID.
+     */
     public function permissionDestroy($id, $idPermission)
     {
         $this->addUserCriteria();

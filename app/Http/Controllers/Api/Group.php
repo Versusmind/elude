@@ -35,8 +35,8 @@ class Group extends RoleAware
      * @apiDefine groupParams
      *
      * @apiParam {String} area Area.
-     * @apiParam {String} group  Group.
-     * @apiParam {String} description  Description.
+     * @apiParam {String} group Group.
+     * @apiParam {String} description Description.
      */
 
     /**
@@ -89,5 +89,53 @@ class Group extends RoleAware
      * @apiUse deleteDestroy
      * @apiUse ApiOAuth
      * @apiParam {Number} id Id.
+     */
+
+    /**
+     * @api      {delete} groups/:id/permissions/:idPermission Remove a permission from a group
+     * @apiGroup Groups
+     * @apiUse   deletePermission
+     * @apiUse   ApiOAuth
+     * @apiParam {Number} id Id.
+     * @apiSuccess (202) {Number} id Id.
+     * @apiSuccess (202) {datetime} created_at Creation date.
+     * @apiSuccess (202) {datetime} updated_at Last Update date.
+     * @apiSuccess (202) {String} name Name.
+     */
+
+    /**
+     * @api      {post} groups/:id/permissions/:idPermission Add a permission to a group
+     * @apiGroup Groups
+     * @apiUse   postPermission
+     * @apiUse   ApiOAuth
+     * @apiParam {Number} id Id.
+     * @apiSuccess (202) {Number} id Id.
+     * @apiSuccess (202) {datetime} created_at Creation date.
+     * @apiSuccess (202) {datetime} updated_at Last Update date.
+     * @apiSuccess (202) {String} name Name.
+     */
+
+    /**
+     * @api      {delete} groups/:id/roles/:idRole Remove a role from a group
+     * @apiGroup Groups
+     * @apiUse   deleteRole
+     * @apiUse   ApiOAuth
+     * @apiParam {Number} id Id.
+     * @apiSuccess (202) {Number} id Id.
+     * @apiSuccess (202) {datetime} created_at Creation date.
+     * @apiSuccess (202) {datetime} updated_at Last Update date.
+     * @apiSuccess (202) {String} name Name.
+     */
+
+    /**
+     * @api      {post} groups/:id/roles/:idRole Add a role to a group
+     * @apiGroup Groups
+     * @apiUse   postRole
+     * @apiUse   ApiOAuth
+     * @apiParam {Number} id Id.
+     * @apiSuccess (202) {Number} id Id.
+     * @apiSuccess (202) {datetime} created_at Creation date.
+     * @apiSuccess (202) {datetime} updated_at Last Update date.
+     * @apiSuccess (202) {String} name Name.
      */
 }

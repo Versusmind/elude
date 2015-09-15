@@ -13,11 +13,6 @@ use App\Http\Controllers\Controller;
 
 class ApiController extends Controller
 {
-
-    /**
-     * @apiVersion 1.0.0
-     */
-
     /**
      * @apiDefine ApiOAuth
      *
