@@ -1,10 +1,10 @@
 <?php namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use League\OAuth2\Server\Exception\InvalidCredentialsException;
 
-class Auth extends Controller
+class Auth extends ApiController
 {
+
     public function login()
     {
         try {

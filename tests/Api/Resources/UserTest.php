@@ -128,7 +128,7 @@ class UserTest extends RoleAware
 
         $this->call('PUT', $this->apiPath . $this->resourceName . '/' . $user->id . '/group/' . $group->id);
         $this->seeJson([]);
-        $this->seeStatusCode(204);
+        $this->seeStatusCode(202);
         $model = json_decode($this->response->getContent());
         $this->assertEquals($group->id, $model->group->id);
     }

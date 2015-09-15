@@ -136,7 +136,7 @@ abstract class ResourcesControllerTest extends ApiCase
     {
         $this->call('PUT', $this->apiPath . $this->resourceName . '/' . $id, $data);
         $this->seeJson([]);
-        $this->seeStatusCode(204);
+        $this->seeStatusCode(202);
         $this->assertMatchPattern($pattern);
     }
 
@@ -163,7 +163,7 @@ abstract class ResourcesControllerTest extends ApiCase
     {
         $this->call('DELETE', $this->apiPath . $this->resourceName . '/' . $id);
         $this->seeJson([]);
-        $this->seeStatusCode(204);
+        $this->seeStatusCode(202);
     }
 
     public function testAllOk()

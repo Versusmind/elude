@@ -50,7 +50,7 @@ abstract class RoleAware extends PermissionAware
 
         $this->repository->addRole($model, $role);
 
-        return response()->json($model, 204);
+        return response()->json($model, 202);
     }
 
     public function roleDestroy($id, $idRole)
@@ -64,6 +64,6 @@ abstract class RoleAware extends PermissionAware
         }
         $this->repository->removeRole($model, $role);
 
-        return response()->json($model, 204);
+        return response()->json($model, 202);
     }
 }

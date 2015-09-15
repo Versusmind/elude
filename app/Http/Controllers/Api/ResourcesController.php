@@ -23,14 +23,14 @@ use App\Libraries\Criterias\User;
 use App\Libraries\Repository;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Input;
-use Laravel\Lumen\Routing\Controller;
 
 /**
  * Class ResourcesController
+ *
  * @package App\Http\Controllers\Api
  *
  */
-abstract class ResourcesController extends Controller
+abstract class ResourcesController extends ApiController
 {
 
     /**
@@ -53,6 +53,17 @@ abstract class ResourcesController extends Controller
      * Display a listing of the resource.
      *
      * @return Response
+     *
+     * @apiDefine getIndex
+     * @apiName index
+     * @apiErrorExample {json} Error-Response:
+     *     HTTP/1.1 404 Not Found
+     *     {}
+     *
+     * @apiErrorExample {json} Error-Response:
+     *     HTTP/1.1 401 Not Authorized
+     *     {}
+     * @apiName index
      */
     public function index()
     {
@@ -65,6 +76,23 @@ abstract class ResourcesController extends Controller
      * Store a newly created resource in storage.
      *
      * @return Response
+     *
+     * @apiDefine postStore
+     * @apiName store
+     * @apiErrorExample {json} Error-Response:
+     *     HTTP/1.1 404 Not Found
+     *     {}
+     *
+     * @apiErrorExample {json} Error-Response:
+     *     HTTP/1.1 401 Not Authorized
+     *     {}
+     *
+     * @apiErrorExample {json} Error-Response:
+     *     HTTP/1.1 400 Bad Request
+     *     {
+     *            'errors' : []
+     *     }
+     * @apiName show
      */
     public function store()
     {
@@ -90,6 +118,19 @@ abstract class ResourcesController extends Controller
      * @param  int $id
      *
      * @return Response
+     *
+     * @apiDefine get
+     * @apiName show
+     * @apiErrorExample {json} Error-Response:
+     *     HTTP/1.1 404 Not Found
+     *     {}
+     *
+     * @apiErrorExample {json} Error-Response:
+     *     HTTP/1.1 401 Not Authorized
+     *     {}
+     *
+     * @apiName show
+     * @apiParam {Number} id Model unique ID.
      */
     public function show($id)
     {
@@ -109,7 +150,19 @@ abstract class ResourcesController extends Controller
      * @param  int $id
      *
      * @return Response
-     */
+     *
+     * @apiDefine putUpdate
+     * @apiName update
+     * @apiErrorExample {json} Error-Response:
+     *     HTTP/1.1 404 Not Found
+     *     {}
+     *
+     * @apiErrorExample {json} Error-Response:
+     *     HTTP/1.1 401 Not Authorized
+     *     {}
+     * @apiName put
+     * @apiParam {Number} id Model unique ID.
+     **/
     public function update($id)
     {
         $this->addUserCriteria();
@@ -125,7 +178,7 @@ abstract class ResourcesController extends Controller
             return response()->json($e->getErrors(), 400);
         }
 
-        return response()->json($model, 204);
+        return response()->json($model, 202);
     }
 
     /**
@@ -134,6 +187,19 @@ abstract class ResourcesController extends Controller
      * @param  int $id
      *
      * @return Response
+     *
+     * @apiDefine deleteDestroy
+     * @apiName update
+     * @apiErrorExample {json} Error-Response:
+     *     HTTP/1.1 404 Not Found
+     *     {}
+     *
+     * @apiErrorExample {json} Error-Response:
+     *     HTTP/1.1 401 Not Authorized
+     *     {}
+     *
+     * @apiName delete
+     * @apiParam {Number} id Model unique ID.
      */
     public function destroy($id)
     {
@@ -146,7 +212,7 @@ abstract class ResourcesController extends Controller
 
         $this->repository->delete($model);
 
-        return response()->json([], 204);
+        return response()->json([], 202);
     }
 
     /**

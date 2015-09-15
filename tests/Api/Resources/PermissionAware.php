@@ -26,7 +26,7 @@ abstract class PermissionAware extends ResourcesControllerTest
     {
         $this->call('POST', $this->apiPath . $this->resourceName . '/' . $modelId . '/permissions/' . $permissionId);
         $this->seeJson([]);
-        $this->seeStatusCode(204);
+        $this->seeStatusCode(202);
         $model = json_decode($this->response->getContent());
         $this->assertTrue(is_array($model->permissions));
         $this->assertGreaterThanOrEqual(1, count($model->permissions));
@@ -45,7 +45,7 @@ abstract class PermissionAware extends ResourcesControllerTest
     {
         $this->call('DELETE', $this->apiPath . $this->resourceName . '/' . $modelId . '/permissions/' . $permissionId);
         $this->seeJson([]);
-        $this->seeStatusCode(204);
+        $this->seeStatusCode(202);
         $model = json_decode($this->response->getContent());
         $this->assertTrue(is_array($model->permissions));
         $isPermissionInArray = false;

@@ -51,7 +51,7 @@ abstract class PermissionAware extends ResourcesController
 
         $this->repository->addPermission($model, $permission);
 
-        return response()->json($model, 204);
+        return response()->json($model, 202);
     }
 
     public function permissionDestroy($id, $idPermission)
@@ -66,6 +66,6 @@ abstract class PermissionAware extends ResourcesController
 
         $this->repository->removePermission($model, $permission);
 
-        return response()->json($model, 204);
+        return response()->json($model, 202);
     }
 }
