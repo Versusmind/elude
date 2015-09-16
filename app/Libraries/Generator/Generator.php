@@ -47,15 +47,7 @@ class Generator
 
     protected $modelName;
 
-    protected $templateData = [];
-
-    protected $files = [
-        'migration'                     => '',
-        'model'                         => '',
-        'repository'                    => '',
-        'controller'                    => '',
-        'repositoryTest'                => '',
-        'controllerTest'                => '',
+    protected $templateData = [
         'migrationFields'               => '',
         'fillableFields'                => '',
         'validators'                    => '',
@@ -63,6 +55,15 @@ class Generator
         'outputModelAttributeApiCreate' => '',
         'outputModelAttributeApiUpdate' => '',
         'outputModelAttributeApiShow'   => '',
+    ];
+
+    protected $files = [
+        'migration'      => '',
+        'model'          => '',
+        'repository'     => '',
+        'controller'     => '',
+        'repositoryTest' => '',
+        'controllerTest' => '',
     ];
 
     /**
@@ -123,11 +124,11 @@ class Generator
         $outputModelAttributeApiShow   = [];
 
         foreach ($fields as $field) {
-            $inputModelParamApi [] = sprintf('* @apiParam {%s} %s %s.', $field['apiType'], $field['name'], ucfirst($field['name']));
+            $inputModelParamApi[] = sprintf('* @apiParam {%s} %s %s.', $field['apiType'], $field['name'], ucfirst($field['name']));
 
-            $outputModelAttributeApiCreate = sprintf('* @apiSuccess (%d) {%s} %s %d.', 201, $field['apiType'], $field['name'], ucfirst($field['name']));
-            $outputModelAttributeApiUpdate = sprintf('* @apiSuccess (%d) {%s} %s %d.', 202, $field['apiType'], $field['name'], ucfirst($field['name']));
-            $outputModelAttributeApiShow   = sprintf('* @apiSuccess (%d) {%s} %s %d.', 200, $field['apiType'], $field['name'], ucfirst($field['name']));
+            $outputModelAttributeApiCreate[] = sprintf('* @apiSuccess (%d) {%s} %s %s.', 201, $field['apiType'], $field['name'], ucfirst($field['name']));
+            $outputModelAttributeApiUpdate[] = sprintf('* @apiSuccess (%d) {%s} %s %s.', 202, $field['apiType'], $field['name'], ucfirst($field['name']));
+            $outputModelAttributeApiShow[]   = sprintf('* @apiSuccess (%d) {%s} %s %s.', 200, $field['apiType'], $field['name'], ucfirst($field['name']));
         }
 
         $this->templateData['inputModelParamApi']            = join("\n         ", $inputModelParamApi);
@@ -157,7 +158,7 @@ class Generator
 
         $migrationFields = [];
         foreach ($fields as $field) {
-            $migration = "\t\t\t" . '$table->' . $field['type'] . '("' . $field['name'] . '")';
+            $migration = '$table->' . $field['type'] . '("' . $field['name'] . '")';
             if ($field['nullable']) {
                 $migration .= '->nullable()';
             }
@@ -166,7 +167,7 @@ class Generator
             $migrationFields[] = $migration;
         }
 
-        $this->templateData['migrationFields'] = join("\n", $migrationFields);
+        $this->templateData['migrationFields'] = join("\n            ", $migrationFields);
 
         $this->template($template, base_path($this->files['migration']));
 

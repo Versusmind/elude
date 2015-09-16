@@ -197,7 +197,7 @@ class ApiGenerator extends Command
             $field = [
                 'name'      => $this->ask('Field name: ', null),
                 'type'      => $this->choice('Type name: ', self::$databaseType, 0),
-                'fillable'  => $this->ask('Fillable ?', true),
+                'fillable'  => $this->confirm('Fillable ?', true),
                 'required'  => $this->confirm('Required ?', true),
                 'nullable'  => $this->confirm('Nullable ?', false),
                 'rules' => $this->ask('Specific validators (except required):', '')
