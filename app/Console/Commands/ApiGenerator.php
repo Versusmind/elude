@@ -93,7 +93,8 @@ class ApiGenerator extends Command
         $files = $generator->getFiles();
 
         $fields = $this->getFields();
-        $this->summary($templateData, $isUserRestrict, $fields);
+        $this->summary($templateData, $isUserRestrict);
+        $this->fieldsSummary($fields);
         $this->generate($generator, $fields);
         $this->runComposerDumpAutoload();
         $this->migrateDatabase();
@@ -106,7 +107,7 @@ class ApiGenerator extends Command
         $this->info("\t [] Fill data provider for " . $files['repositoryTest']);
     }
 
-    public function summary($templateData, $isUserRestrict, $fields)
+    public function summary($templateData, $isUserRestrict)
     {
         $this->info('Data:');
         $this->info("\t Model name:" . $templateData['modelName']);
@@ -114,7 +115,12 @@ class ApiGenerator extends Command
         $this->info("\t Date:" . $templateData['date']);
         $this->info("\t Author:" . $templateData['author']);
         $this->info("\t User restricted ?" . ($isUserRestrict ? 'Yes' : 'No'));
+    }
+
+    public function fieldsSummary(array $fields)
+    {
         $this->info("\t Fields:");
+
         foreach ($fields as $field) {
             $this->info("\t\t" . $field['name'] . ':');
             $this->info("\t\t\t Database type:" . $field['type']);
