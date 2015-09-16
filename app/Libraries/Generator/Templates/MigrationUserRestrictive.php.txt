@@ -33,6 +33,7 @@ class Create$$MODEL_NAME_PLURAL_CAPITALIZED$$Table extends Migration
     {
         Schema::create('$$MODEL_NAME_TABLE$$', function (Blueprint $table) {
             $table->increments('id');
+            $$MIGRATION_FIELDS$$
             // add fields here
 
             $table->integer('user_id')->unsigned();

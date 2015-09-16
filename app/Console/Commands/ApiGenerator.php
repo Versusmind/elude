@@ -59,20 +59,20 @@ class ApiGenerator extends Command
     ];
 
     public static $databaseToApiType = [
-        'string'        => 'String',
-        'integer'       => 'Number',
-        'bigInteger'    => 'Number',
-        'boolean'       => 'Boolean',
-        'char'          => 'String',
-        'dateTime'      => 'Datetime',
-        'date'          => 'Date',
-        'float'         => 'Number',
-        'mediumText'    => 'String',
+        'string' => 'String',
+        'integer' => 'Number',
+        'bigInteger' => 'Number',
+        'boolean' => 'Boolean',
+        'char' => 'String',
+        'dateTime' => 'Datetime',
+        'date' => 'Date',
+        'float' => 'Number',
+        'mediumText' => 'String',
         'mediumInteger' => 'Number',
-        'smallInteger'  => 'Number',
-        'text'          => 'String',
-        'tinyInteger'   => 'Number',
-        'timestamp'     => 'Timestamp'
+        'smallInteger' => 'Number',
+        'text' => 'String',
+        'tinyInteger' => 'Number',
+        'timestamp' => 'Timestamp'
     ];
 
     /**
@@ -88,22 +88,50 @@ class ApiGenerator extends Command
 
         Cache::forever('developer.username', $author);
 
-        $generator    = new Generator($name, $isUserRestrict, $author);
+        $generator = new Generator($name, $isUserRestrict, $author);
         $templateData = $generator->getTemplateData();
-        $files        = $generator->getFiles();
+        $files = $generator->getFiles();
 
         $fields = $this->getFields();
+        $this->summary($templateData, $isUserRestrict, $fields);
+        $this->generate($generator, $fields);
+        $this->runComposerDumpAutoload();
+        $this->migrateDatabase();
+        $this->generateDocumentation();
 
+        $this->info("");
+        $this->info("What you need to do now ?");
+        $this->info("\t [] Add Acl/Scope to your route in routes.php");
+        $this->info("\t [] Fill data provider for " . $files['controllerTest']);
+        $this->info("\t [] Fill data provider for " . $files['repositoryTest']);
+    }
+
+    public function summary($templateData, $isUserRestrict, $fields)
+    {
         $this->info('Data:');
         $this->info("\t Model name:" . $templateData['modelName']);
         $this->info("\t Table name:" . $templateData['tableName']);
         $this->info("\t Date:" . $templateData['date']);
         $this->info("\t Author:" . $templateData['author']);
         $this->info("\t User restricted ?" . ($isUserRestrict ? 'Yes' : 'No'));
+        $this->info("\t Fields:");
+        foreach ($fields as $field) {
+            $this->info("\t\t" . $field['name'] . ':');
+            $this->info("\t\t\t Database type:" . $field['type']);
+            $this->info("\t\t\t Fillable:" . ($field['fillable'] ? 'Yes' : 'No'));
+            $this->info("\t\t\t Required:" . ($field['required'] ? 'Yes' : 'No'));
+            $this->info("\t\t\t Nullable:" . ($field['nullable'] ? 'Yes' : 'No'));
+            $this->info("\t\t\t Rules:" . $field['rules']);
+            $this->info("\t\t\t Api type:" . $field['apiType']);
+        }
+    }
 
+    public function generate(Generator $generator, $fields)
+    {
         if ($this->confirm('Generate migration/model/repository/controller ?', true)) {
             $generator->generate($fields);
             $this->info("Generated files:");
+            $files = $generator->getFiles();
             foreach ($files as $file) {
                 $this->info("\t " . $file);
             }
@@ -112,22 +140,22 @@ class ApiGenerator extends Command
 
         } else {
             if ($this->confirm('Generate migration ?', true)) {
-                $generator->migration();
+                $generator->migration($fields);
                 $this->comment('Migration generated');
             }
 
             if ($this->confirm('Generate model ?', true)) {
-                $generator->model();
+                $generator->model($fields);
                 $this->comment('Model generated');
             }
 
             if ($this->confirm('Generate repository + tests ?', true)) {
-                $generator->repository();
+                $generator->repository($fields);
                 $this->comment('Repository generated');
             }
 
             if ($this->confirm('Generate controller + tests ?', true)) {
-                $generator->controller();
+                $generator->controller($fields);
                 $this->comment('Controller generated');
             }
 
@@ -136,17 +164,15 @@ class ApiGenerator extends Command
                 $this->comment('Route added');
             }
         }
+    }
 
-        $this->runComposerDumpAutoload();
 
-        $this->generateDocumentation();
-
-        $this->info("");
-        $this->info("What you need to do now ?");
-        $this->info("\t [] Add Acl/Scope to your route in routes.php");
-        $this->info("\t [] Fill data provider for " . $files['controllerTest']);
-        $this->info("\t [] Fill data provider for " . $files['repositoryTest']);
-        $this->info("\t [] php artisan migrate");
+    public function migrateDatabase()
+    {
+        if ($this->confirm('Migrate database ?', true)) {
+            \Artisan::call('migrate');
+            $this->info('Database migrated');
+        }
     }
 
     public function generateDocumentation()
@@ -164,10 +190,10 @@ class ApiGenerator extends Command
     {
         $this->info('');
         $this->comment("Run composer dump-autoload");
-        $path              = self::$defaultComposerPath;
+        $path = self::$defaultComposerPath;
         $composerInstalled = is_file($path);
         if (!$composerInstalled) {
-            $path              = base_path('composer.phar');
+            $path = base_path('composer.phar');
             $composerInstalled = is_file($path);
         }
 
@@ -197,11 +223,11 @@ class ApiGenerator extends Command
         $this->info('For validation please refer to http://laravel.com/docs/5.1/validation#available-validation-rules');
         while ($this->confirm('Add a new fields ?', true) || empty($fields)) {
             $field = [
-                'name'      => $this->ask('Field name: ', null),
-                'type'      => $this->choice('Type name: ', self::$databaseType, 0),
-                'fillable'  => $this->confirm('Fillable ?', true),
-                'required'  => $this->confirm('Required ?', true),
-                'nullable'  => $this->confirm('Nullable ?', false),
+                'name' => $this->ask('Field name: ', null),
+                'type' => $this->choice('Type name: ', self::$databaseType, 0),
+                'fillable' => $this->confirm('Fillable ?', true),
+                'required' => $this->confirm('Required ?', true),
+                'nullable' => $this->confirm('Nullable ?', false),
                 'rules' => $this->ask('Specific validators (except required):', '')
             ];
 

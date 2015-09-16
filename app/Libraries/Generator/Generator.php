@@ -231,8 +231,8 @@ class Generator
             $validators[] = "'" . $field['name'] . "' => '" . $rules . "'";
         }
 
-        $this->templateData['fillableFields'] = join(",\n", $fillable);
-        $this->templateData['validators']     = join(",\n", $validators);
+        $this->templateData['fillableFields'] = join(",\n        ", $fillable);
+        $this->templateData['validators']     = join(",\n        ", $validators);
 
         $this->template($template, base_path($this->files['model']));
 
