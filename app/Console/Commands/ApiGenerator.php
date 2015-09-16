@@ -58,7 +58,7 @@ class ApiGenerator extends Command
         'timestamp'
     ];
 
-    public static $databaseTypeToApiType = [
+    public static $databaseToApiType = [
         'string'        => 'String',
         'integer'       => 'Number',
         'bigInteger'    => 'Number',
@@ -137,31 +137,33 @@ class ApiGenerator extends Command
             }
         }
 
-        $this->info('');
-        $this->comment("Run composer dump-autoload");
         $this->runComposerDumpAutoload();
 
-        if ($this->confirm('Update documentations ?', true)) {
-            \Artisan::call('apidoc:generate');
-            $this->info('Api doc generated');
-            \Artisan::call('phpdoc:generate');
-            $this->info('Php doc generated');
-        }
+        $this->generateDocumentation();
 
         $this->info("");
         $this->info("What you need to do now ?");
-        $this->info("\t [] Edit " . $files['migration'] . " to add your fields");
-        $this->info("\t [] Edit " . $files['model'] . " to fill the fillable attribute");
-        $this->info("\t [] Edit " . $files['model'] . " to fill the rules attribute");
-        $this->info("\t [] Edit " . $files['controller'] . " to add parameters and attributes in docblocks");
         $this->info("\t [] Add Acl/Scope to your route in routes.php");
         $this->info("\t [] Fill data provider for " . $files['controllerTest']);
         $this->info("\t [] Fill data provider for " . $files['repositoryTest']);
         $this->info("\t [] php artisan migrate");
     }
 
+    public function generateDocumentation()
+    {
+        if ($this->confirm('Update documentations ?', true)) {
+            \Artisan::call('apidoc:generate');
+            $this->info('Api doc generated');
+            \Artisan::call('phpdoc:generate');
+            $this->info('Php doc generated');
+        }
+    }
+
+
     public function runComposerDumpAutoload()
     {
+        $this->info('');
+        $this->comment("Run composer dump-autoload");
         $path              = self::$defaultComposerPath;
         $composerInstalled = is_file($path);
         if (!$composerInstalled) {
@@ -203,7 +205,7 @@ class ApiGenerator extends Command
                 'rules' => $this->ask('Specific validators (except required):', '')
             ];
 
-            $field['apiType'] = self::$databaseTypeToApiType[$field['type']];
+            $field['apiType'] = self::$databaseToApiType[$field['type']];
 
             $fields[] = $field;
         }

@@ -119,22 +119,22 @@ class Generator
     {
 
         $inputModelParamApi            = [];
-        $outputModelAttributeApiCreate = [];
-        $outputModelAttributeApiUpdate = [];
-        $outputModelAttributeApiShow   = [];
+        $attributeApiCreate = [];
+        $attributeApiUpdate = [];
+        $attributeApiShow   = [];
 
         foreach ($fields as $field) {
             $inputModelParamApi[] = sprintf('* @apiParam {%s} %s %s.', $field['apiType'], $field['name'], ucfirst($field['name']));
 
-            $outputModelAttributeApiCreate[] = sprintf('* @apiSuccess (%d) {%s} %s %s.', 201, $field['apiType'], $field['name'], ucfirst($field['name']));
-            $outputModelAttributeApiUpdate[] = sprintf('* @apiSuccess (%d) {%s} %s %s.', 202, $field['apiType'], $field['name'], ucfirst($field['name']));
-            $outputModelAttributeApiShow[]   = sprintf('* @apiSuccess (%d) {%s} %s %s.', 200, $field['apiType'], $field['name'], ucfirst($field['name']));
+            $attributeApiCreate[] = sprintf('* @apiSuccess (%d) {%s} %s %s.', 201, $field['apiType'], $field['name'], ucfirst($field['name']));
+            $attributeApiUpdate[] = sprintf('* @apiSuccess (%d) {%s} %s %s.', 202, $field['apiType'], $field['name'], ucfirst($field['name']));
+            $attributeApiShow[]   = sprintf('* @apiSuccess (%d) {%s} %s %s.', 200, $field['apiType'], $field['name'], ucfirst($field['name']));
         }
 
         $this->templateData['inputModelParamApi']            = join("\n         ", $inputModelParamApi);
-        $this->templateData['outputModelAttributeApiCreate'] = join("\n         ", $outputModelAttributeApiCreate);
-        $this->templateData['outputModelAttributeApiUpdate'] = join("\n         ", $outputModelAttributeApiUpdate);
-        $this->templateData['outputModelAttributeApiShow']   = join("\n         ", $outputModelAttributeApiShow);
+        $this->templateData['outputModelAttributeApiCreate'] = join("\n         ", $attributeApiCreate);
+        $this->templateData['outputModelAttributeApiUpdate'] = join("\n         ", $attributeApiUpdate);
+        $this->templateData['outputModelAttributeApiShow']   = join("\n         ", $attributeApiShow);
 
         $this->template('Controller.php.txt', base_path($this->files['controller']));
         $this->template('ControllerTest.php.txt', base_path($this->files['controllerTest']));
