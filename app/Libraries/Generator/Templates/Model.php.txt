@@ -35,7 +35,9 @@ class $$MODEL_NAME$$ extends Model implements ValidationInterface
      *
      * @var array
      */
-    protected $fillable = array(); // <- add your fillable fields here
+    protected $fillable = [
+        $$FILLABLE_FIELDS$$
+    ];
 
     /**
      * The database table used by the model.
@@ -49,5 +51,7 @@ class $$MODEL_NAME$$ extends Model implements ValidationInterface
      *
      * @var array
      */
-    protected static $rules = []; // <- add your validation rules here
+    protected static $rules = [
+        $$VALIDATORS$$
+    ];
 }

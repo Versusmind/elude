@@ -27,4 +27,62 @@ class $$MODEL_NAME$$ extends ResourcesController
     {
         parent::__construct($repository);
     }
+
+        /**
+         * @apiDefine $$MODEL_NAME_LOWER_CASE$$Params
+         *
+         $$INPUT_MODEL_PARAM_API$$
+         */
+
+        /**
+         * @api {get} /$$MODEL_NAME_TABLE$$ Request $$MODEL_NAME_LOWER_CASE$$ list
+         * @apiGroup $$MODEL_NAME_PLURAL_CAPITALIZED$$
+         * @apiUse getIndex
+         * @apiUse paginationParams
+         * @apiUse ApiOAuth
+         */
+
+        /**
+         * @api {get} /$$MODEL_NAME_TABLE$$/:id Request $$MODEL_NAME_LOWER_CASE$$ information
+         * @apiGroup $$MODEL_NAME_PLURAL_CAPITALIZED$$
+         * @apiUse get
+         * @apiSuccess (200) {Number} id Id.
+         * @apiSuccess (200) {datetime} created_at Creation date.
+         * @apiSuccess (200) {datetime} updated_at Last Update date.
+         $$OUTPUT_MODEL_ATTRIBUTE_API_SHOW$$
+         * @apiUse ApiOAuth
+         */
+
+        /**
+         * @api {post} /$$MODEL_NAME_TABLE$$ Create a $$MODEL_NAME_LOWER_CASE$$
+         * @apiGroup $$MODEL_NAME_PLURAL_CAPITALIZED$$
+         * @apiUse postStore
+         * @apiSuccess (201) {Number} id Id.
+         * @apiSuccess (201) {datetime} created_at Creation date.
+         * @apiSuccess (201) {datetime} updated_at Last Update date.
+         $$OUTPUT_MODEL_ATTRIBUTE_API_CREATE$$
+         * @apiUse $$MODEL_NAME_LOWER_CASE$$Params
+         * @apiUse ApiOAuth
+         */
+
+        /**
+         * @api {put} /$$MODEL_NAME_TABLE$$/:id Update a $$MODEL_NAME_LOWER_CASE$$
+         * @apiGroup $$MODEL_NAME_PLURAL_CAPITALIZED$$
+         * @apiUse putUpdate
+         * @apiSuccess (202) {Number} id Id.
+         * @apiSuccess (202) {datetime} created_at Creation date.
+         * @apiSuccess (202) {datetime} updated_at Last Update date.
+         $$OUTPUT_MODEL_ATTRIBUTE_API_UPDATE$$
+         * @apiParam {Number} id Id.
+         * @apiUse $$MODEL_NAME_LOWER_CASE$$Params
+         * @apiUse ApiOAuth
+         */
+
+        /**
+         * @api {delete} /$$MODEL_NAME_TABLE$$/:id Delete a $$MODEL_NAME_LOWER_CASE$$
+         * @apiGroup $$MODEL_NAME_PLURAL_CAPITALIZED$$
+         * @apiUse deleteDestroy
+         * @apiUse ApiOAuth
+         * @apiParam {Number} id Id.
+         */
 }
