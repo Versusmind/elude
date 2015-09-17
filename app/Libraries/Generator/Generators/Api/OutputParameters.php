@@ -1,4 +1,6 @@
-<?php namespace App\Libraries\Generator\Generators;
+<?php namespace App\Libraries\Generator\Generators\Api;
+
+use App\Libraries\Generator\Generators\Code;
 
 /******************************************************************************
  *
@@ -10,14 +12,14 @@
  * otherwise, without prior written permission of Versusmind.
  * @link http://www.versusmind.eu/
  *
- * @file Migration.php
+ * @file OutputParameters.php
  * @author LAHAXE Arnaud
  * @last-edited 17/09/2015
- * @description Migration
+ * @description OutputParameters
  *
  ******************************************************************************/
 
-class Migration extends Code
+class OutputParameters extends Code
 {
     /**
      * @return string
@@ -26,29 +28,10 @@ class Migration extends Code
     {
         $lines = [];
         foreach ($this->get('fields') as $field) {
-            $migration = sprintf('$table->%s("%s")', $field['type'], $field['name']);
-            if ($field['nullable']) {
-                $migration .= '->nullable()';
-            }
-
-            if ($field['nullable']) {
-                $migration .= '->nullable()';
-            }
-
-            if($field['unsigned']) {
-                $migration .= '->unsigned()';
-            }
-
-            if(!empty($field['default'])) {
-                $migration .= sprintf('->default("%s")', $field['default']);
-            }
-
-            $migration .= ';';
-
-            $lines[] = $migration;
+            $lines[] = sprintf('* @apiSuccess (%d) {%s} %s %s.', $this->get('status'), $field['apiType'], $field['name'], ucfirst($field['name']));
         }
 
-        return join("\n            ", $lines);
+        return join("\n         ", $lines);
     }
 
     /**
@@ -57,7 +40,8 @@ class Migration extends Code
     public function options()
     {
         return [
-            'fields'
+            'fields',
+            'status'
         ];
     }
 }

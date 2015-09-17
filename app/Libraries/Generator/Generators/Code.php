@@ -23,9 +23,6 @@ abstract class Code
         $this->resolver = new OptionsResolver();
 
         $this->resolver->setRequired($this->options());
-        //foreach($this->options() as $option) {
-        //    $this->resolver->setRequired($option);
-        //}
 
         $this->parameters = $this->resolver->resolve($options);
     }
@@ -37,6 +34,8 @@ abstract class Code
     public abstract function generate();
 
     /**
+     * Return the list of required parameters keys
+     *
      * @return array
      */
     public abstract function options();

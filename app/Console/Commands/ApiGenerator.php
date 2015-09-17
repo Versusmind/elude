@@ -43,18 +43,22 @@ class ApiGenerator extends Command
 
     public static $databaseType = [
         'string',
+        'text',
+        'mediumText',
+        'longText',
+
+        'tinyInteger',
+        'smallInteger',
         'integer',
+        'mediumInteger',
         'bigInteger',
+        'float',
+
         'boolean',
         'char',
         'dateTime',
         'date',
-        'float',
-        'mediumText',
-        'mediumInteger',
-        'smallInteger',
-        'text',
-        'tinyInteger',
+
         'timestamp'
     ];
 
@@ -72,7 +76,8 @@ class ApiGenerator extends Command
         'smallInteger' => 'Number',
         'text' => 'String',
         'tinyInteger' => 'Number',
-        'timestamp' => 'Timestamp'
+        'timestamp' => 'Timestamp',
+        'longText' => 'String',
     ];
 
     /**
@@ -122,15 +127,23 @@ class ApiGenerator extends Command
         $this->info("\t Fields:");
 
         foreach ($fields as $field) {
-            $this->info("\t\t" . $field['name'] . ':');
-            $this->info("\t\t\t Database type:" . $field['type']);
-            $this->info("\t\t\t Fillable:" . ($field['fillable'] ? 'Yes' : 'No'));
-            $this->info("\t\t\t Required:" . ($field['required'] ? 'Yes' : 'No'));
-            $this->info("\t\t\t Nullable:" . ($field['nullable'] ? 'Yes' : 'No'));
-            $this->info("\t\t\t Rules:" . $field['rules']);
-            $this->info("\t\t\t Api type:" . $field['apiType']);
+            $this->fieldSummary($field);
         }
     }
+
+    public function fieldSummary($field)
+    {
+        $this->info("\t\t" . $field['name'] . ':');
+        $this->info("\t\t\t Database type:" . $field['type']);
+        $this->info("\t\t\t Fillable:" . $field['fillable']);
+        $this->info("\t\t\t Required:" . $field['required']);
+        $this->info("\t\t\t Nullable:" . $field['nullable']);
+        $this->info("\t\t\t Unsigned:" . $field['unsigned']);
+        $this->info("\t\t\t Rules:" . $field['rules']);
+        $this->info("\t\t\t Api type:" . $field['apiType']);
+        $this->info("\t\t\t Default:" . (empty($field['default']) ? 'No' : $field['default']));
+    }
+
 
     public function generate(Generator $generator, $fields)
     {
@@ -234,10 +247,27 @@ class ApiGenerator extends Command
                 'fillable' => $this->confirm('Fillable ?', true),
                 'required' => $this->confirm('Required ?', true),
                 'nullable' => $this->confirm('Nullable ?', false),
-                'rules' => $this->ask('Specific validators (except required):', '')
             ];
 
+            if($this->confirm('Add a validator (except required) ?', false)) {
+                $field['rules'] = $this->ask('Specific validators (except required):', '');
+            } else {
+                $field['rules'] = '';
+            }
+
+            if($this->confirm('Set a default value ?', false)) {
+                $field['default'] = $this->ask('Default ?', '');
+            } else {
+                $field['default'] = '';
+            }
+
             $field['apiType'] = self::$databaseToApiType[$field['type']];
+
+            if (self::$databaseToApiType[$field['type']] === 'Number') {
+                $field['unsigned'] = $this->confirm('Unsigned ?', false);
+            } else {
+                $field['unsigned'] = false;
+            }
 
             $fields[] = $field;
         }

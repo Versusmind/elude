@@ -1,10 +1,11 @@
 <?php namespace App\Libraries\Generator;
 
-use App\Libraries\Generator\Generators\ApiInputParameters;
-use App\Libraries\Generator\Generators\ApiOutputParameters;
+
+use App\Libraries\Generator\Generators\Model\Fillable;
+use App\Libraries\Generator\Generators\Api\InputParameters;
 use App\Libraries\Generator\Generators\Migration;
-use App\Libraries\Generator\Generators\ModelFillable;
-use App\Libraries\Generator\Generators\ModelRules;
+use App\Libraries\Generator\Generators\Api\OutputParameters;
+use App\Libraries\Generator\Generators\Model\Rules;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
@@ -124,13 +125,13 @@ class Generator
     {
 
 
-        $generator = new ApiInputParameters([
+        $generator = new InputParameters([
             'fields' => $fields
         ]);
 
         $this->templateData['inputModelParamApi'] = $generator->generate();
 
-        $generator = new ApiOutputParameters([
+        $generator = new OutputParameters([
             'fields' => $fields,
             'status' => 201
         ]);
@@ -211,12 +212,12 @@ class Generator
             $template = 'ModelUserRestrictive.php.txt';
         }
 
-        $generator = new ModelFillable([
+        $generator = new Fillable([
             'fields' => $fields
         ]);
         $this->templateData['fillableFields'] = $generator->generate();
 
-        $generator = new ModelRules([
+        $generator = new Rules([
             'fields' => $fields
         ]);
         $this->templateData['validators'] = $generator->generate();
