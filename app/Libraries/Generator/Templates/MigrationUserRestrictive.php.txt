@@ -1,0 +1,57 @@
+<?php
+
+/******************************************************************************
+ *
+ * @package Myo 2
+ * @copyright © 2015 by Versusmind.
+ * All rights reserved. No part of this document may be
+ * reproduced or transmitted in any form or by any means,
+ * electronic, mechanical, photocopying, recording, or
+ * otherwise, without prior written permission of Versusmind.
+ * @link http://www.versusmind.eu/
+ *
+ * @file $$MODEL_NAME$$.php
+ * @author $$AUTHOR_NAME$$
+ * @last-edited $$DATE$$
+ * @description $$MODEL_NAME$$
+ *
+ ******************************************************************************/
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+
+class Create$$MODEL_NAME_PLURAL_CAPITALIZED$$Table extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('$$MODEL_NAME_TABLE$$', function (Blueprint $table) {
+            $table->increments('id');
+            $$MIGRATION_FIELDS$$
+            // add fields here
+
+            $table->integer('user_id')->unsigned();
+
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('$$MODEL_NAME_TABLE$$');
+    }
+}

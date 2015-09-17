@@ -23,7 +23,6 @@ use App\Libraries\Assets\Collection;
 use League\Pipeline\StageInterface;
 
 /**
- * User: LAHAXE Arnaud <alahaxe@boursorama.fr>
  * Date: 07/08/2015
  * Time: 12:13
  * FileName : Concat.php
@@ -45,12 +44,12 @@ class Copy implements StageInterface
      *
      * @return Collection|mixed
      */
-    public function process ($collection)
+    public function process($collection)
     {
         \Log::info('Assets::Copy on collection ' . $collection->getCollectionId());
 
         if($this->type !== Asset::TEMPLATE) {
-            $outputDirectory = $collection->getOutputDirectory() . $this->type . DIRECTORY_SEPARATOR;
+        $outputDirectory = $collection->getOutputDirectory() . $this->type . DIRECTORY_SEPARATOR;
         } else {
             $outputDirectory = $collection->getOutputDirectory() . Asset::JS . DIRECTORY_SEPARATOR;
         }
@@ -110,19 +109,20 @@ class Copy implements StageInterface
     protected function getRelativeBuildFilePath(Asset $asset, Collection $collection)
     {
         // file is in tmp folder
-        if (strpos($asset->getPath(), $collection->getTmpDirectory()) !== false) {
+        if (!empty($collection->getTmpDirectory()) && strpos($asset->getPath(), $collection->getTmpDirectory()) !== false) {
             return str_replace($collection->getTmpDirectory(), '', $asset->getPath());
             // file is in bower folder
         } elseif (strpos($asset->getPath(), $collection->getBowerDirectory()) !== false) {
+
             $relativePath = str_replace($collection->getBowerDirectory(), '', $asset->getPath());
             if ($asset->getType() === Asset::FONT) {
-                $relativePath = last(explode('/', $relativePath));
+                $relativePath = last(explode(DIRECTORY_SEPARATOR, $relativePath));
             }
 
             return $relativePath;
         }
 
-        return str_replace(config('assets.assetsDirectory') . DIRECTORY_SEPARATOR . $this->type . DIRECTORY_SEPARATOR, '', $asset->getPath());
+        return str_replace(str_replace('/', DIRECTORY_SEPARATOR, config('assets.assetsDirectory')) . DIRECTORY_SEPARATOR . $this->type . DIRECTORY_SEPARATOR, '', $asset->getPath());
     }
 
     /**
@@ -131,8 +131,8 @@ class Copy implements StageInterface
      */
     protected function createSubFolders($relativePath, $directory)
     {
-        if (strpos($relativePath, '/') !== false) {
-            $subfolders = implode('/', explode(DIRECTORY_SEPARATOR, $relativePath, -1));
+        if (strpos($relativePath, DIRECTORY_SEPARATOR) !== false) {
+            $subfolders = implode(DIRECTORY_SEPARATOR, explode(DIRECTORY_SEPARATOR, $relativePath, -1));
 
             if (!is_dir($directory . $subfolders)) {
                 if (!mkdir($directory . $subfolders, 0777, true)) {

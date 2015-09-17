@@ -7,9 +7,13 @@
 
     <description>PHPMD ruleset</description>
 
-    <rule ref="rulesets/codesize.xml" />
+    <rule ref="rulesets/design.xml">
+        <exclude name="DepthOfInheritance"/>
+    </rule>
 
-    <rule ref="rulesets/design.xml"/>
+    <rule ref="rulesets/unusedcode.xml">
+        <exclude name="UnusedFormalParameter" />
+    </rule>
 
     <rule ref="rulesets/naming.xml">
         <exclude name="ShortMethodName" />
@@ -24,4 +28,13 @@
         </properties>
     </rule>
 
+    <rule ref="rulesets/codesize.xml" >
+        <exclude name="TooManyMethods" />
+    </rule>
+
+    <rule ref="rulesets/codesize.xml/TooManyMethods">
+        <properties>
+            <property name="maxmethods" value="20"/>
+        </properties>
+    </rule>
 </ruleset>

@@ -37,7 +37,7 @@ class AssetsMiddleware
         /** @var Orchestrator $ocherstator */
         $ocherstator = \App::make('App\Libraries\Assets\Orchestrator');
 
-        foreach (config('assets.groups') as $groupname => $assets) {
+        foreach (array_keys(config('assets.groups')) as $groupname) {
             $collection = \App\Libraries\Assets\Collection::createByGroup($groupname);
 
             try {

@@ -12,7 +12,7 @@ class UserSeed extends Seeder
         \App\User::create([
             'username' => 'user',
             'email' => 'user@user.fr',
-            'password' => bcrypt('user')
+            'password' => \Hash::make('user')
         ]);
 
         \App\User::create([

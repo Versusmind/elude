@@ -47,7 +47,7 @@ class AssetsUpdate extends Command
         \Log::info('Assets::Update Run bower update');
 
         $this->info("Update bower assets");
-        $process = new Process('bower update');
+        $process = new Process('bower update --allow-root');
 
         $process->run(function ($type, $buffer) {
             if ('err' === $type) {
@@ -63,7 +63,7 @@ class AssetsUpdate extends Command
         }
 
         $this->info("Remove useless local bower package");
-        $process = new Process('bower prune');
+        $process = new Process('bower prune --allow-root');
         $process->run();
 
         $this->comment(\PHP_Timer::resourceUsage());

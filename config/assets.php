@@ -27,12 +27,12 @@ return [
     /**
      * Initial assets folder
      */
-    'assetsDirectory' => base_path('resources/assets'),
+    'assetsDirectory' => base_path('resources' . DIRECTORY_SEPARATOR . 'assets'),
 
     /**
      * Bower folders
      */
-    'bowerDirectory' => base_path('resources/assets/bower'),
+    'bowerDirectory' => base_path('resources' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'bower'),
 
     /**
      * Tmp folder, this folder contains only temporary files, clear on each build
@@ -43,7 +43,7 @@ return [
      * File directory, must be a subfolder of public.
      * If you put public/ the world may burn
      */
-    'outputDirectory' => base_path('public/assets/'),
+    'outputDirectory' => base_path('public' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR),
 
     /**
      * Group of assets you need separate style and javascript for the moment

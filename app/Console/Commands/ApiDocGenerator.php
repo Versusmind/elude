@@ -48,7 +48,7 @@ class ApiDocGenerator extends Command
             $this->error('This feature is not available on this server');
         }
 
-        $process = new Process('apidoc -i ' . base_path('app/Http/Controllers') . ' -o ' . base_path('../doc'));
+        $process = new Process('apidoc -i ' . base_path('app/Http/Controllers') . ' -o ' . base_path('apidoc'));
 
         $process->run();
 
@@ -60,7 +60,9 @@ class ApiDocGenerator extends Command
             return;
         }
 
-        $this->comment('Documentation generated in folder ' . base_path('../doc'));
+        $this->info($process->getOutput());
+
+        $this->comment('Documentation generated in folder ' . base_path('doc'));
         $this->comment(\PHP_Timer::resourceUsage());
     }
 }

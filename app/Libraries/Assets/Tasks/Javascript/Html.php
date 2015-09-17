@@ -33,15 +33,11 @@ class Html implements StageInterface
      */
     public function process($collection)
     {
-        \Log::info('Assets::Javascript::Html on collection ' . $collection->getCollectionId());
-
         $result = '';
 
         if (!config('assets.concat') && $collection->getGroupName()) {
             $result .=  "<!-- " . $collection->getGroupName() . "-->" . "\n";
         }
-
-        $outputDirectory = base_path('public') . DIRECTORY_SEPARATOR;
 
         $subfolder = env('SUBFOLDER_INSTALLATION', false);
         if ($subfolder) {
@@ -51,7 +47,9 @@ class Html implements StageInterface
         }
 
         foreach ($collection->getType(Asset::JS) as $asset) {
-            $result .= '<script src="' . $subfolder . str_replace($outputDirectory, DIRECTORY_SEPARATOR, $asset->getPath()) . '"></script>' . "\n";
+            $path = $subfolder . str_replace($collection->getOutputDirectory(), DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR, $asset->getPath());
+            $htmlLink = str_replace(DIRECTORY_SEPARATOR, '/', $path);
+            $result .= '<script src="' . $htmlLink . '"></script>' . "\n";
         }
 
         if (!config('assets.concat') && $collection->getGroupName()) {

@@ -1,8 +1,17 @@
-<?php
+<?php namespace Tests\Web\Auth;
 
+use Tests\TestCase;
+
+/**
+ * Class LoginTest
+ *
+ *
+ *
+ * @author LAHAXE Arnaud
+ * @group critical
+ */
 class LoginTest extends TestCase
 {
-
 
     public function testValidLogin()
     {

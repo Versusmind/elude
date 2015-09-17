@@ -1,11 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: arnaud
- * Date: 19/08/2015
- * Time: 21:25
- */
-namespace App\Libraries\Assets;
+<?php namespace App\Libraries\Assets;
 
 class BuilderDetector
 {

@@ -41,8 +41,6 @@ class Rewrite implements StageInterface
      */
     public function process($collection)
     {
-        \Log::info('Assets::Css::Rewrite on collection ' . $collection->getCollectionId());
-
         foreach ($collection->getType(Asset::CSS) as $asset) {
             file_put_contents($asset->getPath(), preg_replace_callback('`url\((.*?)\)`s', function ($matches) {
                 if (strpos($matches[0], '://') !== false) {

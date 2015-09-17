@@ -3,4 +3,9 @@
 /public/assets
 /storage
 /resources/assets/bower
-.idea
+/.idea
+/node_modules
+composer.phar
+phpunit.phar
+/apidoc
+/phpdoc

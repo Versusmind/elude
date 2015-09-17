@@ -15,7 +15,7 @@ Dotenv::load(__DIR__ . '/../');
 |
 */
 
-$app = new Laravel\Lumen\Application(
+$app = new \App\Libraries\Application(
     realpath(__DIR__ . '/../')
 );
 
@@ -50,6 +50,20 @@ $app->singleton(
 
 /*
 |--------------------------------------------------------------------------
+| Override env configuration
+|--------------------------------------------------------------------------
+|
+| Disable profiler for profiler request
+|
+*/
+$pathInfo = \Illuminate\Support\Facades\Request::getPathInfo();
+if(strpos($pathInfo, 'api/__profiler') > 0) {
+    putenv("CLOCKWORK_COLLECT_DATA_ALWAYS=false");
+    putenv("CLOCKWORK_ENABLE=false");
+}
+
+/*
+|--------------------------------------------------------------------------
 | Register Middleware
 |--------------------------------------------------------------------------
 |
@@ -65,13 +79,23 @@ $app->middleware([
     Illuminate\Session\Middleware\StartSession::class,
     Illuminate\View\Middleware\ShareErrorsFromSession::class,
     //Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
-    LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware::class
+    LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware::class,
+    Clockwork\Support\Lumen\ClockworkMiddleware::class
 ]);
+
+
+if ($app->environment() !== 'production') {
+    $app->middleware([
+        App\Http\Middleware\DebugMiddleware::class,
+    ]);
+}
 
 $app->routeMiddleware([
     'check-authorization-params' => LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware::class,
     'csrf' => Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
     'auth' => \App\Http\Middleware\AuthMiddleware::class,
+    'acl' => \App\Http\Middleware\AclMiddleware::class,
+    'acl' => \App\Http\Middleware\AclMiddleware::class,
     'oauth' => LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware::class,
     'oauth-owner' => LucaDegasperi\OAuth2Server\Middleware\OAuthClientOwnerMiddleware::class
 ]);
@@ -90,14 +114,18 @@ $app->routeMiddleware([
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 $app->register(App\Providers\AssetsProvider::class);
+$app->register(App\Providers\ClockworkServiceProvider::class);
+$app->register(App\Providers\AclProvider::class);
 $app->register(Appzcoder\LumenRoutesList\RoutesCommandServiceProvider::class);
 $app->register(LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class);
 $app->register(LucaDegasperi\OAuth2Server\Lumen\OAuth2ServerServiceProvider::class);
 $app->register(Barryvdh\Cors\LumenServiceProvider::class);
 
 
+
 $app->configure('oauth2');
 $app->configure('cors');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -117,5 +145,6 @@ if (!class_exists('Authorizer')) {
 $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
     require __DIR__ . '/../app/Http/routes.php';
 });
+
 
 return $app;

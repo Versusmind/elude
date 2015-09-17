@@ -1,0 +1,91 @@
+<?php namespace App;
+
+/******************************************************************************
+ *
+ * @package Myo 2
+ * @copyright © 2015 by Versusmind.
+ * All rights reserved. No part of this document may be
+ * reproduced or transmitted in any form or by any means,
+ * electronic, mechanical, photocopying, recording, or
+ * otherwise, without prior written permission of Versusmind.
+ * @link http://www.versusmind.eu/
+ *
+ * @file $$MODEL_NAME$$.php
+ * @author $$AUTHOR_NAME$$
+ * @last-edited $$DATE$$
+ * @description $$MODEL_NAME$$
+ *
+ ******************************************************************************/
+
+use Illuminate\Database\Eloquent\Model;
+use App\Libraries\Acl\Interfaces\UserRestrictionInterface;
+use App\Libraries\Validation\ValidationInterface;
+use App\Libraries\Validation\ValidationTrait;
+
+/**
+ * Class $$MODEL_NAME$$
+ *
+ */
+class $$MODEL_NAME$$ extends Model implements ValidationInterface, UserRestrictionInterface
+{
+
+    use ValidationTrait;
+
+    /**
+     * Mass fillable columns
+     *
+     * @var array
+     */
+    protected $fillable = [
+        $$FILLABLE_FIELDS$$
+    ];
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = '$$MODEL_NAME_TABLE$$';
+
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    protected static $rules = [
+        $$VALIDATORS$$
+    ];
+
+    /**
+     * @return string
+     */
+    public function getUserIdFields()
+    {
+        return 'user_id';
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    /**
+     * Test if the user given can edit the model
+     *
+     * @param \App\User $user
+     * @param array     $parameters
+     *
+     * @return mixed
+     */
+    public function isUserAllow(User $user, array $parameters = [])
+    {
+        return $this->{$this->getUserIdFields()} === $user->id;
+    }
+
+    public function getRules()
+    {
+        return self::$rules;
+    }
+}

@@ -18,10 +18,8 @@
  ******************************************************************************/
 
 
-use App\Libraries\Assets\Asset;
-use App\Libraries\Assets\Collection;
+
 use App\Libraries\Assets\Orchestrator;
-use App\Models\Service;
 use Illuminate\Console\Command;
 
 class AssetsBuilder extends Command
@@ -68,7 +66,7 @@ class AssetsBuilder extends Command
         /** @var Orchestrator $ocherstator */
         $ocherstator = \App::make('App\Libraries\Assets\Orchestrator');
 
-        foreach (config('assets.groups') as $groupname => $assets) {
+        foreach (array_keys(config('assets.groups')) as $groupname) {
             if ($groupToBuild !== 'all' && $groupToBuild !== $groupname) {
                 continue;
             }
