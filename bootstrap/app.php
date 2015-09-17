@@ -95,7 +95,6 @@ $app->routeMiddleware([
     'csrf' => Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
     'auth' => \App\Http\Middleware\AuthMiddleware::class,
     'acl' => \App\Http\Middleware\AclMiddleware::class,
-    'acl' => \App\Http\Middleware\AclMiddleware::class,
     'oauth' => LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware::class,
     'oauth-owner' => LucaDegasperi\OAuth2Server\Middleware\OAuthClientOwnerMiddleware::class
 ]);
