@@ -1,4 +1,5 @@
-<?php namespace App\Libraries\Generator\Generators;
+<?php namespace App\Libraries\Generator\Generators\Migration;
+use App\Libraries\Generator\Generators\Code;
 
 /******************************************************************************
  *
@@ -10,14 +11,14 @@
  * otherwise, without prior written permission of Versusmind.
  * @link http://www.versusmind.eu/
  *
- * @file Migration.php
+ * @file Columns.php
  * @author LAHAXE Arnaud
  * @last-edited 17/09/2015
- * @description Migration
+ * @description Columns
  *
  ******************************************************************************/
 
-class Migration extends Code
+class Columns extends Code
 {
     /**
      * @return string

@@ -20,6 +20,8 @@
 use App\Libraries\Generator\Generator;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Process\Process;
 
 class ApiGenerator extends Command
@@ -97,10 +99,16 @@ class ApiGenerator extends Command
         $templateData = $generator->getTemplateData();
         $files = $generator->getFiles();
 
+        $foreignKeys = $this->getForeignKeys();
+        if ($isUserRestrict) {
+            $foreignKeys[] = 'User';
+        }
+        $foreignKeys = array_unique($foreignKeys);
+
         $fields = $this->getFields();
         $this->summary($templateData, $isUserRestrict);
         $this->fieldsSummary($fields);
-        $this->generate($generator, $fields);
+        $this->generate($generator, $fields, $foreignKeys);
         $this->runComposerDumpAutoload();
         $this->migrateDatabase();
         $this->generateDocumentation();
@@ -131,6 +139,15 @@ class ApiGenerator extends Command
         }
     }
 
+    public function foreignSummary(array $foreignKeys)
+    {
+        $this->info("\t Foreign keys on models:");
+
+        foreach ($foreignKeys as $foreignKey) {
+            $this->info("\t\t" . $foreignKey);
+        }
+    }
+
     public function fieldSummary($field)
     {
         $this->info("\t\t" . $field['name'] . ':');
@@ -145,10 +162,10 @@ class ApiGenerator extends Command
     }
 
 
-    public function generate(Generator $generator, $fields)
+    public function generate(Generator $generator, $fields, $foreignKeys)
     {
         if ($this->confirm('Generate migration/model/repository/controller ?', true)) {
-            $generator->generate($fields);
+            $generator->generate($fields, $foreignKeys);
             $this->info("Generated files:");
             $files = $generator->getFiles();
             foreach ($files as $file) {
@@ -159,27 +176,27 @@ class ApiGenerator extends Command
 
         } else {
             if ($this->confirm('Generate migration ?', true)) {
-                $generator->migration($fields);
+                $generator->migration($fields, $foreignKeys);
                 $this->comment('Migration generated');
             }
 
             if ($this->confirm('Generate model ?', true)) {
-                $generator->model($fields);
+                $generator->model($fields, $foreignKeys);
                 $this->comment('Model generated');
             }
 
             if ($this->confirm('Generate repository + tests ?', true)) {
-                $generator->repository($fields);
+                $generator->repository($fields, $foreignKeys);
                 $this->comment('Repository generated');
             }
 
             if ($this->confirm('Generate controller + tests ?', true)) {
-                $generator->controller($fields);
+                $generator->controller($fields, $foreignKeys);
                 $this->comment('Controller generated');
             }
 
             if ($this->confirm('Update routes.php file ?', true)) {
-                $generator->route();
+                $generator->route($foreignKeys);
                 $this->comment('Route added');
             }
         }
@@ -240,22 +257,22 @@ class ApiGenerator extends Command
     {
         $fields = [];
         $this->info('For validation please refer to http://laravel.com/docs/5.1/validation#available-validation-rules');
-        while ($this->confirm('Add a new fields ?', true) || empty($fields)) {
+        while ($this->confirm('Add a new fields ?', true)) {
             $field = [
-                'name' => $this->ask('Field name: ', null),
-                'type' => $this->choice('Type name: ', self::$databaseType, 0),
+                'name' => $this->ask('Field name', null),
+                'type' => $this->choice('Type ', self::$databaseType, 0),
                 'fillable' => $this->confirm('Fillable ?', true),
                 'required' => $this->confirm('Required ?', true),
                 'nullable' => $this->confirm('Nullable ?', false),
             ];
 
-            if($this->confirm('Add a validator (except required) ?', false)) {
-                $field['rules'] = $this->ask('Specific validators (except required):', '');
+            if ($this->confirm('Add a validator (except required) ?', false)) {
+                $field['rules'] = $this->ask('Specific validators (except required)', '');
             } else {
                 $field['rules'] = '';
             }
 
-            if($this->confirm('Set a default value ?', false)) {
+            if ($this->confirm('Set a default value ?', false)) {
                 $field['default'] = $this->ask('Default ?', '');
             } else {
                 $field['default'] = '';
@@ -273,5 +290,32 @@ class ApiGenerator extends Command
         }
 
         return $fields;
+    }
+
+    public function getForeignKeys()
+    {
+        if (!$this->confirm('Does the model have foreign keys ?', false)) {
+            return [];
+        }
+
+        $foreignKeysTable = [];
+        $availableModels = [];
+
+        $finder = new Finder();
+        $files = $finder->depth(0)->files()->in(base_path('app'));
+
+        /** @var File $file */
+        foreach ($files as $file) {
+            $availableModels[] = $file->getBasename('.php');
+        }
+
+        $addOther = true;
+        while ($addOther) {
+            $foreignKeysTable[] = strtolower($this->choice("What model ?", $availableModels));
+
+            $addOther = $this->confirm('Add new foreign key ?', true);
+        }
+
+        return $foreignKeysTable;
     }
 }

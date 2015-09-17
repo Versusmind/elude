@@ -36,6 +36,8 @@ class Create$$MODEL_NAME_PLURAL_CAPITALIZED$$Table extends Migration
             $$MIGRATION_FIELDS$$
             // add fields here
 
+$$FOREIGN_KEY_FIELDS$$
+
             $table->timestamps();
         });
     }

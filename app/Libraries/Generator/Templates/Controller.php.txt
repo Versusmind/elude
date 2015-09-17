@@ -28,6 +28,8 @@ class $$MODEL_NAME$$ extends ResourcesController
         parent::__construct($repository);
     }
 
+$$RELATIONS_API$$
+
         /**
          * @apiDefine $$MODEL_NAME_LOWER_CASE$$Params
          *

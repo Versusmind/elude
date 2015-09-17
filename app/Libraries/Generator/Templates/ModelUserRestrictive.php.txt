@@ -64,14 +64,6 @@ class $$MODEL_NAME$$ extends Model implements ValidationInterface, UserRestricti
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id', 'id');
-    }
-
-    /**
      * Test if the user given can edit the model
      *
      * @param \App\User $user
@@ -88,4 +80,6 @@ class $$MODEL_NAME$$ extends Model implements ValidationInterface, UserRestricti
     {
         return self::$rules;
     }
+
+$$BELONG_TO_FUNCTIONS$$
 }

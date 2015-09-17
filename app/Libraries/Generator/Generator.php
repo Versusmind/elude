@@ -1,9 +1,11 @@
 <?php namespace App\Libraries\Generator;
 
 
+use App\Libraries\Generator\Generators\Migration\Columns;
+use App\Libraries\Generator\Generators\Migration\ExternalFields;
+use App\Libraries\Generator\Generators\Model\BelongTo;
 use App\Libraries\Generator\Generators\Model\Fillable;
 use App\Libraries\Generator\Generators\Api\InputParameters;
-use App\Libraries\Generator\Generators\Migration;
 use App\Libraries\Generator\Generators\Api\OutputParameters;
 use App\Libraries\Generator\Generators\Model\Rules;
 use Carbon\Carbon;
@@ -45,6 +47,9 @@ class Generator
         'OUTPUT_MODEL_ATTRIBUTE_API_CREATE' => 'outputModelAttributeApiCreate',
         'OUTPUT_MODEL_ATTRIBUTE_API_UPDATE' => 'outputModelAttributeApiUpdate',
         'OUTPUT_MODEL_ATTRIBUTE_API_SHOW' => 'outputModelAttributeApiShow',
+        'BELONG_TO_FUNCTIONS' => 'belongToFunctions',
+        'FOREIGN_KEY_FIELDS' => 'foreignKeyFields',
+        'RELATIONS_API' => 'relationsApi'
     ];
 
     protected $templatesDirectory;
@@ -61,6 +66,9 @@ class Generator
         'outputModelAttributeApiCreate' => '',
         'outputModelAttributeApiUpdate' => '',
         'outputModelAttributeApiShow' => '',
+        'belongToFunctions' => '',
+        'foreignKeyFields' => '',
+        'relationsApi' => ''
     ];
 
     protected $files = [
@@ -100,30 +108,25 @@ class Generator
     }
 
     /**
-     * @author LAHAXE Arnaud
-     *
      * @param array $fields
-     *
+     * @param array $foreignKeys
      */
-    public function generate(array $fields)
+    public function generate(array $fields, array $foreignKeys)
     {
-        $this->migration($fields)
-            ->model($fields)
-            ->repository($fields)
-            ->controller($fields)
-            ->route();
+        $this->migration($fields, $foreignKeys)
+            ->model($fields, $foreignKeys)
+            ->repository($fields, $foreignKeys)
+            ->controller($fields, $foreignKeys)
+            ->route($foreignKeys);
     }
 
     /**
-     * @author LAHAXE Arnaud
-     *
      * @param array $fields
-     *
+     * @param array $foreignKeys
      * @return $this
      */
-    public function controller(array $fields)
+    public function controller(array $fields, array $foreignKeys)
     {
-
 
         $generator = new InputParameters([
             'fields' => $fields
@@ -136,60 +139,71 @@ class Generator
             'status' => 201
         ]);
 
+
+        foreach($foreignKeys as $foreignKey) {
+            $this->templateData['relationsApi'] .= $this->template('Relations' . DIRECTORY_SEPARATOR . 'Controller.php.txt', [
+                'RELATION_CAPITALIZE' => 'relationCapitalize',
+                'RELATION' => 'relation'
+            ], [
+                'relationCapitalize' => ucfirst($foreignKey),
+                'relation' => strtolower($foreignKey)
+            ]);
+        }
+
         $this->templateData['outputModelAttributeApiCreate'] = $generator->generate();
         $this->templateData['outputModelAttributeApiUpdate'] = $generator->set('status', 202)->generate();
         $this->templateData['outputModelAttributeApiShow'] = $generator->set('status', 200)->generate();
 
-        $this->template('Controller.php.txt', base_path($this->files['controller']));
-        $this->template('ControllerTest.php.txt', base_path($this->files['controllerTest']));
+        $this->writeTemplate('Controller.php.txt', base_path($this->files['controller']));
+        $this->writeTemplate('ControllerTest.php.txt', base_path($this->files['controllerTest']));
 
         return $this;
     }
 
     /**
-     * @author LAHAXE Arnaud
-     *
      * @param array $fields
-     *
+     * @param array $foreignKeys
      * @return $this
      */
-    public function migration(array $fields)
+    public function migration(array $fields, array $foreignKeys)
     {
         $template = 'Migration.php.txt';
-        if ($this->userRestrictive) {
-            $template = 'MigrationUserRestrictive.php.txt';
-        }
 
-        $generator = new Migration([
+        $generator = new Columns([
             'fields' => $fields
         ]);
 
         $this->templateData['migrationFields'] = $generator->generate();
 
-        $this->template($template, base_path($this->files['migration']));
+        $generator = new ExternalFields([
+            'foreignKeys' => $foreignKeys
+        ]);
+        $this->templateData['foreignKeyFields'] = $generator->generate();
+
+
+        $this->writeTemplate($template, base_path($this->files['migration']));
 
         return $this;
     }
 
     /**
-     * @author LAHAXE Arnaud
-     *
      * @param array $fields
-     *
+     * @param array $foreignKeys
      * @return $this
      */
-    public function repository(array $fields)
+    public function repository(array $fields, array $foreignKeys)
     {
-        $this->template('Repository.php.txt', base_path($this->files['repository']));
-        $this->template('RepositoryTest.php.txt', base_path($this->files['repositoryTest']));
+        $this->writeTemplate('Repository.php.txt', base_path($this->files['repository']));
+        $this->writeTemplate('RepositoryTest.php.txt', base_path($this->files['repositoryTest']));
 
         return $this;
     }
 
     /**
+     * @param array $foreignKeys
      * @return $this
      */
-    public function route()
+    public function route(array $foreignKeys)
     {
         $file = base_path('app' . DIRECTORY_SEPARATOR . 'Http' . DIRECTORY_SEPARATOR . 'routes.php');
         $routeCode = file_get_contents($file);
@@ -203,9 +217,11 @@ class Generator
     }
 
     /**
+     * @param array $fields
+     * @param array $foreignKeys
      * @return $this
      */
-    public function model(array $fields)
+    public function model(array $fields, array $foreignKeys)
     {
         $template = 'Model.php.txt';
         if ($this->userRestrictive) {
@@ -222,12 +238,21 @@ class Generator
         ]);
         $this->templateData['validators'] = $generator->generate();
 
-        $this->template($template, base_path($this->files['model']));
+        $generator = new BelongTo([
+            'foreignKeys' => $foreignKeys
+        ]);
+        $this->templateData['belongToFunctions'] = $generator->generate();
+
+        $this->writeTemplate($template, base_path($this->files['model']));
 
         return $this;
     }
 
-    protected function template($template, $destination)
+    /**
+     * @param $template
+     * @param $destination
+     */
+    protected function writeTemplate($template, $destination)
     {
         $template = $this->templatesDirectory . $template;
 
@@ -242,6 +267,32 @@ class Generator
         }
 
         file_put_contents($destination, $code);
+    }
+
+    /**
+     * @param $template
+     * @param array $placeholders
+     * @param array $data
+     * @return mixed|string
+     */
+    protected function template($template, array $placeholders = [], array $data = [])
+    {
+        $template = $this->templatesDirectory . $template;
+
+        if (!is_file($template)) {
+            throw new FileNotFoundException($template);
+        }
+
+        $code = file_get_contents($template);
+
+        $data = array_merge($this->templateData, $data);
+        $placeholders = array_merge(self::$templateDataMapping, $placeholders);
+
+        foreach ($placeholders as $placeholder => $dataKey) {
+            $code = str_replace(self::$varSeparator . $placeholder . self::$varSeparator, $data[$dataKey], $code);
+        }
+
+        return $code;
     }
 
     /**
