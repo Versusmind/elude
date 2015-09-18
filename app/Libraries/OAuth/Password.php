@@ -33,4 +33,23 @@ class Password
 
         return false;
     }
+
+    public function logout()
+    {
+        if(\Session::has('oauth')) {
+            /** @var FluentAccessToken $accessTokenRepository */
+            $accessTokenRepository = \App::make(FluentAccessToken::class);
+
+            /** @var FluentRefreshToken $refreshTokenRepository */
+            $refreshTokenRepository = \App::make(FluentRefreshToken::class);
+
+            $entity = $accessTokenRepository->get(Session::get('oauth.access_token'));
+            $accessTokenRepository->delete($entity);
+
+            $entity = $refreshTokenRepository->get(Session::get('oauth.refresh_token'));
+            $refreshTokenRepository->delete($entity);
+
+            \Session::forget('oauth');
+        }
+    }
 }

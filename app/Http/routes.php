@@ -82,6 +82,8 @@ $app->group(['prefix' => 'api/v1', 'middleware' => 'cors'], function () use ($ap
         $app->patch('users/{id}/group/{idGroup}', ['as' => 'users.group.update', 'uses' => \App\Http\Controllers\Api\User::class . '@groupUpdate']);
 
         $app->resource('permissions', \App\Http\Controllers\Api\Permission::class);
+
+        $app->post('oauth/logout', ['as' => 'oauth.logout', 'uses' => App\Http\Controllers\Api\Auth::class . '@logout']);
     });
 });
 
