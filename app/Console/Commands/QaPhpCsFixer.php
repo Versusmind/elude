@@ -41,7 +41,7 @@ class QaPhpCsFixer extends Command
      *
      * @var string
      */
-    protected $description = 'PHP code synthax fixer';
+    protected $description = 'PHP code syntax fixer';
 
     public static $fixers = [
         'encoding', 'short_tag', 'braces', 'elseif', 'eof_ending', 'function_call_space', 'function_declaration',
@@ -64,7 +64,7 @@ class QaPhpCsFixer extends Command
     public function handle()
     {
 
-        \Log::info('QA::PHPCS Run php code synthax fixer');
+        \Log::info('QA::PHPCS Run php code syntax fixer');
 
         $action = $this->getAction();
 
