@@ -101,7 +101,7 @@ class ApiGenerator extends Command
 
         $foreignKeys = $this->getForeignKeys();
         if ($isUserRestrict) {
-            $foreignKeys[] = 'User';
+            $foreignKeys[] = 'user';
         }
         $foreignKeys = array_unique($foreignKeys);
 
@@ -257,9 +257,11 @@ class ApiGenerator extends Command
     {
         $fields = [];
         $this->info('For validation please refer to http://laravel.com/docs/5.1/validation#available-validation-rules');
+        $this->info('For fillable please refer to http://laravel.com/docs/5.1/eloquent#mass-assignment');
+
         while ($this->confirm('Add a new fields ?', true)) {
             $field = [
-                'name' => $this->ask('Field name', null),
+                'name' => $this->ask('Field name'),
                 'type' => $this->choice('Type ', self::$databaseType, 0),
                 'fillable' => $this->confirm('Fillable ?', true),
                 'required' => $this->confirm('Required ?', true),
@@ -308,6 +310,7 @@ class ApiGenerator extends Command
         foreach ($files as $file) {
             $availableModels[] = $file->getBasename('.php');
         }
+
 
         $addOther = true;
         while ($addOther) {

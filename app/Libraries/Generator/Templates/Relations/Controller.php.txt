@@ -6,7 +6,7 @@
      *
      * @return mixed
      *
-     * @apiGroup $$MODEL_NAME$$
+     * @apiGroup $$MODEL_NAME_PLURAL_CAPITALIZED$$
      * @apiName update$$RELATION_CAPITALIZE$$
      * @api      {post} /$$MODEL_NAME_PLURAL$$/:id/$$RELATION$$/:id$$RELATION_CAPITALIZE$$ Update $$RELATION$$ for an $$MODEL_NAME_LOWER_CASE$$
      *
