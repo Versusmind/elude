@@ -229,8 +229,8 @@ class Generator
             $relationRouteCreate = "\n" . '        $app->post("%s/{id}/%s/{id%s}", ["as" => "%s.%s.store", "uses" => \App\Http\Controllers\Api\%s::class . "@%sStore"]);';
             $relationRouteDelete = "\n" . '        $app->delete("%s/{id}/%s/{id%s}", ["as" => "%s.%s.destroy", "uses" => \App\Http\Controllers\Api\%s::class . "@%sDestroy"]);' . "\n";
 
-            $newRoutes .= sprintf($relationRouteCreate, $this->templateData['model'], str_plural($foreignKey), $this->templateData['model'], str_plural($foreignKey), ucfirst($this->templateData['model']), strtolower($foreignKey));
-            $newRoutes .= sprintf($relationRouteDelete, $this->templateData['model'], str_plural($foreignKey), $this->templateData['model'], str_plural($foreignKey), ucfirst($this->templateData['model']), strtolower($foreignKey));
+            $newRoutes .= sprintf($relationRouteCreate, $this->templateData['tableName'], strtolower(str_plural($foreignKey)), ucfirst($foreignKey), $this->templateData['tableName'], strtolower(str_plural($foreignKey)), ucfirst($this->templateData['modelName']), strtolower($foreignKey));
+            $newRoutes .= sprintf($relationRouteDelete, $this->templateData['tableName'], strtolower(str_plural($foreignKey)), ucfirst($foreignKey), $this->templateData['tableName'], strtolower(str_plural($foreignKey)), ucfirst($this->templateData['modelName']), strtolower($foreignKey));
         }
 
         $routeCode = preg_replace($pattern, '$0' . $newRoutes, $routeCode);
