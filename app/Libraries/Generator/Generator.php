@@ -49,7 +49,8 @@ class Generator
         'OUTPUT_MODEL_ATTRIBUTE_API_SHOW' => 'outputModelAttributeApiShow',
         'BELONG_TO_FUNCTIONS' => 'belongToFunctions',
         'FOREIGN_KEY_FIELDS' => 'foreignKeyFields',
-        'RELATIONS_API' => 'relationsApi'
+        'RELATIONS_API' => 'relationsApi',
+        'RELATIONS_REPOSITORY' => 'relationsRepository'
     ];
 
     protected $templatesDirectory;
@@ -68,7 +69,8 @@ class Generator
         'outputModelAttributeApiShow' => '',
         'belongToFunctions' => '',
         'foreignKeyFields' => '',
-        'relationsApi' => ''
+        'relationsApi' => '',
+        'relationsRepository' => ''
     ];
 
     protected $files = [
@@ -94,7 +96,7 @@ class Generator
         $this->templateData['date'] = Carbon::now()->toDateTimeString();
         $this->templateData['tableName'] = strtolower(str_plural($this->modelName));
         $this->templateData['tableNameCapitalizes'] = ucfirst($this->templateData['tableName']);
-        $this->templateData['modelNameLowerCase'] = strtolower($this->templateData['tableName']);
+        $this->templateData['modelNameLowerCase'] = strtolower($this->templateData['modelName']);
 
         $this->files = [
             'migration' => 'database' . DIRECTORY_SEPARATOR . 'migrations' . DIRECTORY_SEPARATOR . date('Y_m_d_His') . "_" . "create_" . $this->templateData['tableName'] . "_table.php",
@@ -193,6 +195,17 @@ class Generator
      */
     public function repository(array $fields, array $foreignKeys)
     {
+
+        foreach($foreignKeys as $foreignKey) {
+            $this->templateData['relationsRepository'] .= $this->template('Relations' . DIRECTORY_SEPARATOR . 'Repository.php.txt', [
+                'RELATION_CAPITALIZE' => 'relationCapitalize',
+                'RELATION' => 'relation'
+            ], [
+                'relationCapitalize' => ucfirst($foreignKey),
+                'relation' => strtolower($foreignKey)
+            ]);
+        }
+
         $this->writeTemplate('Repository.php.txt', base_path($this->files['repository']));
         $this->writeTemplate('RepositoryTest.php.txt', base_path($this->files['repositoryTest']));
 
@@ -208,8 +221,19 @@ class Generator
         $file = base_path('app' . DIRECTORY_SEPARATOR . 'Http' . DIRECTORY_SEPARATOR . 'routes.php');
         $routeCode = file_get_contents($file);
         $pattern = '#\'api\/v1\'],\s+function\s+\(\)\s+use\s+\(\$app\)\s+\{#';
-        $newRoute = "\n        " . '$app->resource(\'' . $this->templateData['tableName'] . '\', \App\Http\Controllers\Api\\' . $this->templateData['modelName'] . '::class);';
-        $routeCode = preg_replace($pattern, '$0' . $newRoute, $routeCode);
+
+
+        $newRoutes = "\n        " . '$app->resource(\'' . $this->templateData['tableName'] . '\', \App\Http\Controllers\Api\\' . $this->templateData['modelName'] . '::class);';
+
+        foreach($foreignKeys as $foreignKey) {
+            $relationRouteCreate = "\n" . '        $app->post("%s/{id}/%s/{id%s}", ["as" => "%s.%s.store", "uses" => \App\Http\Controllers\Api\%s::class . "@%sStore"]);';
+            $relationRouteDelete = "\n" . '        $app->delete("%s/{id}/%s/{id%s}", ["as" => "%s.%s.destroy", "uses" => \App\Http\Controllers\Api\%s::class . "@%sDestroy"]);' . "\n";
+
+            $newRoutes .= sprintf($relationRouteCreate, $this->templateData['model'], str_plural($foreignKey), $this->templateData['model'], str_plural($foreignKey), ucfirst($this->templateData['model']), strtolower($foreignKey));
+            $newRoutes .= sprintf($relationRouteDelete, $this->templateData['model'], str_plural($foreignKey), $this->templateData['model'], str_plural($foreignKey), ucfirst($this->templateData['model']), strtolower($foreignKey));
+        }
+
+        $routeCode = preg_replace($pattern, '$0' . $newRoutes, $routeCode);
 
         file_put_contents($file, $routeCode);
 

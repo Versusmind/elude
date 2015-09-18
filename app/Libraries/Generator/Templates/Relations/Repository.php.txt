@@ -1,0 +1,12 @@
+    /**
+     * @param \App\$$MODEL_NAME$$ $$$MODEL_NAME_LOWER_CASE$$
+     * @param \App\$$RELATION_CAPITALIZE$$ $$$RELATION$$
+     * @return $this
+     */
+        public function set$$RELATION_CAPITALIZE$$(\App\$$MODEL_NAME$$ $$$MODEL_NAME_LOWER_CASE$$, \App\$$RELATION_CAPITALIZE$$ $$$RELATION$$)
+    {
+        $$$MODEL_NAME_LOWER_CASE$$->$$RELATION$$()->associate($$$RELATION$$);
+        $$$MODEL_NAME_LOWER_CASE$$->load("$$RELATION$$");
+
+        return $this;
+    }

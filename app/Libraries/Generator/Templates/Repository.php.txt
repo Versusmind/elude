@@ -29,4 +29,6 @@ class $$MODEL_NAME$$ extends Repository
     {
         parent::__construct(\App\$$MODEL_NAME$$::class);
     }
+
+$$RELATIONS_REPOSITORY$$
 }
