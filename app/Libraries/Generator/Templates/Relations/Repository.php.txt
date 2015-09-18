@@ -1,4 +1,6 @@
     /**
+     * @author $$AUTHOR_NAME$$
+     *
      * @param \App\$$MODEL_NAME$$ $$$MODEL_NAME_LOWER_CASE$$
      * @param \App\$$RELATION_CAPITALIZE$$ $$$RELATION$$
      * @return $this

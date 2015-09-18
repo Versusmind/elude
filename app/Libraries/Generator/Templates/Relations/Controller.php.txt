@@ -1,5 +1,5 @@
     /**
-     * @author LAHAXE Arnaud
+     * @author $$AUTHOR_NAME$$
      *
      * @param $id
      * @param $id$$RELATION_CAPITALIZE$$
