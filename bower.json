@@ -19,9 +19,10 @@
     "tests"
   ],
   "dependencies": {
+    "angular-bootstrap": "~0.13.3",
+    "angular-ui-router": "~0.2.15",
     "angularjs": "~1.4.3",
     "bootstrap": "~3.3.5",
-    "angular-bootstrap": "~0.13.3",
-    "angular-ui-router": "~0.2.15"
+    "lodash": "~3.10.1"
   }
 }

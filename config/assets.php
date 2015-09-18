@@ -89,6 +89,8 @@ return [
                 'resources/assets/bower/angular-bootstrap/ui-bootstrap-tpls.js',
                 // angular UI router
                 'resources/assets/bower/angular-ui-router/release/angular-ui-router.js',
+                //Underscore
+                'resources/assets/bower/lodash/lodash.min.js',
             ]
         ],
 

@@ -8,14 +8,11 @@
     <meta name="access_token" content="<?php echo Session::get('oauth.access_token')?>">
     <meta name="refresh_token" content="<?php echo Session::get('oauth.refresh_token')?>">
     <meta name="token_type" content="<?php echo Session::get('oauth.token_type')?>">
+    <config name="username" content="<?php echo Auth::user()->username; ?>"></config>
 </head>
 
 <body>
-    <div>Welcome <?php echo Auth::user()->username ?></div>
-
     <div ui-view></div>
-
-    <a href="https://angular-ui.github.io/bootstrap/">More widgets here</a>
 
     <?php
         echo Assets::javascript('javascript-core');
