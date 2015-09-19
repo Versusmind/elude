@@ -17,7 +17,8 @@
         "lucadegasperi/oauth2-server-laravel": "~5.0",
         "barryvdh/laravel-cors": "0.7.x",
         "itsgoingd/clockwork": "~1.9",
-        "lahaxearnaud/clockwork-cli": "dev-master"
+        "lahaxearnaud/clockwork-cli": "dev-master",
+        "illuminate/mail": "^5.1"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",

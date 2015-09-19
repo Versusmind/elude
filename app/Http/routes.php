@@ -35,9 +35,9 @@
 */
 $app->get('auth/login', ['as' => 'auth.loginForm', 'uses' => 'Auth@loginForm']);
 $app->post('auth/login', ['as' => 'auth.login', 'uses' => 'Auth@login']);
-$app->get('auth/logout', ['as' => 'auth.logout', 'uses' => 'Auth@logout']);
 
 $app->group(['middleware' => 'auth|csrf'], function () use ($app) {
+    $app->get('auth/logout', ['as' => 'auth.logout', 'uses' => 'Auth@logout']);
 
     $app->get('/', function () use ($app) {
 
