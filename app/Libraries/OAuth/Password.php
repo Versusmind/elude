@@ -1,5 +1,8 @@
 <?php namespace App\Libraries\OAuth;
 
+use LucaDegasperi\OAuth2Server\Storage\FluentAccessToken;
+use LucaDegasperi\OAuth2Server\Storage\FluentRefreshToken;
+
 /******************************************************************************
  *
  * @package Myo 2
@@ -19,6 +22,11 @@
 
 class Password
 {
+    /**
+     * @param $username
+     * @param $password
+     * @return bool|integer
+     */
     public function verify($username, $password)
     {
         $credentials = [
@@ -34,20 +42,16 @@ class Password
         return false;
     }
 
+    /**
+     *
+     */
     public function logout()
     {
         if(\Session::has('oauth')) {
-            /** @var FluentAccessToken $accessTokenRepository */
-            $accessTokenRepository = \App::make(FluentAccessToken::class);
 
-            /** @var FluentRefreshToken $refreshTokenRepository */
-            $refreshTokenRepository = \App::make(FluentRefreshToken::class);
-
-            $entity = $accessTokenRepository->get(Session::get('oauth.access_token'));
-            $accessTokenRepository->delete($entity);
-
-            $entity = $refreshTokenRepository->get(Session::get('oauth.refresh_token'));
-            $refreshTokenRepository->delete($entity);
+            /** @var TokenHelper $tokenHelper */
+            $tokenHelper = \App::make(TokenHelper::class);
+            $tokenHelper->deleteTokens(\Session::get('oauth.access_token'));
 
             \Session::forget('oauth');
         }

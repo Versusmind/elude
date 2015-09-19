@@ -1,9 +1,10 @@
 <?php namespace App\Http\Controllers\Api;
 
+use App\Libraries\OAuth\RefreshTokenHelper;
+use App\Libraries\OAuth\TokenHelper;
 use Illuminate\Support\Facades\Input;
 use League\OAuth2\Server\Exception\InvalidCredentialsException;
 use LucaDegasperi\OAuth2Server\Storage\FluentAccessToken;
-use LucaDegasperi\OAuth2Server\Storage\FluentRefreshToken;
 
 class Auth extends ApiController
 {
@@ -50,24 +51,11 @@ class Auth extends ApiController
      */
     public function logout()
     {
-        dump(\Auth::user());
-        dump(\Session::all());
-        return;
-        // get access token
-        /** @var FluentAccessToken $accessTokenRepository */
-        $accessTokenRepository = \App::make(FluentAccessToken::class);
-        $entity = $accessTokenRepository->get(Input::get('access_token'));
+        /** @var TokenHelper $tokenHelper */
+        $tokenHelper = \App::make(TokenHelper::class);
+        $tokenHelper->deleteTokens(\Authorizer::getChecker()->getAccessToken()->getId());
 
-        // delete the token
-        $accessTokenRepository->delete($entity);
-
-        // get the refresh token
-        /** @var FluentRefreshToken $refreshTokenRepository */
-        $refreshTokenRepository = \App::make(FluentRefreshToken::class);
-
-
-
-        // reset session
+        // reset session if some dev use session in a rest api :D
         \Session::flush();
 
         return response()->json([], 202);

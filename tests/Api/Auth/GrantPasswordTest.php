@@ -25,4 +25,19 @@ class GrantPasswordTest extends ApiCase
     {
         $this->login('jerry', 'khan', 401);
     }
+
+    public function testLogout()
+    {
+        $this->login();
+
+        // successfull logout
+        $this->call('POST', '/api/v1/oauth/logout');
+        $this->seeJson([]);
+        $this->seeStatusCode(202);
+
+        // can't logout because already logout
+        $this->call('POST', '/api/v1/oauth/logout');
+        $this->seeJson([]);
+        $this->seeStatusCode(401);
+    }
 }
