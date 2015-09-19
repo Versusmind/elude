@@ -25,6 +25,21 @@ class LoginTest extends TestCase
         $this->assertSessionHas('oauth');
     }
 
+
+    public function testLogout()
+    {
+        $this->visit('/')
+            ->seePageIs('/auth/login')
+            ->type('user', 'username')
+            ->type('user', 'password')
+            ->press('Sign In')
+            ->seePageIs('/')
+            ->see('Welcome user')
+            ->visit('/auth/logout')
+            ->seePageIs('/auth/login');
+    }
+
+
     public function testInvalidLogin()
     {
         $this->visit('/')
