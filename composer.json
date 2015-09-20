@@ -29,7 +29,7 @@
         "fabpot/php-cs-fixer": "@stable",
         "sensiolabs/security-checker": "@stable",
         "apigen/apigen": "~4.1",
-        "lahaxearnaud/clockwork-cli": "dev-master",
+        "lahaxearnaud/clockwork-cli": "dev-master"
     },
     "autoload": {
         "psr-4": {
