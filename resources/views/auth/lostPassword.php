@@ -134,6 +134,12 @@
                         </div>
                     <?php } ?>
 
+                    <?php if (!empty(\Illuminate\Support\Facades\Session::get('error'))) {?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo trans(\Illuminate\Support\Facades\Session::get('error')); ?>
+                        </div>
+                    <?php } ?>
+
                 <form class="login" method="post" action="<?php echo  route('auth.lostPassword') ?>">
                     <input type="hidden" name="_token" value="<?php echo csrf_token() ?>">
                     <input type="text" name="username" placeholder="Username"/>
