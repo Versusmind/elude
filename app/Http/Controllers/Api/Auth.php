@@ -2,9 +2,7 @@
 
 use App\Libraries\OAuth\RefreshTokenHelper;
 use App\Libraries\OAuth\TokenHelper;
-use Illuminate\Support\Facades\Input;
 use League\OAuth2\Server\Exception\InvalidCredentialsException;
-use LucaDegasperi\OAuth2Server\Storage\FluentAccessToken;
 
 class Auth extends ApiController
 {

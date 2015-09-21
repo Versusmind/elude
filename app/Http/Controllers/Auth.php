@@ -28,7 +28,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -47,6 +46,7 @@ class Auth extends Controller
 
     /**
      * Auth constructor.
+     *
      * @param $userRepository
      */
     public function __construct(User $userRepository, TokenGenerator $tokenGenerator)
@@ -117,7 +117,6 @@ class Auth extends Controller
         return redirect(route('auth.loginForm'));
     }
 
-
     public function lostPasswordForm()
     {
         return view('auth.lostPassword')
@@ -126,6 +125,7 @@ class Auth extends Controller
 
     /**
      * @param Request $request
+     *
      * @return $this|\Illuminate\Http\RedirectResponse|\Laravel\Lumen\Http\Redirector
      */
     public function lostPassword(Request $request)
@@ -152,8 +152,8 @@ class Auth extends Controller
 
         $user = $users->first();
 
-        $token = $this->tokenGenerator->generate(50);
-        $user->lost_password_token = $token;
+        $token                                = $this->tokenGenerator->generate(50);
+        $user->lost_password_token            = $token;
         $user->lost_password_token_created_at = Carbon::now();
 
         try {
@@ -161,13 +161,12 @@ class Auth extends Controller
         } catch (ValidationException $e) {
             $request->session()->flash('error', 'auth.user_error_update');
 
-            return redirect(route('auth.lostPasswordForm', ['error' => true]));
+            return redirect(route('auth.lostPasswordForm'));
         }
 
         $this->dispatch(new LostPassword($user, Crypt::encrypt($token)));
 
         $request->session()->flash('success', 'auth.password_lost_email_sended');
-
 
         return redirect(route('auth.loginForm'));
     }
@@ -187,8 +186,9 @@ class Auth extends Controller
             return redirect(route('auth.lostPasswordForm'));
         }
 
+        // try to find the user with the username and the decrypt token, this will check the token existence
         $users = $this->userRepository->where([
-            'username' => base64_decode(Input::get('username')),
+            'username'            => base64_decode(Input::get('username')),
             'lost_password_token' => $decryptToken
         ]);
 
@@ -207,7 +207,6 @@ class Auth extends Controller
             return redirect(route('auth.lostPasswordForm'));
         }
 
-
         return view('auth.changeLostPassword')
             ->with('user', $user)
             ->with('token', $token)
@@ -216,13 +215,14 @@ class Auth extends Controller
 
     /**
      * @param Request $request
+     *
      * @return $this|\Illuminate\Http\RedirectResponse|\Laravel\Lumen\Http\Redirector
      */
     public function changeLostPassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required',
-            'token' => 'required',
+            'user_id'  => 'required',
+            'token'    => 'required',
             'password' => $this->userRepository->getModel()->getRules()['password']
         ]);
 
@@ -236,37 +236,48 @@ class Auth extends Controller
 
         try {
             $decryptToken = Crypt::decrypt($token);
+
+            // try to find the user with the user id and the decrypt token, this will check the token existence
+            $users = $this->userRepository->where([
+                'id'                  => Input::get('user_id', false),
+                'lost_password_token' => $decryptToken
+            ]);
+
+            if ($users->count() !== 1) {
+                $request->session()->flash('error', 'auth.user_not_found');
+
+                return redirect(route('auth.lostPasswordForm', ['error' => true]));
+            }
+
+            $user = $users->first();
+
+            // use a constant for the time validity of the token
+            if (Carbon::now()->diffInHours($user->lost_password_token_created_at) > 2) {
+                $request->session()->flash('error', 'auth.token_expired');
+
+                return redirect(route('auth.lostPasswordForm'));
+            }
+
+            // remove token
+            $user->lost_password_token            = null;
+            $user->lost_password_token_created_at = null;
+            // hash new password
+            $user->password = \Hash::make(Input::get('password'));
+
+            $this->userRepository->update($user);
+
+        } catch (ValidationException $e) {
+            $request->session()->flash('error', 'auth.user_error_update');
+
+            return redirect(route('auth.changeLostPasswordForm'));
+
         } catch (DecryptException $e) {
             $request->session()->flash('error', 'auth.token_not_valid');
 
             return redirect(route('auth.lostPasswordForm'));
         }
 
-        $users = $this->userRepository->where([
-            'id' => Input::get('user_id', false),
-            'lost_password_token' => $decryptToken
-        ]);
-
-        if ($users->count() !== 1) {
-            $request->session()->flash('error', 'auth.user_not_found');
-
-            return redirect(route('auth.lostPasswordForm', ['error' => true]));
-        }
-
-        $user = $users->first();
-        $user->lost_password_token = null;
-        $user->password = \Hash::make(Input::get('password'));
-
-        try {
-            $this->userRepository->update($user);
-        } catch (ValidationException $e) {
-            $request->session()->flash('error', 'auth.user_error_update');
-
-            return redirect(route('auth.changeLostPasswordForm', ['error' => true]));
-        }
-
         $request->session()->flash('success', 'auth.password_changed');
-
 
         return redirect(route('auth.login'));
     }

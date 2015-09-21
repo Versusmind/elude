@@ -38,6 +38,7 @@ class TokenGenerator
         }
         if (strlen($token) < $length) {
             $token = str_repeat($token, floor($length / strlen($token)));
+
             $token = str_shuffle($token);
         }
 
