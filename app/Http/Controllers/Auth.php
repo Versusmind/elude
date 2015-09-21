@@ -17,6 +17,7 @@
  *
  ******************************************************************************/
 
+use App\Jobs\Mails\AccountCreated;
 use App\Jobs\Mails\LostPassword;
 use App\Libraries\Acl\Repositories\User;
 use App\Libraries\OAuth\Password;
@@ -84,7 +85,6 @@ class Auth extends Controller
         Input::merge(['client_id' => Config::get('oauth2.web_client.client_id')]);
         Input::merge(['client_secret' => Config::get('oauth2.web_client.client_secret')]);
         Input::merge(['grant_type' => 'password']);
-
         try {
 
             $oauth = \Authorizer::issueAccessToken();
@@ -94,6 +94,7 @@ class Auth extends Controller
 
             return redirect('/');
         } catch (\Exception $e) {
+            dd($e);
 
             return redirect(route('auth.loginForm', ['error' => true]));
         }
@@ -309,6 +310,8 @@ class Auth extends Controller
         $inputs['password'] = \Hash::make($inputs['password']);
 
         $user = $this->userRepository->create(new \App\User($inputs), false);
+        $this->dispatch(new AccountCreated($user));
+
 
         $request->session()->flash('success', 'auth.account_created');
 

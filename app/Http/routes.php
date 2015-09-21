@@ -34,19 +34,22 @@
 |--------------------------------------------------------------------------
 */
 $app->get('auth/login', ['as' => 'auth.loginForm', 'uses' => 'Auth@loginForm']);
-$app->post('auth/login', ['as' => 'auth.login', 'uses' => 'Auth@login']);
 
-$app->post('auth/lost-password', ['as' => 'auth.lostPassword', 'uses' => 'Auth@lostPassword']);
 $app->get('auth/lost-password', ['as' => 'auth.lostPasswordForm', 'uses' => 'Auth@lostPasswordForm']);
 
 $app->get('auth/change-lost-password', ['as' => 'auth.changeLostPasswordForm', 'uses' => 'Auth@changeLostPasswordForm']);
-$app->post('auth/change-lost-password', ['as' => 'auth.changeLostPassword', 'uses' => 'Auth@changeLostPassword']);
 
 $app->get('auth/register', ['as' => 'auth.registerForm', 'uses' => 'Auth@registerForm']);
-$app->post('auth/register', ['as' => 'auth.register', 'uses' => 'Auth@register']);
+
+$app->group(['middleware' => 'csrf'], function () use ($app) {
+    $app->post('auth/register', ['as' => 'auth.register', 'uses' => \App\Http\Controllers\Auth::class . '@register']);
+    $app->post('auth/change-lost-password', ['as' => 'auth.changeLostPassword', 'uses' => \App\Http\Controllers\Auth::class . '@changeLostPassword']);
+    $app->post('auth/lost-password', ['as' => 'auth.lostPassword', 'uses' => \App\Http\Controllers\Auth::class . '@lostPassword']);
+    $app->post('auth/login', ['as' => 'auth.login', 'uses' => \App\Http\Controllers\Auth::class . '@login']);
+});
 
 $app->group(['middleware' => 'auth|csrf'], function () use ($app) {
-    $app->get('auth/logout', ['as' => 'auth.logout', 'uses' => 'Auth@logout']);
+    $app->get('auth/logout', ['as' => 'auth.logout', 'uses' => \App\Http\Controllers\Auth::class . '@logout']);
 
     $app->get('/', function () use ($app) {
 
@@ -106,7 +109,7 @@ $app->group(['prefix' => 'api/v1', 'middleware' => 'cors'], function () use ($ap
 
 if (env('APP_DEBUG', false)) {
     $app->group(['middleware' => 'cors'], function () use ($app) {
-        $app->get('/__clockwork/{id}',  ['as' => 'profiler.native', 'uses' => Clockwork\Support\Lumen\Controller::class . '@getData']);
+        $app->get('/__clockwork/{id}', ['as' => 'profiler.native', 'uses' => Clockwork\Support\Lumen\Controller::class . '@getData']);
         $app->get('api/__profiler/profiles/', ['as' => 'profiler.list', 'uses' => \App\Http\Controllers\Api\Profiler::class . '@index']);
         $app->get('api/__profiler/profiles/stats', ['as' => 'profiler.stats', 'uses' => \App\Http\Controllers\Api\Profiler::class . '@stats']);
         $app->get('api/__profiler/profiles/last', ['as' => 'profiler.last', 'uses' => \App\Http\Controllers\Api\Profiler::class . '@last']);

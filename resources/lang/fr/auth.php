@@ -17,5 +17,6 @@ return [
     'token_not_valid' => 'Le jeton de modification est invalide, merci d\'utiliser le formulaire de mot de passe perdu à nouveau',
     'token_expired' => 'Votre jeton de modification à expiré, merci d\'utiliser le formulaire de mot de passe perdu à nouveau',
     'password_lost_email_sended' => 'Un email contenant un lien unique permettant la modification de votre mot de passe vient de vous être envoyé',
-    'password_changed' => 'Votre nouveau mot de passe est enregistré'
+    'password_changed' => 'Votre nouveau mot de passe est enregistré',
+    'account_created' => 'Votre compte est crée, vous pouvez vous connecter dés maintenant'
 ];
