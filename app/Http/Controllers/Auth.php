@@ -281,4 +281,37 @@ class Auth extends Controller
 
         return redirect(route('auth.login'));
     }
+
+    public function registerForm()
+    {
+        if (!\Auth::guest()) {
+            return redirect('/');
+        }
+
+        return view('auth.register');
+    }
+
+    public function register(Request $request)
+    {
+        $rules = $this->userRepository->getModel()->getRules();
+        $rules['password'] .= '|confirmed';
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+
+            return redirect(route('auth.registerForm'))
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $inputs = $request->all();
+        $inputs['password'] = \Hash::make($inputs['password']);
+
+        $user = $this->userRepository->create(new \App\User($inputs), false);
+
+        $request->session()->flash('success', 'auth.account_created');
+
+        return redirect(route('auth.login', ['username' => $user->username]));
+    }
 }

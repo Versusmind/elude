@@ -42,6 +42,9 @@ $app->get('auth/lost-password', ['as' => 'auth.lostPasswordForm', 'uses' => 'Aut
 $app->get('auth/change-lost-password', ['as' => 'auth.changeLostPasswordForm', 'uses' => 'Auth@changeLostPasswordForm']);
 $app->post('auth/change-lost-password', ['as' => 'auth.changeLostPassword', 'uses' => 'Auth@changeLostPassword']);
 
+$app->get('auth/register', ['as' => 'auth.registerForm', 'uses' => 'Auth@registerForm']);
+$app->post('auth/register', ['as' => 'auth.register', 'uses' => 'Auth@register']);
+
 $app->group(['middleware' => 'auth|csrf'], function () use ($app) {
     $app->get('auth/logout', ['as' => 'auth.logout', 'uses' => 'Auth@logout']);
 
