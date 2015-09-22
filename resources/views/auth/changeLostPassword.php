@@ -147,23 +147,12 @@
                     <input type="hidden" name="user_id" value="<?php echo $user->id ?>">
                     <input type="text" name="username" placeholder="Username" disabled="disabled" value="<?php echo $user->username ?>"/>
                     <input type="password" name="password" placeholder="Password"/>
+                    <input type="password" name="password_confirmation" placeholder="Password repeat"/>
                     <input type="submit" value="Change password" class="btn btn-success btn-sm"/>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function () {
-        $('.forgot-pass').click(function (event) {
-            $(".pr-wrap").toggleClass("show-pass-reset");
-        });
-
-        $('.pass-reset-submit').click(function (event) {
-            $(".pr-wrap").removeClass("show-pass-reset");
-        });
-    });
-</script>
 </body>
 </html>

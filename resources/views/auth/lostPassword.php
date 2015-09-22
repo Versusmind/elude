@@ -143,7 +143,7 @@
                 <form class="login" method="post" action="<?php echo  route('auth.lostPassword') ?>">
                     <input type="hidden" name="_token" value="<?php echo csrf_token() ?>">
                     <input type="text" name="username" placeholder="Username"/>
-                    <input type="submit" value="Loast password" class="btn btn-success btn-sm"/>
+                    <input type="submit" value="Lost password" class="btn btn-success btn-sm"/>
                 </form>
             </div>
         </div>

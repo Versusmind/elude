@@ -157,7 +157,7 @@ class Password extends Controller
         $validator = Validator::make($request->all(), [
             'user_id'  => 'required',
             'token'    => 'required',
-            'password' => $this->userRepository->getModel()->getRules()['password']
+            'password' => $this->userRepository->getModel()->getRules()['password'] . '|confirmed'
         ]);
 
         if ($validator->fails()) {
