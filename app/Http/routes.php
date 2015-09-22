@@ -34,17 +34,14 @@
 |--------------------------------------------------------------------------
 */
 $app->get('auth/login', ['as' => 'auth.loginForm', 'uses' => 'Auth@loginForm']);
-
-$app->get('auth/lost-password', ['as' => 'auth.lostPasswordForm', 'uses' => 'Auth@lostPasswordForm']);
-
-$app->get('auth/change-lost-password', ['as' => 'auth.changeLostPasswordForm', 'uses' => 'Auth@changeLostPasswordForm']);
-
-$app->get('auth/register', ['as' => 'auth.registerForm', 'uses' => 'Auth@registerForm']);
+$app->get('auth/lost-password', ['as' => 'auth.lostPasswordForm', 'uses' => 'Password@lostPasswordForm']);
+$app->get('auth/change-lost-password', ['as' => 'auth.changeLostPasswordForm', 'uses' => 'Password@changeLostPasswordForm']);
+$app->get('auth/register', ['as' => 'auth.registerForm', 'uses' => 'Register@registerForm']);
 
 $app->group(['middleware' => 'csrf'], function () use ($app) {
-    $app->post('auth/register', ['as' => 'auth.register', 'uses' => \App\Http\Controllers\Auth::class . '@register']);
-    $app->post('auth/change-lost-password', ['as' => 'auth.changeLostPassword', 'uses' => \App\Http\Controllers\Auth::class . '@changeLostPassword']);
-    $app->post('auth/lost-password', ['as' => 'auth.lostPassword', 'uses' => \App\Http\Controllers\Auth::class . '@lostPassword']);
+    $app->post('auth/register', ['as' => 'auth.register', 'uses' => \App\Http\Controllers\Register::class . '@register']);
+    $app->post('auth/change-lost-password', ['as' => 'auth.changeLostPassword', 'uses' => \App\Http\Controllers\Password::class . '@changeLostPassword']);
+    $app->post('auth/lost-password', ['as' => 'auth.lostPassword', 'uses' => \App\Http\Controllers\Password::class . '@lostPassword']);
     $app->post('auth/login', ['as' => 'auth.login', 'uses' => \App\Http\Controllers\Auth::class . '@login']);
 });
 
