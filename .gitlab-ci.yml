@@ -6,7 +6,7 @@ job1:
         - "php artisan migrate --seed"
         - "php artisan assets:update"
         - "php artisan assets:build"
-        - "phpunit tests/Web/Auth/* -vvv"
+        - "phpunit --tap"
 
         # code coverage extraction for gitlab-ci (workaround for phpunit --colors=false not working for text code coverage)
         #- "cat /tmp/clover.txt"
