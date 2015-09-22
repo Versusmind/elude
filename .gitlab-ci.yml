@@ -7,7 +7,6 @@ job1:
         - "php artisan assets:update"
         - "php artisan assets:build"
         - "phpunit -vvv"
-        - "cat storage/logs/lumen.log"
 
         # code coverage extraction for gitlab-ci (workaround for phpunit --colors=false not working for text code coverage)
         #- "cat /tmp/clover.txt"
