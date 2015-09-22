@@ -20,9 +20,11 @@ class RegisterTest extends TestCase
             ->type($username, 'username')
             ->type(\Faker\Factory::create()->safeEmail, 'email')
             ->type('user123456', 'password')
-            ->type('user123456', 'password_confirm')
+            ->type('user123456', 'password_confirmation')
             ->press('Register')
-            ->seePageIs('/auth/login')
+            ->seePageIs('/auth/login?' . http_build_query([
+                    'username' => $username
+                ]))
             ->see('Votre compte est');
 
         $this->visit('/auth/login')
@@ -30,7 +32,7 @@ class RegisterTest extends TestCase
             ->type('user123456', 'password')
             ->press('Sign In')
             ->seePageIs('/')
-            ->see('Welcome user');
+            ->see('Welcome ' . $username);
         $this->assertSessionHas('oauth');
     }
 }

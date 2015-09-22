@@ -63,10 +63,14 @@ class Register extends Controller
                 ->withInput();
         }
 
-        $inputs             = $request->all();
-        $inputs['password'] = \Hash::make($inputs['password']);
+        $inputs = $request->all();
 
-        $user = $this->userRepository->create(new \App\User($inputs), false);
+        $user = new \App\User();
+        $user->username = $inputs['username'];
+        $user->password = \Hash::make($inputs['password']);
+        $user->email = $inputs['email'];
+
+        $user = $this->userRepository->create($user, false);
         $this->dispatch(new AccountCreated($user));
 
         $request->session()->flash('success', 'auth.account_created');

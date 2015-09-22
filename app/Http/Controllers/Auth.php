@@ -17,7 +17,7 @@
  *
  ******************************************************************************/
 
-use App\Libraries\OAuth\Password;
+use App\Libraries\OAuth\Password as OAuthPassword;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
@@ -75,7 +75,7 @@ class Auth extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Laravel\Lumen\Http\Redirector
      */
-    public function logout(Password $passwordService)
+    public function logout(OAuthPassword $passwordService)
     {
         // remove OAuth token from database and session
         $passwordService->logout();

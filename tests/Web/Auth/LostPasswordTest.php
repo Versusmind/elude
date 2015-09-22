@@ -1,6 +1,7 @@
 <?php namespace Tests\Web\Auth;
 
 use App\User;
+use Illuminate\Support\Facades\Crypt;
 use Tests\TestCase;
 
 /**
@@ -14,7 +15,7 @@ use Tests\TestCase;
 class LostPasswordTest extends TestCase
 {
 
-    public function testValidLogin()
+    public function testValidRegister()
     {
         $this->visit('/auth/lost-password')
             ->type('user', 'username')
@@ -29,13 +30,13 @@ class LostPasswordTest extends TestCase
 
         $cryptToken = Crypt::encrypt($user->lost_password_token);
 
-        $this->visit('/auth/change-password?' .http_build_query([
+        $this->visit('/auth/change-lost-password?' . http_build_query([
                 'username' => base64_encode($user->username),
                 'token' => $cryptToken
             ]))
             ->type($user->username, 'username')
             ->type('user123456', 'password')
-            ->type('user123456', 'password_confirm')
+            ->type('user123456', 'password_confirmation')
             ->press('Change password')
             ->seePageIs('/auth/login')
             ->see('Votre nouveau mot');
@@ -45,7 +46,7 @@ class LostPasswordTest extends TestCase
             ->type('user123456', 'password')
             ->press('Sign In')
             ->seePageIs('/')
-            ->see('Welcome user');
+            ->see('Welcome ' . $user->username);
         $this->assertSessionHas('oauth');
     }
 }
