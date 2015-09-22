@@ -94,7 +94,6 @@ class Auth extends Controller
 
             return redirect('/');
         } catch (\Exception $e) {
-            dd($e);
 
             return redirect(route('auth.loginForm', ['error' => true]));
         }
