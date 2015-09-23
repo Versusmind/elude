@@ -111,6 +111,7 @@ return [
             \App\Libraries\Twig\Extensions\Auth::class,
             \App\Libraries\Twig\Extensions\Env::class,
             \App\Libraries\Twig\Extensions\Utils::class,
+            \App\Libraries\Twig\Extensions\Translator::class,
         ],
 
         /*

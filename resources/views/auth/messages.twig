@@ -9,12 +9,12 @@
 
 {% if session_has('error') %}
     <div class="alert alert-danger" role="alert">
-        {{ session_get('error') }}
+        {{ session_get('error') | trans }}
     </div>
 {% endif %}
 
 {% if session_has('success') %}
     <div class="alert alert-success" role="alert">
-        {{ session_get('success') }}
+        {{ session_get('success') | trans }}
     </div>
 {% endif %}

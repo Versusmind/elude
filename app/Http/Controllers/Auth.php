@@ -18,6 +18,7 @@
  ******************************************************************************/
 
 use App\Libraries\OAuth\Password as OAuthPassword;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
@@ -37,17 +38,14 @@ class Auth extends Controller
             return redirect('/');
         }
 
-        return view('auth.login')
-            ->with('error', Input::get('error', false));
+        return view('auth.login');
     }
 
     /**
-     * @author LAHAXE Arnaud
-     *
-     *
+     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Laravel\Lumen\Http\Redirector
      */
-    public function login()
+    public function login(Request $request)
     {
 
         // set default web oauth client
@@ -63,8 +61,9 @@ class Auth extends Controller
 
             return redirect('/');
         } catch (\Exception $e) {
+            $request->session()->flash('error', 'auth.login_error');
 
-            return redirect(route('auth.loginForm', ['error' => true]));
+            return redirect(route('auth.loginForm'));
         }
     }
 
