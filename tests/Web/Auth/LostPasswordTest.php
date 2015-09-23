@@ -15,7 +15,7 @@ use Tests\TestCase;
 class LostPasswordTest extends TestCase
 {
 
-    public function testValidRegister()
+    public function testValidLostPassword()
     {
         $this->visit('/auth/lost-password')
             ->type('user', 'username')

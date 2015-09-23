@@ -13,7 +13,7 @@ use Tests\TestCase;
 class RegisterTest extends TestCase
 {
 
-    public function testValidLogin()
+    public function testValidRegister()
     {
         $username = \Faker\Factory::create()->userName;
         $this->visit('/auth/register')
