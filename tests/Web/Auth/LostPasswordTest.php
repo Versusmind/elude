@@ -17,9 +17,8 @@ class LostPasswordTest extends TestCase
 
     public function testValidLostPassword()
     {
-        $this->visit('/auth/lost-password');
-        $this->debug($this->response->getContent());
-        $this->type('user', 'username')
+        $this->visit('/auth/lost-password')
+            ->type('user', 'username')
             ->press('Lost password')
             ->seePageIs('/auth/login')
             ->see('Un email contenant');

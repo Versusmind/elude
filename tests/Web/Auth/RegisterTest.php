@@ -16,10 +16,8 @@ class RegisterTest extends TestCase
     public function testValidRegister()
     {
         $username = \Faker\Factory::create()->userName;
-        $this->visit('/auth/register');
-        $this->debug($this->response->getContent());
-
-        $this->type($username, 'username')
+        $this->visit('/auth/register')
+            ->type($username, 'username')
             ->type(\Faker\Factory::create()->safeEmail, 'email')
             ->type('user123456', 'password')
             ->type('user123456', 'password_confirmation')
