@@ -98,22 +98,16 @@ return [
         |
         */
         'enabled' => [
-            'TwigBridge\Extension\Loader\Facades',
-            'TwigBridge\Extension\Loader\Filters',
-            'TwigBridge\Extension\Loader\Functions',
-
-            //'TwigBridge\Extension\Laravel\Auth',
-            'TwigBridge\Extension\Laravel\Config',
-            'TwigBridge\Extension\Laravel\Dump',
-            'TwigBridge\Extension\Laravel\Input',
-            'TwigBridge\Extension\Laravel\Session',
-            'TwigBridge\Extension\Laravel\String',
-            //'TwigBridge\Extension\Laravel\Translator',
-            //'TwigBridge\Extension\Laravel\Url',
-            
-            // 'TwigBridge\Extension\Laravel\Form',
-            // 'TwigBridge\Extension\Laravel\Html',
-            // 'TwigBridge\Extension\Laravel\Legacy\Facades',
+            \TwigBridge\Extension\Loader\Facades::class,
+            \TwigBridge\Extension\Loader\Filters::class,
+            \TwigBridge\Extension\Loader\Functions::class,
+            \TwigBridge\Extension\Laravel\Config::class,
+            \TwigBridge\Extension\Laravel\Dump::class,
+            \TwigBridge\Extension\Laravel\Input::class,
+            \TwigBridge\Extension\Laravel\Session::class,
+            \TwigBridge\Extension\Laravel\String::class,
+            \App\Libraries\Twig\Extensions\Assets::class,
+            \App\Libraries\Twig\Extensions\Router::class,
         ],
 
         /*

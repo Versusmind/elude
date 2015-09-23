@@ -1,8 +1,6 @@
 <html>
 <head>
-    <?php
-    echo Assets::style(\App\Libraries\Assets\Collection::createByGroup('style'));
-    ?>
+    {{ style('style') }}
     <style>
         body {
             background: url('http://farm3.staticflickr.com/2832/12303719364_c25cecdc28_b.jpg') fixed;
