@@ -34,9 +34,20 @@
 |--------------------------------------------------------------------------
 */
 $app->get('auth/login', ['as' => 'auth.loginForm', 'uses' => 'Auth@loginForm']);
-$app->post('auth/login', ['as' => 'auth.login', 'uses' => 'Auth@login']);
+$app->get('auth/lost-password', ['as' => 'auth.lostPasswordForm', 'uses' => 'Password@lostPasswordForm']);
+$app->get('auth/change-lost-password', ['as' => 'auth.changeLostPasswordForm', 'uses' => 'Password@changeLostPasswordForm']);
+$app->get('auth/register', ['as' => 'auth.registerForm', 'uses' => 'Register@registerForm']);
+
+$app->group(['middleware' => 'csrf'], function () use ($app) {
+    $app->post('auth/register', ['as' => 'auth.register', 'uses' => \App\Http\Controllers\Register::class . '@register']);
+    $app->post('auth/change-lost-password', ['as' => 'auth.changeLostPassword', 'uses' => \App\Http\Controllers\Password::class . '@changeLostPassword']);
+    $app->post('auth/lost-password', ['as' => 'auth.lostPassword', 'uses' => \App\Http\Controllers\Password::class . '@lostPassword']);
+    $app->post('auth/login', ['as' => 'auth.login', 'uses' => \App\Http\Controllers\Auth::class . '@login']);
+});
 
 $app->group(['middleware' => 'auth|csrf'], function () use ($app) {
+    $app->get('auth/logout', ['as' => 'auth.logout', 'uses' => \App\Http\Controllers\Auth::class . '@logout']);
+
     $app->get('/', function () use ($app) {
 
         Clockwork::info('Message text.'); // 'Message text.' appears in Clockwork log tab
@@ -82,6 +93,8 @@ $app->group(['prefix' => 'api/v1', 'middleware' => 'cors'], function () use ($ap
         $app->patch('users/{id}/group/{idGroup}', ['as' => 'users.group.update', 'uses' => \App\Http\Controllers\Api\User::class . '@groupUpdate']);
 
         $app->resource('permissions', \App\Http\Controllers\Api\Permission::class);
+
+        $app->post('oauth/logout', ['as' => 'oauth.logout', 'uses' => App\Http\Controllers\Api\Auth::class . '@logout']);
     });
 });
 
@@ -93,7 +106,7 @@ $app->group(['prefix' => 'api/v1', 'middleware' => 'cors'], function () use ($ap
 
 if (env('APP_DEBUG', false)) {
     $app->group(['middleware' => 'cors'], function () use ($app) {
-        $app->get('/__clockwork/{id}',  ['as' => 'profiler.native', 'uses' => Clockwork\Support\Lumen\Controller::class . '@getData']);
+        $app->get('/__clockwork/{id}', ['as' => 'profiler.native', 'uses' => Clockwork\Support\Lumen\Controller::class . '@getData']);
         $app->get('api/__profiler/profiles/', ['as' => 'profiler.list', 'uses' => \App\Http\Controllers\Api\Profiler::class . '@index']);
         $app->get('api/__profiler/profiles/stats', ['as' => 'profiler.stats', 'uses' => \App\Http\Controllers\Api\Profiler::class . '@stats']);
         $app->get('api/__profiler/profiles/last', ['as' => 'profiler.last', 'uses' => \App\Http\Controllers\Api\Profiler::class . '@last']);

@@ -99,7 +99,7 @@ abstract class Repository implements CriteriaInterface
      * @throws AttributeNotExist
      * @throws ModelNotValid
      */
-    public function update(Model $model, $attributes, $validate = true)
+    public function update(Model $model, $attributes = array(), $validate = true)
     {
         foreach ($attributes as $key => $value) {
             if (in_array($key, $model->getFillable(), true)) {

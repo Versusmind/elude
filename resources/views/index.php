@@ -13,6 +13,8 @@
 <body>
     <div>Welcome <?php echo Auth::user()->username ?></div>
 
+    <a href="/auth/logout">Logout</a>
+
     <div ui-view></div>
 
     <a href="https://angular-ui.github.io/bootstrap/">More widgets here</a>

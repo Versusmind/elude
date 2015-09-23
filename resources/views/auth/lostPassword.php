@@ -125,12 +125,12 @@
         <div class="col-md-12">
             <div class="wrap">
                 <p class="form-title">
-                    Sign In
+                    Lost password
                 </p>
 
                     <?php if ($error) {?>
                         <div class="alert alert-danger" role="alert">
-                            Nom d'utilisateur ou mot de passe incorrect
+                            Nom d'utilisateur incorrect
                         </div>
                     <?php } ?>
 
@@ -140,17 +140,10 @@
                         </div>
                     <?php } ?>
 
-                    <?php if (!empty(\Illuminate\Support\Facades\Session::get('success'))) {?>
-                        <div class="alert alert-success" role="alert">
-                            <?php echo trans(\Illuminate\Support\Facades\Session::get('success')); ?>
-                        </div>
-                    <?php } ?>
-
-                <form class="login" method="post" action="<?php echo  route('auth.login') ?>">
+                <form class="login" method="post" action="<?php echo  route('auth.lostPassword') ?>">
                     <input type="hidden" name="_token" value="<?php echo csrf_token() ?>">
                     <input type="text" name="username" placeholder="Username"/>
-                    <input type="password" name="password" placeholder="Password"/>
-                    <input type="submit" value="Sign In" class="btn btn-success btn-sm"/>
+                    <input type="submit" value="Lost password" class="btn btn-success btn-sm"/>
                 </form>
             </div>
         </div>

@@ -125,13 +125,15 @@
         <div class="col-md-12">
             <div class="wrap">
                 <p class="form-title">
-                    Sign In
+                    Register
                 </p>
 
-                    <?php if ($error) {?>
-                        <div class="alert alert-danger" role="alert">
-                            Nom d'utilisateur ou mot de passe incorrect
-                        </div>
+                    <?php
+                        $errors = $errors->all();
+                        if(count($errors) > 0) { ?>
+                            <div class="alert alert-danger" role="alert">
+                                <?php echo join('<br/>', $errors); ?>
+                            </div>
                     <?php } ?>
 
                     <?php if (!empty(\Illuminate\Support\Facades\Session::get('error'))) {?>
@@ -146,27 +148,18 @@
                         </div>
                     <?php } ?>
 
-                <form class="login" method="post" action="<?php echo  route('auth.login') ?>">
+                <form class="login" method="post" action="<?php echo  route('auth.register') ?>">
                     <input type="hidden" name="_token" value="<?php echo csrf_token() ?>">
                     <input type="text" name="username" placeholder="Username"/>
+                    <input type="text" name="email" placeholder="Email"/>
                     <input type="password" name="password" placeholder="Password"/>
-                    <input type="submit" value="Sign In" class="btn btn-success btn-sm"/>
+                    <input type="password" name="password_confirmation" placeholder="Password repeat"/>
+                    <input type="submit" value="Register" class="btn btn-success btn-sm"/>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
-<script>
-    $(document).ready(function () {
-        $('.forgot-pass').click(function (event) {
-            $(".pr-wrap").toggleClass("show-pass-reset");
-        });
-
-        $('.pass-reset-submit').click(function (event) {
-            $(".pr-wrap").removeClass("show-pass-reset");
-        });
-    });
-</script>
 </body>
 </html>
