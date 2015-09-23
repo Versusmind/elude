@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterTableUsersAddLostPasswordToken extends Migration
+class AlterTableUsersAddLostPassword extends Migration
 {
     /**
      * Run the migrations.
