@@ -1,9 +1,8 @@
 <html ng-app="myo">
 <head>
-    <base href="<?php echo env('SUBFOLDER_INSTALLATION', '/') ?>">
-    <?php
-        echo Assets::style('style');
-    ?>
+    <base href="{{ env('SUBFOLDER_INSTALLATION', '/') }}">
+
+    {{ style('style') }}
 
     <meta name="access_token" content="<?php echo Session::get('oauth.access_token')?>">
     <meta name="refresh_token" content="<?php echo Session::get('oauth.refresh_token')?>">
@@ -11,7 +10,7 @@
 </head>
 
 <body>
-    <div>Welcome <?php echo Auth::user()->username ?></div>
+    <div>Welcome {{ user().username }}</div>
 
     <a href="/auth/logout">Logout</a>
 
@@ -19,9 +18,7 @@
 
     <a href="https://angular-ui.github.io/bootstrap/">More widgets here</a>
 
-    <?php
-        echo Assets::javascript('javascript-core');
-        echo Assets::javascript('javascript-app');
-    ?>
+    {{ javascript('javascript-core') }}
+    {{ javascript('javascript-app') }}
 </body>
 </html>

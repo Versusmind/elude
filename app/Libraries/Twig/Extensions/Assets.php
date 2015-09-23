@@ -32,10 +32,13 @@ class Assets extends Twig_Extension
                 ]
             ),
             new Twig_SimpleFunction(
-                'script',
+                'javascript',
                 function ($name) {
-                    return \App\Facades\Assets::script(\App\Libraries\Assets\Collection::createByGroup($name));
-                }
+                    return \App\Facades\Assets::javascript(\App\Libraries\Assets\Collection::createByGroup($name));
+                },
+                [
+                    'is_safe' => ['html']
+                ]
             )
         ];
     }

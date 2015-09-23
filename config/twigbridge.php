@@ -46,7 +46,7 @@ return [
 
             // The base template class to use for generated templates.
             // default: TwigBridge\Twig\Template
-            'base_template_class' => 'TwigBridge\Twig\Template',
+            'base_template_class' => TwigBridge\Twig\Template::class,
 
             // An absolute path where to store the compiled templates, or false to disable caching. If null
             // then the cache file path is used.
@@ -108,6 +108,9 @@ return [
             \TwigBridge\Extension\Laravel\String::class,
             \App\Libraries\Twig\Extensions\Assets::class,
             \App\Libraries\Twig\Extensions\Router::class,
+            \App\Libraries\Twig\Extensions\Auth::class,
+            \App\Libraries\Twig\Extensions\Env::class,
+            \App\Libraries\Twig\Extensions\Utils::class,
         ],
 
         /*
@@ -169,9 +172,7 @@ return [
         */
         'functions' => [
             'head',
-            'last',
-            'route',
-            'csrf_token'
+            'last'
         ],
 
         /*
