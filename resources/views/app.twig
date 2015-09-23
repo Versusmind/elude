@@ -118,41 +118,14 @@
             letter-spacing: 1px;
         }
     </style>
+
+    {% block cssInline %}{% endblock %}
 </head>
 <body>
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="wrap">
-                <p class="form-title">
-                    Change password
-                </p>
-
-                    <?php if ($error) {?>
-                        <div class="alert alert-danger" role="alert">
-                            Nom d'utilisateur incorrect
-                        </div>
-                    <?php } ?>
-
-
-                    <?php if (!empty(\Illuminate\Support\Facades\Session::get('error'))) {?>
-                        <div class="alert alert-danger" role="alert">
-                            <?php echo trans(\Illuminate\Support\Facades\Session::get('error')); ?>
-                        </div>
-                    <?php } ?>
-
-                <form class="login" method="post" action="<?php echo  route('auth.changeLostPassword') ?>">
-                    <input type="hidden" name="_token" value="<?php echo csrf_token() ?>">
-                    <input type="hidden" name="token" value="<?php echo $token ?>">
-                    <input type="hidden" name="user_id" value="<?php echo $user->id ?>">
-                    <input type="text" name="username" placeholder="Username" disabled="disabled" value="<?php echo $user->username ?>"/>
-                    <input type="password" name="password" placeholder="Password"/>
-                    <input type="password" name="password_confirmation" placeholder="Password repeat"/>
-                    <input type="submit" value="Change password" class="btn btn-success btn-sm"/>
-                </form>
-            </div>
-        </div>
-    </div>
+    {% block content %}{% endblock %}
 </div>
+
+{% block jsInline %}{% endblock %}
 </body>
 </html>

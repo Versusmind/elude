@@ -1,0 +1,24 @@
+{% extends 'app' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="wrap">
+                <p class="form-title">
+                    Register
+                </p>
+
+                {% include 'auth.messages' %}
+
+                <form class="login" method="post" action="{{ route('auth.register') }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="text" name="username" placeholder="Username"/>
+                    <input type="text" name="email" placeholder="Email"/>
+                    <input type="password" name="password" placeholder="Password"/>
+                    <input type="password" name="password_confirmation" placeholder="Password repeat"/>
+                    <input type="submit" value="Register" class="btn btn-success btn-sm"/>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
