@@ -8,28 +8,10 @@ angular.module('app.config', [])
     
     .constant('appdir', 'assets/app')
 
-    .config(function($stateProvider, $urlRouterProvider, appdir) {
+    .config(function($urlRouterProvider) {
 
-        // For any unmatched url, redirect to /
-        $urlRouterProvider.otherwise('/');
+        // For any unmatched url, redirect to /home
+        $urlRouterProvider.otherwise('/home');
 
-        // Now set up the states
-        $stateProvider
-            .state('home', {
-                url: '/',
-                templateUrl: appdir + '/components/home/home.html',
-                controller: 'homeController'
-            })
-
-           /* .state('alerts', {
-                url: '/alerts',
-                templateUrl: 'alert.html',
-                controller: 'AlertDemoCtrl'
-            })
-
-            .state('accordion', {
-                url: '/accordion',
-                templateUrl: templateDir + 'accordion.html',
-                controller: 'AccordionDemoCtrl'
-            })*/
+       //states are configured in each controller
     });

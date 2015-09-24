@@ -4,7 +4,7 @@ angular.module('app')
 .directive('appHeader', function(appdir, appname) {
     return {
         restrict: 'E',
-        transclude: true,
+
         scope: {
             'appname' : '='
         },
@@ -12,11 +12,15 @@ angular.module('app')
 
             $scope.appname = appname;
             
-            $scope.menu = { 
-                'Page 1': '#1',
-                'Page 2': '#2',
-                'Page 3': '#3'
+            $scope.menuLeft = { 
+                'Accueil': '#/home'
             };
+            
+            $scope.menuRight = { 
+                'Administration': '#/admin/users',
+                'Déconnexion': '/auth/logout'
+            };
+            
 
         },
         templateUrl: appdir + '/shared/header/header.html'

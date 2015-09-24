@@ -4,13 +4,13 @@ angular.module('myo')
 .directive('myoNavbar', function(appdir) {
     return {
         restrict: 'E',
-        transclude: true,
+        replace: true,
         scope: {
             'appname': '=',
-            'rawMenu': '=menu'
+            'rawMenu': '=menuRight',
+            'rawMenuLeft': '=menuLeft'
         },
-        controller: function($scope, $rootScope, $location) {
-            
+        controller: function($scope, $rootScope, $state) {
             
              /**
              * generate menu from flat menu (passed in params)
@@ -34,68 +34,71 @@ angular.module('myo')
              *      'title2' : '#/link/to/page2',
              *    }
              *
+             *  Alternatively, you can have 2 menus (one on the left and one on the right), you need to add "menu-left"
+             *  with the same parameters to your directive call
+             *
+             *
              **/
-             console.log('scope',$scope);
-            $scope.menu = [];
-            _.each($scope.rawMenu, function(link, title) {
+             
+            $scope.menus = {
+                'right': [],
+                'left': []
+            }
+            _.each({'right': $scope.rawMenu, 'left': $scope.rawMenuLeft}, function(rawContent, menuKey) {
+                if (rawContent) {
+                    _.each(rawContent, function(link, title) {
+        
+                        if (_.isPlainObject(link)) {
+                            //get subitems
+                            var subItems = [];
+                            if (link.subItems) {
+                                _.each(link.subItems, function(sublink, subtitle) {
+                                    subItems.push({
+                                        title: subtitle,
+                                        link: sublink,
+                                        active: false
+                                    });
+                                });
+                            }
 
-                if (_.isPlainObject(link)) {
-                    //get subitems
-                    var subItems = [];
-                    if (link.subItems) {
-                        _.each(link.subItems, function(sublink, subtitle) {
-                            subItems.push({
-                                title: subtitle,
-                                link: sublink,
+                            $scope.menus[menuKey].push({
+                                title: title,
+                                link: link.link,
+                                active: false,
+                                subItems: subItems
+                            });
+        
+                        } else {
+                            $scope.menus[menuKey].push({
+                                title: title,
+                                link: link,
                                 active: false
                             });
-                        });
-                    }
-
-                    $scope.menu.push({
-                        title: title,
-                        link: link.link,
-                        active: false,
-                        subItems: subItems
-                    });
-
-                } else {
-                    $scope.menu.push({
-                        title: title,
-                        link: link,
-                        active: false
+                        }
                     });
                 }
             });
             
-            console.log('$scope.menu',$scope.menu);
             function onLocationChange() {
                 //go thru the menu and change the active param
 
-                var url = $location.path();
-
-                _.each($scope.menu, function(item) {
-                    item.active = _.startsWith('#' + url, item.link);
-                    if (item.subItems) {
-                        _.each(item.subItems, function(subitem) {
-                            subitem.active = _.startsWith('#' + url, subitem.link);
+                var url = $state.current.url;
+                 _.each($scope.menus, function(menu, menuKey) {
+                     if (menu) {
+                        _.each(menu, function(item) {
+                            item.active = _.startsWith('#' + url, item.link);
+                            if (item.subItems) {
+                                _.each(item.subItems, function(subitem) {
+                                    subitem.active = _.startsWith('#' + url, subitem.link);
+                                });
+                            }
                         });
                     }
                 });
             }
 
-            $rootScope.$on('$locationChangeStart', function(event, newUrl, oldUrl) {
-                onLocationChange();
-            });
-
-            $scope.onLinkClick = function($event) {
-                //call callback if defined
-                if ($scope.onClick) {
-                    $scope.onClick({'hash': $event.target.hash});
-                }
-            };
-
-            onLocationChange();
+            $rootScope.$on('$stateChangeStart', onLocationChange);
+            onLocationChange();//call it on the first launch
         
         },
         templateUrl: appdir + '/myo/components/navbar/navbar.html'

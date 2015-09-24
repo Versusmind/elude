@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-inverse navbar-static-top">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -10,9 +10,9 @@
       <a class="navbar-brand" href="#">{{ appname }}</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav navbar-right">
-        <li ng-repeat="menuItem in menu">
-            <a ng-class="{ active: menuItem.active}" ng-href="{{menuItem.link}}" ng-click="onLinkClick($event)">{{menuItem.title}}</a>
+      <ul ng-class="{ 'nav navbar-nav': true, 'navbar-right':(type=='right'), 'navbar':(type=='left')}" ng-repeat="(type,menu) in menus">
+        <li ng-class="{ active: menuItem.active}" ng-repeat="menuItem in menu" >
+            <a  ng-href="{{menuItem.link}}" ng-click="onLinkClick($event)">{{menuItem.title}}</a>
             <div class="sous-nav" ng-if="menuItem.subItems">
                 <ul>
                     <li ng-repeat="menuSubItem in menuItem.subItems" ng-class="{active:menuSubItem.active}">
