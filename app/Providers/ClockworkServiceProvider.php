@@ -27,6 +27,7 @@ use Clockwork\DataSource\SwiftDataSource;
 use Clockwork\Support\Lumen\ClockworkSupport;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
+use App\Libraries\Clockwork\ConfigDataSource;
 
 class ClockworkServiceProvider extends ServiceProvider
 {
@@ -51,6 +52,7 @@ class ClockworkServiceProvider extends ServiceProvider
         if (!$this->app['clockwork.support']->isEnabled()) {
             return; // Clockwork is disabled, don't register the route
         }
+
     }
 
     public function register()
@@ -86,7 +88,8 @@ class ClockworkServiceProvider extends ServiceProvider
             $clockwork
                 ->addDataSource(new PhpDataSource())
                 ->addDataSource(new MonologDataSource($app['log']))
-                ->addDataSource($app['clockwork.lumen']);
+                ->addDataSource($app['clockwork.lumen'])
+                ->addDataSource(new ConfigDataSource());
 
             if ($app['clockwork.support']->isCollectingDatabaseQueries()) {
                 $clockwork->addDataSource($app['clockwork.eloquent']);
