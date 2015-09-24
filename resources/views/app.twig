@@ -1,8 +1,6 @@
 <html>
 <head>
-    <?php
-    echo Assets::style(\App\Libraries\Assets\Collection::createByGroup('style'));
-    ?>
+    {{ style('style') }}
     <style>
         body {
             background: url('http://farm3.staticflickr.com/2832/12303719364_c25cecdc28_b.jpg') fixed;
@@ -118,43 +116,14 @@
             letter-spacing: 1px;
         }
     </style>
+
+    {% block cssInline %}{% endblock %}
 </head>
 <body>
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="wrap">
-                <p class="form-title">
-                    Sign In
-                </p>
-
-                    <?php if ($error) {?>
-                        <div class="alert alert-danger" role="alert">
-                            Nom d'utilisateur ou mot de passe incorrect
-                        </div>
-                    <?php } ?>
-
-                <form class="login" method="post" action="<?php echo  route('auth.login') ?>">
-                    <input type="hidden" name="_token" value="<?php echo csrf_token() ?>">
-                    <input type="text" name="username" placeholder="Username"/>
-                    <input type="password" name="password" placeholder="Password"/>
-                    <input type="submit" value="Sign In" class="btn btn-success btn-sm"/>
-                </form>
-            </div>
-        </div>
-    </div>
+    {% block content %}{% endblock %}
 </div>
 
-<script>
-    $(document).ready(function () {
-        $('.forgot-pass').click(function (event) {
-            $(".pr-wrap").toggleClass("show-pass-reset");
-        });
-
-        $('.pass-reset-submit').click(function (event) {
-            $(".pr-wrap").removeClass("show-pass-reset");
-        });
-    });
-</script>
+{% block jsInline %}{% endblock %}
 </body>
 </html>

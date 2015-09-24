@@ -1,6 +1,5 @@
 <?php namespace Tests;
 
-use Illuminate\Support\Facades\Config;
 
 class TestCase extends \Laravel\Lumen\Testing\TestCase
 {
@@ -22,7 +21,7 @@ class TestCase extends \Laravel\Lumen\Testing\TestCase
         parent::setUp();
 
         if (!isset(self::$dbRefresh[get_class($this)])) {
-            //$this->debug("\n# Refresh database for class " . get_class($this));
+
             $this->artisan('migrate:refresh');
             $this->seed();
             self::$dbRefresh[get_class($this)] = true;

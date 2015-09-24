@@ -119,12 +119,12 @@ $app->register(Appzcoder\LumenRoutesList\RoutesCommandServiceProvider::class);
 $app->register(LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class);
 $app->register(LucaDegasperi\OAuth2Server\Lumen\OAuth2ServerServiceProvider::class);
 $app->register(Barryvdh\Cors\LumenServiceProvider::class);
-
+$app->register(TwigBridge\ServiceProvider::class);
 
 
 $app->configure('oauth2');
 $app->configure('cors');
-
+$app->configure('twigbridge');
 
 /*
 |--------------------------------------------------------------------------

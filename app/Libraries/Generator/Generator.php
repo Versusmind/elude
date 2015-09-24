@@ -1,11 +1,14 @@
 <?php namespace App\Libraries\Generator;
 
-
-use App\Libraries\Generator\Generators\Model\Fillable;
 use App\Libraries\Generator\Generators\Api\InputParameters;
-use App\Libraries\Generator\Generators\Migration;
 use App\Libraries\Generator\Generators\Api\OutputParameters;
+use App\Libraries\Generator\Generators\Migration\Columns;
+use App\Libraries\Generator\Generators\Migration\ExternalFields;
+use App\Libraries\Generator\Generators\Model\BelongTo;
+use App\Libraries\Generator\Generators\Model\Fillable;
 use App\Libraries\Generator\Generators\Model\Rules;
+use App\Libraries\Generator\Generators\Route\ForeignKeys;
+use App\Libraries\Generator\Generators\Route\Resource;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
@@ -31,20 +34,24 @@ class Generator
     public static $varSeparator = '$$';
 
     private static $templateDataMapping = [
-        'AUTHOR_NAME' => 'author',
-        'MODEL_NAME' => 'modelName',
-        'MODEL_NAME_LOWER_CASE' => 'modelNameLowerCase',
-        'DATE' => 'date',
-        'MODEL_NAME_TABLE' => 'tableName',
-        'MODEL_NAME_PLURAL' => 'tableName',
-        'MODEL_NAME_PLURAL_CAPITALIZED' => 'tableNameCapitalizes',
-        'MIGRATION_FIELDS' => 'migrationFields',
-        'FILLABLE_FIELDS' => 'fillableFields',
-        'VALIDATORS' => 'validators',
-        'INPUT_MODEL_PARAM_API' => 'inputModelParamApi',
+        'AUTHOR_NAME'                       => 'author',
+        'MODEL_NAME'                        => 'modelName',
+        'MODEL_NAME_LOWER_CASE'             => 'modelNameLowerCase',
+        'DATE'                              => 'date',
+        'MODEL_NAME_TABLE'                  => 'tableName',
+        'MODEL_NAME_PLURAL'                 => 'tableName',
+        'MODEL_NAME_PLURAL_CAPITALIZED'     => 'tableNameCapitalizes',
+        'MIGRATION_FIELDS'                  => 'migrationFields',
+        'FILLABLE_FIELDS'                   => 'fillableFields',
+        'VALIDATORS'                        => 'validators',
+        'INPUT_MODEL_PARAM_API'             => 'inputModelParamApi',
         'OUTPUT_MODEL_ATTRIBUTE_API_CREATE' => 'outputModelAttributeApiCreate',
         'OUTPUT_MODEL_ATTRIBUTE_API_UPDATE' => 'outputModelAttributeApiUpdate',
-        'OUTPUT_MODEL_ATTRIBUTE_API_SHOW' => 'outputModelAttributeApiShow',
+        'OUTPUT_MODEL_ATTRIBUTE_API_SHOW'   => 'outputModelAttributeApiShow',
+        'BELONG_TO_FUNCTIONS'               => 'belongToFunctions',
+        'FOREIGN_KEY_FIELDS'                => 'foreignKeyFields',
+        'RELATIONS_API'                     => 'relationsApi',
+        'RELATIONS_REPOSITORY'              => 'relationsRepository'
     ];
 
     protected $templatesDirectory;
@@ -54,20 +61,24 @@ class Generator
     protected $modelName;
 
     protected $templateData = [
-        'migrationFields' => '',
-        'fillableFields' => '',
-        'validators' => '',
-        'inputModelParamApi' => '',
+        'migrationFields'               => '',
+        'fillableFields'                => '',
+        'validators'                    => '',
+        'inputModelParamApi'            => '',
         'outputModelAttributeApiCreate' => '',
         'outputModelAttributeApiUpdate' => '',
-        'outputModelAttributeApiShow' => '',
+        'outputModelAttributeApiShow'   => '',
+        'belongToFunctions'             => '',
+        'foreignKeyFields'              => '',
+        'relationsApi'                  => '',
+        'relationsRepository'           => ''
     ];
 
     protected $files = [
-        'migration' => '',
-        'model' => '',
-        'repository' => '',
-        'controller' => '',
+        'migration'      => '',
+        'model'          => '',
+        'repository'     => '',
+        'controller'     => '',
         'repositoryTest' => '',
         'controllerTest' => '',
     ];
@@ -78,21 +89,21 @@ class Generator
      */
     public function __construct($modelName, $userRestrictive = true, $author = '')
     {
-        $this->modelName = $modelName;
-        $this->userRestrictive = $userRestrictive;
-        $this->templateData['author'] = $author;
-        $this->templateData['modelName'] = ucfirst(camel_case($modelName));
-        $this->templatesDirectory = __DIR__ . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR;
-        $this->templateData['date'] = Carbon::now()->toDateTimeString();
-        $this->templateData['tableName'] = strtolower(str_plural($this->modelName));
+        $this->modelName                            = $modelName;
+        $this->userRestrictive                      = $userRestrictive;
+        $this->templateData['author']               = $author;
+        $this->templateData['modelName']            = ucfirst(camel_case($modelName));
+        $this->templatesDirectory                   = __DIR__ . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR;
+        $this->templateData['date']                 = Carbon::now()->toDateTimeString();
+        $this->templateData['tableName']            = strtolower(str_plural($this->modelName));
         $this->templateData['tableNameCapitalizes'] = ucfirst($this->templateData['tableName']);
-        $this->templateData['modelNameLowerCase'] = strtolower($this->templateData['tableName']);
+        $this->templateData['modelNameLowerCase']   = strtolower($this->templateData['modelName']);
 
         $this->files = [
-            'migration' => 'database' . DIRECTORY_SEPARATOR . 'migrations' . DIRECTORY_SEPARATOR . date('Y_m_d_His') . "_" . "create_" . $this->templateData['tableName'] . "_table.php",
-            'model' => 'app' . DIRECTORY_SEPARATOR . $this->templateData['modelName'] . '.php',
-            'repository' => 'app' . DIRECTORY_SEPARATOR . 'Libraries' . DIRECTORY_SEPARATOR . 'Repositories' . DIRECTORY_SEPARATOR . $this->templateData['modelName'] . '.php',
-            'controller' => 'app' . DIRECTORY_SEPARATOR . 'Http' . DIRECTORY_SEPARATOR . 'Controllers' . DIRECTORY_SEPARATOR . 'Api' . DIRECTORY_SEPARATOR . $this->templateData['modelName'] . '.php',
+            'migration'      => 'database' . DIRECTORY_SEPARATOR . 'migrations' . DIRECTORY_SEPARATOR . date('Y_m_d_His') . "_" . "create_" . $this->templateData['tableName'] . "_table.php",
+            'model'          => 'app' . DIRECTORY_SEPARATOR . $this->templateData['modelName'] . '.php',
+            'repository'     => 'app' . DIRECTORY_SEPARATOR . 'Libraries' . DIRECTORY_SEPARATOR . 'Repositories' . DIRECTORY_SEPARATOR . $this->templateData['modelName'] . '.php',
+            'controller'     => 'app' . DIRECTORY_SEPARATOR . 'Http' . DIRECTORY_SEPARATOR . 'Controllers' . DIRECTORY_SEPARATOR . 'Api' . DIRECTORY_SEPARATOR . $this->templateData['modelName'] . '.php',
             'repositoryTest' => 'tests' . DIRECTORY_SEPARATOR . 'Unit' . DIRECTORY_SEPARATOR . $this->templateData['modelName'] . '.php',
             'controllerTest' => 'tests' . DIRECTORY_SEPARATOR . 'Api' . DIRECTORY_SEPARATOR . 'Resources' . DIRECTORY_SEPARATOR . $this->templateData['modelName'] . '.php',
         ];
@@ -100,30 +111,26 @@ class Generator
     }
 
     /**
-     * @author LAHAXE Arnaud
-     *
      * @param array $fields
-     *
+     * @param array $foreignKeys
      */
-    public function generate(array $fields)
+    public function generate(array $fields, array $foreignKeys)
     {
-        $this->migration($fields)
-            ->model($fields)
-            ->repository($fields)
-            ->controller($fields)
-            ->route();
+        $this->migration($fields, $foreignKeys)
+            ->model($fields, $foreignKeys)
+            ->repository($fields, $foreignKeys)
+            ->controller($fields, $foreignKeys)
+            ->route($foreignKeys);
     }
 
     /**
-     * @author LAHAXE Arnaud
-     *
      * @param array $fields
+     * @param array $foreignKeys
      *
      * @return $this
      */
-    public function controller(array $fields)
+    public function controller(array $fields, array $foreignKeys)
     {
-
 
         $generator = new InputParameters([
             'fields' => $fields
@@ -136,66 +143,102 @@ class Generator
             'status' => 201
         ]);
 
+        foreach ($foreignKeys as $foreignKey) {
+            $this->templateData['relationsApi'] .= $this->template('Relations' . DIRECTORY_SEPARATOR . 'Controller.php.txt', [
+                'RELATION_CAPITALIZE' => 'relationCapitalize',
+                'RELATION'            => 'relation'
+            ], [
+                'relationCapitalize' => ucfirst($foreignKey),
+                'relation'           => strtolower($foreignKey)
+            ]);
+        }
+
         $this->templateData['outputModelAttributeApiCreate'] = $generator->generate();
         $this->templateData['outputModelAttributeApiUpdate'] = $generator->set('status', 202)->generate();
-        $this->templateData['outputModelAttributeApiShow'] = $generator->set('status', 200)->generate();
+        $this->templateData['outputModelAttributeApiShow']   = $generator->set('status', 200)->generate();
 
-        $this->template('Controller.php.txt', base_path($this->files['controller']));
-        $this->template('ControllerTest.php.txt', base_path($this->files['controllerTest']));
+        $this->writeTemplate('Controller.php.txt', base_path($this->files['controller']));
+        $this->writeTemplate('ControllerTest.php.txt', base_path($this->files['controllerTest']));
 
         return $this;
     }
 
     /**
-     * @author LAHAXE Arnaud
-     *
      * @param array $fields
+     * @param array $foreignKeys
      *
      * @return $this
      */
-    public function migration(array $fields)
+    public function migration(array $fields, array $foreignKeys)
     {
         $template = 'Migration.php.txt';
-        if ($this->userRestrictive) {
-            $template = 'MigrationUserRestrictive.php.txt';
-        }
 
-        $generator = new Migration([
+        $generator = new Columns([
             'fields' => $fields
         ]);
 
         $this->templateData['migrationFields'] = $generator->generate();
 
-        $this->template($template, base_path($this->files['migration']));
+        $generator                              = new ExternalFields([
+            'foreignKeys' => $foreignKeys
+        ]);
+        $this->templateData['foreignKeyFields'] = $generator->generate();
+
+        $this->writeTemplate($template, base_path($this->files['migration']));
 
         return $this;
     }
 
     /**
-     * @author LAHAXE Arnaud
-     *
      * @param array $fields
+     * @param array $foreignKeys
      *
      * @return $this
      */
-    public function repository(array $fields)
+    public function repository(array $fields, array $foreignKeys)
     {
-        $this->template('Repository.php.txt', base_path($this->files['repository']));
-        $this->template('RepositoryTest.php.txt', base_path($this->files['repositoryTest']));
+
+        foreach ($foreignKeys as $foreignKey) {
+            $this->templateData['relationsRepository'] .= $this->template('Relations' . DIRECTORY_SEPARATOR . 'Repository.php.txt', [
+                'RELATION_CAPITALIZE' => 'relationCapitalize',
+                'RELATION'            => 'relation'
+            ], [
+                'relationCapitalize' => ucfirst($foreignKey),
+                'relation'           => strtolower($foreignKey)
+            ]);
+        }
+
+        $this->writeTemplate('Repository.php.txt', base_path($this->files['repository']));
+        $this->writeTemplate('RepositoryTest.php.txt', base_path($this->files['repositoryTest']));
 
         return $this;
     }
 
     /**
+     * @param array $foreignKeys
+     *
      * @return $this
      */
-    public function route()
+    public function route(array $foreignKeys)
     {
-        $file = base_path('app' . DIRECTORY_SEPARATOR . 'Http' . DIRECTORY_SEPARATOR . 'routes.php');
+        $file      = base_path('app' . DIRECTORY_SEPARATOR . 'Http' . DIRECTORY_SEPARATOR . 'routes.php');
         $routeCode = file_get_contents($file);
-        $pattern = '#\'api\/v1\'],\s+function\s+\(\)\s+use\s+\(\$app\)\s+\{#';
-        $newRoute = "\n        " . '$app->resource(\'' . $this->templateData['tableName'] . '\', \App\Http\Controllers\Api\\' . $this->templateData['modelName'] . '::class);';
-        $routeCode = preg_replace($pattern, '$0' . $newRoute, $routeCode);
+        $pattern   = '#\'api\/v1\'],\s+function\s+\(\)\s+use\s+\(\$app\)\s+\{#';
+
+        $generator = new Resource([
+            'model' => $this->templateData['modelName'],
+        ]);
+
+        $newRoutes = $generator->generate();
+
+        $generator = new ForeignKeys([
+            'model'       => $this->templateData['modelName'],
+            'foreignKeys' => $foreignKeys
+        ]);
+
+        $newRoutes .= $generator->generate();
+
+        $routeCode = preg_replace($pattern, '$0' . $newRoutes, $routeCode);
 
         file_put_contents($file, $routeCode);
 
@@ -203,31 +246,43 @@ class Generator
     }
 
     /**
+     * @param array $fields
+     * @param array $foreignKeys
+     *
      * @return $this
      */
-    public function model(array $fields)
+    public function model(array $fields, array $foreignKeys)
     {
         $template = 'Model.php.txt';
         if ($this->userRestrictive) {
             $template = 'ModelUserRestrictive.php.txt';
         }
 
-        $generator = new Fillable([
+        $generator                            = new Fillable([
             'fields' => $fields
         ]);
         $this->templateData['fillableFields'] = $generator->generate();
 
-        $generator = new Rules([
+        $generator                        = new Rules([
             'fields' => $fields
         ]);
         $this->templateData['validators'] = $generator->generate();
 
-        $this->template($template, base_path($this->files['model']));
+        $generator                               = new BelongTo([
+            'foreignKeys' => $foreignKeys
+        ]);
+        $this->templateData['belongToFunctions'] = $generator->generate();
+
+        $this->writeTemplate($template, base_path($this->files['model']));
 
         return $this;
     }
 
-    protected function template($template, $destination)
+    /**
+     * @param $template
+     * @param $destination
+     */
+    protected function writeTemplate($template, $destination)
     {
         $template = $this->templatesDirectory . $template;
 
@@ -242,6 +297,33 @@ class Generator
         }
 
         file_put_contents($destination, $code);
+    }
+
+    /**
+     * @param       $template
+     * @param array $placeholders
+     * @param array $data
+     *
+     * @return mixed|string
+     */
+    protected function template($template, array $placeholders = [], array $data = [])
+    {
+        $template = $this->templatesDirectory . $template;
+
+        if (!is_file($template)) {
+            throw new FileNotFoundException($template);
+        }
+
+        $code = file_get_contents($template);
+
+        $data         = array_merge($this->templateData, $data);
+        $placeholders = array_merge(self::$templateDataMapping, $placeholders);
+
+        foreach ($placeholders as $placeholder => $dataKey) {
+            $code = str_replace(self::$varSeparator . $placeholder . self::$varSeparator, $data[$dataKey], $code);
+        }
+
+        return $code;
     }
 
     /**

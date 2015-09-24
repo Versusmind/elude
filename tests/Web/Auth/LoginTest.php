@@ -23,7 +23,18 @@ class LoginTest extends TestCase
             ->seePageIs('/')
             ->see('Welcome user');
         $this->assertSessionHas('oauth');
+
+        return $this;
     }
+
+
+    public function testLogout()
+    {
+        $this->testValidLogin()
+            ->visit('/auth/logout')
+            ->seePageIs('/auth/login');
+    }
+
 
     public function testInvalidLogin()
     {
@@ -32,7 +43,7 @@ class LoginTest extends TestCase
             ->type('dummy', 'username')
             ->type('dummy', 'password')
             ->press('Sign In')
-            ->seePageIs('/auth/login?' . http_build_query(['error' => 1]))
+            ->seePageIs('/auth/login')
             ->see("Nom d'utilisateur ou mot de passe incorrect");
     }
 }

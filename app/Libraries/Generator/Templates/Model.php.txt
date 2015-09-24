@@ -54,4 +54,6 @@ class $$MODEL_NAME$$ extends Model implements ValidationInterface
     protected static $rules = [
         $$VALIDATORS$$
     ];
+
+    $$BELONG_TO_FUNCTIONS$$
 }

@@ -1,0 +1,20 @@
+{% set errors = errors.all() %}
+{% if errors is not empty %}
+    <div class="alert alert-danger" role="alert">
+        {% for error in errors %}
+            {{ error }} <br/>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% if session_has('error') %}
+    <div class="alert alert-danger" role="alert">
+        {{ session_get('error') | trans }}
+    </div>
+{% endif %}
+
+{% if session_has('success') %}
+    <div class="alert alert-success" role="alert">
+        {{ session_get('success') | trans }}
+    </div>
+{% endif %}

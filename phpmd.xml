@@ -30,9 +30,16 @@
 
     <rule ref="rulesets/codesize.xml" >
         <exclude name="TooManyMethods" />
+        <exclude name="TooManyPublicMethods" />
     </rule>
 
     <rule ref="rulesets/codesize.xml/TooManyMethods">
+        <properties>
+            <property name="maxmethods" value="20"/>
+        </properties>
+    </rule>
+
+    <rule ref="rulesets/codesize.xml/TooManyPublicMethods">
         <properties>
             <property name="maxmethods" value="20"/>
         </properties>

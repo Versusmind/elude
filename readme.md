@@ -2,10 +2,10 @@ Myo2
 ---------
 
 develop:
-[![build status](https://ci.mind-lab.eu/projects/4/status.png?ref=develop)](https://ci.mind-lab.eu/projects/4?ref=develop)
+[![build status](https://gitlab.mind-lab.eu/ci/projects/1/status.png?ref=develop)](https://gitlab.mind-lab.eu/ci/projects/1?ref=develop)
 
 master:
-[![build status](https://ci.mind-lab.eu/projects/4/status.png?ref=master)](https://ci.mind-lab.eu/projects/4?ref=master)
+[![build status](https://gitlab.mind-lab.eu/ci/projects/1/status.png?ref=master)](https://gitlab.mind-lab.eu/ci/projects/1?ref=master)
 
 Please read the wiki [wiki](https://gitlab.mind-lab.eu/ndrx/myo2/wikis/pages) (aka RTFM)
 
