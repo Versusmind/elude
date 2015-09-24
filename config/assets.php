@@ -91,6 +91,8 @@ return [
                 'resources/assets/bower/angular-ui-router/release/angular-ui-router.js',
                 //Underscore
                 'resources/assets/bower/lodash/lodash.min.js',
+                //Restangular
+                'resources/assets/bower/restangular/dist/restangular.min.js',
             ]
         ],
 

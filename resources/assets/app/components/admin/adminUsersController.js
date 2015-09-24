@@ -8,8 +8,12 @@ angular.module('app')
         controller: 'adminUsersController'
     });
 })
-.controller('adminUsersController', function($scope) {
+.controller('adminUsersController', function($scope, Restangular) {
     
     $scope.test = 'Yop';
+    
+    Restangular.all('api/v1/users').getList().then(function(accounts) {
+        console.log('accounts',accounts);
+    });
     
 });

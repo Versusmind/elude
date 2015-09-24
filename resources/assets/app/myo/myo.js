@@ -1,4 +1,5 @@
 angular.module('myo', [
     'ui.router',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'restangular'
 ]);
