@@ -82,6 +82,8 @@ return [
 
         'javascript-core' => [
             \App\Libraries\Assets\Asset::JS => [
+                //JQuery
+                'resources/assets/bower/jquery/dist/jquery.min.js',
                 // angular JS
                 'resources/assets/bower/angularjs/angular.js',
                 // bootstrap UI
