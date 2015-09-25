@@ -113,7 +113,7 @@ $app->routeMiddleware([
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 $app->register(App\Providers\AssetsProvider::class);
-$app->register(App\Providers\ClockworkServiceProvider::class);
+$app->register(Clockwork\Support\Lumen\ClockworkServiceProvider::class);
 $app->register(App\Providers\AclProvider::class);
 $app->register(Appzcoder\LumenRoutesList\RoutesCommandServiceProvider::class);
 $app->register(LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class);
@@ -122,6 +122,7 @@ $app->register(Barryvdh\Cors\LumenServiceProvider::class);
 $app->register(TwigBridge\ServiceProvider::class);
 
 
+$app->configure('profiler');
 $app->configure('oauth2');
 $app->configure('cors');
 $app->configure('twigbridge');
