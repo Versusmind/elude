@@ -13,18 +13,18 @@ angular.module('app')
             $scope.appname = appname;
 
             $scope.menuLeft = {
-                'Accueil': '#/home'
+                'Home': '#/home'
             };
 
             $scope.menuRight = {
                 'Administration': {
                     link: '#/admin/users',
                     subItems: {
-                        'Utilisateurs': '#/admin/users',
-                        'Groupes': '#/admin/groups'
+                        'Users': '#/admin/users',
+                        'Groups': '#/admin/groups'
                     }
                 },
-                'Déconnexion': '/auth/logout'
+                'Logout': '/auth/logout'
             };
 
         },

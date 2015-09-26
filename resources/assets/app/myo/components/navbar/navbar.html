@@ -13,15 +13,15 @@
       <ul ng-class="{ 'nav navbar-nav': true, 'navbar-right':(type=='right'), 'navbar':(type=='left')}" ng-repeat="(type,menu) in menus">
         <li ng-class="{ active: menuItem.active }" ng-repeat="menuItem in menu" dropdown>
           <a ng-href="{{menuItem.link}}" ng-click="onLinkClick($event)" ng-if="!menuItem.subItems">
-            {{menuItem.title}}
+            {{menuItem.title | translate}}
           </a>
 
           <a id="{{menuItem.link}}" ng-href="{{menuItem.link}}" ng-click="onLinkClick($event)" dropdown-toggle ng-if="menuItem.subItems">
-            {{menuItem.title}} <span class="caret"></span>
+            {{menuItem.title | translate}} <span class="caret"></span>
           </a>
           <ul class="dropdown-menu" role="menu" aria-labelledby="{{menuItem.link}}" ng-if="menuItem.subItems">
               <li ng-repeat="menuSubItem in menuItem.subItems" ng-class="{active:menuSubItem.active}">
-                  <a ng-href="{{menuSubItem.link}}" ng-click="onLinkClick($event)">{{ menuSubItem.title }}</a>
+                  <a ng-href="{{menuSubItem.link}}" ng-click="onLinkClick($event)">{{ menuSubItem.title | translate }}</a>
               </li>
           </ul>
         </li>

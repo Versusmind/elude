@@ -91,6 +91,8 @@ return [
                 'resources/assets/bower/angular-bootstrap/ui-bootstrap-tpls.min.js',
                 // angular UI router
                 'resources/assets/bower/angular-ui-router/release/angular-ui-router.min.js',
+                // angular Translate
+                'resources/assets/bower/angular-translate/angular-translate.min.js',
                 //Underscore
                 'resources/assets/bower/lodash/lodash.min.js',
                 //Restangular
