@@ -97,6 +97,8 @@ return [
                 'resources/assets/bower/lodash/lodash.min.js',
                 //Restangular
                 'resources/assets/bower/restangular/dist/restangular.min.js',
+                //Smart Table
+                'resources/assets/bower/angular-smart-table/dist/smart-table.min.js'
             ]
         ],
 
