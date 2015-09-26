@@ -11,16 +11,21 @@ angular.module('app')
         controller: function($scope, $rootScope, $location) {
 
             $scope.appname = appname;
-            
-            $scope.menuLeft = { 
+
+            $scope.menuLeft = {
                 'Accueil': '#/home'
             };
-            
-            $scope.menuRight = { 
-                'Administration': '#/admin/users',
+
+            $scope.menuRight = {
+                'Administration': {
+                    link: '#/admin/users',
+                    subItems: {
+                        'Utilisateurs': '#/admin/users',
+                        'Groupes': '#/admin/groups'
+                    }
+                },
                 'Déconnexion': '/auth/logout'
             };
-            
 
         },
         templateUrl: appdir + '/shared/header/header.html'

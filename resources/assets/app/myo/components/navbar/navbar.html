@@ -11,15 +11,19 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul ng-class="{ 'nav navbar-nav': true, 'navbar-right':(type=='right'), 'navbar':(type=='left')}" ng-repeat="(type,menu) in menus">
-        <li ng-class="{ active: menuItem.active}" ng-repeat="menuItem in menu" >
-            <a  ng-href="{{menuItem.link}}" ng-click="onLinkClick($event)">{{menuItem.title}}</a>
-            <div class="sous-nav" ng-if="menuItem.subItems">
-                <ul>
-                    <li ng-repeat="menuSubItem in menuItem.subItems" ng-class="{active:menuSubItem.active}">
-                        <a ng-href="{{menuSubItem.link}}" ng-click="onLinkClick($event)">{{ menuSubItem.title }}</a>
-                    </li>
-                </ul>
-            </div>
+        <li ng-class="{ active: menuItem.active }" ng-repeat="menuItem in menu" dropdown>
+          <a ng-href="{{menuItem.link}}" ng-click="onLinkClick($event)" ng-if="!menuItem.subItems">
+            {{menuItem.title}}
+          </a>
+
+          <a id="{{menuItem.link}}" ng-href="{{menuItem.link}}" ng-click="onLinkClick($event)" dropdown-toggle ng-if="menuItem.subItems">
+            {{menuItem.title}} <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="{{menuItem.link}}" ng-if="menuItem.subItems">
+              <li ng-repeat="menuSubItem in menuItem.subItems" ng-class="{active:menuSubItem.active}">
+                  <a ng-href="{{menuSubItem.link}}" ng-click="onLinkClick($event)">{{ menuSubItem.title }}</a>
+              </li>
+          </ul>
         </li>
       </ul>
     </div>
