@@ -12,5 +12,8 @@ return [
         Clockwork\DataSource\ConfigDataSource::class,
         Clockwork\DataSource\EventsDataSource::class,
         Clockwork\DataSource\MemoryDataSource::class,
+        Clockwork\DataSource\AuthDataSource::class,
+        Clockwork\DataSource\FilesDataSource::class,
+        Clockwork\DataSource\CpuDataSource::class,
     ]
 ];

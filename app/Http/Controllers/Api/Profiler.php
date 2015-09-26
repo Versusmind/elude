@@ -188,7 +188,7 @@ class Profiler extends ApiController
     {
         $results = [];
         $finder  = Finder::create();
-        $finder->name('*.json')->date('since 3 hours ago')->depth('== 0')->size('<= 30K')->sortByModifiedTime();
+        $finder->name('*.json')->date('since 3 hours ago')->depth('== 0')->size('<= 100K')->sortByModifiedTime();
         /** @var File $file */
         foreach ($finder->in(storage_path('clockwork')) as $file) {
             $tmp = json_decode($file->getContents());
