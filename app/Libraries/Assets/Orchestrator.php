@@ -90,7 +90,7 @@ class Orchestrator
      */
     public function font(Collection $assets)
     {
-        Clockwork::startEvent('assets.font', 'Assets build fonts.');
+        Clockwork::startEvent('assets.font', 'Assets build fonts.', null, $assets->getAssets());
         $result = $this->pipeline->font()->process($assets);
         Clockwork::endEvent('assets.font');
 
@@ -107,7 +107,7 @@ class Orchestrator
     public function template(Collection $assets)
     {
 
-        Clockwork::startEvent('assets.template', 'Assets build template.');
+        Clockwork::startEvent('assets.template', 'Assets build template.', null, $assets->getAssets());
 
         $result =  $this->pipeline->template()->process($assets);
 
@@ -148,7 +148,7 @@ class Orchestrator
             $assets = $this->getCollectionByName($assets);
         }
 
-        Clockwork::startEvent('assets.javascript', 'Assets build javascripts.');
+        Clockwork::startEvent('assets.javascript', 'Assets build javascripts.', null, $assets->getAssets());
 
         $buildNeeded = $this->buildDetector->isBuildNeeded($assets);
         if ($buildNeeded) {
@@ -175,7 +175,7 @@ class Orchestrator
             $assets = $this->getCollectionByName($assets);
         }
 
-        Clockwork::startEvent('assets.style', 'Assets build styles.');
+        Clockwork::startEvent('assets.style', 'Assets build styles.', null, $assets->getAssets());
 
         $buildNeeded = $this->buildDetector->isBuildNeeded($assets);
         if ($buildNeeded) {
