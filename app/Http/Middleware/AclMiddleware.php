@@ -46,8 +46,10 @@ class AclMiddleware
             return $next($request);
         }
 
+        Clockwork::startEvent('acl.middleware', 'Acl middleware.');
         foreach($permissions as $permission) {
             if(!Acl::isUserAllow(Auth::user(), $permission)) {
+                Clockwork::stopEvent('acl.middleware');
                 if(Request::is('api*')) {
                     return response('Not authorized', 403);
                 } else {
@@ -55,6 +57,7 @@ class AclMiddleware
                 }
             }
         }
+        Clockwork::stopEvent('acl.middleware');
 
         return $next($request);
     }

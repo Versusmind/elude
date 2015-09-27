@@ -1,4 +1,5 @@
 <?php
+$startBootstraping = microtime(true);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -48,19 +49,7 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
-/*
-|--------------------------------------------------------------------------
-| Override env configuration
-|--------------------------------------------------------------------------
-|
-| Disable profiler for profiler request
-|
-*/
-$pathInfo = \Illuminate\Support\Facades\Request::getPathInfo();
-if(strpos($pathInfo, 'api/__profiler') > 0) {
-    putenv("CLOCKWORK_COLLECT_DATA_ALWAYS=false");
-    putenv("CLOCKWORK_ENABLE=false");
-}
+
 
 /*
 |--------------------------------------------------------------------------
@@ -83,12 +72,6 @@ $app->middleware([
     Clockwork\Support\Lumen\ClockworkMiddleware::class
 ]);
 
-
-if ($app->environment() !== 'production') {
-    $app->middleware([
-        App\Http\Middleware\DebugMiddleware::class,
-    ]);
-}
 
 $app->routeMiddleware([
     'check-authorization-params' => LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware::class,
@@ -146,5 +129,6 @@ $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
     require __DIR__ . '/../app/Http/routes.php';
 });
 
+Clockwork::addEvent('app.bootstrap', 'App bootstraping', $startBootstraping, microtime(true));
 
 return $app;
