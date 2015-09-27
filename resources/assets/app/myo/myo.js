@@ -18,10 +18,15 @@ angular.module('myo', [
     'pascalprecht.translate', //Handle app content translation
     'restangular', //Handles API calls
     'smart-table', //Generate custom, searchable, filterable, paginated table based on data
+    'angular-loading-bar', //Automagically show spinner when ajax calls are made (https://github.com/chieffancypants/angular-loading-bar)
+
 ])
-.config(function($translateProvider) {
+.config(function($translateProvider, cfpLoadingBarProvider) {
 
     //Configure the translation (see http://angular-translate.github.io/ for more informations)
     $translateProvider.useSanitizeValueStrategy('escape');
     $translateProvider.preferredLanguage('fr');
+
+    //Configure the loading bar
+    cfpLoadingBarProvider.includeSpinner = false;
 });

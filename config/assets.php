@@ -77,6 +77,8 @@ return [
             \App\Libraries\Assets\Asset::CSS => [
                 'resources/assets/bower/bootstrap/dist/css/bootstrap.css',
                 'resources/assets/bower/angular-bootstrap/ui-bootstrap-csp.css',
+                //Angular loading bar
+                'resources/assets/bower/angular-loading-bar/build/loading-bar.min.css',
             ]
         ],
 
@@ -97,8 +99,10 @@ return [
                 'resources/assets/bower/lodash/lodash.min.js',
                 //Restangular
                 'resources/assets/bower/restangular/dist/restangular.min.js',
-                //Smart Table
-                'resources/assets/bower/angular-smart-table/dist/smart-table.min.js'
+                //Angular Smart Table
+                'resources/assets/bower/angular-smart-table/dist/smart-table.min.js',
+                //Angular loading bar
+                'resources/assets/bower/angular-loading-bar/build/loading-bar.min.js',
             ]
         ],
 
