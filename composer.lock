@@ -1478,12 +1478,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lahaxearnaud/clockwork.git",
-                "reference": "023aa113bd160e00f272394774175c20aad13560"
+                "reference": "0df65adaece252f0c50eddf4999ca5903025bc5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lahaxearnaud/clockwork/zipball/023aa113bd160e00f272394774175c20aad13560",
-                "reference": "023aa113bd160e00f272394774175c20aad13560",
+                "url": "https://api.github.com/repos/lahaxearnaud/clockwork/zipball/0df65adaece252f0c50eddf4999ca5903025bc5b",
+                "reference": "0df65adaece252f0c50eddf4999ca5903025bc5b",
                 "shasum": ""
             },
             "require": {
