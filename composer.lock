@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f522cfd4281c806a54175ab99931727a",
-    "content-hash": "35d60f800523438414a8987cf795238e",
+    "hash": "6ddf45b31ffcbb1087a492ced01e32a7",
     "packages": [
         {
             "name": "appzcoder/lumen-routes-list",
@@ -1479,12 +1478,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lahaxearnaud/clockwork.git",
-                "reference": "37e6794d54d37fdeac0566a4241ab3585d835867"
+                "reference": "e2b79304d16674eb17d1a664a0bff29ebacae270"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lahaxearnaud/clockwork/zipball/37e6794d54d37fdeac0566a4241ab3585d835867",
-                "reference": "37e6794d54d37fdeac0566a4241ab3585d835867",
+                "url": "https://api.github.com/repos/lahaxearnaud/clockwork/zipball/e2b79304d16674eb17d1a664a0bff29ebacae270",
+                "reference": "e2b79304d16674eb17d1a664a0bff29ebacae270",
                 "shasum": ""
             },
             "require": {
@@ -1516,7 +1515,7 @@
                 "logging",
                 "profiling"
             ],
-            "time": "2015-09-24 17:35:52"
+            "time": "2015-09-28 12:02:19"
         },
         {
             "name": "laravel/lumen-framework",
