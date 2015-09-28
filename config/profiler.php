@@ -15,5 +15,6 @@ return [
         Clockwork\DataSource\AuthDataSource::class,
         Clockwork\DataSource\FilesDataSource::class,
         Clockwork\DataSource\CpuDataSource::class,
+        Clockwork\DataSource\FrameworkDataSource::class,
     ]
 ];
