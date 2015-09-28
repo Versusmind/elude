@@ -21,8 +21,7 @@
 use App\Libraries\Assets\Pipeline\Development;
 use App\Libraries\Assets\Pipeline\Pipeline;
 use App\Libraries\Assets\Pipeline\Production;
-use Clockwork\Support\Lumen\Facade as Clockwork;
-
+use Clockwork\Facade\Clockwork;
 
 /**
  * Class Orchestrator
