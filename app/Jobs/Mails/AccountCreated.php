@@ -2,6 +2,7 @@
 
 use App\User;
 use App\Jobs\Job;
+use Clockwork\Facade\Clockwork;
 use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
