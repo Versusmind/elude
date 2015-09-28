@@ -21,6 +21,8 @@
 use App\Libraries\Assets\Collection;
 use App\Libraries\Assets\Orchestrator;
 use Closure;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 
 class AssetsMiddleware
 {
@@ -34,16 +36,19 @@ class AssetsMiddleware
      */
     public function handle($request, Closure $next)
     {
-        /** @var Orchestrator $ocherstator */
-        $ocherstator = \App::make('App\Libraries\Assets\Orchestrator');
+        if (App::environment() !== 'production') {
 
-        foreach (array_keys(config('assets.groups')) as $groupname) {
-            $collection = \App\Libraries\Assets\Collection::createByGroup($groupname);
+            /** @var Orchestrator $ocherstator */
+            $ocherstator = App::make('App\Libraries\Assets\Orchestrator');
 
-            try {
-                $ocherstator->build($collection, array_diff(Collection::$types, Collection::$staticType));
-            } catch (\Exception $e) {
-                \Log::error($e->getMessage());
+            foreach (array_keys(config('assets.groups')) as $groupname) {
+                $collection = \App\Libraries\Assets\Collection::createByGroup($groupname);
+
+                try {
+                    $ocherstator->build($collection, array_diff(Collection::$types, Collection::$staticType));
+                } catch (\Exception $e) {
+                    Log::error($e->getMessage());
+                }
             }
         }
 

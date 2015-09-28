@@ -16,7 +16,7 @@
         "phpunit/php-timer": "~1.0",
         "lucadegasperi/oauth2-server-laravel": "~5.0",
         "barryvdh/laravel-cors": "0.7.x",
-        "itsgoingd/clockwork": "~1.9",
+        "lahaxearnaud/clockwork": "dev-master",
         "illuminate/mail": "^5.1",
         "jeremeamia/SuperClosure": "^2.1",
         "rcrowe/twigbridge": "0.8.x"

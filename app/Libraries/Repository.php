@@ -22,6 +22,7 @@ use App\Libraries\Acl\Exceptions\ModelNotValid;
 use App\Libraries\Criterias\Criteria;
 use App\Libraries\Criterias\Interfaces\CriteriaInterface;
 use App\Libraries\Validation\ValidationInterface;
+use Clockwork\Facade\Clockwork;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -208,6 +209,9 @@ abstract class Repository implements CriteriaInterface
      */
     protected function validate(ValidationInterface $model)
     {
+        $timelineKey = uniqid('validation_');
+        Clockwork::startEvent($timelineKey, 'Validation of model ' . get_class($model));
+
         $modelArray = $model->toArray();
         // add hiddens fields to the array for validation
         foreach ($model->getHidden() as $hidden) {
@@ -216,9 +220,12 @@ abstract class Repository implements CriteriaInterface
 
         $validator = Validator::make($modelArray, $model->getRules());
         if ($validator->fails()) {
+            Clockwork::endEvent($timelineKey);
 
             throw new ModelNotValid($validator->errors());
         }
+
+        Clockwork::endEvent($timelineKey);
     }
 
     /**

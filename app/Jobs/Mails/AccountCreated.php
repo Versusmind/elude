@@ -2,6 +2,7 @@
 
 use App\User;
 use App\Jobs\Job;
+use Clockwork\Facade\Clockwork;
 use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -27,10 +28,12 @@ class AccountCreated extends Job implements SelfHandling, ShouldQueue
      */
     public function handle(Mailer $mailer)
     {
+        Clockwork::startEvent('mail.account_created', 'Mail account created.');
         $mailer->send('mails.accountCreated', [
             'username' => $this->user->username
         ], function ($message) {
             $message->to($this->user->email, $this->user->username)->subject('Account created');
         });
+        Clockwork::endEvent('mail.account_created');
     }
 }
