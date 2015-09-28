@@ -3954,12 +3954,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lahaxearnaud/clockwork-cli.git",
-                "reference": "3f05812cb4086f027689e449019b96eb9e5d0265"
+                "reference": "023aa113bd160e00f272394774175c20aad13560"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lahaxearnaud/clockwork-cli/zipball/3f05812cb4086f027689e449019b96eb9e5d0265",
-                "reference": "3f05812cb4086f027689e449019b96eb9e5d0265",
+                "url": "https://api.github.com/repos/lahaxearnaud/clockwork-cli/zipball/023aa113bd160e00f272394774175c20aad13560",
+                "reference": "023aa113bd160e00f272394774175c20aad13560",
                 "shasum": ""
             },
             "require": {
