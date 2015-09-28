@@ -1478,12 +1478,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lahaxearnaud/clockwork.git",
-                "reference": "e2b79304d16674eb17d1a664a0bff29ebacae270"
+                "reference": "023aa113bd160e00f272394774175c20aad13560"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lahaxearnaud/clockwork/zipball/e2b79304d16674eb17d1a664a0bff29ebacae270",
-                "reference": "e2b79304d16674eb17d1a664a0bff29ebacae270",
+                "url": "https://api.github.com/repos/lahaxearnaud/clockwork/zipball/023aa113bd160e00f272394774175c20aad13560",
+                "reference": "023aa113bd160e00f272394774175c20aad13560",
                 "shasum": ""
             },
             "require": {
@@ -3954,12 +3954,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lahaxearnaud/clockwork-cli.git",
-                "reference": "023aa113bd160e00f272394774175c20aad13560"
+                "reference": "3f05812cb4086f027689e449019b96eb9e5d0265"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lahaxearnaud/clockwork-cli/zipball/023aa113bd160e00f272394774175c20aad13560",
-                "reference": "023aa113bd160e00f272394774175c20aad13560",
+                "url": "https://api.github.com/repos/lahaxearnaud/clockwork-cli/zipball/3f05812cb4086f027689e449019b96eb9e5d0265",
+                "reference": "3f05812cb4086f027689e449019b96eb9e5d0265",
                 "shasum": ""
             },
             "require": {
