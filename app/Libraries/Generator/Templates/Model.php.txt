@@ -55,5 +55,16 @@ class $$MODEL_NAME$$ extends Model implements ValidationInterface
         $$VALIDATORS$$
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        /**
+         * you can register observers here via closure or via observer classes
+         * see http://laravel.com/docs/5.1/eloquent#events
+         * example: self::observe(new ModelObserver());
+         **/
+    }
+
     $$BELONG_TO_FUNCTIONS$$
 }
