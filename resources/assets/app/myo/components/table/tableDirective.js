@@ -14,12 +14,12 @@ angular.module('myo')
         restrict: 'E',
         scope: {
             headers: '=', //table columns
-            rows: '=', //table content from ajax call (array of objects)
+            safeRows: '=rows', //table content from ajax call (array of objects)
             itemsByPage: '=' //number of items by page
         },
         controller: function($scope) {
 
-            console.log('myoTable $scope',$scope);
+            $scope.rows = [];
 
             //set default items by page
             if (!$scope.itemsByPage) {

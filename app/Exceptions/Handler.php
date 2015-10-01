@@ -3,6 +3,7 @@
 use Exception;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use League\OAuth2\Server\Exception\AccessDeniedException;
+use Symfony\Component\Debug\Exception\FatalErrorException;
 
 class Handler extends ExceptionHandler
 {
@@ -41,6 +42,17 @@ class Handler extends ExceptionHandler
     {
         if($exception instanceof AccessDeniedException) {
             return response()->json([], 401);
+        }
+        else if($exception instanceof FatalErrorException) {
+            $message = $exception->getMessage();
+            
+            if((App::environment() === 'production')) {
+                $message = 'An error occured';
+            }
+            
+            return response()->json([
+                'error' => $message
+            ], 500);
         }
 
         return parent::render($request, $exception);

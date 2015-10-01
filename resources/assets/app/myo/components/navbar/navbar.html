@@ -11,12 +11,12 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul ng-class="{ 'nav navbar-nav': true, 'navbar-right':(type=='right'), 'navbar':(type=='left')}" ng-repeat="(type,menu) in menus">
-        <li ng-class="{ active: menuItem.active }" ng-repeat="menuItem in menu" dropdown>
+        <li ng-class="{ active: menuItem.active }" ng-repeat="menuItem in menu" ng-attr-dropdown="menuItem.subItems">
           <a ng-href="{{menuItem.link}}" ng-click="onLinkClick($event)" ng-if="!menuItem.subItems">
             {{menuItem.title | translate}}
           </a>
 
-          <a id="{{menuItem.link}}" ng-href="{{menuItem.link}}" ng-click="onLinkClick($event)" dropdown-toggle ng-if="menuItem.subItems">
+          <a id="{{menuItem.link}}" ng-href="{{menuItem.link}}" dropdown-toggle ng-if="menuItem.subItems">
             {{menuItem.title | translate}} <span class="caret"></span>
           </a>
           <ul class="dropdown-menu" role="menu" aria-labelledby="{{menuItem.link}}" ng-if="menuItem.subItems">

@@ -12,15 +12,17 @@ angular.module('myo')
 /**
  *  myoEntityUi is a directive that generate a complete UI (Title, Search, Dynamic Table, Edition popup, Pagination, ...)
  *  use it to quickly generate an "admin-style" view for your model
+ *
+ *          WORK IN PROGRESS ...
  **/
 .directive('myoEntityUi', function(appdir) {
     return {
         restrict: 'E',
         scope: {
-            'entity' : '='
+            'entity' : '=',
+            'itemsByPage': '='
         },
-        controller: function($scope, Restangular) {
-            console.log('$scope.entity', $scope.entity);
+        controller: function($scope, Restangular, Api) {
 
             if (!$scope.entity) {
                 console.error('[myoEntityUi] Your entity definition object is missing !');
@@ -33,13 +35,18 @@ angular.module('myo')
                 return;
             }
 
+            // Defaults
+            if (!$scope.itemsByPage) {
+                $scope.itemsByPage = 30;
+            }
+
             //prepare headers for myo-table
             $scope.headers = _.filter($scope.entity.fields, function(field) {
                 return field.display;
             });
 
             //prepare content for myo-table
-            Restangular.all('api/v1/' + $scope.entity.reference).getList().then(function(items) {
+            Api.paginate($scope.entity.reference,1 /* requested page number */, $scope.itemsByPage /* Number of items by page */).then(function(items){
                 $scope.rows = items;
             });
 

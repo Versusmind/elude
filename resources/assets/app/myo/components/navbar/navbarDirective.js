@@ -11,8 +11,8 @@ angular.module('myo')
             'rawMenuLeft': '=menuLeft'
         },
         controller: function($scope, $rootScope, $state) {
-            
-             /**
+
+            /**
              * generate menu from flat menu (passed in params)
              *
              *  the menu must be like this:
@@ -39,15 +39,15 @@ angular.module('myo')
              *
              *
              **/
-             
+
             $scope.menus = {
                 'right': [],
                 'left': []
-            }
+            };
             _.each({'right': $scope.rawMenu, 'left': $scope.rawMenuLeft}, function(rawContent, menuKey) {
                 if (rawContent) {
                     _.each(rawContent, function(link, title) {
-        
+
                         if (_.isPlainObject(link)) {
                             //get subitems
                             var subItems = [];
@@ -67,7 +67,7 @@ angular.module('myo')
                                 active: false,
                                 subItems: subItems
                             });
-        
+
                         } else {
                             $scope.menus[menuKey].push({
                                 title: title,
@@ -78,13 +78,12 @@ angular.module('myo')
                     });
                 }
             });
-            
+
             function onLocationChange() {
                 //go thru the menu and change the active param
-
                 var url = $state.current.url;
-                 _.each($scope.menus, function(menu, menuKey) {
-                     if (menu) {
+                _.each($scope.menus, function(menu, menuKey) {
+                    if (menu) {
                         _.each(menu, function(item) {
                             item.active = _.startsWith('#' + url, item.link);
                             if (item.subItems) {
@@ -99,7 +98,7 @@ angular.module('myo')
 
             $rootScope.$on('$stateChangeStart', onLocationChange);
             onLocationChange();//call it on the first launch
-        
+
         },
         templateUrl: appdir + '/myo/components/navbar/navbar.html'
     };
