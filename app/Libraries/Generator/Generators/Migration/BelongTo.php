@@ -18,7 +18,7 @@ use App\Libraries\Generator\Generators\Code;
  *
  ******************************************************************************/
 
-class ExternalFields extends Code
+class BelongTo extends Code
 {
     /**
      * @return string
