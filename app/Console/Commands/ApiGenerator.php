@@ -99,16 +99,22 @@ class ApiGenerator extends Command
         $templateData = $generator->getTemplateData();
         $files = $generator->getFiles();
 
-        $foreignKeys = $this->getForeignKeys();
+        $belongToRelations = $this->getRelation('BelongTo');
         if ($isUserRestrict) {
-            $foreignKeys[] = 'user';
+            $belongToRelations[] = 'user';
         }
-        $foreignKeys = array_unique($foreignKeys);
+        $belongToRelations = array_unique($belongToRelations);
+
+        $manyToManyRelations = $this->getRelation('ManyToMany');
+        $manyToManyRelations = array_unique($manyToManyRelations);
 
         $fields = $this->getFields();
         $this->summary($templateData, $isUserRestrict);
         $this->fieldsSummary($fields);
-        $this->generate($generator, $fields, $foreignKeys);
+        $this->generate($generator, $fields, [
+            'belongTo' => $belongToRelations,
+            'manyToMany' => $manyToManyRelations
+        ]);
         $this->runComposerDumpAutoload();
         $this->migrateDatabase();
         $this->generateDocumentation();
@@ -143,8 +149,11 @@ class ApiGenerator extends Command
     {
         $this->info("\t Foreign keys on models:");
 
-        foreach ($foreignKeys as $foreignKey) {
-            $this->info("\t\t" . $foreignKey);
+        foreach ($foreignKeys as $type => $entries) {
+            $this->info("\t\t" . $type);
+            foreach($entries as $entry) {
+                $this->info("\t\t\t" . $entry);
+            }
         }
     }
 
@@ -294,13 +303,27 @@ class ApiGenerator extends Command
         return $fields;
     }
 
-    public function getForeignKeys()
+    protected function getRelation($type)
     {
-        if (!$this->confirm('Does the model have foreign keys ?', false)) {
+        if (!$this->confirm('Does the model have ' . $type . ' relations ?', false)) {
             return [];
         }
 
         $foreignKeysTable = [];
+        $availableModels = $this->getModels();
+
+        $addOther = true;
+        while ($addOther) {
+            $foreignKeysTable[] = strtolower($this->choice("What model ?", $availableModels));
+
+            $addOther = $this->confirm('Add new ' . $type . ' key ?', true);
+        }
+
+        return $foreignKeysTable;
+    }
+
+    protected function getModels()
+    {
         $availableModels = [];
 
         $finder = new Finder();
@@ -311,14 +334,6 @@ class ApiGenerator extends Command
             $availableModels[] = $file->getBasename('.php');
         }
 
-
-        $addOther = true;
-        while ($addOther) {
-            $foreignKeysTable[] = strtolower($this->choice("What model ?", $availableModels));
-
-            $addOther = $this->confirm('Add new foreign key ?', true);
-        }
-
-        return $foreignKeysTable;
+        return $availableModels;
     }
 }

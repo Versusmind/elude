@@ -27,7 +27,7 @@ class ManyToMany extends Code
     {
         $lines = [];
         foreach ($this->get('foreignKeys') as $foreignKey) {
-            $belongToFunctions = '    /**' . "\n"
+            $line = '    /**' . "\n"
                 . '    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo' . "\n"
                 . '    */' . "\n"
                 . '    public function %s()' . "\n"
@@ -36,9 +36,9 @@ class ManyToMany extends Code
                 . '     }';
 
 
-            $belongToFunctions = sprintf($belongToFunctions, $foreignKey, ucfirst($foreignKey), $foreignKey);
+            $line = sprintf($line, str_plural($foreignKey), ucfirst($foreignKey), $foreignKey);
 
-            $lines[] = $belongToFunctions;
+            $lines[] = $line;
         }
 
         return join("\n\n", $lines);

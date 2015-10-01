@@ -4,10 +4,15 @@ use App\Libraries\Generator\Generators\Api\InputParameters;
 use App\Libraries\Generator\Generators\Api\OutputParameters;
 use App\Libraries\Generator\Generators\Migration\BelongTo as BelongToMigration;
 use App\Libraries\Generator\Generators\Migration\Columns;
+use App\Libraries\Generator\Generators\Migration\ManyToMany as ManyToManyMigration;
+use App\Libraries\Generator\Generators\Route\ManyToMany as ManyToManyRoute;
 use App\Libraries\Generator\Generators\Model\BelongTo as BelongToModel;
 use App\Libraries\Generator\Generators\Model\Fillable;
+use App\Libraries\Generator\Generators\Model\ManyToMany as ManyToManyModel;
 use App\Libraries\Generator\Generators\Model\Rules;
-use App\Libraries\Generator\Generators\Route\BelongTo as BelongToRoute;;
+use App\Libraries\Generator\Generators\Route\BelongTo as BelongToRoute;
+
+;
 use App\Libraries\Generator\Generators\Route\Resource;
 use App\Libraries\Generator\Generators\Template;
 use Carbon\Carbon;
@@ -35,30 +40,31 @@ class Generator
     protected $userRestrictive;
 
     protected $templateData = [
-        'author'                        => '',
-        'modelName'                     => '',
-        'modelNameLowerCase'            => '',
-        'date'                          => '',
-        'tableName'                     => '',
-        'tableNameCapitalizes'          => '',
-        'migrationFields'               => '',
-        'fillableFields'                => '',
-        'validators'                    => '',
-        'inputModelParamApi'            => '',
+        'author' => '',
+        'modelName' => '',
+        'modelNameLowerCase' => '',
+        'date' => '',
+        'tableName' => '',
+        'tableNameCapitalizes' => '',
+        'migrationFields' => '',
+        'fillableFields' => '',
+        'validators' => '',
+        'inputModelParamApi' => '',
         'outputModelAttributeApiCreate' => '',
         'outputModelAttributeApiUpdate' => '',
-        'outputModelAttributeApiShow'   => '',
-        'belongToFunctions'             => '',
-        'foreignKeyFields'              => '',
-        'relationsApi'                  => '',
-        'relationsRepository'           => ''
+        'outputModelAttributeApiShow' => '',
+        'belongToFunctions' => '',
+        'foreignKeyFields' => '',
+        'relationsApi' => '',
+        'relationsRepository' => '',
+        'manyToManyModelFunctions' => ''
     ];
 
     protected $files = [
-        'migration'      => '',
-        'model'          => '',
-        'repository'     => '',
-        'controller'     => '',
+        'migration' => '',
+        'model' => '',
+        'repository' => '',
+        'controller' => '',
         'repositoryTest' => '',
         'controllerTest' => '',
     ];
@@ -69,24 +75,27 @@ class Generator
     protected $templateCompiler;
 
     /**
-     * @param        $modelName
+     * Generator constructor.
+     * @param $modelName
+     * @param bool|true $userRestrictive
      * @param string $author
      */
     public function __construct($modelName, $userRestrictive = true, $author = '')
     {
-        $this->userRestrictive                      = $userRestrictive;
-        $this->templateData['author']               = $author;
-        $this->templateData['modelName']            = ucfirst(camel_case($modelName));
-        $this->templateData['date']                 = Carbon::now()->toDateTimeString();
-        $this->templateData['tableName']            = strtolower(str_plural($modelName));
+
+        $this->userRestrictive = $userRestrictive;
+        $this->templateData['author'] = $author;
+        $this->templateData['modelName'] = ucfirst(camel_case($modelName));
+        $this->templateData['date'] = Carbon::now()->toDateTimeString();
+        $this->templateData['tableName'] = strtolower(str_plural($modelName));
         $this->templateData['tableNameCapitalizes'] = ucfirst($this->templateData['tableName']);
-        $this->templateData['modelNameLowerCase']   = strtolower($this->templateData['modelName']);
+        $this->templateData['modelNameLowerCase'] = strtolower($this->templateData['modelName']);
 
         $this->files = [
-            'migration'      => 'database' . DIRECTORY_SEPARATOR . 'migrations' . DIRECTORY_SEPARATOR . date('Y_m_d_His') . "_" . "create_" . $this->templateData['tableName'] . "_table.php",
-            'model'          => 'app' . DIRECTORY_SEPARATOR . $this->templateData['modelName'] . '.php',
-            'repository'     => 'app' . DIRECTORY_SEPARATOR . 'Libraries' . DIRECTORY_SEPARATOR . 'Repositories' . DIRECTORY_SEPARATOR . $this->templateData['modelName'] . '.php',
-            'controller'     => 'app' . DIRECTORY_SEPARATOR . 'Http' . DIRECTORY_SEPARATOR . 'Controllers' . DIRECTORY_SEPARATOR . 'Api' . DIRECTORY_SEPARATOR . $this->templateData['modelName'] . '.php',
+            'migration' => 'database' . DIRECTORY_SEPARATOR . 'migrations' . DIRECTORY_SEPARATOR . date('Y_m_d_His') . "_" . "create_" . $this->templateData['tableName'] . "_table.php",
+            'model' => 'app' . DIRECTORY_SEPARATOR . $this->templateData['modelName'] . '.php',
+            'repository' => 'app' . DIRECTORY_SEPARATOR . 'Libraries' . DIRECTORY_SEPARATOR . 'Repositories' . DIRECTORY_SEPARATOR . $this->templateData['modelName'] . '.php',
+            'controller' => 'app' . DIRECTORY_SEPARATOR . 'Http' . DIRECTORY_SEPARATOR . 'Controllers' . DIRECTORY_SEPARATOR . 'Api' . DIRECTORY_SEPARATOR . $this->templateData['modelName'] . '.php',
             'repositoryTest' => 'tests' . DIRECTORY_SEPARATOR . 'Unit' . DIRECTORY_SEPARATOR . $this->templateData['modelName'] . '.php',
             'controllerTest' => 'tests' . DIRECTORY_SEPARATOR . 'Api' . DIRECTORY_SEPARATOR . 'Resources' . DIRECTORY_SEPARATOR . $this->templateData['modelName'] . '.php',
         ];
@@ -127,16 +136,24 @@ class Generator
             'status' => 201
         ]);
 
-        foreach ($foreignKeys as $foreignKey) {
+
+        foreach ($foreignKeys['belongTo'] as $foreignKey) {
             $this->templateData['relationsApi'] .= $this->template('Relations' . DIRECTORY_SEPARATOR . 'Controller' . DIRECTORY_SEPARATOR . 'BelongTo.php.twig', [
                 'relationCapitalize' => ucfirst($foreignKey),
-                'relation'           => strtolower($foreignKey)
+                'relation' => strtolower($foreignKey)
+            ]);
+        }
+
+        foreach ($foreignKeys['manyToMany'] as $foreignKey) {
+            $this->templateData['relationsApi'] .= $this->template('Relations' . DIRECTORY_SEPARATOR . 'Controller' . DIRECTORY_SEPARATOR . 'ManyToMany.php.twig', [
+                'relationCapitalize' => ucfirst($foreignKey),
+                'relation' => strtolower($foreignKey)
             ]);
         }
 
         $this->templateData['outputModelAttributeApiCreate'] = $generator->generate();
         $this->templateData['outputModelAttributeApiUpdate'] = $generator->set('status', 202)->generate();
-        $this->templateData['outputModelAttributeApiShow']   = $generator->set('status', 200)->generate();
+        $this->templateData['outputModelAttributeApiShow'] = $generator->set('status', 200)->generate();
 
         $this->writeTemplate('Controller.php.twig', base_path($this->files['controller']));
         $this->writeTemplate('ControllerTest.php.twig', base_path($this->files['controllerTest']));
@@ -160,8 +177,14 @@ class Generator
 
         $this->templateData['migrationFields'] = $generator->generate();
 
-        $generator                              = new BelongToMigration ([
-            'foreignKeys' => $foreignKeys
+        $generator = new BelongToMigration ([
+            'foreignKeys' => $foreignKeys['belongTo']
+        ]);
+        $this->templateData['foreignKeyFields'] = $generator->generate();
+
+        $generator = new ManyToManyMigration([
+            'foreignKeys' => $foreignKeys['manyToMany'],
+            'modelName' => $this->templateData['modelNameLowerCase']
         ]);
         $this->templateData['foreignKeyFields'] = $generator->generate();
 
@@ -179,10 +202,19 @@ class Generator
     public function repository(array $fields, array $foreignKeys)
     {
 
-        foreach ($foreignKeys as $foreignKey) {
+
+        foreach ($foreignKeys['belongTo'] as $foreignKey) {
             $this->templateData['relationsRepository'] .= $this->template('Relations' . DIRECTORY_SEPARATOR . 'Repository' . DIRECTORY_SEPARATOR . 'BelongTo.php.twig', [
                 'relationCapitalize' => ucfirst($foreignKey),
-                'relation'           => strtolower($foreignKey)
+                'relation' => strtolower($foreignKey)
+            ]);
+        }
+
+        foreach ($foreignKeys['manyToMany'] as $foreignKey) {
+            $this->templateData['relationsRepository'] .= $this->template('Relations' . DIRECTORY_SEPARATOR . 'Repository' . DIRECTORY_SEPARATOR . 'ManyToMany.php.twig', [
+                'relationCapitalize' => ucfirst($foreignKey),
+                'relationPlural' => strtolower(str_plural($foreignKey)),
+                'relation' => strtolower($foreignKey)
             ]);
         }
 
@@ -199,9 +231,9 @@ class Generator
      */
     public function route(array $foreignKeys)
     {
-        $file      = base_path('app' . DIRECTORY_SEPARATOR . 'Http' . DIRECTORY_SEPARATOR . 'routes.php');
+        $file = base_path('app' . DIRECTORY_SEPARATOR . 'Http' . DIRECTORY_SEPARATOR . 'routes.php');
         $routeCode = file_get_contents($file);
-        $pattern   = '#\'api\/v1\'],\s+function\s+\(\)\s+use\s+\(\$app\)\s+\{#';
+        $pattern = '#\'api\/v1\'],\s+function\s+\(\)\s+use\s+\(\$app\)\s+\{#';
 
         $generator = new Resource([
             'model' => $this->templateData['modelName'],
@@ -210,8 +242,15 @@ class Generator
         $newRoutes = $generator->generate();
 
         $generator = new BelongToRoute([
-            'model'       => $this->templateData['modelName'],
-            'foreignKeys' => $foreignKeys
+            'model' => $this->templateData['modelName'],
+            'foreignKeys' => $foreignKeys['belongTo']
+        ]);
+
+        $newRoutes .= $generator->generate();
+
+        $generator = new ManyToManyRoute([
+            'model' => $this->templateData['modelName'],
+            'foreignKeys' => $foreignKeys['manyToMany']
         ]);
 
         $newRoutes .= $generator->generate();
@@ -236,20 +275,25 @@ class Generator
             $template = 'ModelUserRestrictive.php.twig';
         }
 
-        $generator                            = new Fillable([
+        $generator = new Fillable([
             'fields' => $fields
         ]);
         $this->templateData['fillableFields'] = $generator->generate();
 
-        $generator                        = new Rules([
+        $generator = new Rules([
             'fields' => $fields
         ]);
         $this->templateData['validators'] = $generator->generate();
 
-        $generator                               = new BelongToModel([
-            'foreignKeys' => $foreignKeys
+        $generator = new BelongToModel([
+            'foreignKeys' => $foreignKeys['belongTo']
         ]);
         $this->templateData['belongToFunctions'] = $generator->generate();
+
+        $generator = new ManyToManyModel([
+            'foreignKeys' => $foreignKeys['manyToMany']
+        ]);
+        $this->templateData['manyToManyModelFunctions'] = $generator->generate();
 
         $this->writeTemplate($template, base_path($this->files['model']));
 

@@ -29,14 +29,14 @@ class ManyToMany extends Code
 
         $lines = [];
         foreach ($this->get('foreignKeys') as $foreignKey) {
-            $migration = 'Schema::table(\'alpha_beta\', function(Blueprint $table)' . "\n"
+            $migration = 'Schema::table(\'%s_%s\', function(Blueprint $table)' . "\n"
                 . '{' . "\n"
                 . '    $table->foreign(\'%s_id\')->references(\'id\')->on(\'%s\');' . "\n"
                 . '    $table->foreign(\'%s_id\')->references(\'id\')->on(\'%s\');' . "\n"
                 . '})' . "\n";
 
 
-            $migration = sprintf($migration, $modelName, $modelName, $foreignKey, $foreignKey);
+            $migration = sprintf($migration, $modelName, $foreignKey, $modelName, $modelName, $foreignKey, $foreignKey);
 
             $lines[] = $migration;
         }
