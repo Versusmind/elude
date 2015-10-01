@@ -44,8 +44,7 @@ class Min implements StageInterface
         $newAssets = [];
         foreach ($collection->getType(Asset::JS) as $asset) {
             $outputFile = $collection->getTmpDirectory() . DIRECTORY_SEPARATOR . md5($asset->getPath()) . '.min.js';
-            $packer     = new \JavaScriptPacker(file_get_contents($asset->getPath()), 'Normal', true, false);
-            $packed     = $packer->pack();
+            $packed = \JShrink\Minifier::minify(file_get_contents($asset->getPath()), array('flaggedComments' => false));
             file_put_contents($outputFile, $packed);
             $newAssets[] = new Asset(Asset::JS, $outputFile);
         }

@@ -18,7 +18,7 @@ angular.module('myo', [
     'pascalprecht.translate', //Handle app content translation
     'restangular', //Handles API calls
     'smart-table', //Generate custom, searchable, filterable, paginated table based on data
-    'angular-loading-bar', //Automagically show spinner when ajax calls are made (https://github.com/chieffancypants/angular-loading-bar)
+    'angular-loading-bar' //Automagically show spinner when ajax calls are made (https://github.com/chieffancypants/angular-loading-bar)
 
 ])
 .config(function($translateProvider, cfpLoadingBarProvider) {
