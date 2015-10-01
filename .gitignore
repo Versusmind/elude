@@ -1,0 +1,11 @@
+.env
+/vendor
+/public/assets
+/storage
+/resources/assets/bower
+/.idea
+/node_modules
+composer.phar
+phpunit.phar
+/apidoc
+/phpdoc

@@ -1,0 +1,33 @@
+{
+  "name": "myo2",
+  "version": "0.1.0",
+  "authors": [
+    "arnaud.lahaxe@versusmind.eu"
+  ],
+  "description": "Myo 2 project.",
+  "keywords": [
+    "Versusmind",
+    "Myo2"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-bootstrap": "~0.13.3",
+    "angular-loading-bar": "~0.8.0",
+    "angular-smart-table": "~2.1.3",
+    "angular-translate": "~2.8.0",
+    "angular-ui-router": "~0.2.15",
+    "angularjs": "~1.4.3",
+    "bootstrap": "~3.3.5",
+    "jquery": "~2.1.4",
+    "lodash": "~3.10.1",
+    "restangular": "~1.5.1"
+  }
+}

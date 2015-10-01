@@ -1,0 +1,70 @@
+<?php namespace App;
+
+/******************************************************************************
+ *
+ * @package Myo 2
+ * @copyright © 2015 by Versusmind.
+ * All rights reserved. No part of this document may be
+ * reproduced or transmitted in any form or by any means,
+ * electronic, mechanical, photocopying, recording, or
+ * otherwise, without prior written permission of Versusmind.
+ * @link http://www.versusmind.eu/
+ *
+ * @file $$MODEL_NAME$$.php
+ * @author $$AUTHOR_NAME$$
+ * @last-edited $$DATE$$
+ * @description $$MODEL_NAME$$
+ *
+ ******************************************************************************/
+
+use Illuminate\Database\Eloquent\Model;
+use App\Libraries\Validation\ValidationInterface;
+use App\Libraries\Validation\ValidationTrait;
+
+/**
+ * Class $$MODEL_NAME$$
+ *
+ */
+class $$MODEL_NAME$$ extends Model implements ValidationInterface
+{
+
+    use ValidationTrait;
+
+    /**
+     * Mass fillable columns
+     *
+     * @var array
+     */
+    protected $fillable = [
+        $$FILLABLE_FIELDS$$
+    ];
+
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = '$$MODEL_NAME_TABLE$$';
+
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    protected static $rules = [
+        $$VALIDATORS$$
+    ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        /**
+         * you can register observers here via closure or via observer classes
+         * see http://laravel.com/docs/5.1/eloquent#events
+         * example: self::observe(new ModelObserver());
+         **/
+    }
+
+    $$BELONG_TO_FUNCTIONS$$
+}

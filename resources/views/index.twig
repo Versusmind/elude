@@ -1,0 +1,21 @@
+<html ng-app="app">
+<head>
+    <base href="{{ env('SUBFOLDER_INSTALLATION', '/') }}">
+
+    {{ style('style') }}
+
+    <meta name="access_token" content="{{ session_get('oauth.access_token') }}" />
+    <meta name="refresh_token" content="{{ session_get('oauth.refresh_token') }}" />
+    <meta name="token_type" content="{{ session_get('oauth.token_type') }}" />
+    <meta name="username" content="{{ user().username }}" />
+</head>
+
+<body>
+
+    <div ui-view></div>
+
+
+    {{ javascript('javascript-core') }}
+    {{ javascript('javascript-app') }}
+</body>
+</html>
