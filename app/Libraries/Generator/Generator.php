@@ -7,7 +7,7 @@ use App\Libraries\Generator\Generators\Migration\Columns;
 use App\Libraries\Generator\Generators\Model\BelongTo as BelongToModel;
 use App\Libraries\Generator\Generators\Model\Fillable;
 use App\Libraries\Generator\Generators\Model\Rules;
-use App\Libraries\Generator\Generators\Route\ForeignKeys;
+use App\Libraries\Generator\Generators\Route\BelongTo as BelongToRoute;;
 use App\Libraries\Generator\Generators\Route\Resource;
 use App\Libraries\Generator\Generators\Template;
 use Carbon\Carbon;
@@ -209,7 +209,7 @@ class Generator
 
         $newRoutes = $generator->generate();
 
-        $generator = new ForeignKeys([
+        $generator = new BelongToRoute([
             'model'       => $this->templateData['modelName'],
             'foreignKeys' => $foreignKeys
         ]);

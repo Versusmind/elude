@@ -10,10 +10,10 @@
  * otherwise, without prior written permission of Versusmind.
  * @link http://www.versusmind.eu/
  *
- * @file {{modelName}}.php
- * @author {{author}}
- * @last-edited {{date}}
- * @description {{modelName}}
+ * @file {{ modelName }}.php
+ * @author {{ author }}
+ * @last-edited {{ date }}
+ * @description {{ modelName }}
  *
  ******************************************************************************/
 
@@ -22,10 +22,10 @@ use App\Libraries\Validation\ValidationInterface;
 use App\Libraries\Validation\ValidationTrait;
 
 /**
- * Class {{modelName}}
+ * Class {{ modelName }}
  *
  */
-class {{modelName}} extends Model implements ValidationInterface
+class {{ modelName }} extends Model implements ValidationInterface
 {
 
     use ValidationTrait;
@@ -36,7 +36,7 @@ class {{modelName}} extends Model implements ValidationInterface
      * @var array
      */
     protected $fillable = [
-        {{fillableFields | raw}}
+        {{ fillableFields | raw }}
     ];
 
     /**
@@ -44,7 +44,7 @@ class {{modelName}} extends Model implements ValidationInterface
      *
      * @var string
      */
-    protected $table = '{{tableName | raw}}';
+    protected $table = '{{ tableName | raw }}';
 
     /**
      * Validation rules
@@ -52,7 +52,7 @@ class {{modelName}} extends Model implements ValidationInterface
      * @var array
      */
     protected static $rules = [
-        {{validators | raw}}
+        {{ validators | raw }}
     ];
 
     protected static function boot()
@@ -66,5 +66,5 @@ class {{modelName}} extends Model implements ValidationInterface
          **/
     }
 
-    {{belongToFunctions | raw}}
+    {{ belongToFunctions | raw }}
 }

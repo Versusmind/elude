@@ -1,14 +1,14 @@
-    /**
-     * @author {{author}}
-     *
-     * @param \App\{{modelName}} ${{modelNameLowerCase}}
-     * @param \App\{{relationCapitalize}} ${{relation}}
-     * @return $this
-     */
-        public function set{{relationCapitalize}}(\App\{{modelName}} ${{modelNameLowerCase}}, \App\{{relationCapitalize}} ${{relation}})
-    {
-        ${{modelNameLowerCase}}->{{relation}}()->associate(${{relation}});
-        ${{modelNameLowerCase}}->load("{{relation}}");
+/**
+* @author {{ author }}
+*
+* @param \App\{{ modelName }} ${{ modelNameLowerCase }}
+* @param \App\{{ relationCapitalize }} ${{ relation }}
+* @return $this
+*/
+public function set{{ relationCapitalize }}(\App\{{ modelName }} ${{ modelNameLowerCase }}, \App\{{ relationCapitalize }} ${{ relation }})
+{
+    ${{ modelNameLowerCase }}->{{ relation }}()->associate(${{ relation }});
+    ${{ modelNameLowerCase }}->load("{{ relation }}");
 
-        return $this;
-    }
+    return $this;
+}

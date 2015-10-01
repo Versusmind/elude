@@ -10,10 +10,10 @@
  * otherwise, without prior written permission of Versusmind.
  * @link http://www.versusmind.eu/
  *
- * @file {{modelName}}.php
- * @author {{author}}
- * @last-edited {{date}}
- * @description {{modelName}}
+ * @file {{ modelName }}.php
+ * @author {{ author }}
+ * @last-edited {{ date }}
+ * @description {{ modelName }}
  *
  ******************************************************************************/
 
@@ -23,10 +23,10 @@ use App\Libraries\Validation\ValidationInterface;
 use App\Libraries\Validation\ValidationTrait;
 
 /**
- * Class {{modelName}}
+ * Class {{ modelName }}
  *
  */
-class {{modelName}} extends Model implements ValidationInterface, UserRestrictionInterface
+class {{ modelName }} extends Model implements ValidationInterface, UserRestrictionInterface
 {
 
     use ValidationTrait;
@@ -37,14 +37,14 @@ class {{modelName}} extends Model implements ValidationInterface, UserRestrictio
      * @var array
      */
     protected $fillable = [
-        {{fillableFields | raw}}
+        {{ fillableFields | raw }}
     ];
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = '{{tableName | raw}}';
+    protected $table = '{{ tableName | raw }}';
 
     /**
      * Validation rules
@@ -52,7 +52,7 @@ class {{modelName}} extends Model implements ValidationInterface, UserRestrictio
      * @var array
      */
     protected static $rules = [
-        {{validators | raw}}
+        {{ validators | raw }}
     ];
 
     /**
@@ -74,12 +74,12 @@ class {{modelName}} extends Model implements ValidationInterface, UserRestrictio
     public function isUserAllow(User $user, array $parameters = [])
     {
         return $this->{$this->getUserIdFields()} === $user->id;
-    }
+}
 
-    public function getRules()
-    {
-        return self::$rules;
-    }
+public function getRules()
+{
+return self::$rules;
+}
 
-{{belongToFunctions | raw}}
+{{ belongToFunctions | raw }}
 }

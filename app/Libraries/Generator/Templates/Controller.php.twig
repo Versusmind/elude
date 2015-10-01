@@ -10,79 +10,79 @@
  * otherwise, without prior written permission of Versusmind.
  * @link http://www.versusmind.eu/
  *
- * @file {{modelName}}.php
- * @author {{author}}
- * @last-edited {{date}}
- * @description {{modelName}}
+ * @file {{ modelName }}.php
+ * @author {{ author }}
+ * @last-edited {{ date }}
+ * @description {{ modelName }}
  *
  ******************************************************************************/
 
 
-class {{modelName}} extends ResourcesController
+class {{ modelName }} extends ResourcesController
 {
     /**
-     * {{modelName}} constructor.
+     * {{ modelName }} constructor.
      */
-    public function __construct(\App\Libraries\Repositories\{{modelName}} $repository)
+    public function __construct(\App\Libraries\Repositories\{{ modelName }} $repository)
     {
         parent::__construct($repository);
     }
 
-{{relationsApi | raw}}
+{{ relationsApi | raw }}
 
         /**
-         * @apiDefine {{modelNameLowerCase}}Params
+         * @apiDefine {{ modelNameLowerCase }}Params
          *
-         {{inputModelParamApi}}
+         {{ inputModelParamApi }}
          */
 
         /**
-         * @api {get} /{{tableName}} Request {{modelNameLowerCase}} list
-         * @apiGroup {{tableNameCapitalizes}}
+         * @api {get} /{{ tableName }} Request {{ modelNameLowerCase }} list
+         * @apiGroup {{ tableNameCapitalizes }}
          * @apiUse getIndex
          * @apiUse paginationParams
          * @apiUse ApiOAuth
          */
 
         /**
-         * @api {get} /{{tableName}}/:id Request {{modelNameLowerCase}} information
-         * @apiGroup {{tableNameCapitalizes}}
+         * @api {get} /{{ tableName }}/:id Request {{ modelNameLowerCase }} information
+         * @apiGroup {{ tableNameCapitalizes }}
          * @apiUse get
          * @apiSuccess (200) {Number} id Id.
          * @apiSuccess (200) {datetime} created_at Creation date.
          * @apiSuccess (200) {datetime} updated_at Last Update date.
-         {{outputModelAttributeApiShow}}
+         {{ outputModelAttributeApiShow }}
          * @apiUse ApiOAuth
          */
 
         /**
-         * @api {post} /{{tableName}} Create a {{modelNameLowerCase}}
-         * @apiGroup {{tableNameCapitalizes}}
+         * @api {post} /{{ tableName }} Create a {{ modelNameLowerCase }}
+         * @apiGroup {{ tableNameCapitalizes }}
          * @apiUse postStore
          * @apiSuccess (201) {Number} id Id.
          * @apiSuccess (201) {datetime} created_at Creation date.
          * @apiSuccess (201) {datetime} updated_at Last Update date.
-         {{outputModelAttributeApiCreate}}
-         * @apiUse {{modelNameLowerCase}}Params
+         {{ outputModelAttributeApiCreate }}
+         * @apiUse {{ modelNameLowerCase }}Params
          * @apiUse ApiOAuth
          */
 
         /**
-         * @api {put} /{{tableName}}/:id Update a {{modelNameLowerCase}}
-         * @apiGroup {{tableNameCapitalizes}}
+         * @api {put} /{{ tableName }}/:id Update a {{ modelNameLowerCase }}
+         * @apiGroup {{ tableNameCapitalizes }}
          * @apiUse putUpdate
          * @apiSuccess (202) {Number} id Id.
          * @apiSuccess (202) {datetime} created_at Creation date.
          * @apiSuccess (202) {datetime} updated_at Last Update date.
-         {{outputModelAttributeApiUpdate}}
+         {{ outputModelAttributeApiUpdate }}
          * @apiParam {Number} id Id.
-         * @apiUse {{modelNameLowerCase}}Params
+         * @apiUse {{ modelNameLowerCase }}Params
          * @apiUse ApiOAuth
          */
 
         /**
-         * @api {delete} /{{tableName}}/:id Delete a {{modelNameLowerCase}}
-         * @apiGroup {{tableNameCapitalizes}}
+         * @api {delete} /{{ tableName }}/:id Delete a {{ modelNameLowerCase }}
+         * @apiGroup {{ tableNameCapitalizes }}
          * @apiUse deleteDestroy
          * @apiUse ApiOAuth
          * @apiParam {Number} id Id.

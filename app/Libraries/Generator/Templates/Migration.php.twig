@@ -10,10 +10,10 @@
  * otherwise, without prior written permission of Versusmind.
  * @link http://www.versusmind.eu/
  *
- * @file {{modelName}}.php
- * @author {{author}}
- * @last-edited {{date}}
- * @description {{modelName}}
+ * @file {{ modelName }}.php
+ * @author {{ author }}
+ * @last-edited {{ date }}
+ * @description {{ modelName }}
  *
  ******************************************************************************/
 
@@ -22,7 +22,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 
-class Create{{tableNameCapitalizes}}Table extends Migration
+class Create{{ tableNameCapitalizes }}Table extends Migration
 {
     /**
      * Run the migrations.
@@ -31,24 +31,24 @@ class Create{{tableNameCapitalizes}}Table extends Migration
      */
     public function up()
     {
-        Schema::create('{{tableName}}', function (Blueprint $table) {
+        Schema::create('{{ tableName }}', function (Blueprint $table) {
             $table->increments('id');
-            {{migrationFields | raw}}
-            // add fields here
+{{ migrationFields | raw }}
+// add fields here
 
-{{foreignKeyFields | raw}}
+{{ foreignKeyFields | raw }}
 
-            $table->timestamps();
-        });
-    }
+$table->timestamps();
+});
+}
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::drop('{{tableName}}');
-    }
+/**
+* Reverse the migrations.
+*
+* @return void
+*/
+public function down()
+{
+Schema::drop('{{ tableName }}');
+}
 }
