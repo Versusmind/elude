@@ -29,11 +29,11 @@ class BelongTo extends Code
         foreach ($this->get('foreignKeys') as $foreignKey) {
             $migration = '            $table->integer("%s_id")->unsigned();' . "\n\n"
                 .'            $table->foreign("%s_id")' . "\n"
-                .'                ->references("id")->on("%ss")' . "\n"
+                .'                ->references("id")->on("%s")' . "\n"
                 .'                 ->onDelete("cascade");';
 
 
-            $migration = sprintf($migration, $foreignKey, $foreignKey, $foreignKey);
+            $migration = sprintf($migration, $foreignKey, $foreignKey, str_plural($foreignKey));
 
             $lines[] = $migration;
         }

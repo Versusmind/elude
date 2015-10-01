@@ -27,7 +27,7 @@ public function {{ relation }}Store($id, $id{{ relationCapitalize }})
     ${{ relation }}Repository = \App::make(\App\Libraries\Repositories\{{ relationCapitalize }}::class);
     ${{ relation }} = ${{ relation }}Repository->find($id{{ relationCapitalize }});
 
-    if (is_null($model) || is_null({{ relation }})) {
+    if (is_null($model) || is_null(${{ relation }})) {
     return response()->json([], 404);
     }
 
@@ -65,7 +65,7 @@ public function {{ relation }}Destroy($id, $id{{ relationCapitalize }})
     ${{ relation }}Repository = \App::make(\App\Libraries\Repositories\{{ relationCapitalize }}::class);
     ${{ relation }} = ${{ relation }}Repository->find($id{{ relationCapitalize }});
 
-    if (is_null($model) || is_null({{ relation }})) {
+    if (is_null($model) || is_null(${{ relation }})) {
     return response()->json([], 404);
     }
 
