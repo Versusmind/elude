@@ -46,7 +46,7 @@ class LostPasswordTest extends TestCase
             ->type('user123456', 'password')
             ->press('Sign In')
             ->seePageIs('/')
-            ->see('Welcome ' . $user->username);
+            ->see('<meta name="username" content="'.$user->username.'" />');
         $this->assertSessionHas('oauth');
     }
 }

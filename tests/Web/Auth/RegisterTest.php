@@ -32,7 +32,7 @@ class RegisterTest extends TestCase
             ->type('user123456', 'password')
             ->press('Sign In')
             ->seePageIs('/')
-            ->see('Welcome ' . $username);
+            ->see('<meta name="username" content="'.$username.'" />');
         $this->assertSessionHas('oauth');
     }
 }
