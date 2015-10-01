@@ -99,16 +99,18 @@ class ApiGenerator extends Command
         $templateData = $generator->getTemplateData();
         $files = $generator->getFiles();
 
-        $foreignKeys = $this->getForeignKeys();
+        $belongToRelations = $this->getBelongTo();
         if ($isUserRestrict) {
-            $foreignKeys[] = 'user';
+            $belongToRelations[] = 'user';
         }
-        $foreignKeys = array_unique($foreignKeys);
+        $belongToRelations = array_unique($belongToRelations);
 
         $fields = $this->getFields();
         $this->summary($templateData, $isUserRestrict);
         $this->fieldsSummary($fields);
-        $this->generate($generator, $fields, $foreignKeys);
+        $this->generate($generator, $fields, [
+            'belongTo' => $belongToRelations
+        ]);
         $this->runComposerDumpAutoload();
         $this->migrateDatabase();
         $this->generateDocumentation();
@@ -294,13 +296,27 @@ class ApiGenerator extends Command
         return $fields;
     }
 
-    public function getForeignKeys()
+    public function getBelongTo()
     {
-        if (!$this->confirm('Does the model have foreign keys ?', false)) {
+        if (!$this->confirm('Does the model have getBelongTo relation ?', false)) {
             return [];
         }
 
         $foreignKeysTable = [];
+        $availableModels = $this->getModels();
+
+        $addOther = true;
+        while ($addOther) {
+            $foreignKeysTable[] = strtolower($this->choice("What model ?", $availableModels));
+
+            $addOther = $this->confirm('Add new foreign key ?', true);
+        }
+
+        return $foreignKeysTable;
+    }
+
+    protected function getModels()
+    {
         $availableModels = [];
 
         $finder = new Finder();
@@ -311,14 +327,6 @@ class ApiGenerator extends Command
             $availableModels[] = $file->getBasename('.php');
         }
 
-
-        $addOther = true;
-        while ($addOther) {
-            $foreignKeysTable[] = strtolower($this->choice("What model ?", $availableModels));
-
-            $addOther = $this->confirm('Add new foreign key ?', true);
-        }
-
-        return $foreignKeysTable;
+        return $availableModels;
     }
 }
