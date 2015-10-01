@@ -18,6 +18,7 @@
  ******************************************************************************/
 
 
+use App\Facades\Assets;
 use App\Libraries\Assets\Asset;
 use App\Libraries\Assets\Collection;
 use League\Pipeline\StageInterface;
@@ -47,7 +48,9 @@ class Concat implements StageInterface
      */
     public function process($collection)
     {
-        $outputFile = $collection->getTmpDirectory() . DIRECTORY_SEPARATOR . $collection->getCollectionId() . '.' . $this->type;
+        \Log::info('Assets::Concat on collection ' . $collection->getCollectionId());
+
+        $outputFile = $collection->getTmpDirectory() . DIRECTORY_SEPARATOR . $collection->getCollectionId() . '.' . Asset::getExtensionFromType($this->type);
 
         foreach ($collection->getType($this->type) as $asset) {
             file_put_contents($outputFile, file_get_contents($asset->getPath()) . "\n", FILE_APPEND | LOCK_EX);

@@ -21,7 +21,7 @@ class LoginTest extends TestCase
             ->type('user', 'password')
             ->press('Sign In')
             ->seePageIs('/')
-            ->see('Welcome user');
+            ->see('<div ui-view></div>');
         $this->assertSessionHas('oauth');
 
         return $this;
@@ -32,7 +32,8 @@ class LoginTest extends TestCase
     {
         $this->testValidLogin()
             ->visit('/auth/logout')
-            ->seePageIs('/auth/login');
+            ->seePageIs('/auth/login')
+            ->see('Sign In');
     }
 
 

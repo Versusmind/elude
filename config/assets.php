@@ -77,40 +77,54 @@ return [
             \App\Libraries\Assets\Asset::CSS => [
                 'resources/assets/bower/bootstrap/dist/css/bootstrap.css',
                 'resources/assets/bower/angular-bootstrap/ui-bootstrap-csp.css',
+                //Angular loading bar
+                'resources/assets/bower/angular-loading-bar/build/loading-bar.min.css',
             ]
         ],
 
         'javascript-core' => [
             \App\Libraries\Assets\Asset::JS => [
+                //JQuery
+                'resources/assets/bower/jquery/dist/jquery.min.js',
                 // angular JS
-                'resources/assets/bower/angularjs/angular.js',
+                'resources/assets/bower/angularjs/angular.min.js',
                 // bootstrap UI
-                'resources/assets/bower/angular-bootstrap/ui-bootstrap.js',
-                'resources/assets/bower/angular-bootstrap/ui-bootstrap-tpls.js',
+                'resources/assets/bower/angular-bootstrap/ui-bootstrap.min.js',
+                'resources/assets/bower/angular-bootstrap/ui-bootstrap-tpls.min.js',
                 // angular UI router
-                'resources/assets/bower/angular-ui-router/release/angular-ui-router.js',
+                'resources/assets/bower/angular-ui-router/release/angular-ui-router.min.js',
+                // angular Translate
+                'resources/assets/bower/angular-translate/angular-translate.min.js',
+                //Underscore
+                'resources/assets/bower/lodash/lodash.min.js',
+                //Restangular
+                'resources/assets/bower/restangular/dist/restangular.min.js',
+                //Angular Smart Table
+                'resources/assets/bower/angular-smart-table/dist/smart-table.min.js',
+                //Angular loading bar
+                'resources/assets/bower/angular-loading-bar/build/loading-bar.min.js',
             ]
         ],
 
         'javascript-app' => [
             \App\Libraries\Assets\Asset::JS => [
-                'resources/assets/js/*/*.js',
-                'resources/assets/js/app.js',
+                'resources/assets/app/*.js',
+                'resources/assets/app/*/*.js',
+                'resources/assets/app/*/*/*.js',
+                'resources/assets/app/*/*/*/*.js',
+                'resources/assets/app/*/*/*/*/*.js',
             ],
 
             \App\Libraries\Assets\Asset::TEMPLATE => [
-                'resources/assets/templates/*.html',
-                'resources/assets/templates/*/*.html',
-                'resources/assets/templates/*/*/*.html',
-                'resources/assets/templates/*/*/*/*.html',
+                'resources/assets/app/*.html',
+                'resources/assets/app/*/*.html',
+                'resources/assets/app/*/*/*.html',
+                'resources/assets/app/*/*/*/*.html',
+                'resources/assets/app/*/*/*/*/*.html',
             ]
         ],
 
         'statics' => [
-            \App\Libraries\Assets\Asset::TEMPLATE => [
-                'resources/assets/templates/*.html',
-                'resources/assets/templates/*/*.html',
-            ],
             \App\Libraries\Assets\Asset::FONT => [
                 'resources/assets/bower/bootstrap/fonts/*',
             ],

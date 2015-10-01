@@ -11,6 +11,11 @@ Please read the wiki [wiki](https://gitlab.mind-lab.eu/ndrx/myo2/wikis/pages) (a
 
 
 
+## Development guidelines: Javascript
+Please install the Javascript validation tool jscs : `npm i -g jscs`. The details of NDRX configuration is stored in the .jscsrc at the root of the project.
+
+Hint: use JSCSFormatter plugin for Sublime Text to auto-format your code
+
 # Todo
 
 - Using symlink in the copy task in dev

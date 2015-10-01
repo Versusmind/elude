@@ -46,15 +46,49 @@ class Copy implements StageInterface
      */
     public function process($collection)
     {
+        \Log::info('Assets::Copy on collection ' . $collection->getCollectionId());
+
+        if($this->type !== Asset::TEMPLATE) {
         $outputDirectory = $collection->getOutputDirectory() . $this->type . DIRECTORY_SEPARATOR;
-        if (!is_dir($outputDirectory) && !mkdir($outputDirectory, 0777, true)) {
+        } else {
+            $outputDirectory = $collection->getOutputDirectory() . Asset::JS . DIRECTORY_SEPARATOR;
+        }
+        if (!is_dir($outputDirectory) && !mkdir($outputDirectory, 0777, TRUE)) {
             throw new \RuntimeException('Fail to create ' . $outputDirectory);
         }
 
         $newAssetsFiles = [];
         foreach ($collection->getType($this->type) as $asset) {
-            $relativePath = $this->getRelativeBuildFilePath($asset, $collection);
-            $this->createSubFolders($relativePath, $outputDirectory);
+            // file is in tmp folder
+            if (!empty($collection->getTmpDirectory()) && strpos($asset->getPath(), $collection->getTmpDirectory()) !== FALSE) {
+                $relativePath = str_replace($collection->getTmpDirectory(), '', $asset->getPath());
+            // file is in bower folder
+            } elseif (!empty($collection->getBowerDirectory()) && strpos($asset->getPath(), $collection->getBowerDirectory()) !== FALSE) {
+                $relativePath = str_replace($collection->getBowerDirectory(), '', $asset->getPath());
+                if ($asset->getType() === Asset::FONT) {
+
+                    $relativePath = last(explode('/', $relativePath));
+                }
+
+            // templates files are not separated from js files
+            } elseif($this->type === Asset::TEMPLATE) {
+                $relativePath = str_replace(config('assets.assetsDirectory') . DIRECTORY_SEPARATOR . Asset::JS . DIRECTORY_SEPARATOR, '', $asset->getPath());
+
+            // file is resource/assets folder (no other case)
+            } else {
+                $relativePath = str_replace(config('assets.assetsDirectory') . DIRECTORY_SEPARATOR . $this->type . DIRECTORY_SEPARATOR, '', $asset->getPath());
+            }
+
+            if (strpos($relativePath, '/') !== FALSE) {
+                $subfolders = join('/', explode(DIRECTORY_SEPARATOR, $relativePath, -1));
+
+                if (!is_dir($outputDirectory . $subfolders)) {
+                    if (!mkdir($outputDirectory . $subfolders, 0777, TRUE)) {
+                        throw new \RuntimeException('Cannot create ' . $outputDirectory . $subfolders . ' directory');
+                    }
+                }
+            }
+
             copy($asset->getPath(), $outputDirectory . $relativePath);
             $asset->setPath($outputDirectory . $relativePath);
 
