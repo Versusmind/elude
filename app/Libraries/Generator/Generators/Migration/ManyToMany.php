@@ -33,7 +33,7 @@ class ManyToMany extends Code
                 . '{' . "\n"
                 . '    $table->foreign(\'%s_id\')->references(\'id\')->on(\'%s\');' . "\n"
                 . '    $table->foreign(\'%s_id\')->references(\'id\')->on(\'%s\');' . "\n"
-                . '})' . "\n";
+                . '});' . "\n";
 
 
             $migration = sprintf($migration, $modelName, $foreignKey, $modelName, $modelName, $foreignKey, $foreignKey);

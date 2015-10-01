@@ -74,12 +74,14 @@ class {{ modelName }} extends Model implements ValidationInterface, UserRestrict
     public function isUserAllow(User $user, array $parameters = [])
     {
         return $this->{$this->getUserIdFields()} === $user->id;
-}
+    }
 
-public function getRules()
-{
-return self::$rules;
-}
+    public function getRules()
+    {
+        return self::$rules;
+    }
 
 {{ belongToFunctions | raw }}
+
+{{ manyToManyModelFunctions | raw }}
 }

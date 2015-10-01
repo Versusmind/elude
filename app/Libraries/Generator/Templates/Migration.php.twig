@@ -33,22 +33,24 @@ class Create{{ tableNameCapitalizes }}Table extends Migration
     {
         Schema::create('{{ tableName }}', function (Blueprint $table) {
             $table->increments('id');
-{{ migrationFields | raw }}
-// add fields here
+            {{ migrationFields | raw }}
+            // add fields here
 
-{{ foreignKeyFields | raw }}
+            {{ foreignKeyFields | raw }}
 
-$table->timestamps();
-});
-}
+            $table->timestamps();
+        });
 
-/**
-* Reverse the migrations.
-*
-* @return void
-*/
-public function down()
-{
-Schema::drop('{{ tableName }}');
-}
+        {{ pivotsTables | raw }}
+    }
+
+    /**
+    * Reverse the migrations.
+    *
+    * @return void
+    */
+    public function down()
+    {
+        Schema::drop('{{ tableName }}');
+    }
 }

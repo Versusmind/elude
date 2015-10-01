@@ -57,7 +57,8 @@ class Generator
         'foreignKeyFields' => '',
         'relationsApi' => '',
         'relationsRepository' => '',
-        'manyToManyModelFunctions' => ''
+        'manyToManyModelFunctions' => '',
+        'pivotsTables' => '',
     ];
 
     protected $files = [
@@ -186,7 +187,7 @@ class Generator
             'foreignKeys' => $foreignKeys['manyToMany'],
             'modelName' => $this->templateData['modelNameLowerCase']
         ]);
-        $this->templateData['foreignKeyFields'] = $generator->generate();
+        $this->templateData['pivotsTables'] = $generator->generate();
 
         $this->writeTemplate($template, base_path($this->files['migration']));
 
