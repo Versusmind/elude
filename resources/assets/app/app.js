@@ -1,4 +1,4 @@
 angular.module('app', [
     'myo',
-    'app.config',
+    'app.config'
 ]);

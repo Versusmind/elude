@@ -10,4 +10,4 @@ angular.module('myo')
         'Groups': 'Groupes'
     });
 
-})
+});

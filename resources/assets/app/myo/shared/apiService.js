@@ -73,7 +73,7 @@ angular.module('myo')
                 });
                 return false; // error handled
             case 500:
-                //@TODO
+
                 return false; // error handled
         }
         return true; // error not handled

@@ -4,7 +4,6 @@ angular.module('app')
 .directive('appHeader', function(appdir, appname) {
     return {
         restrict: 'E',
-
         scope: {
             'appname' : '='
         },
