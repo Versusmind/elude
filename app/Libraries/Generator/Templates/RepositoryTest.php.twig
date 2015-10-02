@@ -1,13 +1,13 @@
 <?php namespace Tests\Unit\Acl\Repositories;
 
-use App\Libraries\Repositories\$$MODEL_NAME$$;
+use App\Libraries\Repositories\{{ modelName }};
 use App\Libraries\Repository;
 use Tests\Unit\RepositoryTest;
 
 /**
  * @group unit
  **/
-class $$MODEL_NAME$$Test extends RepositoryTest
+class {{ modelName }}Test extends RepositoryTest
 {
 
     /**
@@ -15,7 +15,7 @@ class $$MODEL_NAME$$Test extends RepositoryTest
      */
     public function getRepository()
     {
-        return new $$MODEL_NAME$$();
+        return new {{ modelName }}();
     }
 
     public function createOkProvider()

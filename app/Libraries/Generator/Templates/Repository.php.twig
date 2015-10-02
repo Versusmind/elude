@@ -10,16 +10,16 @@
  * otherwise, without prior written permission of Versusmind.
  * @link http://www.versusmind.eu/
  *
- * @file $$MODEL_NAME$$.php
- * @author $$AUTHOR_NAME$$
- * @last-edited $$DATE$$
- * @description $$MODEL_NAME$$
+ * @file {{ modelName }}.php
+ * @author {{ author }}
+ * @last-edited {{ date }}
+ * @description {{ modelName }}
  *
  ******************************************************************************/
 
 use App\Libraries\Repository;
 
-class $$MODEL_NAME$$ extends Repository
+class {{ modelName }} extends Repository
 {
 
     /**
@@ -27,8 +27,8 @@ class $$MODEL_NAME$$ extends Repository
      */
     public function __construct()
     {
-        parent::__construct(\App\$$MODEL_NAME$$::class);
+        parent::__construct(\App\{{ modelName }}::class);
     }
 
-$$RELATIONS_REPOSITORY$$
+{{ relationsRepository | raw }}
 }

@@ -1,4 +1,5 @@
-<?php namespace App\Libraries\Generator\Generators\Migration;
+<?php namespace App\Libraries\Generator\Generators\Model;
+
 use App\Libraries\Generator\Generators\Code;
 
 /******************************************************************************
@@ -11,34 +12,38 @@ use App\Libraries\Generator\Generators\Code;
  * otherwise, without prior written permission of Versusmind.
  * @link http://www.versusmind.eu/
  *
- * @file Columns.php
+ * @file BelongTo.php
  * @author LAHAXE Arnaud
  * @last-edited 17/09/2015
- * @description Columns
+ * @description BelongTo
  *
  ******************************************************************************/
-
-class ExternalFields extends Code
+class ManyToMany extends Code
 {
     /**
      * @return string
      */
     public function generate()
     {
+        $modelName = $this->get('model');
+
         $lines = [];
         foreach ($this->get('foreignKeys') as $foreignKey) {
-            $migration = '            $table->integer("%s_id")->unsigned();' . "\n\n"
-                .'            $table->foreign("%s_id")' . "\n"
-                .'                ->references("id")->on("%ss")' . "\n"
-                .'                 ->onDelete("cascade");';
+            $line = '    /**' . "\n"
+                . '    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo' . "\n"
+                . '    */' . "\n"
+                . '    public function %s()' . "\n"
+                . '    {' . "\n"
+                . '        return $this->belongsToMany(\App\%s::class, \'%s_%s\', \'%s_id\', \'%s_id\');' . "\n"
+                . '     }';
 
 
-            $migration = sprintf($migration, $foreignKey, $foreignKey, $foreignKey);
+            $line = sprintf($line, str_plural($foreignKey), ucfirst($foreignKey), strtolower($modelName), strtolower($foreignKey), strtolower($modelName), strtolower($foreignKey));
 
-            $lines[] = $migration;
+            $lines[] = $line;
         }
 
-        return join("\n", $lines);
+        return join("\n\n", $lines);
     }
 
     /**
@@ -47,7 +52,8 @@ class ExternalFields extends Code
     public function options()
     {
         return [
-            'foreignKeys'
+            'foreignKeys',
+            'model'
         ];
     }
 }

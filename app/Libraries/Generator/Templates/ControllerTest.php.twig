@@ -5,11 +5,11 @@ use Tests\Api\ResourcesControllerTest;
 /**
  * @group api
  */
-class $$MODEL_NAME$$Test extends ResourcesControllerTest
+class {{ modelName }}Test extends ResourcesControllerTest
 {
     function getResourceName()
     {
-        return '$$MODEL_NAME_PLURAL$$';
+        return '{{ tableName }}';
     }
 
     function createOkProvider()

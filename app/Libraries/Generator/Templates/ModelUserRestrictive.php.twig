@@ -10,10 +10,10 @@
  * otherwise, without prior written permission of Versusmind.
  * @link http://www.versusmind.eu/
  *
- * @file $$MODEL_NAME$$.php
- * @author $$AUTHOR_NAME$$
- * @last-edited $$DATE$$
- * @description $$MODEL_NAME$$
+ * @file {{ modelName }}.php
+ * @author {{ author }}
+ * @last-edited {{ date }}
+ * @description {{ modelName }}
  *
  ******************************************************************************/
 
@@ -23,10 +23,10 @@ use App\Libraries\Validation\ValidationInterface;
 use App\Libraries\Validation\ValidationTrait;
 
 /**
- * Class $$MODEL_NAME$$
+ * Class {{ modelName }}
  *
  */
-class $$MODEL_NAME$$ extends Model implements ValidationInterface, UserRestrictionInterface
+class {{ modelName }} extends Model implements ValidationInterface, UserRestrictionInterface
 {
 
     use ValidationTrait;
@@ -37,14 +37,14 @@ class $$MODEL_NAME$$ extends Model implements ValidationInterface, UserRestricti
      * @var array
      */
     protected $fillable = [
-        $$FILLABLE_FIELDS$$
+        {{ fillableFields | raw }}
     ];
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = '$$MODEL_NAME_TABLE$$';
+    protected $table = '{{ tableName | raw }}';
 
     /**
      * Validation rules
@@ -52,7 +52,7 @@ class $$MODEL_NAME$$ extends Model implements ValidationInterface, UserRestricti
      * @var array
      */
     protected static $rules = [
-        $$VALIDATORS$$
+        {{ validators | raw }}
     ];
 
     /**
@@ -81,5 +81,7 @@ class $$MODEL_NAME$$ extends Model implements ValidationInterface, UserRestricti
         return self::$rules;
     }
 
-$$BELONG_TO_FUNCTIONS$$
+{{ belongToFunctions | raw }}
+
+{{ manyToManyModelFunctions | raw }}
 }

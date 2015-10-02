@@ -10,10 +10,10 @@
  * otherwise, without prior written permission of Versusmind.
  * @link http://www.versusmind.eu/
  *
- * @file $$MODEL_NAME$$.php
- * @author $$AUTHOR_NAME$$
- * @last-edited $$DATE$$
- * @description $$MODEL_NAME$$
+ * @file {{ modelName }}.php
+ * @author {{ author }}
+ * @last-edited {{ date }}
+ * @description {{ modelName }}
  *
  ******************************************************************************/
 
@@ -22,7 +22,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 
-class Create$$MODEL_NAME_PLURAL_CAPITALIZED$$Table extends Migration
+class Create{{ tableNameCapitalizes }}Table extends Migration
 {
     /**
      * Run the migrations.
@@ -31,24 +31,26 @@ class Create$$MODEL_NAME_PLURAL_CAPITALIZED$$Table extends Migration
      */
     public function up()
     {
-        Schema::create('$$MODEL_NAME_TABLE$$', function (Blueprint $table) {
+        Schema::create('{{ tableName }}', function (Blueprint $table) {
             $table->increments('id');
-            $$MIGRATION_FIELDS$$
+            {{ migrationFields | raw }}
             // add fields here
 
-$$FOREIGN_KEY_FIELDS$$
+{{ foreignKeyFields | raw }}
 
             $table->timestamps();
         });
+
+{{ pivotsTables | raw }}
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+    * Reverse the migrations.
+    *
+    * @return void
+    */
     public function down()
     {
-        Schema::drop('$$MODEL_NAME_TABLE$$');
+        Schema::drop('{{ tableName }}');
     }
 }

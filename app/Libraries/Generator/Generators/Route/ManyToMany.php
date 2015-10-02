@@ -3,13 +3,13 @@
 use App\Libraries\Generator\Generators\Code;
 
 /**
- * User: LAHAXE Arnaud <alahaxe@boursorama.fr>
+ * User: LAHAXE Arnaud
  * Date: 18/09/2015
  * Time: 13:35
  * FileName : ForeignKeys.php
  * Project : myo2
  */
-class ForeignKeys extends Code
+class ManyToMany extends Code
 {
 
     /**
