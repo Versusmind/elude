@@ -36,12 +36,12 @@ class Create{{ tableNameCapitalizes }}Table extends Migration
             {{ migrationFields | raw }}
             // add fields here
 
-            {{ foreignKeyFields | raw }}
+{{ foreignKeyFields | raw }}
 
             $table->timestamps();
         });
 
-        {{ pivotsTables | raw }}
+{{ pivotsTables | raw }}
     }
 
     /**

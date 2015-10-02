@@ -38,7 +38,7 @@ class ManyToMany extends Code
                 . '     }';
 
 
-            $line = sprintf($line, str_plural($foreignKey), ucfirst($foreignKey), $foreignKey, strtolower($modelName), strtolower($foreignKey), $modelName, strtolower($foreignKey));
+            $line = sprintf($line, str_plural($foreignKey), ucfirst($foreignKey), strtolower($modelName), strtolower($foreignKey), strtolower($modelName), strtolower($foreignKey));
 
             $lines[] = $line;
         }

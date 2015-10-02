@@ -1,37 +1,37 @@
-/**
-* @author {{ author }}
-*
-* @param $id
-* @param $id{{ relationCapitalize }}
-*
-* @return mixed
-*
-* @apiGroup {{ tableNameCapitalizes }}
-* @apiName update{{ relationCapitalize }}
-* @api      {put} /{{ tableName }}/:id/{{ relation }}/:id{{ relationCapitalize }} Update {{ relation }} for an {{ modelNameLowerCase }}
-*
-* @apiUse ApiNotFound
-* @apiUse NotAuthorized
-*
-* @apiParam {Number} id {{ modelName }} unique ID.
-* @apiParam {Number} id{{ relationCapitalize }} {{ relationCapitalize }} unique ID.
-* @apiSuccess (201) {Number} id Id.
-* @apiSuccess (201) {datetime} created_at Creation date.
-* @apiSuccess (201) {datetime} updated_at Last Update date.
-{{ outputModelAttributeApiUpdate }}
-*/
-public function {{ relation }}Update($id, $id{{ relationCapitalize }})
-{
-    $this->addUserCriteria();
-    $model = $this->repository->find($id);
-    ${{ relation }}Repository = \App::make(\App\Libraries\Repositories\{{ relationCapitalize }}::class);
-    ${{ relation }} = ${{ relation }}Repository->find($id{{ relationCapitalize }});
+    /**
+    * @author {{ author }}
+    *
+    * @param $id
+    * @param $id{{ relationCapitalize }}
+    *
+    * @return mixed
+    *
+    * @apiGroup {{ tableNameCapitalizes }}
+    * @apiName update{{ relationCapitalize }}
+    * @api      {put} /{{ tableName }}/:id/{{ relation }}/:id{{ relationCapitalize }} Update {{ relation }} for an {{ modelNameLowerCase }}
+    *
+    * @apiUse ApiNotFound
+    * @apiUse NotAuthorized
+    *
+    * @apiParam {Number} id {{ modelName }} unique ID.
+    * @apiParam {Number} id{{ relationCapitalize }} {{ relationCapitalize }} unique ID.
+    * @apiSuccess (201) {Number} id Id.
+    * @apiSuccess (201) {datetime} created_at Creation date.
+    * @apiSuccess (201) {datetime} updated_at Last Update date.
+    {{ outputModelAttributeApiUpdate }}
+    */
+    public function {{ relation }}Update($id, $id{{ relationCapitalize }})
+    {
+        $this->addUserCriteria();
+        $model = $this->repository->find($id);
+        ${{ relation }}Repository = \App::make(\App\Libraries\Repositories\{{ relationCapitalize }}::class);
+        ${{ relation }} = ${{ relation }}Repository->find($id{{ relationCapitalize }});
 
-    if (is_null($model) || is_null({{ relation }})) {
-    return response()->json([], 404);
+        if (is_null($model) || is_null({{ relation }})) {
+        return response()->json([], 404);
+        }
+
+        $this->repository->set{{ relationCapitalize }}($model, ${{ relation }});
+
+        return response()->json($model, 202);
     }
-
-    $this->repository->set{{ relationCapitalize }}($model, ${{ relation }});
-
-    return response()->json($model, 202);
-}

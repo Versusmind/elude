@@ -29,13 +29,13 @@ class ManyToMany extends Code
 
         $lines = [];
         foreach ($this->get('foreignKeys') as $foreignKey) {
-            $migration = 'Schema::create(\'%s_%s\', function(Blueprint $table)' . "\n"
-                . '{' . "\n"
-                . '    $table->integer(\'%s_id\')->unsigned();'
-                . '    $table->integer(\'%s_id\')->unsigned();'
-                . '    $table->foreign(\'%s_id\')->references(\'id\')->on(\'%s\')->onDelete("cascade");;' . "\n"
-                . '    $table->foreign(\'%s_id\')->references(\'id\')->on(\'%s\')->onDelete("cascade");;' . "\n"
-                . '});' . "\n";
+            $migration = '        Schema::create(\'%s_%s\', function(Blueprint $table)' . "\n"
+                . '        {' . "\n"
+                . '            $table->integer(\'%s_id\')->unsigned();'
+                . '            $table->integer(\'%s_id\')->unsigned();'
+                . '            $table->foreign(\'%s_id\')->references(\'id\')->on(\'%s\')->onDelete("cascade");;' . "\n"
+                . '            $table->foreign(\'%s_id\')->references(\'id\')->on(\'%s\')->onDelete("cascade");;' . "\n"
+                . '        });' . "\n\n";
 
 
             $migration = sprintf($migration, $modelName, $foreignKey, $modelName, $foreignKey, $modelName, str_plural($modelName), $foreignKey, str_plural($foreignKey));
