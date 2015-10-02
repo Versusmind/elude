@@ -9,6 +9,7 @@
 
     <rule ref="rulesets/design.xml">
         <exclude name="DepthOfInheritance"/>
+        <exclude name="CouplingBetweenObjects"/>
     </rule>
 
     <rule ref="rulesets/unusedcode.xml">
