@@ -292,7 +292,8 @@ class Generator
         $this->templateData['belongToFunctions'] = $generator->generate();
 
         $generator = new ManyToManyModel([
-            'foreignKeys' => $foreignKeys['manyToMany']
+            'foreignKeys' => $foreignKeys['manyToMany'],
+            'model'  => $this->templateData['modelName'],
         ]);
         $this->templateData['manyToManyModelFunctions'] = $generator->generate();
 

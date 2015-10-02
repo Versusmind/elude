@@ -25,6 +25,8 @@ class ManyToMany extends Code
      */
     public function generate()
     {
+        $modelName = $this->get('model');
+
         $lines = [];
         foreach ($this->get('foreignKeys') as $foreignKey) {
             $line = '    /**' . "\n"
@@ -32,11 +34,11 @@ class ManyToMany extends Code
                 . '    */' . "\n"
                 . '    public function %s()' . "\n"
                 . '    {' . "\n"
-                . '        return $this->belongsToMany(\App\%s::class);' . "\n"
+                . '        return $this->belongsToMany(\App\%s::class, \'%s_%s\', \'%s_id\', \'%s_id\');' . "\n"
                 . '     }';
 
 
-            $line = sprintf($line, str_plural($foreignKey), ucfirst($foreignKey), $foreignKey);
+            $line = sprintf($line, str_plural($foreignKey), ucfirst($foreignKey), $foreignKey, strtolower($modelName), strtolower($foreignKey), $modelName, strtolower($foreignKey));
 
             $lines[] = $line;
         }
@@ -50,7 +52,8 @@ class ManyToMany extends Code
     public function options()
     {
         return [
-            'foreignKeys'
+            'foreignKeys',
+            'model'
         ];
     }
 }
