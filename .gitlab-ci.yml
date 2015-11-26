@@ -1,4 +1,4 @@
-image: "jeoffrey54/php:latest"
+image: "ndrx/php:latest"
 job1:
     script:
         - "cp .env.example .env"
