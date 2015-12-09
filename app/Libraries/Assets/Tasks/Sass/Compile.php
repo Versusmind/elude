@@ -39,7 +39,7 @@ class Compile implements StageInterface
     public function __construct()
     {
         $this->compiler = new Compiler();
-        $this->compiler->setImportPaths(base_path('resources/assets/Sass'));
+        $this->compiler->setImportPaths(base_path('resources/assets/sass'));
     }
 
     /**
