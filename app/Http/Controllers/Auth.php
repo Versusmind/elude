@@ -52,6 +52,8 @@ class Auth extends Controller
         Input::merge(['client_id' => Config::get('oauth2.web_client.client_id')]);
         Input::merge(['client_secret' => Config::get('oauth2.web_client.client_secret')]);
         Input::merge(['grant_type' => 'password']);
+
+
         try {
 
             $oauth = \Authorizer::issueAccessToken();

@@ -10,6 +10,10 @@ use Twig_SimpleFunction;
  */
 class Translator extends Twig_Extension
 {
+    /**
+     * @var \Illuminate\Translation\Translator
+     */
+    protected $translator;
 
     public function __construct()
     {

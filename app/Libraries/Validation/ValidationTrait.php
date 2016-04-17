@@ -33,4 +33,12 @@ trait ValidationTrait
     {
         return isset(self::$rules)?self::$rules:[];
     }
+
+    /**
+     * @return MessageBag
+     */
+    public function getErrors()
+    {
+        return $this->errors;
+    }
 }

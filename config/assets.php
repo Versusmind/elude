@@ -74,6 +74,9 @@ return [
      */
     'groups' => [
         'style' => [
+            \App\Libraries\Assets\Asset::SASS => [
+                'resources/assets/bootstrap-sass-3.3.6/assets/stylesheets/_bootstrap.scss',
+            ],
             \App\Libraries\Assets\Asset::CSS => [
                 'resources/assets/bower/bootstrap/dist/css/bootstrap.css',
                 'resources/assets/bower/angular-bootstrap/ui-bootstrap-csp.css',

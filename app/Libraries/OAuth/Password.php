@@ -1,5 +1,8 @@
 <?php namespace App\Libraries\OAuth;
 
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use LucaDegasperi\OAuth2Server\Storage\FluentAccessToken;
 use LucaDegasperi\OAuth2Server\Storage\FluentRefreshToken;
 
@@ -34,9 +37,9 @@ class Password
             'password'    => $password,
         ];
 
-        if (\Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials)) {
 
-            return \Auth::user()->id;
+            return Auth::user()->id;
         }
 
         return false;
@@ -47,13 +50,13 @@ class Password
      */
     public function logout()
     {
-        if(\Session::has('oauth')) {
+        if(Session::has('oauth')) {
 
             /** @var TokenHelper $tokenHelper */
-            $tokenHelper = \App::make(TokenHelper::class);
-            $tokenHelper->deleteTokens(\Session::get('oauth.access_token'));
+            $tokenHelper = App::make(TokenHelper::class);
+            $tokenHelper->deleteTokens(Session::get('oauth.access_token'));
 
-            \Session::forget('oauth');
+            Session::forget('oauth');
         }
     }
 }
