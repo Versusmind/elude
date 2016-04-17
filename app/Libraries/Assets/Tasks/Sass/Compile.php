@@ -20,7 +20,7 @@
 
 use App\Libraries\Assets\Asset;
 use App\Libraries\Assets\Collection;
-use Leafo\ScssPhp\Compiler;
+use App\Libraries\SassCompiler;
 use League\Pipeline\StageInterface;
 
 /**
@@ -38,8 +38,7 @@ class Compile implements StageInterface
 
     public function __construct()
     {
-        $this->compiler = new Compiler();
-        $this->compiler->setImportPaths(base_path('resources/assets/sass'));
+        $this->compiler = new SassCompiler();
     }
 
     /**
@@ -53,7 +52,12 @@ class Compile implements StageInterface
     {
         $newAssetsFiles = [];
         foreach ($collection->getType(Asset::SASS) as $asset) {
-            $content    = $this->compiler->compile(file_get_contents($asset->getPath()));
+
+            $path = $asset->getPath();
+            $pathInfo = pathinfo($path);
+            $this->compiler->setImportPaths($pathInfo['dirname'] . DIRECTORY_SEPARATOR);
+
+            $content    = $this->compiler->compile(file_get_contents($path));
             $outputFile = $collection->getTmpDirectory() . DIRECTORY_SEPARATOR . str_replace(DIRECTORY_SEPARATOR, '-', str_replace(base_path('resources/assets/'), '', $asset->getPath())) . '.css';
             file_put_contents($outputFile, $content);
             $newAssetsFiles[] = new Asset(Asset::CSS, $outputFile);
