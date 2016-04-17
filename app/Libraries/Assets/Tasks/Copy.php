@@ -59,25 +59,8 @@ class Copy implements StageInterface
 
         $newAssetsFiles = [];
         foreach ($collection->getType($this->type) as $asset) {
-            // file is in tmp folder
-            if (!empty($collection->getTmpDirectory()) && strpos($asset->getPath(), $collection->getTmpDirectory()) !== FALSE) {
-                $relativePath = str_replace($collection->getTmpDirectory(), '', $asset->getPath());
-            // file is in bower folder
-            } elseif (!empty($collection->getBowerDirectory()) && strpos($asset->getPath(), $collection->getBowerDirectory()) !== FALSE) {
-                $relativePath = str_replace($collection->getBowerDirectory(), '', $asset->getPath());
-                if ($asset->getType() === Asset::FONT) {
 
-                    $relativePath = last(explode('/', $relativePath));
-                }
-
-            // templates files are not separated from js files
-            } elseif($this->type === Asset::TEMPLATE) {
-                $relativePath = str_replace(config('assets.assetsDirectory') . DIRECTORY_SEPARATOR . Asset::JS . DIRECTORY_SEPARATOR, '', $asset->getPath());
-
-            // file is resource/assets folder (no other case)
-            } else {
-                $relativePath = str_replace(config('assets.assetsDirectory') . DIRECTORY_SEPARATOR . $this->type . DIRECTORY_SEPARATOR, '', $asset->getPath());
-            }
+            $relativePath = $this->getOuputRelativePath($asset, $collection);
 
             if (strpos($relativePath, '/') !== FALSE) {
                 $subfolders = join('/', explode(DIRECTORY_SEPARATOR, $relativePath, -1));
@@ -98,6 +81,37 @@ class Copy implements StageInterface
         $collection->setType($this->type, $newAssetsFiles);
 
         return $collection;
+    }
+
+    /**
+     * @param Asset $asset
+     * @param Collection $collection
+     *
+     * @return mixed
+     */
+    protected function getOuputRelativePath(Asset $asset, Collection $collection)
+    {
+        // file is in tmp folder
+        if (!empty($collection->getTmpDirectory()) && strpos($asset->getPath(), $collection->getTmpDirectory()) !== FALSE) {
+            $relativePath = str_replace($collection->getTmpDirectory(), '', $asset->getPath());
+            // file is in bower folder
+        } elseif (!empty($collection->getBowerDirectory()) && strpos($asset->getPath(), $collection->getBowerDirectory()) !== FALSE) {
+            $relativePath = str_replace($collection->getBowerDirectory(), '', $asset->getPath());
+            if ($asset->getType() === Asset::FONT) {
+
+                $relativePath = last(explode('/', $relativePath));
+            }
+
+            // templates files are not separated from js files
+        } elseif($this->type === Asset::TEMPLATE) {
+            $relativePath = str_replace(config('assets.assetsDirectory') . DIRECTORY_SEPARATOR . Asset::JS . DIRECTORY_SEPARATOR, '', $asset->getPath());
+
+            // file is resource/assets folder (no other case)
+        } else {
+            $relativePath = str_replace(config('assets.assetsDirectory') . DIRECTORY_SEPARATOR . $this->type . DIRECTORY_SEPARATOR, '', $asset->getPath());
+        }
+
+        return $relativePath;
     }
 
     /**
