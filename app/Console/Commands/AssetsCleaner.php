@@ -47,23 +47,18 @@ class AssetsCleaner extends Command
     {
         \Log::info('Assets::Clean cleaning build assets');
 
-        $this->info('Delete public/assets/css');
-        $this->deleteDir(base_path('public/assets/css'));
+        $baseAssetsPath = base_path('public/assets/');
+        if ($handle = opendir($baseAssetsPath)) {
+            while (false !== ($entry = readdir($handle))) {
+                $path = $baseAssetsPath . '/' . $entry;
+                if ($entry != "." && $entry != ".." && is_dir($path)) {
+                    $this->info('Delete public/assets/' . $entry);
+                    $this->deleteDir($path);
+                }
+            }
+            closedir($handle);
+        }
 
-        $this->info('Delete public/assets/js');
-        $this->deleteDir(base_path('public/assets/js'));
-
-        $this->info('Delete storage/tmp');
-        $this->deleteDir(storage_path('tmp'));
-
-        $this->info('Delete storage/versions');
-        $this->deleteDir(storage_path('versions'));
-
-        $this->info('Delete public/assets/img');
-        $this->deleteDir(base_path('public/assets/img'));
-
-        $this->info('Delete public/assets/font');
-        $this->deleteDir(base_path('public/assets/font'));
 
         $this->comment(\PHP_Timer::resourceUsage());
     }
