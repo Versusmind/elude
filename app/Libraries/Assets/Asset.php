@@ -21,7 +21,7 @@
 class Asset implements \JsonSerializable
 {
     const CSS      = 'css';
-    const JS = 'app';
+    const JS       = 'app';
     const SASS     = 'sass';
     const LESS     = 'less';
     const IMG      = 'img';
@@ -48,7 +48,7 @@ class Asset implements \JsonSerializable
         $this->type        = $type;
         // change path to system path
         $this->path        = str_replace('/', DIRECTORY_SEPARATOR, $path);
-        $this->initialPath = $initialPath;
+        $this->initialPath = empty($initialPath) ? $path : $initialPath;
     }
 
     /**
