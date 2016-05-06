@@ -1,7 +1,9 @@
 <?php namespace App\Http\Controllers\Api;
 
 use App\Libraries\Acl\Exceptions\ModelNotValid;
+use App\Libraries\Acl\PermissionResolver;
 use Illuminate\Support\Facades\Input;
+use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 use Symfony\Component\HttpFoundation\Response;
 
 /******************************************************************************
@@ -105,6 +107,55 @@ class User extends RoleAware
 
         return response()->json($model, 201);
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     *
+     * @apiVersion 1.0.0
+     * @api      {get} /:id/permissions Get User permissions
+     * @apiGroup Users
+     * @apiUse   getPermissions
+     * @apiUse   userParams
+     * @apiUse   ApiOAuth
+     */
+    public function permissions($id)
+    {
+        $this->addUserCriteria();
+
+        /** @var \App\User $user */
+        $user = $this->repository->find($id);
+
+        $permissionResolver = new PermissionResolver();
+
+        // super admin has all permissions
+        if(!$user->isSuperAdmin()) {
+            $id = intval(Authorizer::getResourceOwnerId());
+
+            // if not admin we can only check own permissions
+            if ($id !== $user->id) {
+                return response()->json([], 401);
+            }
+
+            if ($user->group !== null) {
+                $permissionResolver->setGroup($user->group);
+            }
+            $permissionResolver->setPermissions($user->permissions);
+            $permissionResolver->setRoles($user->roles);
+        } else {
+            $permissionResolver->setPermissions($this->permissionRepository->all());
+        }
+        // resolve permissions
+        $permissions = $permissionResolver->resolve();
+
+        // keep only granted permission name
+        $permissions = array_keys(array_filter($permissions->toArray()));
+
+        // fetch permission objects in DB
+        return response()->json($this->permissionRepository->getPermissionsByStringRepresentation($permissions), 200);
+    }
+
 
     /**
      * @apiDefine userParams

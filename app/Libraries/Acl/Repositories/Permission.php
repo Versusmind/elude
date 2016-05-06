@@ -18,6 +18,7 @@
  ******************************************************************************/
 
 use App\Libraries\Repository;
+use Illuminate\Support\Collection;
 
 class Permission extends Repository
 {
@@ -28,5 +29,28 @@ class Permission extends Repository
     public function __construct()
     {
         parent::__construct(\App\Permission::class);
+    }
+
+
+    public function getPermissionsByStringRepresentation(array $stringPermissions)
+    {
+        if (empty($stringPermissions)) {
+            return new Collection();
+        }
+
+
+        $query = $this->makeQuery()
+            // must always be false
+            ->where('id', '=', 0);
+
+        foreach($stringPermissions as $stringPermission) {
+            list ($area, $permission) = explode('.', $stringPermission);
+            $query->orWhere(function($query) use ($area, $permission){
+                $query->where('area', '=', $area)
+                    ->where('permission', '=', $permission);
+            });
+        }
+
+        return $query->get();
     }
 }
