@@ -147,6 +147,10 @@ class Collection
      */
     public function prependType($type, Asset $asset)
     {
+        if (!array_key_exists($type, $this->assets)) {
+            $this->assets[$type] = [];
+        }
+
         array_unshift($this->assets[$type], $asset);
     }
 

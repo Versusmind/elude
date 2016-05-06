@@ -90,6 +90,8 @@ $app->group(['prefix' => 'api/v1', 'middleware' => 'cors'], function () use ($ap
         $app->delete('roles/{id}/permissions/{idPermission}', ['as' => 'roles.permissions.destroy', 'uses' => \App\Http\Controllers\Api\Role::class . '@permissionDestroy']);
 
         $app->resource('users', \App\Http\Controllers\Api\User::class);
+        $app->get('users/{id}/permissions', ['as' => 'users.permissions', 'uses' => \App\Http\Controllers\Api\User::class . '@permissions']);
+
         $app->post('users/{id}/permissions/{idPermission}', ['as' => 'users.permissions.store', 'uses' => \App\Http\Controllers\Api\User::class . '@permissionStore']);
         $app->delete('users/{id}/permissions/{idPermission}', ['as' => 'users.permissions.destroy', 'uses' => \App\Http\Controllers\Api\User::class . '@permissionDestroy']);
         $app->post('users/{id}/roles/{idRole}', ['as' => 'users.roles.store', 'uses' => \App\Http\Controllers\Api\User::class . '@roleStore']);
