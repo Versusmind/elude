@@ -22,6 +22,7 @@ use App\Libraries\Assets\Tasks\Cleaner;
 use App\Libraries\Assets\Tasks\Copy;
 use App\Libraries\Assets\Tasks\Css\Html as CssRenderer;
 use App\Libraries\Assets\Tasks\Css\Rewrite;
+use App\Libraries\Assets\Tasks\Javascript\Babel;
 use App\Libraries\Assets\Tasks\Javascript\Html as JsRenderer;
 use App\Libraries\Assets\Tasks\Less\Compile as LessCompiler;
 use App\Libraries\Assets\Tasks\Sass\Compile as SassCompiler;
@@ -45,7 +46,9 @@ class Development extends Pipeline
         $pipelineBuilder = new PipelineBuilder;
 
         if ($build) {
-            $pipelineBuilder->add(new Copy(Asset::JS))
+            $pipelineBuilder
+                ->add(new Copy(Asset::JS))
+                ->add(new Babel)
                 ->add(new Cleaner);
         }
 

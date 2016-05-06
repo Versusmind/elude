@@ -23,6 +23,7 @@ use App\Libraries\Assets\Tasks\Concat;
 use App\Libraries\Assets\Tasks\Css\Html as CssRenderer;
 use App\Libraries\Assets\Tasks\Css\Min as CssMin;
 use App\Libraries\Assets\Tasks\Css\Rewrite;
+use App\Libraries\Assets\Tasks\Javascript\Babel;
 use App\Libraries\Assets\Tasks\Javascript\Html as JsRenderer;
 use App\Libraries\Assets\Tasks\Javascript\Min as JsMin;
 use App\Libraries\Assets\Tasks\Less\Compile as LessCompiler;
@@ -49,6 +50,7 @@ class Production extends Pipeline
 
         if ($build) {
             $pipelineBuilder->add(new Concat(Asset::JS))
+                ->add(new Babel())
                 ->add(new JsMin())
                 ->add(new Version(Asset::JS))
                 ->add(new Cleaner);
