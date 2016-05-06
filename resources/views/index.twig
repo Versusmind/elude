@@ -2,6 +2,7 @@
 <head>
     <base href="{{ env('SUBFOLDER_INSTALLATION', '/') }}">
 
+    {{ style('style-core') }}
     {{ style('style') }}
 
     <meta name="access_token" content="{{ session_get('oauth.access_token') }}" />

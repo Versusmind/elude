@@ -32,7 +32,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @var array
      */
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['password', 'remember_token', 'is_super_admin'];
 
     /**
      * @var array
@@ -147,7 +147,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function isSuperAdmin()
     {
-        return false;
+        return $this->is_super_admin;
     }
     
     /**

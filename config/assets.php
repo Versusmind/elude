@@ -73,13 +73,30 @@ return [
      *
      */
     'groups' => [
-        'style' => [
+        'style-core' => [
             \App\Libraries\Assets\Asset::CSS => [
                 'resources/assets/bower/bootstrap/dist/css/bootstrap.css',
-                'resources/assets/bower/angular-bootstrap/ui-bootstrap-csp.css',
                 //Angular loading bar
                 'resources/assets/bower/angular-loading-bar/build/loading-bar.min.css',
+                //Font Awesome
+                'resources/assets/bower/font-awesome/css/font-awesome.min.css',
+                //ng notify
+                'resources/assets/bower/ng-notify/dist/ng-notify.min.css',
+                //sweet alert
+                'resources/assets/bower/sweetalert/dist/sweetalert.css',
             ]
+        ],
+
+        'style' => [
+             \App\Libraries\Assets\Asset::SASS => [
+                'resources/assets/sass/bootmind.scss',
+                 
+                'resources/assets/app/*.scss',
+                'resources/assets/app/*/*.scss',
+                'resources/assets/app/*/*/*.scss',
+                'resources/assets/app/*/*/*/*.scss',
+                'resources/assets/app/*/*/*/*/*.scss'
+            ],
         ],
 
         'javascript-core' => [
@@ -89,20 +106,27 @@ return [
                 // angular JS
                 'resources/assets/bower/angularjs/angular.min.js',
                 // bootstrap UI
-                'resources/assets/bower/angular-bootstrap/ui-bootstrap.min.js',
                 'resources/assets/bower/angular-bootstrap/ui-bootstrap-tpls.min.js',
                 // angular UI router
                 'resources/assets/bower/angular-ui-router/release/angular-ui-router.min.js',
                 // angular Translate
                 'resources/assets/bower/angular-translate/angular-translate.min.js',
                 //Underscore
-                'resources/assets/bower/lodash/lodash.min.js',
+                'resources/assets/bower/lodash/dist/lodash.min.js',
                 //Restangular
                 'resources/assets/bower/restangular/dist/restangular.min.js',
                 //Angular Smart Table
                 'resources/assets/bower/angular-smart-table/dist/smart-table.min.js',
                 //Angular loading bar
                 'resources/assets/bower/angular-loading-bar/build/loading-bar.min.js',
+                //ng notify
+                'resources/assets/bower/ng-notify/dist/ng-notify.min.js',
+                //angular-moment
+                'resources/assets/bower/angular-moment/angular-moment.min.js',
+                //ng-focus-if
+                'resources/assets/bower/ng-focus-if/focusIf.min.js',
+                //sweet alert
+                'resources/assets/bower/sweetalert/dist/sweetalert.min.js',
             ]
         ],
 
@@ -127,6 +151,7 @@ return [
         'statics' => [
             \App\Libraries\Assets\Asset::FONT => [
                 'resources/assets/bower/bootstrap/fonts/*',
+                'resources/assets/bower/font-awesome/fonts/*',
             ],
         ]
 

@@ -1,0 +1,23 @@
+table.elude-table {
+    .text-light {
+        opacity: 0.2;
+    }   
+
+    .sort-header {
+        user-select: none;
+        
+        span {
+            float:left;
+        }
+        .fa {
+            display: none;
+        }
+        &.st-sort-descent > .fa.fa-angle-down,
+        &.st-sort-ascent > .fa.fa-angle-up {
+            display: block;
+            margin-left: 5px;
+            margin-top: 2px;
+            float: left;
+        }
+    }
+}

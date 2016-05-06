@@ -1,0 +1,74 @@
+<table st-table="displayedRows" st-safe-src="rows" class="table table-striped elude-table">
+    <thead>
+    <tr>
+        <th ng-style="{'width': header.width || 'auto'}" class="{{header.classes}}"  ng-repeat="header in headers">
+            <a st-sort="{{header.key}}" ng-if="header.sort" class="sort-header">
+                <span>{{ header.title | translate }}</span>
+                <i class="fa fa-angle-down"></i>
+                <i class="fa fa-angle-up"></i>
+            </a>
+            <span ng-if="!header.sort">
+                {{ header.title | translate }}
+            </span>
+        </th>
+    </tr>
+    <!--<tr>
+        <th>
+            <input st-search="'firstName'" placeholder="search for firstname" class="input-sm form-control" type="search"/>
+        </th>
+        <th colspan="4">
+            <input st-search placeholder="global search" class="input-sm form-control" type="search"/>
+        </th>
+    </tr>-->
+    <tr class="hide">
+        <th colspan="5"><input st-search-custom="" type="text"/></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="row in displayedRows">
+        <td ng-repeat="header in headers">
+            <div ng-switch="header.type">
+                <!-- Avatar -->
+                <span ng-switch-when="avatar">
+                    <avatar user="getValue(row,header.key)" size="header.size" tooltip-position="header.tooltipPosition"></avatar>
+                </span>
+                <!-- Date (DD/MM/YYYY) -->
+                <span ng-switch-when="date">
+                    {{ getValue(row,header.key)| amDateFormat:'DD/MM/YYYY' }}
+                </span>
+                <!-- Timeago (x minutes ago for date) -->
+                <span ng-switch-when="timeago" am-time-ago="getValue(row,header.key)">
+                    
+                </span>
+                <!-- Check (informative) -->
+                <div class="text-center" ng-switch-when="check">
+                    <i class="fa fa-check" ng-show="getValue(row,header.key)"></i>
+                    <i class="fa fa-times text-light" ng-show="!getValue(row,header.key)"></i>
+                </div>
+                <!-- Custom (based on render function in header) -->
+                <div ng-switch-when="custom">
+                    {{ header.render(row) }}
+                </div>
+                <!-- Actions -->
+                <div ng-switch-when="actions">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn {{action.classes}}" ng-click="action.callback(row)" ng-repeat="action in header.actions">
+                            <i class="fa fa-{{action.icon}}" ng-if="action.icon"></i>
+                            <span ng-if="action.title">{{ action.title }}</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Default -->
+                <span ng-switch-default>{{ getValue(row,header.key) }}</span>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="100" class="text-center">
+                <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="7"></div>
+            </td>
+        </tr>
+    </tfoot>
+</table>

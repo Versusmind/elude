@@ -5,9 +5,9 @@ angular.module('app')
     return {
         restrict: 'E',
         scope: {
-            'appname' : '='
+            'appname' : '=?'
         },
-        controller: function($scope, $rootScope, $location) {
+        controller: function($scope, $rootScope, $state) {
 
             $scope.appname = appname;
 
@@ -24,6 +24,10 @@ angular.module('app')
                     }
                 },
                 'Logout': '/auth/logout'
+            };
+
+            $scope.hasRight = function(state) {
+                return $scope.hasRightToAccessState($state.get(state));
             };
 
         },

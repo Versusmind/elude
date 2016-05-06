@@ -1,0 +1,30 @@
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#!">{{ appname }}</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse" uib-dropdown>
+      <ul ng-class="{ 'nav navbar-nav': true, 'navbar-right':(type=='right'), 'navbar':(type=='left')}" ng-repeat="(type,menu) in menus">
+        <li ng-class="{ active: menuItem.active }" ng-repeat="menuItem in menu" ng-attr-uib-dropdown="menuItem.subItems">
+          <a ng-href="{{menuItem.link}}" ng-click="onLinkClick($event)" ng-if="!menuItem.subItems">
+            {{menuItem.title | translate}}
+          </a>
+
+          <a id="{{menuItem.link}}" ng-href="{{menuItem.link}}" uib-dropdown-toggle ng-if="menuItem.subItems">
+            {{menuItem.title | translate}} <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="{{menuItem.link}}" ng-if="menuItem.subItems">
+              <li ng-repeat="menuSubItem in menuItem.subItems" ng-class="{active:menuSubItem.active, menuitem: true}">
+                  <a ng-href="{{menuSubItem.link}}" ng-click="onLinkClick($event)">{{ menuSubItem.title | translate }}</a>
+              </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

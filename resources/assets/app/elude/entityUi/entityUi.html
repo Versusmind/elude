@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-default main-panel">
+            <div class="panel-heading">
+                <span class="panel-title">
+                  {{ entity.title | translate }}
+                  <help message="{{ entity.help | translate }}" ng-if="entity.help"></help>
+                </span>
+                <div class="pull-right search-header form-search search-only">
+                      <i class="search-icon fa fa-search"></i>
+                      <input ng-model="search" type="text" class="form-control search-query" placeholder="{{ 'Search' | translate }}">
+                </div>
+            </div>
+            <div class="panel-body">
+                <button type="button" class="pull-right btn btn-info" ng-click="openModal(entity.reference)">
+                  <span class="fa fa-plus"></span> {{ entity.newTitle | translate }}
+                </button>
+                <elude-table 
+                  headers="headers"
+                  rows="rows"
+                  search="search"
+                  items-by-page="itemsByPage">
+                </elude-table>
+            </div>
+        </div>
+    </div>
+</div>

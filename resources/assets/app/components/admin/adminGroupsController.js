@@ -8,9 +8,9 @@ angular.module('app')
         controller: 'adminGroupsController'
     });
 })
-.controller('adminGroupsController', function($scope, MyoEntityUiConstants) {
+.controller('adminGroupsController', function($scope, EludeEntityUiConstants) {
 
-    // Configure the entity (to call myoEntityUi Directive with it)
+    // Configure the entity (to call eludeEntityUi Directive with it)
     $scope.groupEntity = {
         title: 'Groups',
         reference: 'groups',
@@ -18,21 +18,21 @@ angular.module('app')
             {
                 key: 'id',
                 title: '#',
-                type: MyoEntityUiConstants.NUMBER,
+                type: EludeEntityUiConstants.NUMBER,
                 display: true,
                 edit: false
             },
             {
                 key: 'created_at',
                 title: 'Créé',
-                type: MyoEntityUiConstants.DATE,
+                type: EludeEntityUiConstants.DATE,
                 display: true,
                 edit: true
             },
             {
                 key: 'updated_at',
                 title: 'Mis à jour',
-                type: MyoEntityUiConstants.DATE,
+                type: EludeEntityUiConstants.DATE,
                 display: true,
                 edit: true
             }

@@ -1,0 +1,9 @@
+<div class="modal-header" ng-if="title">
+    <h3 class="modal-title">{{ title | translate }}</h3>
+</div>
+<div class="modal-body" dynamic-ctrl="ctrl">
+	<div ng-include="templateUrl" ng-init="obj = obj"></div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary {{action.classname}}" ng-click="onAction(action)" ng-repeat="action in actions">{{ action.title | translate }}</button>
+</div>

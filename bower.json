@@ -1,13 +1,14 @@
 {
-  "name": "myo2",
+  "name": "elude",
   "version": "0.1.0",
   "authors": [
-    "arnaud.lahaxe@versusmind.eu"
+    "arnaud.lahaxe@versusmind.eu",
+    "benoit.zohar@gmail.com"
   ],
-  "description": "Myo 2 project.",
+  "description": "Elude project.",
   "keywords": [
     "Versusmind",
-    "Myo2"
+    "Elude"
   ],
   "license": "MIT",
   "private": true,
@@ -19,15 +20,20 @@
     "tests"
   ],
   "dependencies": {
-    "angular-bootstrap": "~0.13.3",
-    "angular-loading-bar": "~0.8.0",
-    "angular-smart-table": "~2.1.3",
-    "angular-translate": "~2.8.0",
-    "angular-ui-router": "~0.2.15",
-    "angularjs": "~1.4.3",
+    "angular-bootstrap": "~1.3.2",
+    "angular-loading-bar": "~0.9.0",
+    "angular-smart-table": "~2.1.8",
+    "angular-translate": "~2.11.0",
+    "angular-ui-router": "~0.2.18",
+    "angularjs": "~1.5.0",
     "bootstrap": "~3.3.5",
-    "jquery": "~2.1.4",
-    "lodash": "~3.10.1",
-    "restangular": "~1.5.1"
+    "jquery": "~2.2.3",
+    "lodash": "~4.11.2",
+    "restangular": "~1.5.2",
+    "font-awesome": "^4.6.2",
+    "ng-focus-if": "^1.0.5",
+    "angular-moment": "^0.10.3",
+    "ng-notify": "^0.8.0",
+    "sweetalert": "^1.1.3"
   }
 }

@@ -1,0 +1,10 @@
+.help {
+  opacity: 0.4;
+  padding: 5px;
+  cursor: help;
+  transition: opacity .4s;
+
+  &:hover, &:active {
+    opacity: 1;
+  }
+}
