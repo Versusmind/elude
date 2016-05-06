@@ -53,8 +53,8 @@ class Google extends PasswordGrant
         $provider = new \League\OAuth2\Client\Provider\Google([
             'clientId'     => env('GOOGLE_OAUTH_CLIENT_ID'),
             'clientSecret' => env('GOOGLE_OAUTH_CLIENT_SECRET'),
-            'redirectUri'  => 'http://myo2.app/oauth/google/callback',
-            'hostedDomain' => 'http://myo2.app',
+            'redirectUri'  => env('GOOGLE_OAUTH_REDIRECT_URI'),
+            'hostedDomain' => env('GOOGLE_OAUTH_DOMAIN'),
         ]);
 
 
