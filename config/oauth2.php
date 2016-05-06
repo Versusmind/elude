@@ -37,6 +37,10 @@ return [
             'class' => '\League\OAuth2\Server\Grant\RefreshTokenGrant',
             'access_token_ttl' => 3600,
             'refresh_token_ttl' => 2592000 //refresh token is valid for 30 days = 2592000 seconds
+        ],
+        'google' => [
+            'class' => '\App\Libraries\OAuth\Grant\Google',
+            'access_token_ttl' => 3600
         ]
     ],
 

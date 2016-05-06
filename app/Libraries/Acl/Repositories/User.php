@@ -41,4 +41,14 @@ class User extends RoleAwareRepository
 
         return $this;
     }
+
+    public function exists(array $conditions)
+    {
+        return $this->makeQuery()->where($conditions)->count() > 0;
+    }
+
+    public function getByEmail($email)
+    {
+        return $this->makeQuery()->where(['email' => $email])->first();
+    }
 }

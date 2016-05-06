@@ -43,6 +43,11 @@ $app->group(['middleware' => 'csrf'], function () use ($app) {
     $app->post('auth/change-lost-password', ['as' => 'auth.changeLostPassword', 'uses' => \App\Http\Controllers\Password::class . '@changeLostPassword']);
     $app->post('auth/lost-password', ['as' => 'auth.lostPassword', 'uses' => \App\Http\Controllers\Password::class . '@lostPassword']);
     $app->post('auth/login', ['as' => 'auth.login', 'uses' => \App\Http\Controllers\Auth::class . '@login']);
+
+
+    $app->get('oauth/google/connect', ['as' => 'oauth.google.connect', 'uses' => \App\Http\Controllers\OAuth\Google::class . '@connect']);
+    $app->get('oauth/google/callback', ['as' => 'oauth.google.callback', 'uses' => \App\Http\Controllers\OAuth\Google::class . '@callback']);
+
 });
 
 $app->group(['middleware' => 'auth|csrf'], function () use ($app) {

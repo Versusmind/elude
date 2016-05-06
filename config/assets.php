@@ -73,6 +73,12 @@ return [
      *
      */
     'groups' => [
+        'style-core' => [
+            \App\Libraries\Assets\Asset::SASS => [
+                'resources/assets/sass/test.scss',
+            ]
+        ],
+
         'style' => [
             \App\Libraries\Assets\Asset::CSS => [
                 'resources/assets/bower/bootstrap/dist/css/bootstrap.css',
