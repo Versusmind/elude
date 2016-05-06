@@ -48,6 +48,12 @@ class AssetsCleaner extends Command
         \Log::info('Assets::Clean cleaning build assets');
 
         $baseAssetsPath = base_path('public/assets/');
+        if (!is_dir($baseAssetsPath)) {
+            $this->warn(sprintf("Folder %s does not exists", $baseAssetsPath));
+
+            return;
+        }
+
         if ($handle = opendir($baseAssetsPath)) {
             while (false !== ($entry = readdir($handle))) {
                 $path = $baseAssetsPath . '/' . $entry;
