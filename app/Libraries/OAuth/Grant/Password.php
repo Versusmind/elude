@@ -1,4 +1,4 @@
-<?php namespace Libraries\OAuth\Grant;
+<?php namespace App\Libraries\OAuth\Grant;
 
 /******************************************************************************
  *
@@ -10,7 +10,7 @@
  * otherwise, without prior written permission of Versusmind.
  * @link http://www.versusmind.eu/
  *
- * @file RefreshToken.php
+ * @file Password.php
  * @author LAHAXE Arnaud
  * @last-edited 05/09/2015
  * @description Permission
@@ -18,13 +18,14 @@
  ******************************************************************************/
 
 use Illuminate\Support\Facades\Session;
+use League\OAuth2\Server\Grant\PasswordGrant;
 use League\OAuth2\Server\Grant\RefreshTokenGrant;
 
 /**
- * Class RefreshToken
+ * Class Password
  * @package Libraries\OAuth\Grant
  */
-class RefreshToken extends RefreshTokenGrant
+class Password extends PasswordGrant
 {
     /**
      * @return array
