@@ -38,7 +38,9 @@ class Auth extends Controller
             return redirect('/');
         }
 
-        return view('auth.login');
+        return view('auth.login', [
+            'googleOauth' => env('GOOGLE_OAUTH_ENABLED')
+        ]);
     }
 
     /**
@@ -53,13 +55,8 @@ class Auth extends Controller
         Input::merge(['client_secret' => Config::get('oauth2.web_client.client_secret')]);
         Input::merge(['grant_type' => 'password']);
 
-
         try {
-
-            $oauth = \Authorizer::issueAccessToken();
-
-            // save oauth token and access token in session
-            Session::put('oauth', $oauth);
+            \Authorizer::issueAccessToken();
 
             return redirect('/');
         } catch (\Exception $e) {

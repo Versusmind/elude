@@ -29,12 +29,12 @@ return [
 
     'grant_types' => [
         'password' => [
-            'class' => '\League\OAuth2\Server\Grant\PasswordGrant',
+            'class' => '\App\Libraries\OAuth\Grant\Password',
             'callback' => '\App\Libraries\OAuth\Password@verify',
             'access_token_ttl' => 3600
         ],
         'refresh_token' => [
-            'class' => '\League\OAuth2\Server\Grant\RefreshTokenGrant',
+            'class' => '\App\Libraries\OAuth\Grant\RefreshToken',
             'access_token_ttl' => 3600,
             'refresh_token_ttl' => 2592000 //refresh token is valid for 30 days = 2592000 seconds
         ],

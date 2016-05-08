@@ -2,12 +2,14 @@
 
 
 use App\Http\Controllers\Controller;
+use App\Libraries\Acl\Exceptions\ModelNotValid;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use League\OAuth2\Client\Provider\GoogleUser;
 use LucaDegasperi\OAuth2Server\Facades\Authorizer;
@@ -47,6 +49,11 @@ class Google extends Controller
      */
     public function connect(Request $request)
     {
+        if (!env('GOOGLE_OAUTH_ENABLED')) {
+            $request->session()->flash('error', 'Authentification google non disponible');
+            return redirect(route('auth.loginForm'));
+        }
+
         $authUrl = $this->provider->getAuthorizationUrl();
         Session::put('google.oauth2state', $this->provider->getState());
 
@@ -65,14 +72,14 @@ class Google extends Controller
         $code = $request->get('code');
 
         if ($request->get('error')) {
-            $request->session()->flash('error', 'Une erreur est survenue');
+            $request->session()->flash('error', 'auth.error');
 
             return redirect(route('auth.loginForm'));
         }
 
         if (empty($state) || $state !== $sessionState) {
             Session::forget('google.oauth2state');
-            $request->session()->flash('error', 'Une erreur est survenue');
+            $request->session()->flash('error', 'auth.error');
 
             return redirect(route('auth.loginForm'));
         }
@@ -86,7 +93,7 @@ class Google extends Controller
             /** @var GoogleUser $ownerDetails */
             $ownerDetails = $this->provider->getResourceOwner($token);
 
-            $email  = $ownerDetails->getEmail();
+            $email = $ownerDetails->getEmail();
 
             // if we already have the email in DB we log the user
             if (!$this->repository->exists(['email' => $email])) {
@@ -95,7 +102,7 @@ class Google extends Controller
                 $this->createUser($firstName, $lastName, $email);
             }
 
-            // set default web oauth client
+            // we try to logged in the user with the email and the google oauth access token
             Input::merge(['client_id' => Config::get('oauth2.web_client.client_id')]);
             Input::merge(['client_secret' => Config::get('oauth2.web_client.client_secret')]);
             Input::merge(['grant_type' => 'google']);
@@ -103,10 +110,7 @@ class Google extends Controller
             Input::merge(['password' => $token->getToken()]);
 
             try {
-                $oauth = Authorizer::issueAccessToken();
-
-                // save oauth token and access token in session
-                Session::put('oauth', $oauth);
+                Authorizer::issueAccessToken();
 
                 return redirect('/');
             } catch (\Exception $e) {
@@ -116,9 +120,14 @@ class Google extends Controller
                 return redirect(route('auth.loginForm'));
             }
 
-        } catch (\Exception $e) {
+        } catch (ModelNotValid $e) {
+            $request->session()->flash('error', 'auth.error');
+            Log::warn($e->getMessage());
 
-            $request->session()->flash('error', 'Une erreur est survenue');
+            return redirect(route('auth.loginForm'));
+        } catch (\Exception $e) {
+            $request->session()->flash('error', 'auth.error');
+            Log::warn($e->getMessage());
 
             return redirect(route('auth.loginForm'));
         }

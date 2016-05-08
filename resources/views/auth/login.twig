@@ -16,7 +16,9 @@
                     <input type="password" name="password" placeholder="Password"/>
                     <input type="submit" value="Sign In" class="btn btn-success btn-sm"/>
 
-                    <a href="{{ route('oauth.google.connect') }}" class="btn btn-primary btn-sm">Google</a>
+                    {% if googleOauth %}
+                        <a href="{{ route('oauth.google.connect') }}" class="btn btn-primary btn-sm">Google</a>
+                    {% endif %}
                 </form>
 
             </div>
