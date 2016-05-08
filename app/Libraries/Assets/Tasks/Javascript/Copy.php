@@ -47,7 +47,7 @@ class Copy implements StageInterface
      */
     public function process($collection)
     {
-        \Log::info('Assets::Copy on collection ' . $collection->getCollectionId());
+        \Log::debug('Assets::Copy on collection ' . $collection->getCollectionId());
 
 
         $outputDirectory = $collection->getOutputDirectory() . Asset::getOutputFolder($this->type) . DIRECTORY_SEPARATOR;

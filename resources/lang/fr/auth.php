@@ -19,5 +19,6 @@ return [
     'password_lost_email_sended' => 'Un email contenant un lien unique permettant la modification de votre mot de passe vient de vous être envoyé',
     'password_changed' => 'Votre nouveau mot de passe est enregistré',
     'account_created' => 'Votre compte est crée, vous pouvez vous connecter dés maintenant',
-    'login_error' => "Nom d'utilisateur ou mot de passe incorrect"
+    'login_error' => "Nom d'utilisateur ou mot de passe incorrect",
+    'error' => "Une erreur est survenue"
 ];
