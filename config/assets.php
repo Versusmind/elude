@@ -121,7 +121,9 @@ return [
                 'resources/assets/bower/angular-loading-bar/build/loading-bar.min.js',
                 //ng notify
                 'resources/assets/bower/ng-notify/dist/ng-notify.min.js',
-                //angular-moment
+                //angular-moment & moment
+                'resources/assets/bower/moment/moment.js',
+                'resources/assets/bower/moment/locale/fr.js',
                 'resources/assets/bower/angular-moment/angular-moment.min.js',
                 //ng-focus-if
                 'resources/assets/bower/ng-focus-if/focusIf.min.js',

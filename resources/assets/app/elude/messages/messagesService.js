@@ -4,7 +4,7 @@ angular.module('elude')
 /**
  *  Messages for App is a service that managed messages displaying & logging
  **/
-.service('Messages', function(ngNotify) {
+.service('Messages', function(ngNotify, $translate) {
 
     /**
      *  Configure ng-notify object
@@ -26,26 +26,33 @@ angular.module('elude')
             if (console && console.error) {
                 console.error(err);
             }
-            ngNotify.set(err, {
-                type: 'error',
-                duration: duration || 6000
+            $translate(err).then(function(errTranslated) {
+                ngNotify.set(errTranslated, {
+                    type: 'error',
+                    duration: duration || 6000
+                });
             });
         },
         success: function(message, duration) {
             if (console && console.info) {
                 console.info(message);
             }
-            ngNotify.set(message, {
+            $translate(message).then(function(messageTranslated) {
+            ngNotify.set(messageTranslated, {
+                type: 'success',
                 duration: duration || 3000
             });
+        });
         },
         info: function(message, duration) {
             if (console && console.info) {
                 console.info(message);
             }
-            ngNotify.set(message, {
+            $translate(message).then(function(messageTranslated) {
+            ngNotify.set(messageTranslated, {
                 duration: duration || 3000
             });
+        });
         }
     };
 });

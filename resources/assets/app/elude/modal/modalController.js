@@ -6,15 +6,7 @@ angular.module('elude')
     $scope.templateUrl = templateUrl;
     $scope.obj = obj;
     $scope.actions = actions;
-    $scope.ok = function() {
-        $scope.onSubmit(function(ok) {
-            if (ok) {
-                $uibModalInstance.close();
-                $('.btn').blur();
-            }
-        });
-
-    };
+    
 
     $scope.cancel = function() {
         $uibModalInstance.dismiss('cancel');

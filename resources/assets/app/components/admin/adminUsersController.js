@@ -4,19 +4,19 @@ angular.module('app')
 .config(function($stateProvider, appdir) {
     $stateProvider.state('admin-users', {
         url: '/admin/users',
-        permission: 'admin',
+        permission: 'admin.read', //#TODO
         templateUrl: appdir + '/components/admin/adminUsers.html',
         controller: 'adminUsersController'
     });
 })
-.controller('adminUsersController', function($scope, EludeEntityUiConstants) {
+.controller('adminUsersController', function($scope, EludeEntityUiConstants, Users) {
 
     // Configure the entity (to call eludeEntityUi Directive with it)
     $scope.userEntity = {
         title: 'Users',
         newTitle: 'New user',
         editTitle: 'Edit user',
-        reference: 'users',
+        factory: Users,
         help: 'A user is an app user.',
         fields: [
             {
@@ -48,7 +48,7 @@ angular.module('app')
             },
             {
                 key: 'created_at',
-                title: 'Créé',
+                title: 'Created',
                 type: EludeEntityUiConstants.DATE,
                 display: true,
                 edit: true,
@@ -57,7 +57,7 @@ angular.module('app')
             },
             {
                 key: 'updated_at',
-                title: 'Mis à jour',
+                title: 'Updated',
                 type: EludeEntityUiConstants.DATE,
                 display: true,
                 edit: true,

@@ -24,12 +24,19 @@ angular.module('elude', [
     'focus-if',       //custom input focusing | https://github.com/hiebj/ng-focus-if
 
 ])
-.config(function($translateProvider, cfpLoadingBarProvider) {
+.config(function($translateProvider, cfpLoadingBarProvider, RestangularProvider) {
 
     //Configure the translation (see http://angular-translate.github.io/ for more informations)
     $translateProvider.useSanitizeValueStrategy('escape');
     $translateProvider.preferredLanguage('fr');
+    $translateProvider.useMissingTranslationHandler('customTranslationHandler');
 
     //Configure the loading bar
     cfpLoadingBarProvider.includeSpinner = false;
+
+    //use cache for server requests
+    //RestangularProvider.setDefaultHttpFields({cache: true});
+})
+.run(function(amMoment) {
+    amMoment.changeLocale('fr');
 });

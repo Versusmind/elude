@@ -15,7 +15,7 @@ angular.module('elude')
  *                      will trigger :    GET /api/v1/users
  *
  **/
-.service('Api', function(Restangular, apiConfig, $http) {
+.service('Api', function(Restangular, apiConfig, $http, Messages) {
 
     var Api = Restangular,
         cfg = apiConfig;
@@ -73,7 +73,8 @@ angular.module('elude')
                 });
                 return false; // error handled
             case 500:
-
+            case 400:
+                 Messages.error(response.statusText + ': ' + _.values(response.data).join(' '));
                 return false; // error handled
         }
         return true; // error not handled
@@ -95,7 +96,7 @@ angular.module('elude')
      *  Api.getList(route, params [Optionnal]) is equivalent as "Api.all(route,params).getList()"
      *  returns a Promise
      **/
-    Api.getList = function(route, params) {
+    Api.getList = function(route, params) { 
         return this.all(route, params).getList();
     }.bind(Restangular);
 

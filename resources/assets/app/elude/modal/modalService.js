@@ -2,9 +2,10 @@
 
 angular.module('elude')
 .factory('Modal', function(appdir, $uibModal) {
+    var modalInstance = null;
     return {
         show : function(title, tmp, obj, size, actions) {
-            var modalInstance = $uibModal.open({
+            modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: appdir + '/elude/modal/modal.html',
                 controller: 'modalCtrl',
@@ -28,6 +29,12 @@ angular.module('elude')
             }, function() {
                 //console.info('Modal dismissed at: ' + new Date());
             });
+        },
+        hide : function() {
+            if (modalInstance) {
+                modalInstance.close();
+                $('.btn').blur();
+            }
         }
     };
 });
