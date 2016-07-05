@@ -19,7 +19,8 @@
         "lahaxearnaud/clockwork": "dev-master",
         "illuminate/mail": "^5.1",
         "jeremeamia/SuperClosure": "^2.1",
-        "rcrowe/twigbridge": "0.8.x"
+        "rcrowe/twigbridge": "0.8.x",
+        "league/oauth2-google": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",

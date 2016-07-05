@@ -27,6 +27,6 @@ class AttributeNotExist extends ModelNotValid
     public function __construct(Model $model, $attributes)
     {
 
-        parent::__construct(new MessageBag([$attributes . 'does not exist or is not fillable for class ' . get_class($model)]));
+        parent::__construct(new MessageBag([$attributes . ' does not exist or is not fillable for class ' . get_class($model)]));
     }
 }

@@ -43,7 +43,7 @@ class Babel implements StageInterface
      */
     public function process($collection)
     {
-        \Log::info('Assets::Babel on collection ' . $collection->getCollectionId());
+        \Log::debug('Assets::Babel on collection ' . $collection->getCollectionId());
 
         $newAssets = [];
         /** @var Asset $asset */
