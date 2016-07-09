@@ -24,10 +24,11 @@ angular.module('app.config', [])
         }
     })
 
-    .config(function($urlRouterProvider, RestangularProvider) {
+    .config(function($urlRouterProvider, $locationProvider) {
 
         // For any unmatched url, redirect to /home
         $urlRouterProvider.otherwise('/home');
         //states are configured in each controller..
 
+        $locationProvider.html5Mode(true);
     });
