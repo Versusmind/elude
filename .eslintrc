@@ -1,0 +1,26 @@
+{
+    "env": {
+        "browser": true,
+        "node": true,
+        "mocha": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "rules": {
+        "semi": 2,
+        "no-console": 0
+    },
+    "plugins": [
+    ],
+    "extends": ["eslint:recommended"],
+    "globals": {
+        "angular": true,
+        "$": true,
+        "_": true
+    }
+}
