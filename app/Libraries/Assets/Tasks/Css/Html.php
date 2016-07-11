@@ -48,7 +48,7 @@ class Html implements StageInterface
 
         foreach ($collection->getType(Asset::CSS) as $asset) {
             $path = $subfolder . str_replace($collection->getOutputDirectory(), DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR, $asset->getPath());
-            $htmlLink = str_replace(DIRECTORY_SEPARATOR, '/', $path);
+            $htmlLink = str_replace([DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR], '/', $path);
             $result .= '<link rel="stylesheet" type="text/css" href="' . $htmlLink . '">' . "\n";
         }
 
