@@ -38,7 +38,10 @@ angular.module('elude')
                 cfg.token.refresh = data.refresh_token;
             }
 
-            Api.setDefaultHeaders({'Authorization': cfg.token.type + ' ' + cfg.token.access});
+            Api.setDefaultHeaders({
+                'Authorization': cfg.token.type + ' ' + cfg.token.access,
+                'Accept': 'application/json'
+            });
             return true;
         }
         return false;

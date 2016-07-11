@@ -1,9 +1,12 @@
 <?php namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Support\Facades\Request;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use League\OAuth2\Server\Exception\AccessDeniedException;
+use League\OAuth2\Server\Exception\InvalidRequestException;
 use Symfony\Component\Debug\Exception\FatalErrorException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -40,7 +43,18 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if($exception instanceof AccessDeniedException) {
+
+        if (
+            $exception instanceof NotFoundHttpException
+            && Request::acceptsHtml()
+        ) {
+            return response(view('index')->render());
+        }
+
+        if (
+            $exception instanceof AccessDeniedException
+            || $exception instanceof InvalidRequestException
+        ) {
             return response()->json([], 401);
         }
         else if($exception instanceof FatalErrorException) {
