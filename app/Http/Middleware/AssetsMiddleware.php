@@ -23,6 +23,7 @@ use App\Libraries\Assets\Orchestrator;
 use Closure;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Request;
 
 class AssetsMiddleware
 {
@@ -36,7 +37,11 @@ class AssetsMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (App::environment() !== 'production') {
+        /**
+         * Assets must be build only in dev when we request for and html content
+         * API must not build assets
+         */
+        if (App::environment() !== 'production' && Request::acceptsHtml()) {
 
             /** @var Orchestrator $ocherstator */
             $ocherstator = App::make('App\Libraries\Assets\Orchestrator');
