@@ -21,6 +21,7 @@
 
 use App\Libraries\Assets\Asset;
 use App\Libraries\Assets\Collection;
+use Illuminate\Support\Facades\Config;
 use League\Pipeline\StageInterface;
 use Symfony\Component\Process\Process;
 
@@ -44,32 +45,66 @@ class Babel implements StageInterface
     public function process($collection)
     {
         \Log::debug('Assets::Babel on collection ' . $collection->getCollectionId());
-
         $newAssets = [];
+
+        $toCompiled = [];
         /** @var Asset $asset */
         foreach ($collection->getType(Asset::JS) as $asset) {
-            if (preg_match('/(.*)\.min\.js/', $asset->getPath())) {
+            if (!preg_match('/(.*)\.' . Config::get('assets.babelPrefix') . '\.js/', $asset->getPath())) {
                 $newAssets[] = new Asset(Asset::JS, $asset->getPath(), $asset->getInitialPath());
                 continue;
             }
 
             // change the file extension to compiled.js
-            $outputFile = str_replace(['.js'], [''], $asset->getPath()) . '.compiled.js';
+            $outputFile = $collection->getTmpDirectory() . DIRECTORY_SEPARATOR . str_replace([
+                    base_path('resources/assets/'),
+                    DIRECTORY_SEPARATOR,
+                    '.js'
+                ],[
+                    '',
+                    '-',
+                    ''
+                ], $asset->getPath()) . '.compiled.js';
 
 
             // compile only if the timestamp of the original file has changed
             if (!file_exists($outputFile) || filemtime($outputFile) < filemtime($asset->getInitialPath())) {
 
-                $process = new Process(sprintf('babel %s --out-file %s', $asset->getPath(), $outputFile));
-                $process->run();
-                if(!$process->isSuccessful()) {
-                    \Log::error("Assets::Babel " . $process->getErrorOutput());
-                }
+                // we build an array of files to transpile
+                $toCompiled[$asset->getPath()] = $outputFile;
             }
 
             $newAssets[] = new Asset(Asset::JS, $outputFile, $asset->getInitialPath());
         }
         $collection->setType(Asset::JS, $newAssets);
+
+
+        // we create a babel tmp workplace to transpile
+        $outputBabelTempDirectory = $collection->getTmpDirectory() . DIRECTORY_SEPARATOR . 'babel';
+        if (!mkdir($outputBabelTempDirectory)) {
+            \Log::error("Assets::Babel fail to create " . $outputBabelTempDirectory);
+            return $collection;
+        }
+
+        if (count($toCompiled) > 0) {
+            // transpile with es2015 presets to the tmp folder
+            $process = new Process(sprintf('babel --presets es2015 %s --out-dir %s', implode(' ', array_keys($toCompiled)), $outputBabelTempDirectory));
+            $process->run();
+            if (!$process->isSuccessful()) {
+                \Log::error("Assets::Babel " . $process->getErrorOutput());
+            } else {
+                // we move transpiled files to they destinations
+                foreach ($toCompiled as $originalPath => $destinationPath) {
+                    $transpileFilePath = $outputBabelTempDirectory . DIRECTORY_SEPARATOR . $originalPath;
+                    if (file_exists($transpileFilePath)) {
+                        rename($transpileFilePath, $destinationPath);
+                    } else {
+                        \Log::warn("Assets::Babel " . $transpileFilePath . " tranpiled file not found");
+                    }
+                }
+            }
+        }
+
 
         return $collection;
     }

@@ -47,8 +47,8 @@ class Development extends Pipeline
 
         if ($build) {
             $pipelineBuilder
-                ->add(new Copy(Asset::JS))
                 ->add(new Babel)
+                ->add(new Copy(Asset::JS))
                 ->add(new Cleaner);
         }
 

@@ -46,6 +46,14 @@ return [
     'outputDirectory' => base_path('public' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR),
 
     /**
+     * Babel js extension prefix
+     * ex: foo.es6.js if value is es6
+     *
+     * Files without this extension will not be compiled by
+     */
+    'babelPrefix' => 'es6',
+
+    /**
      * Group of assets you need separate style and javascript for the moment
      * example:
      * 'style' => [
