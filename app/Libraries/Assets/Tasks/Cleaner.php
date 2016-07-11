@@ -39,7 +39,7 @@ class Cleaner implements StageInterface
      */
     public function process($collection)
     {
-        self::deleteDir($collection->getTmpDirectory());
+        self::deleteDir(str_replace(DIRECTORY_SEPARATOR . $collection->getCollectionId(), '' , $collection->getTmpDirectory()));
 
         return $collection;
     }

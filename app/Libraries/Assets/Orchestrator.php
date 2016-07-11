@@ -76,7 +76,7 @@ class Orchestrator
      */
     protected function initialize(Collection $assets)
     {
-        $assets->setTmpDirectory(config('assets.tmpDirectory') . DIRECTORY_SEPARATOR . $assets->getCollectionId());
+        $assets->setTmpDirectory(config('assets.tmpDirectory') . DIRECTORY_SEPARATOR . uniqid() .  DIRECTORY_SEPARATOR . $assets->getCollectionId());
         $assets->initializeFolder();
     }
 
