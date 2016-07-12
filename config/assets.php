@@ -53,6 +53,13 @@ return [
     ],
 
     /**
+     * List of babel presets
+     */
+    'babelPresets' => [
+        'babel-fast-presets/es2015'
+    ],
+
+    /**
      * Group of assets you need separate style and javascript for the moment
      * example:
      * 'style' => [

@@ -21,6 +21,7 @@
 
 use App\Libraries\Assets\Asset;
 use App\Libraries\Assets\Collection;
+use Clockwork\Facade\Clockwork;
 use Illuminate\Support\Facades\Config;
 use League\Pipeline\StageInterface;
 use Symfony\Component\Process\Process;
@@ -44,14 +45,19 @@ class Babel implements StageInterface
      */
     public function process($collection)
     {
+        Clockwork::startEvent('assets.javascript.babel.' . $collection->getGroupName(), 'Babel ' . $collection->getGroupName());
 
         if (!in_array($collection->getGroupName(), Config::get('assets.babelCollectionsEnabled'))) {
+
+            Clockwork::endEvent('assets.javascript.babel.' . $collection->getGroupName());
+
             return $collection;
         }
 
         \Log::debug('Assets::Babel on collection ' . $collection->getCollectionId());
         $newAssets = [];
         $toCompiled = [];
+
         /** @var Asset $asset */
         foreach ($collection->getType(Asset::JS) as $asset) {
 
@@ -83,12 +89,16 @@ class Babel implements StageInterface
         $outputBabelTempDirectory = $collection->getTmpDirectory() . DIRECTORY_SEPARATOR . 'babel';
         if (!mkdir($outputBabelTempDirectory)) {
             \Log::error("Assets::Babel fail to create " . $outputBabelTempDirectory);
+
+            Clockwork::endEvent('assets.javascript.babel.' . $collection->getGroupName());
+
             return $collection;
         }
 
         if (count($toCompiled) > 0) {
+
             // transpile with es2015 presets to the tmp folder
-            $process = new Process(sprintf('babel --presets es2015 %s --out-dir %s', implode(' ', array_keys($toCompiled)), $outputBabelTempDirectory));
+            $process = new Process(sprintf('babel --presets %s %s --out-dir %s -q ', implode(' ', Config::get('assets.babelPresets')), implode(' ', array_keys($toCompiled)), $outputBabelTempDirectory));
             $process->run();
             if (!$process->isSuccessful()) {
                 \Log::error("Assets::Babel " . $process->getErrorOutput());
@@ -105,6 +115,7 @@ class Babel implements StageInterface
             }
         }
 
+        Clockwork::endEvent('assets.javascript.babel.' . $collection->getGroupName());
 
         return $collection;
     }
