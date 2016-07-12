@@ -46,12 +46,11 @@ return [
     'outputDirectory' => base_path('public' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR),
 
     /**
-     * Babel js extension prefix
-     * ex: foo.es6.js if value is es6
-     *
-     * Files without this extension will not be compiled by
+     * List of collection where babel need to build
      */
-    'babelPrefix' => 'es6',
+    'babelCollectionsEnabled' => [
+        'javascript-app'
+    ],
 
     /**
      * Group of assets you need separate style and javascript for the moment
@@ -131,6 +130,7 @@ return [
                 'resources/assets/app/*/*/*/*/*.html',
             ]
         ],
+
 
         'statics' => [
             \App\Libraries\Assets\Asset::FONT => [

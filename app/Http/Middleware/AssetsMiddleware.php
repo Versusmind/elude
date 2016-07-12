@@ -41,7 +41,12 @@ class AssetsMiddleware
          * Assets must be build only in dev when we request for and html content
          * API must not build assets
          */
-        if (App::environment() !== 'production' && Request::acceptsHtml()) {
+        if (
+            App::environment() !== 'production' 
+            && Request::acceptsHtml()
+            && !Request::ajax()
+            && !strrpos(Request::path(), '/assets/', -strlen(Request::path())) !== false
+        ) {
 
             /** @var Orchestrator $ocherstator */
             $ocherstator = App::make('App\Libraries\Assets\Orchestrator');

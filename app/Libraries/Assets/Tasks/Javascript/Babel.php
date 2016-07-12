@@ -44,16 +44,16 @@ class Babel implements StageInterface
      */
     public function process($collection)
     {
+
+        if (!in_array($collection->getGroupName(), Config::get('assets.babelCollectionsEnabled'))) {
+            return $collection;
+        }
+
         \Log::debug('Assets::Babel on collection ' . $collection->getCollectionId());
         $newAssets = [];
-
         $toCompiled = [];
         /** @var Asset $asset */
         foreach ($collection->getType(Asset::JS) as $asset) {
-            if (!preg_match('/(.*)\.' . Config::get('assets.babelPrefix') . '\.js/', $asset->getPath())) {
-                $newAssets[] = new Asset(Asset::JS, $asset->getPath(), $asset->getInitialPath());
-                continue;
-            }
 
             // change the file extension to compiled.js
             $outputFile = $collection->getTmpDirectory() . DIRECTORY_SEPARATOR . str_replace([

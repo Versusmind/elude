@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "be9e575beb1a1bee266c377b89b8960e",
-    "content-hash": "be04b4a2ef642de058757e625af04908",
+    "hash": "39eb0b6475ee86be8a0120d104aeedfe",
+    "content-hash": "107f8a630dc92de2621e30bc5f571422",
     "packages": [
         {
             "name": "appzcoder/lumen-routes-list",
@@ -263,6 +263,54 @@
                 "string"
             ],
             "time": "2014-12-20 21:24:13"
+        },
+        {
+            "name": "duncan3dc/fork-helper",
+            "version": "1.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/duncan3dc/fork-helper.git",
+                "reference": "afb22fb541fdd1d82babccc6a3c1bc5cd1ec6f20"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/duncan3dc/fork-helper/zipball/afb22fb541fdd1d82babccc6a3c1bc5cd1ec6f20",
+                "reference": "afb22fb541fdd1d82babccc6a3c1bc5cd1ec6f20",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pcntl": "*",
+                "ext-shmop": "*",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "duncan3dc\\Helpers\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Craig Duncan",
+                    "email": "git@duncanc.co.uk",
+                    "homepage": "https://github.com/duncan3dc",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Simple class to fork processes in PHP and allow multi-threading",
+            "homepage": "https://github.com/duncan3dc/fork-helper",
+            "keywords": [
+                "control",
+                "fork",
+                "multi-threading",
+                "pcntl",
+                "process"
+            ],
+            "time": "2015-06-28 21:54:15"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1749,7 +1797,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lahaxearnaud/clockwork/zipball/a07ed1fa1242536b0b65cfd2713a11123e6a95ac",
+                "url": "https://api.github.com/repos/lahaxearnaud/clockwork/zipball/e58f634d4a29207f587698e1e26545b7165d015b",
                 "reference": "a07ed1fa1242536b0b65cfd2713a11123e6a95ac",
                 "shasum": ""
             },
@@ -6495,7 +6543,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/9698fdf0a750d6887d5e7729d5cf099765b20e61",
+                "url": "https://api.github.com/repos/symfony/config/zipball/0327509ffd6d37354ec9acefcd946db7caaabdb7",
                 "reference": "9698fdf0a750d6887d5e7729d5cf099765b20e61",
                 "shasum": ""
             },

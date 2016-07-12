@@ -21,6 +21,7 @@
 
 use App\Libraries\Assets\Orchestrator;
 use Illuminate\Console\Command;
+use duncan3dc\Helpers\Fork;
 
 class AssetsBuilder extends Command
 {
@@ -66,31 +67,41 @@ class AssetsBuilder extends Command
         /** @var Orchestrator $ocherstator */
         $ocherstator = \App::make('App\Libraries\Assets\Orchestrator');
 
+        $fork = new Fork ();
+
         foreach (array_keys(config('assets.groups')) as $groupname) {
             if ($groupToBuild !== 'all' && $groupToBuild !== $groupname) {
                 continue;
             }
 
-            $collection = \App\Libraries\Assets\Collection::createByGroup($groupname);
 
-            $this->info("\t - Build " . $groupname);
+            $fork->call(function () use ($groupname, $ocherstator) {
+                $collection = \App\Libraries\Assets\Collection::createByGroup($groupname);
 
-            try {
-                $buildTypes = $ocherstator->build($collection);
+                $message = "\t <info>- Build " . $groupname . '</info>' . PHP_EOL;
 
-                if (count($buildTypes) === 0) {
-                    $this->comment('No build');
-                } else {
-                    foreach ($buildTypes as $buildType) {
-                        $this->comment("\t\t - " . $buildType . " build");
+                try {
+                    $buildTypes = $ocherstator->build($collection);
+
+                    if (count($buildTypes) === 0) {
+                        $message .= "\t\t <comment> No build </comment>" . PHP_EOL;
+                    } else {
+                        foreach ($buildTypes as $buildType) {
+                            $message .= "\t\t <comment>- " . $buildType . " build</comment>" . PHP_EOL;
+                        }
                     }
-                }
-            } catch (\Exception $e) {
-                $this->error($e);
 
-                return;
-            }
+                    $this->line($message);
+
+                } catch (\Exception $e) {
+                    $this->error($e);
+
+                    return;
+                }
+            });
         }
+
+        $fork->wait();
 
         $this->info("");
         $this->info('Build successful');

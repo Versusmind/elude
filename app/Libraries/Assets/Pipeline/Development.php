@@ -23,6 +23,7 @@ use App\Libraries\Assets\Tasks\Copy;
 use App\Libraries\Assets\Tasks\Css\Html as CssRenderer;
 use App\Libraries\Assets\Tasks\Css\Rewrite;
 use App\Libraries\Assets\Tasks\Javascript\Babel;
+use App\Libraries\Assets\Tasks\SourceMappingRemover;
 use App\Libraries\Assets\Tasks\Javascript\Html as JsRenderer;
 use App\Libraries\Assets\Tasks\Less\Compile as LessCompiler;
 use App\Libraries\Assets\Tasks\Sass\Compile as SassCompiler;
@@ -49,6 +50,7 @@ class Development extends Pipeline
             $pipelineBuilder
                 ->add(new Babel)
                 ->add(new Copy(Asset::JS))
+                ->add(new SourceMappingRemover(Asset::JS))
                 ->add(new Cleaner);
         }
 
@@ -74,6 +76,7 @@ class Development extends Pipeline
                 ->add(new LessCompiler())
                 ->add(new Copy(Asset::CSS))
                 ->add(new Rewrite())
+                ->add(new SourceMappingRemover(Asset::CSS))
                 ->add(new Cleaner());
         }
 

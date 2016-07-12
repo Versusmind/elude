@@ -47,6 +47,8 @@ class Handler extends ExceptionHandler
         if (
             $exception instanceof NotFoundHttpException
             && Request::acceptsHtml()
+            && !Request::ajax()
+            && !strrpos(Request::path(), '/assets/', -strlen(Request::path())) !== false
         ) {
             return response(view('index')->render());
         }
