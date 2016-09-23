@@ -47,9 +47,13 @@
     },
 
     "post-install-cmd": [
-        "php artisan assets:update"
+        "php artisan assets:update",
+        "bower install",
+        "npm install"
     ],
     "post-update-cmd": [
-        "php artisan assets:update"
+        "php artisan assets:update",
+        "bower install",
+        "npm install"
     ]
 }

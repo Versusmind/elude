@@ -6,7 +6,7 @@ requires:
     babel: gulp-babel
     sass: gulp-sass
     less: gulp-less
-
+    freeze: gulp-freeze
 mimetypes:
     # This section contains the formatters for the css files
     css:
@@ -16,10 +16,15 @@ mimetypes:
             webPath:      /assets/css     # The web path for the compiled files
             # Run these tasks on your compiled files
             tasks:
+                # sass on scss files
                 - { name: sass, filter: ['*.scss'] }
+                # less tasks
                 - { name: less, filter: ['*.less', '*.less.css'] }
+                # minify all css
                 - { name: minify }
+                # concat all css to one
                 - { name: concat, args: '%filename%' }
+                # change file name to have an unique name ex app_fdc87a7143907fa4ef066db1d430a676.css
                 - { name: freeze }
 
         # In 'dev' mode, use these settings
@@ -30,7 +35,6 @@ mimetypes:
             tasks:
                 - { name: sass, filter: ['*.scss'] }
                 - { name: less, filter: ['*.less', '*.less.css'] }
-                - { name: concat, args: '%filename%' }
 
         # This is the list of source files to apply the above settings
         files:
@@ -39,9 +43,11 @@ mimetypes:
                 - resources/assets/bower/angular-bootstrap/ui-bootstrap-csp.css
                 - resources/assets/bower/angular-loading-bar/build/loading-bar.min.css
 
-        # Watch these files for changes (optional)
+        # Watch these files for changes (optional) by default all listed files are watched
         watch:
             - resources/assets/**/*.css
+            - resources/assets/**/*.scss
+            - resources/assets/**/*.less
 
     # This section contains the formatters for your JS files
     js:
@@ -49,16 +55,20 @@ mimetypes:
             outputFolder: public/assets/js  # Save the files here
             webPath:      /assets/js     # Specify the web path
             tasks:
-                - { name: babel, args: {presets: ['es2015']}}
+                # babel tasks on non minified files
+                - { name: babel, args: {presets: ['es2015']}, filter: ['!(*.min.js)']}
+                # concat all js
                 - { name: concat, args: '%filename%' }
+                # uglify all the things
                 - { name: uglify, args: { mangle: false } }
+                # change file name to have an unique name ex app_fdc87a7143907fa4ef066db1d430a676.js
                 - { name: freeze }
         dev:
             outputFolder: public/assets/js  # Save the files here
             webPath:      /assets/js     # Specify the web path
             tasks:
                 - { name: babel, args: {presets: ['es2015']}, filter: ['!(*.min.js)']}
-                - { name: concat, args: '%filename%' }
+
         # Here is a list of files to apply the above tasks to
         files:
             core.js: # This is the output filename
@@ -76,6 +86,7 @@ mimetypes:
                 - resources/assets/app/*.js
                 - resources/assets/app/**/*.js
 
+    # This section contains all fonts
     fonts:
         dev:
             outputFolder: public/assets/fonts
@@ -89,6 +100,7 @@ mimetypes:
                 - resources/assets/fonts/*
                 - resources/assets/fonts/**/*
 
+    # This section contains all templates
     templates:
         dev:
             outputFolder: public/assets
@@ -103,9 +115,24 @@ mimetypes:
                 - resources/assets/app/*.html
                 - resources/assets/app/**/*.html
 
+    # This section contains all images
+    images:
+        dev:
+            outputFolder: public/assets
+            tasks: []
+            autoRenaming: false
+        prod:
+            outputFolder: public/assets
+            autoRenaming: false
+            tasks: []
+        files:
+            img:
+                - resources/assets/img/*
+                - resources/assets/img/**/*
 
 # This is the list of files/paths to search and find the replacement tags to insert the
 # generated <script> or stylesheet tags
+# see usage in resources/views/index.twig
 replacementPaths:
     - resources/views/*.twig
     - resources/views/**/*.twig
@@ -115,3 +142,4 @@ default:
     - css
     - templates
     - fonts
+    - images

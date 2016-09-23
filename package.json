@@ -23,13 +23,16 @@
   "license": "ISC",
   "dependencies": {
     "babel-preset-es2015": "^6.14.0",
+    "gassetic": "^0.4.2",
     "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.0",
     "gulp-copy": "0.0.2",
     "gulp-freeze": "0.0.2",
     "gulp-less": "^3.1.0",
     "gulp-minify-css": "^1.2.4",
+    "gulp-purge-sourcemaps": "^1.0.0",
     "gulp-sass": "^2.3.2",
-    "gulp-uglify": "^2.0.0"
+    "gulp-uglify": "^2.0.0",
+    "node-sass": "^3.10.0"
   }
 }

@@ -106,7 +106,6 @@ return [
             \TwigBridge\Extension\Laravel\Input::class,
             \TwigBridge\Extension\Laravel\Session::class,
             \TwigBridge\Extension\Laravel\String::class,
-            \App\Libraries\Twig\Extensions\Assets::class,
             \App\Libraries\Twig\Extensions\Router::class,
             \App\Libraries\Twig\Extensions\Auth::class,
             \App\Libraries\Twig\Extensions\Env::class,

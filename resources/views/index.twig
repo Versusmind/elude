@@ -2,10 +2,17 @@
 <head>
     <base href="{{ env('SUBFOLDER_INSTALLATION', '/') }}">
 
-    <!-- prod:core.css --><!-- endbuild -->
-    <!-- dev:core.css -->
-<link rel="stylesheet" href="/assets/css/core.css/core_0.css" />
+    {% if env('APP_DEBUG') %}
+        <!-- dev:core.css -->
+<link rel="stylesheet" href="/assets/css/core.css/bootstrap_0.css" />
+<link rel="stylesheet" href="/assets/css/core.css/ui-bootstrap-csp_1.css" />
+<link rel="stylesheet" href="/assets/css/core.css/loading-bar.min_2.css" />
 <!-- endbuild -->
+    {% else %}
+        <!-- prod:core.css -->
+<link rel="stylesheet" href="/assets/css/core.css/core_b8f4630f983f7793a514ef2d3fcf3fe0.css" />
+<!-- endbuild -->
+    {% endif %}
 
     <meta name="access_token" content="{{ session_get('oauth.access_token') }}" />
     <meta name="refresh_token" content="{{ session_get('oauth.refresh_token') }}" />
@@ -17,14 +24,42 @@
 
     <div ui-view></div>
 
-    <!-- dev:core.js -->
-<script src="/assets/js/core.js/core_0.js"></script>
+    {% if env('APP_DEBUG') %}
+        <!-- dev:core.js -->
+<script src="/assets/js/core.js/jquery.min_0.js"></script>
+<script src="/assets/js/core.js/angular.min_1.js"></script>
+<script src="/assets/js/core.js/ui-bootstrap.min_2.js"></script>
+<script src="/assets/js/core.js/ui-bootstrap-tpls.min_3.js"></script>
+<script src="/assets/js/core.js/angular-ui-router.min_4.js"></script>
+<script src="/assets/js/core.js/angular-translate.min_5.js"></script>
+<script src="/assets/js/core.js/lodash.min_6.js"></script>
+<script src="/assets/js/core.js/restangular.min_7.js"></script>
+<script src="/assets/js/core.js/smart-table.min_8.js"></script>
+<script src="/assets/js/core.js/loading-bar.min_9.js"></script>
 <!-- endbuild -->
-    <!-- dev:app.js -->
+        <!-- dev:app.js -->
 <script src="/assets/js/app.js/app_0.js"></script>
+<script src="/assets/js/app.js/config_1.js"></script>
+<script src="/assets/js/app.js/myo/myo_2.js"></script>
+<script src="/assets/js/app.js/components/admin/adminGroupsController_3.js"></script>
+<script src="/assets/js/app.js/components/admin/adminUsersController_4.js"></script>
+<script src="/assets/js/app.js/components/home/homeController_5.js"></script>
+<script src="/assets/js/app.js/myo/i18n/i18n-fr_6.js"></script>
+<script src="/assets/js/app.js/myo/shared/apiService_7.js"></script>
+<script src="/assets/js/app.js/shared/content/contentDirective_8.js"></script>
+<script src="/assets/js/app.js/shared/header/headerDirective_9.js"></script>
+<script src="/assets/js/app.js/myo/components/entityUi/entityUiDirective_10.js"></script>
+<script src="/assets/js/app.js/myo/components/navbar/navbarDirective_11.js"></script>
+<script src="/assets/js/app.js/myo/components/table/tableDirective_12.js"></script>
 <!-- endbuild -->
+    {% else %}
+        <!-- prod:core.js -->
+<script src="/assets/js/core.js/core_572d003dc12e7e751ff741942e6955b6.js"></script>
+<!-- endbuild -->
+        <!-- prod:app.js -->
+<script src="/assets/js/app.js/app_fdc87a7143907fa4ef066db1d430a676.js"></script>
+<!-- endbuild -->
+    {% endif %}
 
-    <!-- prod:core.js --><!-- endbuild -->
-    <!-- prod:app.js --><!-- endbuild -->
 </body>
 </html>
