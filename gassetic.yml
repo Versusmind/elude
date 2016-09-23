@@ -4,6 +4,8 @@ requires:
     uglify: gulp-uglify
     copy: gulp-copy
     babel: gulp-babel
+    sass: gulp-sass
+    less: gulp-less
 
 mimetypes:
     # This section contains the formatters for the css files
@@ -14,6 +16,8 @@ mimetypes:
             webPath:      /assets/css     # The web path for the compiled files
             # Run these tasks on your compiled files
             tasks:
+                - { name: sass, filter: ['*.scss'] }
+                - { name: less, filter: ['*.less', '*.less.css'] }
                 - { name: minify }
                 - { name: concat, args: '%filename%' }
                 - { name: freeze }
@@ -24,6 +28,8 @@ mimetypes:
             webPath:      /assets/css     # The web path for the compiled files
             # Run these tasks on your compiled files
             tasks:
+                - { name: sass, filter: ['*.scss'] }
+                - { name: less, filter: ['*.less', '*.less.css'] }
                 - { name: concat, args: '%filename%' }
 
         # This is the list of source files to apply the above settings
@@ -51,7 +57,7 @@ mimetypes:
             outputFolder: public/assets/js  # Save the files here
             webPath:      /assets/js     # Specify the web path
             tasks:
-                - { name: babel, args: {presets: ['es2015']}, , filter: ['!(*.min.js)']}
+                - { name: babel, args: {presets: ['es2015']}, filter: ['!(*.min.js)']}
                 - { name: concat, args: '%filename%' }
         # Here is a list of files to apply the above tasks to
         files:
