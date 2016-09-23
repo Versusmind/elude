@@ -77,6 +77,7 @@ class Production extends Pipeline
             $pipelineBuilder->add(new SassCompiler())
                 ->add(new LessCompiler())
                 ->add(new Concat(Asset::CSS))
+                ->add(new Rewrite())
                 ->add(new CssMin())
                 ->add(new Version(Asset::CSS))
                 ->add(new Cleaner());
