@@ -1,0 +1,33 @@
+{
+  "name": "elude",
+  "version": "1.0.0",
+  "description": "Elude assets builder",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.mind-lab.eu:ndrx/myo2.git"
+  },
+  "keywords": [
+    "Elude",
+    "assets",
+    "builder",
+    "gulp"
+  ],
+  "author": "lahaxe.arnaud@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "babel-preset-es2015": "^6.14.0",
+    "gulp-babel": "^6.1.2",
+    "gulp-concat": "^2.6.0",
+    "gulp-copy": "0.0.2",
+    "gulp-freeze": "0.0.2",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-uglify": "^2.0.0"
+  }
+}

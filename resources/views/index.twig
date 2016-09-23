@@ -2,7 +2,10 @@
 <head>
     <base href="{{ env('SUBFOLDER_INSTALLATION', '/') }}">
 
-    {{ style('style') }}
+    <!-- prod:core.css --><!-- endbuild -->
+    <!-- dev:core.css -->
+<link rel="stylesheet" href="/assets/css/core.css/core_0.css" />
+<!-- endbuild -->
 
     <meta name="access_token" content="{{ session_get('oauth.access_token') }}" />
     <meta name="refresh_token" content="{{ session_get('oauth.refresh_token') }}" />
@@ -14,8 +17,14 @@
 
     <div ui-view></div>
 
+    <!-- dev:core.js -->
+<script src="/assets/js/core.js/core_0.js"></script>
+<!-- endbuild -->
+    <!-- dev:app.js -->
+<script src="/assets/js/app.js/app_0.js"></script>
+<!-- endbuild -->
 
-    {{ javascript('javascript-core') }}
-    {{ javascript('javascript-app') }}
+    <!-- prod:core.js --><!-- endbuild -->
+    <!-- prod:app.js --><!-- endbuild -->
 </body>
 </html>

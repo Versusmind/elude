@@ -1,0 +1,111 @@
+requires:
+    minify: gulp-minify-css
+    concat: gulp-concat
+    uglify: gulp-uglify
+    copy: gulp-copy
+    babel: gulp-babel
+
+mimetypes:
+    # This section contains the formatters for the css files
+    css:
+        # In 'prod' mode, use these settings
+        prod:
+            outputFolder: public/assets/css  # The output folder for your saving your compiled files
+            webPath:      /assets/css     # The web path for the compiled files
+            # Run these tasks on your compiled files
+            tasks:
+                - { name: minify }
+                - { name: concat, args: '%filename%' }
+                - { name: freeze }
+
+        # In 'dev' mode, use these settings
+        dev:
+            outputFolder: public/assets/css  # The output folder for your saving your compiled files
+            webPath:      /assets/css     # The web path for the compiled files
+            # Run these tasks on your compiled files
+            tasks:
+                - { name: concat, args: '%filename%' }
+
+        # This is the list of source files to apply the above settings
+        files:
+            core.css: # This is the output filename
+                - resources/assets/bower/bootstrap/dist/css/bootstrap.css
+                - resources/assets/bower/angular-bootstrap/ui-bootstrap-csp.css
+                - resources/assets/bower/angular-loading-bar/build/loading-bar.min.css
+
+        # Watch these files for changes (optional)
+        watch:
+            - resources/assets/**/*.css
+
+    # This section contains the formatters for your JS files
+    js:
+        prod:
+            outputFolder: public/assets/js  # Save the files here
+            webPath:      /assets/js     # Specify the web path
+            tasks:
+                - { name: babel, args: {presets: ['es2015']}}
+                - { name: concat, args: '%filename%' }
+                - { name: uglify, args: { mangle: false } }
+                - { name: freeze }
+        dev:
+            outputFolder: public/assets/js  # Save the files here
+            webPath:      /assets/js     # Specify the web path
+            tasks:
+                - { name: babel, args: {presets: ['es2015']}, , filter: ['!(*.min.js)']}
+                - { name: concat, args: '%filename%' }
+        # Here is a list of files to apply the above tasks to
+        files:
+            core.js: # This is the output filename
+                - resources/assets/bower/jquery/dist/jquery.min.js
+                - resources/assets/bower/angularjs/angular.min.js
+                - resources/assets/bower/angular-bootstrap/ui-bootstrap.min.js
+                - resources/assets/bower/angular-bootstrap/ui-bootstrap-tpls.min.js
+                - resources/assets/bower/angular-ui-router/release/angular-ui-router.min.js
+                - resources/assets/bower/angular-translate/angular-translate.min.js
+                - resources/assets/bower/lodash/lodash.min.js
+                - resources/assets/bower/restangular/dist/restangular.min.js
+                - resources/assets/bower/angular-smart-table/dist/smart-table.min.js
+                - resources/assets/bower/angular-loading-bar/build/loading-bar.min.js
+            app.js:
+                - resources/assets/app/*.js
+                - resources/assets/app/**/*.js
+
+    fonts:
+        dev:
+            outputFolder: public/assets/fonts
+            tasks: []
+            autoRenaming: false
+        prod:
+            outputFolder: public/assets/fonts
+            tasks: []
+        files:
+            fonts:
+                - resources/assets/fonts/*
+                - resources/assets/fonts/**/*
+
+    templates:
+        dev:
+            outputFolder: public/assets
+            tasks: []
+            autoRenaming: false
+        prod:
+            outputFolder: public/assets
+            autoRenaming: false
+            tasks: []
+        files:
+            template:
+                - resources/assets/app/*.html
+                - resources/assets/app/**/*.html
+
+
+# This is the list of files/paths to search and find the replacement tags to insert the
+# generated <script> or stylesheet tags
+replacementPaths:
+    - resources/views/*.twig
+    - resources/views/**/*.twig
+
+default:
+    - js
+    - css
+    - templates
+    - fonts

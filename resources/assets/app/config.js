@@ -6,7 +6,8 @@ angular.module('app.config', [])
 
     .constant('version', 'v0.1.0')
 
-    .constant('appdir', 'assets/app')
+    // build process put template in a separate folder
+    .constant('appdir', 'assets/template')
 
     //apiConfig is mandatory to use "Api" service of Myo
     .constant('apiConfig', {
