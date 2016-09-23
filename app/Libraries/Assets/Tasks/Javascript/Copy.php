@@ -23,7 +23,7 @@ use App\Libraries\Assets\Collection;
 use League\Pipeline\StageInterface;
 
 /**
- * User: LAHAXE Arnaud <alahaxe@boursorama.fr>
+ * User: LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
  * Date: 07/08/2015
  * Time: 12:13
  * FileName : Concat.php

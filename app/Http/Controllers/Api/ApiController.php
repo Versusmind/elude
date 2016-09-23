@@ -1,6 +1,6 @@
 <?php
 /**
- * User: LAHAXE Arnaud <alahaxe@boursorama.fr>
+ * User: LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
  * Date: 15/09/2015
  * Time: 13:21
  * FileName : ApiController.php

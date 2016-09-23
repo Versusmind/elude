@@ -9,6 +9,7 @@
     {
         ${{ modelNameLowerCase }}->{{ relation }}()->associate(${{ relation }});
         ${{ modelNameLowerCase }}->load("{{ relation }}");
+        ${{ modelNameLowerCase }}->save();
 
         return $this;
     }

@@ -3,7 +3,7 @@
 use App\Libraries\Generator\Generators\Code;
 
 /**
- * User: LAHAXE Arnaud <alahaxe@boursorama.fr>
+ * User: LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
  * Date: 18/09/2015
  * Time: 13:35
  * FileName : Resource.php
@@ -20,7 +20,7 @@ class Resource extends Code
 
         $route = "\n        " . '$app->resource("%s", \App\Http\Controllers\Api\%s::class);';
 
-        $model = strtolower($this->get('model'));
+        $model = $this->get('model');
         $modelPlural = str_plural($model);
 
         return sprintf($route, $modelPlural, $model);
