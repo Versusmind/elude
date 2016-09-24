@@ -41,7 +41,7 @@ mimetypes:
             core.css: # This is the output filename
                 - resources/assets/bower/bootstrap/dist/css/bootstrap.css
                 - resources/assets/bower/angular-bootstrap/ui-bootstrap-csp.css
-                - resources/assets/bower/angular-loading-bar/build/loading-bar.min.css
+                - resources/assets/bower/angular-loading-bar/build/loading-bar.css
 
         # Watch these files for changes (optional) by default all listed files are watched
         watch:
@@ -72,16 +72,16 @@ mimetypes:
         # Here is a list of files to apply the above tasks to
         files:
             core.js: # This is the output filename
-                - resources/assets/bower/jquery/dist/jquery.min.js
-                - resources/assets/bower/angularjs/angular.min.js
-                - resources/assets/bower/angular-bootstrap/ui-bootstrap.min.js
-                - resources/assets/bower/angular-bootstrap/ui-bootstrap-tpls.min.js
-                - resources/assets/bower/angular-ui-router/release/angular-ui-router.min.js
-                - resources/assets/bower/angular-translate/angular-translate.min.js
-                - resources/assets/bower/lodash/lodash.min.js
-                - resources/assets/bower/restangular/dist/restangular.min.js
-                - resources/assets/bower/angular-smart-table/dist/smart-table.min.js
-                - resources/assets/bower/angular-loading-bar/build/loading-bar.min.js
+                - resources/assets/bower/jquery/dist/jquery.js
+                - resources/assets/bower/angularjs/angular.js
+                - resources/assets/bower/angular-bootstrap/ui-bootstrap.js
+                - resources/assets/bower/angular-bootstrap/ui-bootstrap-tpls.js
+                - resources/assets/bower/angular-ui-router/release/angular-ui-router.js
+                - resources/assets/bower/angular-translate/angular-translate.js
+                - resources/assets/bower/lodash/lodash.js
+                - resources/assets/bower/restangular/dist/restangular.js
+                - resources/assets/bower/angular-smart-table/dist/smart-table.js
+                - resources/assets/bower/angular-loading-bar/build/loading-bar.js
             app.js:
                 - resources/assets/app/*.js
                 - resources/assets/app/**/*.js

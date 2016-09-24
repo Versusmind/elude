@@ -50,7 +50,11 @@ class Handler extends ExceptionHandler
             && !Request::ajax()
             && !strrpos(Request::path(), '/assets/', -strlen(Request::path())) !== false
         ) {
-            return response(view('index')->render());
+            if (\Auth::guest()) {
+                return redirect('/auth/login');
+            } else {
+                return response(view('index')->render());
+            }
         }
 
         if (

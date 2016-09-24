@@ -10,10 +10,10 @@
  * otherwise, without prior written permission of Versusmind.
  * @link http://www.versusmind.eu/
  *
- * @file AssetsUpdate.php
+ * @file AssetsBuild.php
  * @author LAHAXE Arnaud
  * @last-edited 18/08/15
- * @description AssetsUpdate
+ * @description AssetsBuild
  *
  ******************************************************************************/
 
@@ -28,14 +28,15 @@ class AssetsBuild extends Command
      *
      * @var string
      */
-    protected $signature = 'assets:build {--watch=0 : Watch files}';
+    protected $signature = 'assets:build {--watch=0 : Watch files changes and live reload} {--prod=0 : Prod build with uglify, concat and version freeze}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Update bower assets';
+    protected $description = 'Build assets';
+
 
     /**
      * Execute the console command.
@@ -46,11 +47,16 @@ class AssetsBuild extends Command
     {
 
         $this->info("Build assets");
-        $process = new Process(sprintf('node ./node_modules/gassetic/bin.js %s --env=%s', $this->option('watch')? 'watch': '', $this->option('env')));
+        $cmd = sprintf('node ./node_modules/gassetic/bin.js %s --env=%s', $this->option('watch')? '': 'build', $this->option('prod') ? 'prod':'dev');
+        $this->info($cmd);
 
-        $process->setTimeout($this->option('watch')? null: 30);
+        $process = new Process($cmd);
+        $process->setTimeout($this->option('watch')? 86400: 30);
 
         $process->run(function ($type, $buffer) {
+            // prevent double line break
+            $buffer = str_replace("\n", "", $buffer);
+
             if ('err' === $type) {
                 $this->error($buffer);
             } else {
