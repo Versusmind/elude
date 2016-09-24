@@ -42,12 +42,14 @@ mimetypes:
                 - resources/assets/bower/bootstrap/dist/css/bootstrap.css
                 - resources/assets/bower/angular-bootstrap/ui-bootstrap-csp.css
                 - resources/assets/bower/angular-loading-bar/build/loading-bar.css
+            app.css: # This is the output filename
+                - resources/assets/css/*.css
+                - resources/assets/css/**/*.css
+                - resources/assets/scss/*.scss
+                - resources/assets/scss/**/*.scss
+                - resources/assets/less/*.less
+                - resources/assets/less/**/*.less
 
-        # Watch these files for changes (optional) by default all listed files are watched
-        watch:
-            - resources/assets/**/*.css
-            - resources/assets/**/*.scss
-            - resources/assets/**/*.less
 
     # This section contains the formatters for your JS files
     js:
@@ -82,8 +84,8 @@ mimetypes:
                 - resources/assets/bower/restangular/dist/restangular.js
                 - resources/assets/bower/angular-smart-table/dist/smart-table.js
                 - resources/assets/bower/angular-loading-bar/build/loading-bar.js
+                - resources/assets/bower/angular-logex/dist/log-ex-unobtrusive.js
             app.js:
-                - resources/assets/app/*.js
                 - resources/assets/app/**/*.js
 
     # This section contains all fonts

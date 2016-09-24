@@ -4,9 +4,7 @@ angular.module('app')
 .directive('appHeader', function(appdir, appname) {
     return {
         restrict: 'E',
-        scope: {
-            'appname' : '='
-        },
+        scope: {},
         controller: function($scope, $rootScope, $location) {
 
             $scope.appname = appname;
