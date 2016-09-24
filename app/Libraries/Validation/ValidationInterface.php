@@ -1,4 +1,5 @@
 <?php namespace App\Libraries\Validation;
+use Illuminate\Support\MessageBag;
 
 /******************************************************************************
  *
@@ -25,4 +26,11 @@ interface ValidationInterface
     public function getHidden();
 
     public function toArray();
+
+    /**
+     * @return MessageBag
+     */
+    public function getErrors();
+
+    public function setErrors(MessageBag $errors);
 }

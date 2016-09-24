@@ -222,6 +222,8 @@ abstract class Repository implements CriteriaInterface
         if ($validator->fails()) {
             Clockwork::endEvent($timelineKey);
 
+            $model->setErrors($validator->errors());
+
             throw new ModelNotValid($validator->errors());
         }
 

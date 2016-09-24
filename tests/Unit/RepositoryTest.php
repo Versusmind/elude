@@ -1,6 +1,7 @@
 <?php namespace Tests\Unit;
 
 use App\Libraries\Repository;
+use App\Libraries\Validation\ValidationInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -121,6 +122,9 @@ abstract class RepositoryTest extends TestCase
     {
         $class = $this->repository->getModelClass();
         $model = $this->repository->create(new $class($attributes));
+        if ($model instanceof ValidationInterface && $model->getErrors() !== null) {
+            $this->assertGreaterThan(0, $model->getErrors()->count());
+        }
 
         $this->assertModel($model, false);
     }
@@ -217,6 +221,26 @@ abstract class RepositoryTest extends TestCase
     public function testWhereOk($where)
     {
         $this->assertInstanceOf(Collection::class, $this->repository->where($where));
+    }
+
+    /**
+     * @param $where
+     *
+     * @dataProvider whereOkProvider
+     */
+    public function testWherePageLowerThanZeroOk($where)
+    {
+        $this->assertInstanceOf(LengthAwarePaginator::class, $this->repository->where($where, true, 15, -1));
+    }
+
+    /**
+     * @param $where
+     *
+     * @dataProvider whereOkProvider
+     */
+    public function testWherePageWithThousandItemOk($where)
+    {
+        $this->assertInstanceOf(LengthAwarePaginator::class, $this->repository->where($where, true, 1000, 1));
     }
 
     /**
