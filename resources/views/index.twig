@@ -14,6 +14,12 @@
 <!-- endbuild -->
     {% endif %}
 
+
+    {% if env('VORLONJS_ENABLED') %}
+        <!-- VorlonJS support check your .env file to change configurations -->
+        <script src="http://{{ env('VORLONJS_HOST') }}:{{ env('VORLONJS_PORT') }}/vorlon.js"></script>
+    {% endif %}
+
     <meta name="access_token" content="{{ session_get('oauth.access_token') }}" />
     <meta name="refresh_token" content="{{ session_get('oauth.refresh_token') }}" />
     <meta name="token_type" content="{{ session_get('oauth.token_type') }}" />
