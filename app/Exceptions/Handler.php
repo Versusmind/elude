@@ -33,6 +33,14 @@ class Handler extends ExceptionHandler
         parent::report($exception);
     }
 
+    public function handleNotFound() {
+        if (\Auth::guest()) {
+            return redirect('/auth/login');
+        }
+
+        return response(view('index')->render());
+    }
+
     /**
      * Render an exception into an HTTP response.
      *
@@ -50,11 +58,7 @@ class Handler extends ExceptionHandler
             && !Request::ajax()
             && !strrpos(Request::path(), '/assets/', -strlen(Request::path())) !== false
         ) {
-            if (\Auth::guest()) {
-                return redirect('/auth/login');
-            } else {
-                return response(view('index')->render());
-            }
+            return $this->handleNotFound();
         }
 
         if (

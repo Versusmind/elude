@@ -37,6 +37,29 @@ class AssetsBuild extends Command
      */
     protected $description = 'Build assets';
 
+    /**
+     * Get assets env
+     * @return string
+     */
+    public function getEnv() {
+        if (!$this->option('prod')) {
+            return 'dev';
+        }
+
+        return 'prod';
+    }
+
+    /**
+     * Get gassetic command.
+     * @return string
+     */
+    public function getGasseticArgument() {
+        if (!$this->option('watch')) {
+            return 'build';
+        }
+
+        return '';
+    }
 
     /**
      * Execute the console command.
@@ -47,7 +70,7 @@ class AssetsBuild extends Command
     {
 
         $this->info("Build assets");
-        $cmd = sprintf('node ./node_modules/gassetic/bin.js %s --env=%s', $this->option('watch')? '': 'build', $this->option('prod') ? 'prod':'dev');
+        $cmd = sprintf('node ./node_modules/gassetic/bin.js %s --env=%s', $this->getGasseticArgument(), $this->getEnv());
         $this->info($cmd);
 
         $process = new Process($cmd);
