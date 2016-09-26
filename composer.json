@@ -14,7 +14,7 @@
         "lahaxearnaud/clockwork": "dev-master",
         "illuminate/mail": "^5.1",
         "jeremeamia/SuperClosure": "^2.1",
-        "rcrowe/twigbridge": "0.9.x",
+        "rcrowe/twigbridge": "0.9.*",
         "league/oauth2-google": "^1.0",
         "duncan3dc/fork-helper": "^1.1"
     },
