@@ -6,16 +6,10 @@ services:
 php:
   - 5.6
   - 7.0
-  - hhvm
 
 # sudo required for global installation
 sudo: required
 
-matrix:
-  allow_failures:
-    - php:
-        # not really tested yet
-        - hhvm
 
 env:
   - TRAVIS_NODE_VERSION="6"
