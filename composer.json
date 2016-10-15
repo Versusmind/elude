@@ -4,6 +4,19 @@
     "keywords": ["framework", "laravel", "lumen"],
     "license": "MIT",
     "type": "project",
+    "authors": [
+        {
+            "name": "LAHAXE Arnaud",
+            "email": "arnaud@lahaxe.fr",
+            "homepage": "https://github.com/lahaxearnaud",
+            "role": "Developer"
+        },
+        {
+            "name": "ZOHAR Benoit",
+            "homepage": "https://github.com/benoitzohar",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "laravel/lumen-framework": "5.1.*",
         "vlucas/phpdotenv": "~1.0",
@@ -55,5 +68,8 @@
         "php artisan assets:update",
         "bower install",
         "npm install"
-    ]
+    ],
+    "scripts": {
+        "test": "phpunit --tap"
+    }
 }

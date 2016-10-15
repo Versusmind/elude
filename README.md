@@ -27,8 +27,20 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 
 ## Testing
 
+### Back
 ``` bash
 $ composer test
+```
+
+### Front
+1. Start the Selenium server:
+``` bash
+./node_modules/.bin/webdriver-manager start
+```
+
+2. Open a new terminal and run Protractor:
+``` bash
+./node_modules/.bin/protractor protractor.conf.js
 ```
 
 ## Contributing
@@ -65,9 +77,3 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [link-ndrx]: http://ndrx.io
 [link-scrutinizer]: https://scrutinizer-ci.com/g/ndrx-io/elude/
 [link-coverage]: https://scrutinizer-ci.com/g/ndrx-io/elude/
-
-1. Start the Selenium server:
-./node_modules/.bin/webdriver-manager start
-
-2. Open a new terminal and run Protractor:
-./node_modules/.bin/protractor protractor.conf.js
