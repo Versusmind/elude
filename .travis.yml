@@ -1,0 +1,45 @@
+language: php
+
+services:
+  - mysql
+
+php:
+  - 5.6
+  - 7.0
+  - hhvm
+
+# sudo required for global installation
+sudo: required
+
+matrix:
+  allow_failures:
+    - php:
+        # not really tested yet
+        - hhvm
+
+before_script:
+  # install tools
+  - travis_retry npm install -g yarn
+  - travis_retry yarn global add bower
+  - travis_retry yarn global add gassetic
+  - travis_retry yarn install
+  - cp .env.example .env
+  # install php dependences
+  - travis_retry composer self-update
+  - travis_retry composer install ${COMPOSER_FLAGS} --no-interaction --prefer-source
+  # configure mysql
+  - mysql -e 'create database elude;'
+  - mysql -u root -e "CREATE USER 'tester'@'localhost' IDENTIFIED BY 'tester';"
+  - mysql -u root -e "GRANT ALL ON elude.* TO 'tester'@'localhost';"
+  # db migration
+  - php artisan migrate --seed --force
+  # install front dependences
+  - php artisan assets:update
+  # build assets 
+  - php artisan assets:build
+
+script:
+  - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+
+after_script:
+  - if [[ $TRAVIS_PHP_VERSION != 'hhvm' && $TRAVIS_PHP_VERSION != '7.0' ]]; then php vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover; fi
