@@ -1,6 +1,25 @@
 <html>
 <head>
-    {{ style('style') }}
+    {% if env('APP_DEBUG') %}
+        <!-- dev:core.css -->
+<link rel="stylesheet" href="/assets/css/core.css/bootstrap_0.css" />
+<link rel="stylesheet" href="/assets/css/core.css/ui-bootstrap-csp_1.css" />
+<link rel="stylesheet" href="/assets/css/core.css/loading-bar_2.css" />
+<!-- endbuild -->
+        <!-- dev:app.css -->
+<link rel="stylesheet" href="/assets/css/app.css/helloworld_0.css" />
+<link rel="stylesheet" href="/assets/css/app.css/helloworld_1.css" />
+<link rel="stylesheet" href="/assets/css/app.css/helloworld_2.css" />
+<!-- endbuild -->
+    {% else %}
+        <!-- prod:core.css -->
+<link rel="stylesheet" href="/assets/css/core.css/core_6572b2716efa7c4ea5e3f2e93354436b.css" />
+<!-- endbuild -->
+        <!-- prod:app.css -->
+<link rel="stylesheet" href="/assets/css/app.css/app_41a4943a17f985fdf687fdcb07e8d5dc.css" />
+<!-- endbuild -->
+    {% endif %}
+
     <style>
         body {
             background: url('http://farm3.staticflickr.com/2832/12303719364_c25cecdc28_b.jpg') fixed;

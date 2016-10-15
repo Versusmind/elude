@@ -41,4 +41,9 @@ trait ValidationTrait
     {
         return $this->errors;
     }
+
+    public function setErrors(MessageBag $errors)
+    {
+        $this->errors = $errors;
+    }
 }

@@ -15,7 +15,9 @@ angular.module('myo')
  *                      will trigger :    GET /api/v1/users
  *
  **/
-.service('Api', function(Restangular, apiConfig, $http) {
+.service('Api', function(Restangular, apiConfig, $http, $log) {
+
+    $log = $log.getInstance('ApiClient');
 
     var Api = Restangular,
         cfg = apiConfig;
@@ -56,6 +58,14 @@ angular.module('myo')
             'client_secret': cfg.client.secret
         });
     }
+
+    // catch all response and log data in console
+    Api.setResponseInterceptor(function(data, operation, what, url, response, deferred) {
+        $log.debug(response.config.method + " " + url + " " + response.status, data);
+
+        // resolve with original data
+        deferred.resolve(data);
+    });
 
     //set up a catcher for Myo WS errors (acccess token expired, and such)
     Api.setErrorInterceptor(function(response, deferred, responseHandler) {

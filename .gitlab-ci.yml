@@ -1,7 +1,6 @@
 image: "ndrx/php:latest"
 job1:
     script:
-        - "npm install -g babel-cli"
         - "cp .env.example .env"
         - "composer.phar install --prefer-source --no-interaction"
         - "/etc/init.d/mysql start"

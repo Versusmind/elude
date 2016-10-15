@@ -8,8 +8,10 @@ angular.module('app')
         controller: 'homeController'
     });
 })
-.controller('homeController', function($scope) {
-    
-    $scope.test = 'Yop';
-    
+
+.controller('homeController', function($scope, $log) {
+    $log = $log.getInstance('homeController');
+    $log.debug('Debug message');
+    $log.info('Info message');
+    $log.error('Error message');
 });

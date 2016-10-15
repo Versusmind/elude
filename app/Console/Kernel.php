@@ -3,7 +3,7 @@ namespace App\Console;
 
 use App\Console\Commands\ApiDocGenerator;
 use App\Console\Commands\ApiGenerator;
-use App\Console\Commands\AssetsBuilder;
+use App\Console\Commands\AssetsBuild;
 use App\Console\Commands\AssetsCleaner;
 use App\Console\Commands\AssetsUpdate;
 use App\Console\Commands\PhpDocGenerator;
@@ -30,8 +30,8 @@ class Kernel extends ConsoleKernel
         ApiDocGenerator::class,
         PhpDocGenerator::class,
         AssetsUpdate::class,
-        AssetsBuilder::class,
         ApiGenerator::class,
+        AssetsBuild::class,
         \Clockwork\Cli\Laravel\Command::class
     ];
 

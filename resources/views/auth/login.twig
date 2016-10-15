@@ -12,9 +12,9 @@
 
                 <form class="login" method="post" action="{{ route('auth.login') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <input type="text" name="username" placeholder="Username"/>
-                    <input type="password" name="password" placeholder="Password"/>
-                    <input type="submit" value="Sign In" class="btn btn-success btn-sm"/>
+                    <input type="text" id="username" name="username" placeholder="Username"/>
+                    <input type="password" id="password" name="password" placeholder="Password"/>
+                    <input type="submit" id="signin" value="Sign In" class="btn btn-success btn-sm"/>
 
                     {% if googleOauth %}
                         <a href="{{ route('oauth.google.connect') }}" class="btn btn-primary btn-sm">Google</a>

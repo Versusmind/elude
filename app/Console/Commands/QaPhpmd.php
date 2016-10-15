@@ -38,8 +38,7 @@ class QaPhpmd extends Command
 
     public static $excludedFiles = [
         'Application.php',
-        'Kernel.php',
-        'SassCompiler.php'
+        'Kernel.php'
     ];
 
     /**

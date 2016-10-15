@@ -1,12 +1,15 @@
 'use strict';
 
-angular.module('app.config', [])
+angular.module('app.config', [
+        'log.ex.uo'
+    ])
 
     .constant('appname', 'Myo2')
 
     .constant('version', 'v0.1.0')
 
-    .constant('appdir', 'assets/app')
+    // build process put template in a separate folder
+    .constant('appdir', 'assets/template')
 
     //apiConfig is mandatory to use "Api" service of Myo
     .constant('apiConfig', {
@@ -24,11 +27,31 @@ angular.module('app.config', [])
         }
     })
 
-    .config(function($urlRouterProvider, $locationProvider) {
+    .config(function($urlRouterProvider, $locationProvider, logExProvider) {
 
         // For any unmatched url, redirect to /home
         $urlRouterProvider.otherwise('/home');
         //states are configured in each controller..
 
         $locationProvider.html5Mode(true);
+
+        // Log-ex configurations
+        // no output in prod mode
+        logExProvider.enableLogging($('meta[name="environment"]').prop('content') !== 'production');
+        logExProvider.overrideLogMethodColors({
+            info: 'color:#0080FF',
+            debug: 'color:#31B404',
+            error: 'color:red'
+        });
+
+        // enhance log output
+        logExProvider.overrideLogPrefix(function (className) {
+            var $injector = angular.injector(['ng']),
+                $filter = $injector.get('$filter'),
+                separator = " >> ",
+                format = "HH:mm:ss",
+                now = $filter('date')(new Date(), format);
+
+            return "" + now + (!angular.isString(className) ? "" : "::" + className) + separator;
+        });
     });

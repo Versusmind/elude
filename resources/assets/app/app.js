@@ -1,4 +1,5 @@
 angular.module('app', [
     'myo',
-    'app.config'
+    'app.config',
+    'log.ex.uo'
 ]);
