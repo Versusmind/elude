@@ -4,6 +4,19 @@
     "keywords": ["framework", "laravel", "lumen"],
     "license": "MIT",
     "type": "project",
+    "authors": [
+        {
+            "name": "LAHAXE Arnaud",
+            "email": "arnaud@lahaxe.fr",
+            "homepage": "https://github.com/lahaxearnaud",
+            "role": "Developer"
+        },
+        {
+            "name": "ZOHAR Benoit",
+            "homepage": "https://github.com/benoitzohar",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "laravel/lumen-framework": "5.1.*",
         "vlucas/phpdotenv": "~1.0",
@@ -15,8 +28,7 @@
         "illuminate/mail": "^5.1",
         "jeremeamia/SuperClosure": "^2.1",
         "rcrowe/twigbridge": "0.9.*",
-        "league/oauth2-google": "^1.0",
-        "duncan3dc/fork-helper": "^1.1"
+        "league/oauth2-google": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",
@@ -27,7 +39,8 @@
         "fabpot/php-cs-fixer": "@stable",
         "sensiolabs/security-checker": "@stable",
         "apigen/apigen": "~4.1",
-        "lahaxearnaud/clockwork-cli": "dev-master"
+        "lahaxearnaud/clockwork-cli": "dev-master",
+        "scrutinizer/ocular": "~1.1"
     },
     "autoload": {
         "psr-4": {
@@ -55,5 +68,8 @@
         "php artisan assets:update",
         "bower install",
         "npm install"
-    ]
+    ],
+    "scripts": {
+        "test": "phpunit --tap"
+    }
 }
