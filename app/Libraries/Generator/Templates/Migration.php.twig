@@ -1,0 +1,56 @@
+<?php
+
+/******************************************************************************
+ *
+ * @package Myo 2
+ * @copyright © 2015 by Versusmind.
+ * All rights reserved. No part of this document may be
+ * reproduced or transmitted in any form or by any means,
+ * electronic, mechanical, photocopying, recording, or
+ * otherwise, without prior written permission of Versusmind.
+ * @link http://www.versusmind.eu/
+ *
+ * @file {{ modelName }}.php
+ * @author {{ author }}
+ * @last-edited {{ date }}
+ * @description {{ modelName }}
+ *
+ ******************************************************************************/
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+
+class Create{{ tableNameCapitalizes }}Table extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('{{ tableName }}', function (Blueprint $table) {
+            $table->increments('id');
+            {{ migrationFields | raw }}
+            // add fields here
+
+{{ foreignKeyFields | raw }}
+
+            $table->timestamps();
+        });
+
+{{ pivotsTables | raw }}
+    }
+
+    /**
+    * Reverse the migrations.
+    *
+    * @return void
+    */
+    public function down()
+    {
+        Schema::drop('{{ tableName }}');
+    }
+}

@@ -1,0 +1,82 @@
+<html ng-app="app">
+<head>
+    <base href="{{ env('SUBFOLDER_INSTALLATION', '/') }}">
+
+    {% if env('APP_DEBUG') %}
+        <!-- dev:core.css -->
+<link rel="stylesheet" href="/assets/css/core.css/bootstrap_0.css" />
+<link rel="stylesheet" href="/assets/css/core.css/ui-bootstrap-csp_1.css" />
+<link rel="stylesheet" href="/assets/css/core.css/loading-bar_2.css" />
+<!-- endbuild -->
+<!-- dev:app.css -->
+<link rel="stylesheet" href="/assets/css/app.css/helloworld_0.css" />
+<link rel="stylesheet" href="/assets/css/app.css/helloworld_1.css" />
+<link rel="stylesheet" href="/assets/css/app.css/helloworld_2.css" />
+<!-- endbuild -->
+    {% else %}
+        <!-- prod:core.css -->
+<link rel="stylesheet" href="/assets/css/core.css/core_6572b2716efa7c4ea5e3f2e93354436b.css" />
+<!-- endbuild -->
+<!-- prod:app.css -->
+<link rel="stylesheet" href="/assets/css/app.css/app_41a4943a17f985fdf687fdcb07e8d5dc.css" />
+<!-- endbuild -->
+    {% endif %}
+
+
+    {% if env('VORLONJS_ENABLED') %}
+        <!-- VorlonJS support check your .env file to change configurations -->
+        <script src="http://{{ env('VORLONJS_HOST') }}:{{ env('VORLONJS_PORT') }}/vorlon.js"></script>
+    {% endif %}
+
+    <meta name="access_token" content="{{ session_get('oauth.access_token') }}" />
+    <meta name="refresh_token" content="{{ session_get('oauth.refresh_token') }}" />
+    <meta name="token_type" content="{{ session_get('oauth.token_type') }}" />
+    <meta name="username" content="{{ user().username }}" />
+    <meta name="environment" content="{{ env('APP_ENV') }}" />
+
+</head>
+
+<body>
+
+    <div ui-view></div>
+
+    {% if env('APP_DEBUG') %}
+        <!-- dev:core.js -->
+<script src="/assets/js/core.js/jquery_0.js"></script>
+<script src="/assets/js/core.js/angular_1.js"></script>
+<script src="/assets/js/core.js/ui-bootstrap_2.js"></script>
+<script src="/assets/js/core.js/ui-bootstrap-tpls_3.js"></script>
+<script src="/assets/js/core.js/angular-ui-router_4.js"></script>
+<script src="/assets/js/core.js/angular-translate_5.js"></script>
+<script src="/assets/js/core.js/lodash_6.js"></script>
+<script src="/assets/js/core.js/restangular_7.js"></script>
+<script src="/assets/js/core.js/smart-table_8.js"></script>
+<script src="/assets/js/core.js/loading-bar_9.js"></script>
+<script src="/assets/js/core.js/log-ex-unobtrusive_10.js"></script>
+<!-- endbuild -->
+        <!-- dev:app.js -->
+<script src="/assets/js/app.js/app_0.js"></script>
+<script src="/assets/js/app.js/config_1.js"></script>
+<script src="/assets/js/app.js/myo/myo_2.js"></script>
+<script src="/assets/js/app.js/components/admin/adminGroupsController_3.js"></script>
+<script src="/assets/js/app.js/components/admin/adminUsersController_4.js"></script>
+<script src="/assets/js/app.js/components/home/homeController_5.js"></script>
+<script src="/assets/js/app.js/myo/i18n/i18n-fr_6.js"></script>
+<script src="/assets/js/app.js/myo/shared/apiService_7.js"></script>
+<script src="/assets/js/app.js/shared/content/contentDirective_8.js"></script>
+<script src="/assets/js/app.js/shared/header/headerDirective_9.js"></script>
+<script src="/assets/js/app.js/myo/components/entityUi/entityUiDirective_10.js"></script>
+<script src="/assets/js/app.js/myo/components/navbar/navbarDirective_11.js"></script>
+<script src="/assets/js/app.js/myo/components/table/tableDirective_12.js"></script>
+<!-- endbuild -->
+    {% else %}
+        <!-- prod:core.js -->
+<script src="/assets/js/core.js/core_e8f01b21dd570c0d60c52c7cdd485688.js"></script>
+<!-- endbuild -->
+        <!-- prod:app.js -->
+<script src="/assets/js/app.js/app_fdc87a7143907fa4ef066db1d430a676.js"></script>
+<!-- endbuild -->
+    {% endif %}
+
+</body>
+</html>

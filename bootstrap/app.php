@@ -1,8 +1,9 @@
 <?php
+$startBootstraping = microtime(true);
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-// Dotenv::load(__DIR__.'/../');
+Dotenv::load(__DIR__ . '/../');
 
 /*
 |--------------------------------------------------------------------------
@@ -15,13 +16,17 @@ require_once __DIR__.'/../vendor/autoload.php';
 |
 */
 
-$app = new Laravel\Lumen\Application(
-	realpath(__DIR__.'/../')
+$app = new \App\Libraries\Application(
+    realpath(__DIR__ . '/../')
 );
 
-// $app->withFacades();
+$app->withFacades();
 
-// $app->withEloquent();
+if (!class_exists('Artisan')) {
+    class_alias(Illuminate\Support\Facades\Artisan::class, 'Artisan');
+}
+
+$app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +49,8 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -55,17 +62,25 @@ $app->singleton(
 |
 */
 
-// $app->middleware([
-//     // Illuminate\Cookie\Middleware\EncryptCookies::class,
-//     // Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-//     // Illuminate\Session\Middleware\StartSession::class,
-//     // Illuminate\View\Middleware\ShareErrorsFromSession::class,
-//     // Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
-// ]);
+$app->middleware([
+    Illuminate\Cookie\Middleware\EncryptCookies::class,
+    Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+    Illuminate\Session\Middleware\StartSession::class,
+    Illuminate\View\Middleware\ShareErrorsFromSession::class,
+    //Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
+    LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware::class,
+    Clockwork\Support\Lumen\ClockworkMiddleware::class
+]);
 
-// $app->routeMiddleware([
 
-// ]);
+$app->routeMiddleware([
+    'check-authorization-params' => LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware::class,
+    'csrf' => Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
+    'auth' => \App\Http\Middleware\AuthMiddleware::class,
+    'acl' => \App\Http\Middleware\AclMiddleware::class,
+    'oauth' => LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware::class,
+    'oauth-owner' => LucaDegasperi\OAuth2Server\Middleware\OAuthClientOwnerMiddleware::class
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -73,13 +88,25 @@ $app->singleton(
 |--------------------------------------------------------------------------
 |
 | Here we will register all of the application's service providers which
-| are used to bind services into the container. Service providers are
-| totally optional, so you are not required to uncomment this line.
+| are used to bind services into the container.
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
+$app->register(App\Providers\AppServiceProvider::class);
+$app->register(App\Providers\EventServiceProvider::class);
+$app->register(Clockwork\Support\Lumen\ClockworkServiceProvider::class);
+$app->register(App\Providers\AclProvider::class);
+$app->register(Appzcoder\LumenRoutesList\RoutesCommandServiceProvider::class);
+$app->register(LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class);
+$app->register(LucaDegasperi\OAuth2Server\Lumen\OAuth2ServerServiceProvider::class);
+$app->register(Barryvdh\Cors\LumenServiceProvider::class);
+$app->register(TwigBridge\ServiceProvider::class);
+
+
+$app->configure('profiler');
+$app->configure('oauth2');
+$app->configure('cors');
+$app->configure('twigbridge');
 
 /*
 |--------------------------------------------------------------------------
@@ -92,8 +119,14 @@ $app->singleton(
 |
 */
 
+if (!class_exists('Authorizer')) {
+    class_alias(\LucaDegasperi\OAuth2Server\Facades\Authorizer::class, 'Authorizer');
+}
+
 $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
-	require __DIR__.'/../app/Http/routes.php';
+    require __DIR__ . '/../app/Http/routes.php';
 });
+
+Clockwork::addEvent('app.bootstrap', 'App bootstraping', $startBootstraping, microtime(true));
 
 return $app;

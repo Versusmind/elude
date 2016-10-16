@@ -1,0 +1,39 @@
+<?php namespace Tests\Api\Resources;
+
+use Tests\Api\ResourcesControllerTest;
+
+/**
+ * @group api
+ */
+class {{ modelName }}Test extends ResourcesControllerTest
+{
+    function getResourceName()
+    {
+        return '{{ tableName }}';
+    }
+
+    function createOkProvider()
+    {
+        return [];
+    }
+
+    function createKoProvider()
+    {
+        return [];
+    }
+
+    function updateOkProvider()
+    {
+        return [];
+    }
+
+    function updateKoProvider()
+    {
+        return [];
+    }
+
+    function findOkProvider()
+    {
+        return [];
+    }
+}

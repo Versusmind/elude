@@ -1,0 +1,31 @@
+    /**
+    * @author {{ author }}
+    *
+    * @param \App\{{ modelName }} ${{ modelNameLowerCase }}
+    * @param \App\{{ relationCapitalize }} ${{ relation }}
+    * @return $this
+    */
+    public function add{{ relationCapitalize }}(\App\{{ modelName }} ${{ modelNameLowerCase }}, \App\{{ relationCapitalize }} ${{ relation }})
+    {
+        ${{ modelNameLowerCase }}->{{ relationPlural }}()->attach(${{ relation }}->id);
+        ${{ modelNameLowerCase }}->load("{{ relationPlural }}");
+        ${{ modelNameLowerCase }}->save();
+
+        return $this;
+    }
+
+    /**
+    * @author {{ author }}
+    *
+    * @param \App\{{ modelName }} ${{ modelNameLowerCase }}
+    * @param \App\{{ relationCapitalize }} ${{ relation }}
+    * @return $this
+    */
+    public function remove{{ relationCapitalize }}(\App\{{ modelName }} ${{ modelNameLowerCase }}, \App\{{ relationCapitalize }} ${{ relation }})
+    {
+        ${{ modelNameLowerCase }}->{{ relationPlural }}()->detach(${{ relation }}->id);
+        ${{ modelNameLowerCase }}->load("{{ relationPlural }}");
+        ${{ modelNameLowerCase }}->save();
+
+        return $this;
+    }

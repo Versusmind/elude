@@ -1,0 +1,73 @@
+<?php namespace App;
+
+/******************************************************************************
+ *
+ * @package Myo 2
+ * @copyright © 2015 by Versusmind.
+ * All rights reserved. No part of this document may be
+ * reproduced or transmitted in any form or by any means,
+ * electronic, mechanical, photocopying, recording, or
+ * otherwise, without prior written permission of Versusmind.
+ * @link http://www.versusmind.eu/
+ *
+ * @file {{ modelName }}.php
+ * @author {{ author }}
+ * @last-edited {{ date }}
+ * @description {{ modelName }}
+ *
+ ******************************************************************************/
+
+use Illuminate\Database\Eloquent\Model;
+use App\Libraries\Validation\ValidationInterface;
+use App\Libraries\Validation\ValidationTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+/**
+ * Class {{ modelName }}
+ *
+ */
+class {{ modelName }} extends Model implements ValidationInterface
+{
+
+    use ValidationTrait;
+
+    /**
+     * Mass fillable columns
+     *
+     * @var array
+     */
+    protected $fillable = [
+        {{ fillableFields | raw }}
+    ];
+
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = '{{ tableName | raw }}';
+
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    protected static $rules = [
+        {{ validators | raw }}
+    ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        /**
+         * you can register observers here via closure or via observer classes
+         * see http://laravel.com/docs/5.1/eloquent#events
+         * example: self::observe(new ModelObserver());
+         **/
+    }
+
+{{ belongToFunctions | raw }}
+
+{{ manyToManyModelFunctions | raw }}
+}

@@ -1,0 +1,5 @@
+.test-css:after {
+    content: 'Hello world from css';
+    color: #0d1e81;
+    background-color: #999999;
+}

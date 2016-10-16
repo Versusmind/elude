@@ -1,0 +1,88 @@
+<?php namespace App;
+
+/******************************************************************************
+ *
+ * @package Myo 2
+ * @copyright © 2015 by Versusmind.
+ * All rights reserved. No part of this document may be
+ * reproduced or transmitted in any form or by any means,
+ * electronic, mechanical, photocopying, recording, or
+ * otherwise, without prior written permission of Versusmind.
+ * @link http://www.versusmind.eu/
+ *
+ * @file {{ modelName }}.php
+ * @author {{ author }}
+ * @last-edited {{ date }}
+ * @description {{ modelName }}
+ *
+ ******************************************************************************/
+
+use Illuminate\Database\Eloquent\Model;
+use App\Libraries\Acl\Interfaces\UserRestrictionInterface;
+use App\Libraries\Validation\ValidationInterface;
+use App\Libraries\Validation\ValidationTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+/**
+ * Class {{ modelName }}
+ *
+ */
+class {{ modelName }} extends Model implements ValidationInterface, UserRestrictionInterface
+{
+
+    use ValidationTrait;
+
+    /**
+     * Mass fillable columns
+     *
+     * @var array
+     */
+    protected $fillable = [
+        {{ fillableFields | raw }}
+    ];
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = '{{ tableName | raw }}';
+
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    protected static $rules = [
+        {{ validators | raw }}
+    ];
+
+    /**
+     * @return string
+     */
+    public function getUserIdFields()
+    {
+        return 'user_id';
+    }
+
+    /**
+     * Test if the user given can edit the model
+     *
+     * @param \App\User $user
+     * @param array     $parameters
+     *
+     * @return mixed
+     */
+    public function isUserAllow(User $user, array $parameters = [])
+    {
+        return $this->{$this->getUserIdFields()} === $user->id;
+    }
+
+    public function getRules()
+    {
+        return self::$rules;
+    }
+
+{{ belongToFunctions | raw }}
+
+{{ manyToManyModelFunctions | raw }}
+}
