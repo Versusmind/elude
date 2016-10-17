@@ -7,7 +7,7 @@
 [![Build Status][ico-coverage]][link-coverage]
 
 
-[![Build Status][ico-ndrx]][link-ndrx]
+[![Build Status][ico-versusmind]][link-versusmind]
 
 ## Install
 
@@ -64,7 +64,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-version]: https://img.shields.io/packagist/v/versusmind/elude.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/versusmind/elude/master.svg?style=flat-square
-[ico-ndrx]: https://pbs.twimg.com/profile_images/585415130881642497/Qg4niE0o.png
+[ico-versusmind]: https://pbs.twimg.com/profile_images/671318031960776704/eDXEwXbj_400x400.png
 [ico-scrutinizer]: https://scrutinizer-ci.com/g/versusmind/elude/badges/quality-score.png?b=master
 [ico-coverage]: https://scrutinizer-ci.com/g/versusmind/elude/badges/coverage.png?b=master
 
@@ -74,6 +74,6 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [link-author]: https://github.com/lahaxearnaud
 [link-author-bis]: https://github.com/benoitzohar
 [link-contributors]: ../../contributors
-[link-ndrx]: http://ndrx.io
+[link-versusmind]: http://www.versusmind.eu/
 [link-scrutinizer]: https://scrutinizer-ci.com/g/versusmind/elude/
 [link-coverage]: https://scrutinizer-ci.com/g/versusmind/elude/
