@@ -14,7 +14,7 @@
 Via Composer
 
 ``` bash
-$ composer require ndrx-io/elude
+$ composer require versusmind/elude
 ```
 
 ## Usage
@@ -61,19 +61,19 @@ If you discover any security related issues, please email arnaud<at>lahaxe<dot>f
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/ndrx-io/elude.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/versusmind/elude.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/ndrx-io/elude/master.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/versusmind/elude/master.svg?style=flat-square
 [ico-ndrx]: https://pbs.twimg.com/profile_images/585415130881642497/Qg4niE0o.png
-[ico-scrutinizer]: https://scrutinizer-ci.com/g/ndrx-io/elude/badges/quality-score.png?b=master
-[ico-coverage]: https://scrutinizer-ci.com/g/ndrx-io/elude/badges/coverage.png?b=master
+[ico-scrutinizer]: https://scrutinizer-ci.com/g/versusmind/elude/badges/quality-score.png?b=master
+[ico-coverage]: https://scrutinizer-ci.com/g/versusmind/elude/badges/coverage.png?b=master
 
 
-[link-packagist]: https://packagist.org/packages/ndrx-io/elude
-[link-travis]: https://travis-ci.org/ndrx-io/elude
+[link-packagist]: https://packagist.org/packages/versusmind/elude
+[link-travis]: https://travis-ci.org/versusmind/elude
 [link-author]: https://github.com/lahaxearnaud
 [link-author-bis]: https://github.com/benoitzohar
 [link-contributors]: ../../contributors
 [link-ndrx]: http://ndrx.io
-[link-scrutinizer]: https://scrutinizer-ci.com/g/ndrx-io/elude/
-[link-coverage]: https://scrutinizer-ci.com/g/ndrx-io/elude/
+[link-scrutinizer]: https://scrutinizer-ci.com/g/versusmind/elude/
+[link-coverage]: https://scrutinizer-ci.com/g/versusmind/elude/
